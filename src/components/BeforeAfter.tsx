@@ -129,7 +129,7 @@ function ComparisonCard({
 
 export default function BeforeAfter() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const inView = useInView(ref, { once: true, margin: "-40px" });
 
   return (
     <section id="before-after" className="py-32 px-6 relative">

@@ -82,7 +82,7 @@ function FeatureCard({
 
 export default function School() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const inView = useInView(ref, { once: true, margin: "-40px" });
 
   return (
     <section id="school" className="py-32 px-6 relative">

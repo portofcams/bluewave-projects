@@ -59,7 +59,7 @@ const services: Service[] = [
 
 function ServiceCard({ service, index }: { service: Service; index: number }) {
   const cardRef = useRef(null);
-  const cardInView = useInView(cardRef, { once: true, margin: "-60px" });
+  const cardInView = useInView(cardRef, { once: true, margin: "-40px" });
 
   return (
     <motion.div
@@ -84,7 +84,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
 
 export default function Services() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const inView = useInView(ref, { once: true, margin: "-40px" });
 
   return (
     <section id="services" className="py-32 px-6 relative">

@@ -18,7 +18,7 @@ const posts = blogPosts.slice(0, 3).map((post) => ({
 
 function BlogCard({ post, index }: { post: (typeof posts)[number]; index: number }) {
   const cardRef = useRef(null);
-  const cardInView = useInView(cardRef, { once: true, margin: "-60px" });
+  const cardInView = useInView(cardRef, { once: true, margin: "-40px" });
 
   return (
     <Link href={`/blog/${post.slug}`}>
@@ -61,7 +61,7 @@ function BlogCard({ post, index }: { post: (typeof posts)[number]; index: number
 
 export default function BlogPreview() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const inView = useInView(ref, { once: true, margin: "-40px" });
 
   return (
     <section id="blog" className="py-32 px-6 relative">

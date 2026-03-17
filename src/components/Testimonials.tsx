@@ -47,7 +47,7 @@ function TestimonialCard({
   index: number;
 }) {
   const cardRef = useRef(null);
-  const cardInView = useInView(cardRef, { once: true, margin: "-60px" });
+  const cardInView = useInView(cardRef, { once: true, margin: "-40px" });
 
   return (
     <motion.div
@@ -83,7 +83,7 @@ function TestimonialCard({
 
 export default function Testimonials() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const inView = useInView(ref, { once: true, margin: "-40px" });
 
   return (
     <section id="testimonials" className="py-32 px-6 relative">

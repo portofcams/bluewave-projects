@@ -41,7 +41,7 @@ const steps = [
 
 export default function HowItWorks() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const inView = useInView(ref, { once: true, margin: "-40px" });
 
   return (
     <section id="how-it-works" className="py-32 px-6 relative">
@@ -80,7 +80,7 @@ export default function HowItWorks() {
 
           {steps.map((step, index) => {
             const stepRef = useRef(null);
-            const stepInView = useInView(stepRef, { once: true, margin: "-60px" });
+            const stepInView = useInView(stepRef, { once: true, margin: "-40px" });
 
             return (
               <motion.div

@@ -63,7 +63,7 @@ const plans = [
 
 function PricingCard({ plan, index }: { plan: (typeof plans)[number]; index: number }) {
   const cardRef = useRef(null);
-  const cardInView = useInView(cardRef, { once: true, margin: "-60px" });
+  const cardInView = useInView(cardRef, { once: true, margin: "-40px" });
 
   return (
     <motion.div
@@ -73,7 +73,7 @@ function PricingCard({ plan, index }: { plan: (typeof plans)[number]; index: num
       transition={{ duration: 0.6, delay: index * 0.1 }}
       className={`relative glass rounded-2xl p-10 transition-all duration-500 ${
         plan.featured
-          ? "border-ocean-500/30 shadow-lg shadow-ocean-500/10 scale-[1.02] md:scale-105"
+          ? "border-ocean-500/30 shadow-lg shadow-ocean-500/10 md:scale-105"
           : "glass-hover"
       }`}
     >
@@ -131,7 +131,7 @@ function PricingCard({ plan, index }: { plan: (typeof plans)[number]; index: num
 
 export default function Pricing() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const inView = useInView(ref, { once: true, margin: "-40px" });
 
   return (
     <section id="pricing" className="py-32 px-6 relative">

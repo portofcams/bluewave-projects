@@ -86,7 +86,7 @@ function FAQItem({ faq, index }: { faq: (typeof faqs)[number]; index: number }) 
 
 export default function FAQ() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const inView = useInView(ref, { once: true, margin: "-40px" });
 
   return (
     <section id="faq" className="py-32 px-6 relative">

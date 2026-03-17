@@ -7,9 +7,9 @@ export default function Footer() {
   return (
     <footer className="border-t border-white/5 py-16 px-6">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-12 mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-12 mb-16">
           {/* Brand */}
-          <div className="md:col-span-1">
+          <div className="col-span-2 md:col-span-1">
             <div className="mb-4">
               <WaveLogo size={36} />
             </div>

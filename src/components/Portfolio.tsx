@@ -105,7 +105,7 @@ function ProjectCard({
   index: number;
 }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const inView = useInView(ref, { once: true, margin: "-40px" });
 
   return (
     <motion.div
@@ -169,7 +169,7 @@ function ProjectCard({
 
 export default function Portfolio() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const inView = useInView(ref, { once: true, margin: "-40px" });
 
   return (
     <section id="portfolio" className="py-32 px-6">

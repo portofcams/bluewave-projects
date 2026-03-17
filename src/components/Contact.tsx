@@ -12,7 +12,7 @@ interface FormData {
 
 export default function Contact() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const inView = useInView(ref, { once: true, margin: "-40px" });
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
