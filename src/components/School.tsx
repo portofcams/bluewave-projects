@@ -178,16 +178,16 @@ export default function School() {
           className="text-center mt-16"
         >
           <a
-            href="#contact"
+            href="/school"
             className="btn-primary inline-flex items-center gap-2 px-8 py-4 rounded-full text-white font-medium text-lg"
           >
-            Join the Waitlist
+            Start Learning
             <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
             </svg>
           </a>
           <p className="text-sm text-white/30 mt-4">
-            Monthly subscription. Cancel anytime. First wave launching soon.
+            8 waves. 61 lessons. Start free, upgrade anytime.
           </p>
         </motion.div>
       </div>

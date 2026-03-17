@@ -307,7 +307,7 @@ export default function Hero() {
             See Our Work
           </a>
           <a
-            href="#school"
+            href="/school"
             className="px-8 py-4 rounded-full text-white/60 hover:text-white border border-white/10 hover:border-white/25 transition-all duration-300 font-medium text-lg"
           >
             Learn AI
