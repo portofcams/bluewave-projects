@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { allWaves } from '@/lib/curriculum';
-import { getTotalXP, getCurrentStreak, isLessonComplete, getProgress } from '@/lib/school-progress';
+import { getTotalXP, getCurrentStreak, isLessonComplete, getProgress, isWaveComplete } from '@/lib/school-progress';
 import XPBar from '@/components/school/XPBar';
 
 const difficultyColors: Record<string, string> = {
@@ -130,6 +130,17 @@ export default function SchoolPage() {
                       {waveCompleted}/{waveLessons.length} complete
                     </span>
                     <span className="text-[10px] text-white/30">{wave.totalXP} XP</span>
+                    {mounted && isWaveComplete(wave.id) && (
+                      <Link
+                        href={`/school/certificate/${wave.id}`}
+                        className="text-[10px] font-semibold text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1 ml-2"
+                      >
+                        <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.27 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z" />
+                        </svg>
+                        View Certificate
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>

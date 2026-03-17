@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
 const previewItems = [
   "The \"CEO Briefing\" prompt — summarize anything in 30 seconds",
@@ -16,12 +16,46 @@ export default function LeadMagnet() {
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Check if already submitted
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("bluewave_lead_email");
+    if (savedEmail) {
+      setSubmitted(true);
+    }
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
+    if (!email) return;
+
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch("https://ai.portofcams.com/api/bluewave/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Something went wrong. Please try again.");
+      }
+
+      localStorage.setItem("bluewave_lead_email", email);
       setSubmitted(true);
       setEmail("");
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again."
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -73,7 +107,7 @@ export default function LeadMagnet() {
                       <svg viewBox="0 0 24 24" className="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M4.5 12.75l6 6 9-13.5" />
                       </svg>
-                      <span className="text-emerald-400 font-medium">Check your inbox — it&apos;s on the way.</span>
+                      <span className="text-emerald-400 font-medium">Check your inbox! The AI Starter Kit is on its way.</span>
                     </motion.div>
                   ) : (
                     <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
@@ -83,15 +117,37 @@ export default function LeadMagnet() {
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="your@email.com"
                         required
-                        className="flex-grow px-6 py-4 rounded-full bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-ocean-500/50 focus:ring-2 focus:ring-ocean-500/20 transition-all"
+                        disabled={loading}
+                        className="flex-grow px-6 py-4 rounded-full bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-ocean-500/50 focus:ring-2 focus:ring-ocean-500/20 transition-all disabled:opacity-50"
                       />
                       <button
                         type="submit"
-                        className="btn-primary px-8 py-4 rounded-full text-white font-medium text-lg whitespace-nowrap"
+                        disabled={loading}
+                        className="btn-primary px-8 py-4 rounded-full text-white font-medium text-lg whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                       >
-                        Get the Kit
+                        {loading ? (
+                          <>
+                            <svg className="animate-spin w-5 h-5" viewBox="0 0 24 24" fill="none">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                            </svg>
+                            Sending...
+                          </>
+                        ) : (
+                          "Get the Kit"
+                        )}
                       </button>
                     </form>
+                  )}
+
+                  {error && (
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="text-sm text-red-400 mt-3"
+                    >
+                      {error}
+                    </motion.p>
                   )}
 
                   <p className="text-xs text-white/20 mt-4">

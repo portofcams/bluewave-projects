@@ -1,14 +1,32 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "BlueWave Projects | AI Consulting, Apps & Innovation",
+  title: "BlueWave Projects — AI Consulting, Custom Apps & AI School",
   description:
-    "We build intelligent software, teach AI productivity, and launch products that matter. Based in the Pacific — powered by curiosity.",
+    "AI consulting, custom app development, and gamified AI training. Built in the Pacific, serving everyone. Learn AI through interactive lessons or hire us to build.",
+  keywords: [
+    "AI consulting",
+    "AI training",
+    "learn AI",
+    "prompt engineering",
+    "custom apps",
+    "BlueWave Projects",
+  ],
   openGraph: {
-    title: "BlueWave Projects",
-    description: "AI Consulting, Apps & Innovation",
+    title: "BlueWave Projects — AI Consulting, Custom Apps & AI School",
+    description:
+      "AI consulting, custom app development, and gamified AI training. Built in the Pacific, serving everyone. Learn AI through interactive lessons or hire us to build.",
+    url: "https://bluewaveprojects.com",
+    siteName: "BlueWave Projects",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BlueWave Projects — AI Consulting, Custom Apps & AI School",
+    description:
+      "AI consulting, custom app development, and gamified AI training. Built in the Pacific, serving everyone. Learn AI through interactive lessons or hire us to build.",
   },
 };
 
@@ -20,6 +38,12 @@ export default function RootLayout({
   return (
     <html lang="en" className="antialiased">
       <body className="font-sans">{children}</body>
+      <Script
+        defer
+        data-domain="bluewaveprojects.com"
+        src="https://plausible.io/js/script.js"
+        strategy="afterInteractive"
+      />
     </html>
   );
 }

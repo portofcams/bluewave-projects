@@ -1,5 +1,7 @@
 'use client';
 
+import { allWaves } from '@/lib/curriculum';
+
 export interface SchoolProgress {
   completedLessons: string[];
   completedExercises: string[];
@@ -133,4 +135,57 @@ export function getLevelFromXP(xp: number): { level: number; currentXP: number; 
 export function resetProgress(): void {
   if (typeof window === 'undefined') return;
   localStorage.removeItem(STORAGE_KEY);
+}
+
+// --- Wave completion & certificate functions ---
+
+const WAVE_COMPLETION_KEY = 'bluewave-wave-completions';
+const CERTIFICATE_NAME_KEY = 'bluewave-certificate-name';
+
+function getWaveCompletions(): Record<string, string> {
+  if (typeof window === 'undefined') return {};
+  try {
+    const raw = localStorage.getItem(WAVE_COMPLETION_KEY);
+    if (!raw) return {};
+    return JSON.parse(raw) as Record<string, string>;
+  } catch {
+    return {};
+  }
+}
+
+function saveWaveCompletions(data: Record<string, string>): void {
+  if (typeof window === 'undefined') return;
+  localStorage.setItem(WAVE_COMPLETION_KEY, JSON.stringify(data));
+}
+
+export function isWaveComplete(waveId: string): boolean {
+  const wave = allWaves.find(w => w.id === waveId);
+  if (!wave) return false;
+  const progress = getProgress();
+  const lessonIds = wave.units.flatMap(u => u.lessons.map(l => l.id));
+  if (lessonIds.length === 0) return false;
+  return lessonIds.every(id => progress.completedLessons.includes(id));
+}
+
+export function getWaveCompletionDate(waveId: string): string | null {
+  const completions = getWaveCompletions();
+  return completions[waveId] || null;
+}
+
+export function markWaveComplete(waveId: string): void {
+  const completions = getWaveCompletions();
+  if (!completions[waveId]) {
+    completions[waveId] = new Date().toISOString();
+    saveWaveCompletions(completions);
+  }
+}
+
+export function getCertificateName(): string {
+  if (typeof window === 'undefined') return '';
+  return localStorage.getItem(CERTIFICATE_NAME_KEY) || '';
+}
+
+export function setCertificateName(name: string): void {
+  if (typeof window === 'undefined') return;
+  localStorage.setItem(CERTIFICATE_NAME_KEY, name);
 }
