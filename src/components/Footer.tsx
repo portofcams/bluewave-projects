@@ -1,5 +1,7 @@
 "use client";
 
+import { WaveLogo } from "./Logo";
+
 export default function Footer() {
   return (
     <footer className="border-t border-white/5 py-16 px-6">
@@ -8,9 +10,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-ocean-500 to-wave-400 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-ocean-500/20">
-                BW
-              </div>
+              <WaveLogo size={36} className="shadow-lg shadow-ocean-500/20 rounded-[10px]" />
               <span className="text-lg font-semibold tracking-tight text-white/90">
                 BlueWave
               </span>

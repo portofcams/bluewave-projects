@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { WaveLogo } from "./Logo";
 
 const navLinks = [
   { label: "Work", href: "#portfolio" },
@@ -33,9 +34,7 @@ export default function Nav() {
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <a href="#" className="flex items-center gap-3 group">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-ocean-500 to-wave-400 flex items-center justify-center text-white font-bold text-sm tracking-tight shadow-lg shadow-ocean-500/20 group-hover:shadow-ocean-500/40 transition-shadow">
-            BW
-          </div>
+          <WaveLogo size={36} className="shadow-lg shadow-ocean-500/20 group-hover:shadow-ocean-500/40 transition-shadow rounded-[10px]" />
           <span className="text-lg font-semibold tracking-tight text-white/90 group-hover:text-white transition-colors">
             BlueWave
           </span>
