@@ -26,11 +26,11 @@
 - AI School preview with skill tree
 - About (Captain J photo, bio, skills)
 - Testimonials (placeholder — need real ones)
-- Lead Magnet (AI Starter Kit — email capture, NOT functional yet)
+- Lead Magnet (AI Starter Kit — FUNCTIONAL, POSTs to /api/bluewave/lead)
 - Blog Preview (links to /blog)
 - FAQ (6 items, accordion)
 - Contact form (WORKING — emails portofcams@gmail.com)
-- Footer
+- Footer (Products, Services, Connect, Legal columns + GitHub link)
 
 ### AI School (/school)
 - 8 waves, 61 lessons, hundreds of exercises
@@ -45,6 +45,7 @@
 - Exercise types: quiz, prompt-challenge, free-response, matching, fill-blank
 - XP tracking, streaks, progress — all localStorage
 - Lesson viewer with prev/next navigation, breadcrumbs
+- Wave completion certificates (/school/certificate/[waveId])
 
 ### Blog (/blog)
 - 6 articles with full content (500+ words each)
@@ -54,24 +55,28 @@
 - Password login (bluewave2026)
 - Dashboard with stats, contact submissions, quick links
 
+### SEO & Legal
+- Meta tags and OG data in layout.tsx
+- robots.txt and sitemap.xml
+- Terms of Service (/terms)
+- Privacy Policy (/privacy)
+- Custom 404 page with ocean theme
+
 ### API Endpoints (Vultr)
 - POST /api/bluewave/contact — contact form → email
+- POST /api/bluewave/lead — lead magnet email capture → sends AI Starter Kit + notifies owner
 
 ## What's NOT Built Yet (TODOs for next session)
 - [ ] Stripe checkout for $79/$249 plans
 - [ ] Student auth (signup/login, gate school content behind paywall)
 - [ ] Booking system for 1-on-1 consulting
-- [ ] Completion certificates/badges per wave
 - [ ] Email sequences (welcome, weekly nudge)
 - [ ] Server-side progress syncing (replace localStorage)
-- [ ] SEO: meta tags, OG images, sitemap.xml, robots.txt
-- [ ] Terms of Service & Privacy Policy pages
-- [ ] Custom 404 page
-- [ ] Social links in footer (GitHub, LinkedIn)
-- [ ] Lead magnet email capture (save to list, send PDF)
 - [ ] Connect Plausible analytics
 - [ ] More blog content for SEO
 - [ ] Replace placeholder testimonials with real ones
+- [ ] OG images for social sharing
+- [ ] Log pending dashboard activity (server was 502 on 2026-03-16)
 
 ## Architecture Notes
 - Static export (output: "export" in next.config.ts)
