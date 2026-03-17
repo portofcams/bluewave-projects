@@ -9,11 +9,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
           <div className="md:col-span-1">
-            <div className="flex items-center gap-3 mb-4">
-              <WaveLogo size={36} className="shadow-lg shadow-ocean-500/20 rounded-[10px]" />
-              <span className="text-lg font-semibold tracking-tight text-white/90">
-                BlueWave
-              </span>
+            <div className="mb-4">
+              <WaveLogo size={36} />
             </div>
             <p className="text-sm text-white/30 leading-relaxed">
               AI consulting, custom apps, and R&amp;D.

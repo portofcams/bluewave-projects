@@ -33,11 +33,8 @@ export default function Nav() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="#" className="flex items-center gap-3 group">
-          <WaveLogo size={36} className="shadow-lg shadow-ocean-500/20 group-hover:shadow-ocean-500/40 transition-shadow rounded-[10px]" />
-          <span className="text-lg font-semibold tracking-tight text-white/90 group-hover:text-white transition-colors">
-            BlueWave
-          </span>
+        <a href="#" className="flex items-center group">
+          <WaveLogo size={40} className="group-hover:opacity-90 transition-opacity" />
         </a>
 
         {/* Desktop nav */}
