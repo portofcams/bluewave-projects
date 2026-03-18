@@ -40,8 +40,7 @@ export default function RootLayout({
       <body className="font-sans">{children}</body>
       <Script
         defer
-        data-domain="bluewaveprojects.com"
-        src="https://plausible.io/js/script.js"
+        src="https://ai.portofcams.com/api/analytics/tracker.js"
         strategy="afterInteractive"
       />
     </html>
