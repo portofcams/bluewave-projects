@@ -36,7 +36,7 @@ const consultants = [
     skills: [
       { name: "Operations / Strategy", icon: "🎯" },
       { name: "Real Estate / Property", icon: "🏠" },
-      { name: "Process Automation", icon: "⚙️" },
+      { name: "Options / Trading", icon: "📈" },
       { name: "AI Integration", icon: "🤖" },
       { name: "Team Leadership", icon: "🦅" },
       { name: "Business Systems", icon: "📊" },
@@ -45,10 +45,12 @@ const consultants = [
       "Navy SEAL officer turned efficiency machine.",
       "Forbes brings a rare combination of elite military discipline and hands-on business acumen. As a Navy SEAL officer, he led high-stakes operations where precision and execution aren\u2019t optional \u2014 they\u2019re survival. He carries that same intensity into every project.",
       "A rental property owner and self-taught coder, Forbes lives at the intersection of business operations and technology. His obsession: helping businesses get more done with less human time. Whether it\u2019s automating a workflow, streamlining property management, or building systems that run themselves \u2014 Forbes finds the leverage point and pulls.",
+      "He also built WagonWheelTrading.com \u2014 a live options trading platform that scans 1,097 stocks every 5 minutes, scores them for the Wheel strategy, and generates trade ideas based on real capital and risk tolerance. Built on 625+ real trades and $96K in realized profits. Not backtested \u2014 battle-tested.",
     ],
+    link: { url: "https://wagonwheeltrading.com", label: "WagonWheelTrading.com" },
     stats: [
       { value: "SEAL", label: "Navy Officer" },
-      { value: "10+", label: "Properties" },
+      { value: "$96K", label: "Trading Profits" },
       { value: "0", label: "Wasted Hours" },
     ],
   },
@@ -120,6 +122,16 @@ function ConsultantCard({
               {para}
             </p>
           ))}
+          {consultant.link && (
+            <a
+              href={consultant.link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 mt-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-wave-400 hover:bg-white/10 hover:border-white/20 transition-all"
+            >
+              <span>🔗</span> {consultant.link.label}
+            </a>
+          )}
         </div>
 
         {/* Stats */}
