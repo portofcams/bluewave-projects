@@ -23,9 +23,9 @@ export default function Home() {
       <Services />
       <HowItWorks />
       <BeforeAfter />
-      <Pricing />
       <School />
       <About />
+      <Pricing />
       <Testimonials />
       <LeadMagnet />
       <BlogPreview />
