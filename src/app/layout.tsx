@@ -21,12 +21,14 @@ export const metadata: Metadata = {
     url: "https://bluewaveprojects.com",
     siteName: "BlueWave Projects",
     type: "website",
+    images: [{ url: "/og-default.svg", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "BlueWave Projects — AI Consulting, Custom Apps & AI School",
     description:
       "AI consulting, custom app development, and gamified AI training. Built in the Pacific, serving everyone. Learn AI through interactive lessons or hire us to build.",
+    images: ["/og-default.svg"],
   },
 };
 

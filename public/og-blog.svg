@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0e1a"/>
+      <stop offset="100%" stop-color="#0d1326"/>
+    </linearGradient>
+    <linearGradient id="title-grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="50%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+    <linearGradient id="wave-grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#3b82f6" stop-opacity="0.4"/>
+      <stop offset="70%" stop-color="#06b6d4" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="wave-grad2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#3b82f6" stop-opacity="0.15"/>
+      <stop offset="70%" stop-color="#06b6d4" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="35%" r="35%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- Decorative lines (editorial feel) -->
+  <line x1="350" y1="160" x2="850" y2="160" stroke="white" stroke-width="1" opacity="0.05"/>
+  <line x1="350" y1="430" x2="850" y2="430" stroke="white" stroke-width="1" opacity="0.05"/>
+
+  <!-- Label -->
+  <text x="600" y="220" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="600" fill="#06b6d4" opacity="0.7" letter-spacing="6">FROM THE LAB</text>
+
+  <!-- Title -->
+  <text x="600" y="300" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="800" fill="url(#title-grad)">BlueWave Blog</text>
+
+  <!-- Subtitle -->
+  <text x="600" y="365" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="26" font-weight="400" fill="white" opacity="0.45">AI insights, tutorials &amp; case studies</text>
+
+  <!-- Decorative accent line -->
+  <line x1="540" y1="400" x2="660" y2="400" stroke="url(#title-grad)" stroke-width="2" opacity="0.3"/>
+
+  <!-- Wave decoration at bottom -->
+  <path d="M0 520 Q150 480 300 510 T600 500 T900 510 T1200 490 L1200 630 L0 630 Z" fill="url(#wave-grad2)"/>
+  <path d="M0 540 Q150 510 300 530 T600 520 T900 535 T1200 515" fill="none" stroke="url(#wave-grad)" stroke-width="2"/>
+  <path d="M0 560 Q200 540 400 555 T800 545 T1200 555" fill="none" stroke="url(#wave-grad)" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- Domain -->
+  <text x="600" y="600" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="500" fill="white" opacity="0.25">bluewaveprojects.com/blog</text>
+</svg>

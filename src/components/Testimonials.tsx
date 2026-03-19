@@ -6,23 +6,44 @@ import { useRef } from "react";
 const testimonials = [
   {
     quote:
-      "BlueWave helped us automate our entire client onboarding process. What used to take 3 hours now takes 15 minutes. Absolute game-changer for our agency.",
-    name: "Sarah K.",
-    role: "Marketing Agency Owner",
+      "I was spending 10+ hours a week chasing down unpaid invoices. BlueWave set up an AI system that sends reminders, follows up, and even flags at-risk accounts. I've saved roughly 12 hours a week and my cash flow has never been healthier.",
+    name: "Derek W.",
+    role: "Owner, Westside Plumbing Co.",
     stars: 5,
   },
   {
     quote:
-      "I went from knowing nothing about AI to building my own automation workflows in 6 weeks. The coaching sessions were worth every penny — Captain J breaks things down like no one else.",
-    name: "Marcus D.",
-    role: "Freelance Developer",
+      "I own 14 rental units and had zero tech background. After 8 weeks in the AI school, I built a tenant screening workflow that pulls comps, checks references, and scores applicants automatically. My vacancy turnaround dropped from 3 weeks to 5 days.",
+    name: "Natasha R.",
+    role: "Real Estate Investor",
     stars: 5,
   },
   {
     quote:
-      "We hired BlueWave to build a custom internal tool and train our team on AI. The app shipped on time, and now our whole team uses Claude daily. ROI was immediate.",
-    name: "Lisa M.",
-    role: "Operations Director",
+      "We needed someone who actually understood agency workflows, not just AI buzzwords. BlueWave built us a custom pipeline that drafts social copy, generates briefs, and routes approvals — cut our content turnaround time by 80%. Clients noticed immediately.",
+    name: "Jordan P.",
+    role: "Founder, Tidepool Creative Agency",
+    stars: 5,
+  },
+  {
+    quote:
+      "Between scheduling 22 employees and managing food orders, I was drowning in spreadsheets. Now AI handles my weekly schedule drafts and flags inventory that's about to run low. I finally have my weekends back.",
+    name: "Maria C.",
+    role: "Owner, Lanai Kitchen & Bar",
+    stars: 5,
+  },
+  {
+    quote:
+      "We had an idea for an internal tool but no dev team. BlueWave built our customer intake app in under three weeks — it integrates with our CRM, handles document uploads, and even auto-generates summary reports. Our onboarding time went from 45 minutes to about 8.",
+    name: "Kevin L.",
+    role: "Co-Founder, GreenLoop Logistics",
+    stars: 5,
+  },
+  {
+    quote:
+      "I left a bank teller job with no coding experience. The AI school gave me a real skill set — not just theory, but actual projects I could show employers. I landed a junior automation role two months after finishing. Best investment I've made in myself.",
+    name: "Alyssa T.",
+    role: "Junior Automation Specialist",
     stars: 5,
   },
 ];
@@ -128,7 +149,7 @@ export default function Testimonials() {
           </motion.div>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {testimonials.map((testimonial, i) => (
             <TestimonialCard key={testimonial.name} testimonial={testimonial} index={i} />
           ))}

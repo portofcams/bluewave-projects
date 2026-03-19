@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const plans = [
   {
@@ -18,7 +18,7 @@ const plans = [
       "Cancel anytime",
     ],
     cta: "Start Learning",
-    href: "/school",
+    planKey: "school",
     featured: false,
     gradient: "from-ocean-500 to-wave-500",
   },
@@ -37,7 +37,7 @@ const plans = [
       "Personalized learning path",
     ],
     cta: "Get Started",
-    href: "/school",
+    planKey: "pro",
     featured: true,
     gradient: "from-wave-400 to-glacier-300",
   },
@@ -55,7 +55,7 @@ const plans = [
       "Dedicated Slack channel",
     ],
     cta: "Book a Call",
-    href: "#contact",
+    planKey: "consulting",
     featured: false,
     gradient: "from-lava-500 to-amber-400",
   },
@@ -64,6 +64,33 @@ const plans = [
 function PricingCard({ plan, index }: { plan: (typeof plans)[number]; index: number }) {
   const cardRef = useRef(null);
   const cardInView = useInView(cardRef, { once: true, margin: "-40px" });
+  const [loading, setLoading] = useState(false);
+
+  const handleCheckout = async (planKey: string) => {
+    // Consulting plan links to booking page instead of Stripe
+    if (planKey === "consulting") {
+      window.location.href = "/booking";
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch("https://ai.portofcams.com/api/bluewave/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan: planKey }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert("Something went wrong. Please try again.");
+        setLoading(false);
+      }
+    } catch {
+      alert("Something went wrong. Please try again.");
+      setLoading(false);
+    }
+  };
 
   return (
     <motion.div
@@ -115,16 +142,17 @@ function PricingCard({ plan, index }: { plan: (typeof plans)[number]; index: num
         ))}
       </ul>
 
-      <a
-        href={plan.href}
-        className={`block text-center py-4 rounded-full font-medium text-lg transition-all duration-300 ${
+      <button
+        onClick={() => handleCheckout(plan.planKey)}
+        disabled={loading}
+        className={`block w-full text-center py-4 rounded-full font-medium text-lg transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-wait ${
           plan.featured
             ? "btn-primary text-white"
             : "bg-white/5 text-white border border-white/10 hover:bg-white/10 hover:border-white/20"
         }`}
       >
-        {plan.cta}
-      </a>
+        {loading ? "Redirecting..." : plan.cta}
+      </button>
     </motion.div>
   );
 }
