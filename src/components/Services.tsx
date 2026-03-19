@@ -12,45 +12,45 @@ interface Service {
 
 const services: Service[] = [
   {
-    title: "AI Consulting",
+    title: "AI Workflow Audit",
     description:
-      "One-on-one coaching to make AI your unfair advantage. We teach business owners, teams, and developers how to actually use AI — not just talk about it.",
+      "We map your daily operations and find the hours you're losing to manual work.",
     icon: (
       <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+        <path d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
     ),
     gradient: "from-ocean-500 to-wave-400",
   },
   {
-    title: "Custom Apps",
+    title: "Custom Automation",
     description:
-      "Full-stack web and mobile applications built fast and built right. From MVP to production — React, Next.js, native iOS, and everything in between.",
+      "We build systems that handle the repetitive stuff — scheduling, invoicing, follow-ups — so you don't have to.",
     icon: (
       <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M14.25 9.75L16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" />
+        <path d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
       </svg>
     ),
     gradient: "from-violet-500 to-purple-400",
   },
   {
-    title: "APIs & Infrastructure",
+    title: "1-on-1 Coaching",
     description:
-      "Production-grade APIs, streaming servers, and cloud infrastructure. We design, deploy, and monitor systems that stay up when it matters.",
+      "Weekly sessions where we show you exactly how to use AI in your specific business. No fluff.",
     icon: (
       <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z" />
+        <path d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
       </svg>
     ),
     gradient: "from-emerald-500 to-teal-400",
   },
   {
-    title: "R&D Lab",
+    title: "Ongoing Support",
     description:
-      "We explore what's next. Experimental products, automation pipelines, and AI-native tools — built in-house and battle-tested before we ship.",
+      "Questions at 2am? Slack us. Need a tweak? We handle it. You focus on your business.",
     icon: (
       <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
+        <path d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
       </svg>
     ),
     gradient: "from-lava-500 to-amber-400",
@@ -102,12 +102,12 @@ export default function Services() {
             What We Do
           </span>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-            <span className="text-white">Full stack.</span>{" "}
-            <span className="text-gradient">Full send.</span>
+            <span className="text-white">Your time is</span>{" "}
+            <span className="text-gradient">valuable.</span>
           </h2>
           <p className="text-lg text-white/40 max-w-2xl mx-auto">
-            From concept to production — we handle the entire journey.
-            Not just code. Strategy, architecture, and ongoing support.
+            We find the hours you&apos;re losing and build the systems to get them back.
+            No jargon. No fluff. Just results.
           </p>
         </motion.div>
 

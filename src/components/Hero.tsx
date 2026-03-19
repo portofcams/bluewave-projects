@@ -4,12 +4,12 @@ import { type ReactNode } from "react";
 import { motion } from "framer-motion";
 
 const floatingItems = [
-  { label: "Claude AI", x: "8%", y: "18%", delay: 0, icon: "sparkle" },
-  { label: "React", x: "85%", y: "15%", delay: 0.5, icon: "code" },
-  { label: "Next.js", x: "80%", y: "68%", delay: 1.2, icon: "bolt" },
-  { label: "Python", x: "10%", y: "65%", delay: 0.8, icon: "terminal" },
+  { label: "AI Agents", x: "8%", y: "18%", delay: 0, icon: "sparkle" },
+  { label: "Automations", x: "85%", y: "15%", delay: 0.5, icon: "code" },
+  { label: "Workflows", x: "80%", y: "68%", delay: 1.2, icon: "bolt" },
+  { label: "Integrations", x: "10%", y: "65%", delay: 0.8, icon: "terminal" },
   { label: "APIs", x: "92%", y: "40%", delay: 1.5, icon: "server" },
-  { label: "iOS", x: "3%", y: "42%", delay: 0.3, icon: "phone" },
+  { label: "Dashboards", x: "3%", y: "42%", delay: 0.3, icon: "phone" },
 ];
 
 const icons: Record<string, ReactNode> = {
@@ -50,9 +50,9 @@ const icons: Record<string, ReactNode> = {
 };
 
 const stats = [
-  { value: "6+", label: "Live Products" },
-  { value: "400+", label: "Cameras Streaming" },
-  { value: "99.9%", label: "API Uptime" },
+  { value: "10+", label: "Hours Saved / Week" },
+  { value: "50+", label: "Workflows Automated" },
+  { value: "100%", label: "Clients See Results Week 1" },
 ];
 
 // Animated wave SVG for the background
@@ -115,7 +115,7 @@ function CodePreview() {
         </div>
         <div className="p-4 font-mono text-xs space-y-1.5">
           <div className="text-white/30">
-            <span className="text-emerald-400/80">$</span> bluewave deploy --prod
+            <span className="text-emerald-400/80">$</span> bluewave audit --business
           </div>
           <motion.div
             initial={{ opacity: 0 }}
@@ -123,7 +123,7 @@ function CodePreview() {
             transition={{ delay: 1.5, duration: 0.5 }}
             className="text-ocean-400/70"
           >
-            ▸ Building...
+            ▸ Scanning workflows...
           </motion.div>
           <motion.div
             initial={{ opacity: 0 }}
@@ -131,7 +131,7 @@ function CodePreview() {
             transition={{ delay: 2.0, duration: 0.5 }}
             className="text-ocean-400/70"
           >
-            ▸ Running tests...
+            ▸ Found 12 hrs/week automatable
           </motion.div>
           <motion.div
             initial={{ opacity: 0 }}
@@ -139,7 +139,7 @@ function CodePreview() {
             transition={{ delay: 2.5, duration: 0.5 }}
             className="text-emerald-400/80"
           >
-            ✓ Deployed to production
+            ✓ 3 quick wins identified
           </motion.div>
           <motion.div
             initial={{ opacity: 0 }}
@@ -147,7 +147,7 @@ function CodePreview() {
             transition={{ delay: 3.0, duration: 0.5 }}
             className="text-white/20"
           >
-            ▸ https://bluewaveprojects.com
+            ▸ Your time back starts now
           </motion.div>
         </div>
       </div>
@@ -167,12 +167,12 @@ function MetricsCard() {
       <div className="glass rounded-xl p-4 border border-white/[0.08] shadow-2xl shadow-ocean-500/10">
         <div className="flex items-center gap-2 mb-3">
           <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-[10px] text-white/40 uppercase tracking-wider">Live Metrics</span>
+          <span className="text-[10px] text-white/40 uppercase tracking-wider">Time Reclaimed</span>
         </div>
         <div className="space-y-2.5">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-white/30">Cameras Online</span>
-            <span className="text-xs font-mono text-emerald-400/80">412</span>
+            <span className="text-xs text-white/30">Hours Saved / Week</span>
+            <span className="text-xs font-mono text-emerald-400/80">14.2</span>
           </div>
           <div className="w-full h-1 rounded-full bg-white/5 overflow-hidden">
             <motion.div
@@ -183,8 +183,8 @@ function MetricsCard() {
             />
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-xs text-white/30">API Requests/hr</span>
-            <span className="text-xs font-mono text-ocean-400/80">2.4k</span>
+            <span className="text-xs text-white/30">Tasks Automated</span>
+            <span className="text-xs font-mono text-ocean-400/80">47</span>
           </div>
           <div className="w-full h-1 rounded-full bg-white/5 overflow-hidden">
             <motion.div
@@ -195,8 +195,8 @@ function MetricsCard() {
             />
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-xs text-white/30">Uptime</span>
-            <span className="text-xs font-mono text-wave-400/80">99.97%</span>
+            <span className="text-xs text-white/30">Client Satisfaction</span>
+            <span className="text-xs font-mono text-wave-400/80">100%</span>
           </div>
         </div>
       </div>
@@ -268,7 +268,7 @@ export default function Hero() {
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm text-white/60 mb-8">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            Now accepting AI consulting clients
+            Now booking free AI audits
           </div>
         </motion.div>
 
@@ -278,9 +278,9 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
           className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.95] mb-8"
         >
-          <span className="text-white">We build the</span>
+          <span className="text-white">Get your</span>
           <br />
-          <span className="text-gradient">future, faster.</span>
+          <span className="text-gradient">time back.</span>
         </motion.h1>
 
         <motion.p
@@ -289,9 +289,9 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
           className="text-lg sm:text-xl text-white/50 max-w-2xl mx-auto mb-12 leading-relaxed"
         >
-          AI consulting. Custom apps. Live platforms. R&amp;D that ships.
+          We show business owners how to use AI to eliminate busywork,
           <br className="hidden sm:block" />
-          Born in the Pacific — building for everyone.
+          automate operations, and reclaim 10+ hours every week.
         </motion.p>
 
         <motion.div
@@ -301,16 +301,16 @@ export default function Hero() {
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <a
-            href="#portfolio"
+            href="/booking"
             className="btn-primary px-8 py-4 rounded-full text-white font-medium text-lg"
           >
-            See Our Work
+            Book a Free Audit
           </a>
           <a
-            href="/school"
+            href="#portfolio"
             className="px-8 py-4 rounded-full text-white/60 hover:text-white border border-white/10 hover:border-white/25 transition-all duration-300 font-medium text-lg"
           >
-            Learn AI
+            See Results
           </a>
         </motion.div>
       </div>

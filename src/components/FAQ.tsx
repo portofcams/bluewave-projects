@@ -5,34 +5,34 @@ import { useRef, useState } from "react";
 
 const faqs = [
   {
-    question: "How long does the AI School take?",
+    question: "How much time can I actually save?",
     answer:
-      "8 waves, roughly 8-10 weeks at your own pace. Some people crush it in 4 weeks, others take their time and really dig deep into each wave. There's no deadline — your subscription stays active as long as you want.",
+      "Most clients save 10-15 hours per week within the first month. It depends on your business, but we find the wins fast.",
   },
   {
-    question: "Do I need technical experience?",
+    question: "Do I need to be technical?",
     answer:
-      "Nope. Wave 1 starts from absolute zero — if you can use a web browser, you're good. Developers and technical folks can skip ahead to the more advanced waves on automation, APIs, and custom agents.",
+      "Not at all. We handle the technical side. You just need to know your business.",
   },
   {
-    question: "What's included in consulting?",
+    question: "What does a typical session look like?",
     answer:
-      "Custom AI strategy tailored to your business, hands-on implementation of AI tools and workflows, training for your team, and ongoing support. Every engagement is different — we start with a free call to scope it out.",
+      "30 minutes on Zoom. We screen-share, walk through your tools, and build automations together in real time.",
   },
   {
-    question: "Can you build an app for me?",
+    question: "How fast do I see results?",
     answer:
-      "Absolutely. We do full-stack web and mobile development — React, Next.js, Swift, Python, the works. Check out our portfolio section to see what we've shipped. Book a call and let's talk about your idea.",
+      "Usually within the first week. We start with quick wins — the stuff that saves you time immediately.",
   },
   {
-    question: "What AI tools do you teach?",
+    question: "What if AI isn't right for my business?",
     answer:
-      "Claude, ChatGPT, Gemini, automation tools like n8n and Zapier, and more. We're tool-agnostic — we teach you how to think with AI, not just click buttons in one specific app. You'll be dangerous with all of them.",
+      "We'll tell you honestly in the first session. No hard sell. If there's nothing to automate, we won't charge you.",
   },
   {
-    question: "Is there a refund policy?",
+    question: "Can you build custom tools for my business?",
     answer:
-      "Cancel anytime. No contracts, no hassle. If you cancel mid-month, you keep access through the end of your billing period. We don't do refunds on past months, but we also don't lock you in.",
+      "Yes. If off-the-shelf AI doesn't cut it, we build exactly what you need. Apps, APIs, dashboards — whatever gets you your time back.",
   },
 ];
 
@@ -108,7 +108,7 @@ export default function FAQ() {
             <span className="text-gradient">questions?</span>
           </h2>
           <p className="text-lg text-white/40 max-w-2xl mx-auto">
-            Here are the ones we get the most. If yours isn&apos;t here, just reach out.
+            Here are the ones we get the most. If yours isn&apos;t here, book a free audit and ask us directly.
           </p>
         </motion.div>
 
