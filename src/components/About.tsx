@@ -44,13 +44,13 @@ const consultants = [
     bio: [
       "Navy SEAL officer turned efficiency machine.",
       "Forbes brings a rare combination of elite military discipline and hands-on business acumen. As a Navy SEAL officer, he led high-stakes operations where precision and execution aren\u2019t optional \u2014 they\u2019re survival. He carries that same intensity into every project.",
-      "A rental property owner and self-taught coder, Forbes lives at the intersection of business operations and technology. His obsession: helping businesses get more done with less human time. Whether it\u2019s automating a workflow, streamlining property management, or building systems that run themselves \u2014 Forbes finds the leverage point and pulls.",
+      "A self-taught coder who also owns rental properties, Forbes lives at the intersection of business operations and technology. His obsession: helping businesses get more done with less human time. Whether it\u2019s automating a workflow, streamlining operations, or building systems that run themselves \u2014 Forbes finds the leverage point and pulls.",
       "He also built WagonWheelTrading.com \u2014 a live options trading platform that scans 1,097 stocks every 5 minutes, scores them for the Wheel strategy, and generates trade ideas based on real capital and risk tolerance. Built on 625+ real trades and $96K in realized profits. Not backtested \u2014 battle-tested.",
     ],
     link: { url: "https://wagonwheeltrading.com", label: "WagonWheelTrading.com" },
     stats: [
       { value: "SEAL", label: "Navy Officer" },
-      { value: "$96K", label: "Trading Profits" },
+      { value: "1,097", label: "Stocks Scanned" },
       { value: "0", label: "Wasted Hours" },
     ],
   },
