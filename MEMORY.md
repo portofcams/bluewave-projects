@@ -65,18 +65,47 @@
 ### API Endpoints (Vultr)
 - POST /api/bluewave/contact — contact form → email
 - POST /api/bluewave/lead — lead magnet email capture → sends AI Starter Kit + notifies owner
+- POST /api/bluewave/auth/register — user registration (email/password)
+- POST /api/bluewave/auth/login — JWT login
+- POST /api/bluewave/auth/apple — Apple Sign In
+- POST /api/bluewave/auth/google — Google Sign In
+- POST /api/bluewave/auth/refresh — refresh JWT token
+- GET /api/bluewave/auth/me — get current user
+- GET /api/bluewave/curriculum/waves — full curriculum (8 waves, 62 lessons)
+- GET /api/bluewave/curriculum/lessons/{id} — single lesson
+- GET /api/bluewave/progress — user progress
+- PATCH /api/bluewave/progress/lesson — mark lesson complete
+- PATCH /api/bluewave/progress/exercise — mark exercise complete
+- GET /api/bluewave/subscription/status — subscription check (free beta)
 
-## What's NOT Built Yet (TODOs for next session)
+### Universal Analytics (2026-03-18)
+- GET /api/analytics/tracker.js — lightweight JS tracker script
+- POST /api/analytics/pageview — track page view
+- POST /api/analytics/event — track custom event
+- GET /api/analytics/stats/{domain}?period=7d — get stats for a domain
+- Tracks: bluewaveprojects.com, portofcams.com, alohacalendar.com, lastfrontierevents.com
+- Dashboard: captj-dashboard.pages.dev/site-analytics
+- DB: /data/site_analytics.db
+
+### iOS App (2026-03-18)
+- **Repo**: github.com/portofcams/bluewave-ai-ios (private)
+- **Stack**: SwiftUI, iOS 17+, MVVM with @Observable
+- **Files**: 47 Swift files, BUILD SUCCEEDED
+- **Tabs**: Learn, Explore, Progress, Profile
+- **AI Modules**: Claude, ChatGPT, Gemini, Copilot, Midjourney
+- **Auth**: JWT with Keychain storage, Apple/Google Sign In ready
+- **Needs**: Apple Developer account ($99/yr), then TestFlight
+
+## What's NOT Built Yet (TODOs)
+- [ ] Apple Developer account enrollment ($99/yr) — user does tomorrow
 - [ ] Stripe checkout for $79/$249 plans
-- [ ] Student auth (signup/login, gate school content behind paywall)
+- [ ] Google Sign-In SDK integration for iOS
 - [ ] Booking system for 1-on-1 consulting
 - [ ] Email sequences (welcome, weekly nudge)
-- [ ] Server-side progress syncing (replace localStorage)
-- [ ] Connect Plausible analytics
 - [ ] More blog content for SEO
 - [ ] Replace placeholder testimonials with real ones
 - [ ] OG images for social sharing
-- [ ] Log pending dashboard activity (server was 502 on 2026-03-16)
+- [ ] App icon design for BlueWave AI
 
 ## Architecture Notes
 - Static export (output: "export" in next.config.ts)
@@ -85,5 +114,7 @@
 - Captain photo at /public/captain.jpg
 - Logo is text-only: "Blue" (white) + "Wave" (gradient)
 - Color theme: ocean blues, deep-900 dark bg, wave/glacier accents
-- All school progress in localStorage (lib/school-progress.ts)
+- Web school progress in localStorage (lib/school-progress.ts)
+- iOS progress syncs via /api/bluewave/progress
 - Admin auth in localStorage (lib/admin-auth.ts)
+- Server disk cleanup cron at /root/camdrop-cleanup.sh (runs every 4h, keeps 24h of frames)
