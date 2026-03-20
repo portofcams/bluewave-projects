@@ -10,12 +10,12 @@ const consultants = [
     photo: "/captain.jpg",
     color: "ocean",
     skills: [
-      { name: "React / Next.js", icon: "⚛️" },
-      { name: "Swift / iOS", icon: "📱" },
-      { name: "Python / FastAPI", icon: "🐍" },
-      { name: "Claude / ChatGPT", icon: "🤖" },
-      { name: "Docker / DevOps", icon: "🐳" },
-      { name: "n8n / Automation", icon: "⚡" },
+      { name: "React / Next.js", icon: "" },
+      { name: "Swift / iOS", icon: "" },
+      { name: "Python / FastAPI", icon: "" },
+      { name: "Claude / ChatGPT", icon: "" },
+      { name: "Docker / DevOps", icon: "" },
+      { name: "n8n / Automation", icon: "" },
     ],
     bio: [
       "I build things that work and teach people to do the same.",
@@ -26,32 +26,6 @@ const consultants = [
       { value: "6+", label: "Live Products" },
       { value: "1,000+", label: "Sea Days" },
       { value: "24/7", label: "Systems Running" },
-    ],
-  },
-  {
-    name: "Forbes",
-    title: "Consultant & Automation Strategist",
-    photo: "/forbes.jpg",
-    color: "lava",
-    skills: [
-      { name: "Operations / Strategy", icon: "🎯" },
-      { name: "Real Estate / Property", icon: "🏠" },
-      { name: "Options / Trading", icon: "📈" },
-      { name: "AI Integration", icon: "🤖" },
-      { name: "Team Leadership", icon: "🦅" },
-      { name: "Business Systems", icon: "📊" },
-    ],
-    bio: [
-      "Navy SEAL officer turned efficiency machine.",
-      "Forbes brings a rare combination of elite military discipline and hands-on business acumen. As a Navy SEAL officer, he led high-stakes operations where precision and execution aren\u2019t optional \u2014 they\u2019re survival. He carries that same intensity into every project.",
-      "A self-taught coder who also owns rental properties, Forbes lives at the intersection of business operations and technology. His obsession: helping businesses get more done with less human time. Whether it\u2019s automating a workflow, streamlining operations, or building systems that run themselves \u2014 Forbes finds the leverage point and pulls.",
-      "He also built WagonWheelTrading.com \u2014 a live options trading platform that scans 1,097 stocks every 5 minutes, scores them for the Wheel strategy, and generates trade ideas based on real capital and risk tolerance. Built on 625+ real trades and $96K in realized profits. Not backtested \u2014 battle-tested.",
-    ],
-    link: { url: "https://wagonwheeltrading.com", label: "WagonWheelTrading.com" },
-    stats: [
-      { value: "SEAL", label: "Navy Officer" },
-      { value: "1,097", label: "Stocks Scanned" },
-      { value: "0", label: "Wasted Hours" },
     ],
   },
 ];
@@ -173,15 +147,15 @@ export default function About() {
             Who We Are
           </span>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-            <span className="text-white">Meet the</span>{" "}
-            <span className="text-gradient">consultants.</span>
+            <span className="text-white">Who&apos;s</span>{" "}
+            <span className="text-gradient">behind this.</span>
           </h2>
           <p className="text-white/40 max-w-2xl mx-auto text-lg">
-            A captain and a SEAL. We build systems, automate operations, and help businesses run faster with less overhead.
+            One builder. Six live products. Systems that run themselves so you don&apos;t have to.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="max-w-xl mx-auto">
           {consultants.map((consultant, i) => (
             <ConsultantCard
               key={consultant.name}

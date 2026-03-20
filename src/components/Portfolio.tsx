@@ -81,21 +81,6 @@ const projects = [
     ),
   },
   {
-    name: "WagonWheel Trading",
-    tag: "Trading Platform",
-    description:
-      "Options trading platform built on the Wheel strategy. Scans 1,097 stocks every 5 minutes, scores them for suitability, and generates trade ideas based on your capital and risk tolerance. Built on 625+ real trades.",
-    tech: ["Web App", "Options Data", "Real-Time", "Scoring Engine"],
-    color: "from-amber-500 to-yellow-400",
-    link: "https://wagonwheeltrading.com",
-    stat: "$96K Realized Profits",
-    icon: (
-      <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v-5.5m3 5.5V8.25m3 3v-2" />
-      </svg>
-    ),
-  },
-  {
     name: "HitchLife",
     tag: "Travel Platform",
     description:
