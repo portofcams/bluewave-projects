@@ -7,7 +7,7 @@ export const wave6: Wave = {
   subtitle: 'Build Your AI Workforce',
   description: 'Understand what AI agents are, how they differ from chatbots, and build your own custom agents using no-code and low-code tools. Create specialized AI assistants for your business.',
   color: '#8b5cf6',
-  icon: '🤖',
+  icon: 'bot',
   weekRange: 'Week 6-7',
   totalXP: 0,
   units: [

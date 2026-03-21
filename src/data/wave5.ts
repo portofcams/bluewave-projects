@@ -7,7 +7,7 @@ export const wave5: Wave = {
   subtitle: 'Turn Data Into Decisions',
   description: 'Use AI to summarize reports, analyze data, spot trends, and create insights from numbers. Master document analysis, spreadsheet wizardry, and data-driven decision making.',
   color: '#ec4899',
-  icon: '📊',
+  icon: 'chart',
   weekRange: 'Week 5-6',
   totalXP: 0,
   units: [

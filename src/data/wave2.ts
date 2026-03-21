@@ -7,7 +7,7 @@ export const wave2: Wave = {
   subtitle: 'Master the Art of Asking',
   description: 'Learn the science and art of crafting prompts that get exactly the output you want. This is the highest-leverage AI skill you can develop.',
   color: '#8b5cf6',
-  icon: '🎯',
+  icon: 'target',
   weekRange: 'Week 2-3',
   totalXP: 0,
   units: [

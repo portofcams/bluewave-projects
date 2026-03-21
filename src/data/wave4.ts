@@ -7,7 +7,7 @@ export const wave4: Wave = {
   subtitle: 'Automate the Mundane',
   description: 'Apply AI to real business tasks: customer service, data extraction, market research, and strategic planning.',
   color: '#f59e0b',
-  icon: '🏢',
+  icon: 'building',
   weekRange: 'Week 4-5',
   totalXP: 0,
   units: [

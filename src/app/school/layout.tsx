@@ -83,7 +83,7 @@ export default function SchoolLayout({ children }: { children: React.ReactNode }
           )}
           {mounted && streak > 0 && (
             <div className="mt-2 flex items-center gap-1.5 text-xs text-lava-500">
-              <span>🔥</span>
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 23c-3.6 0-8-3.1-8-8.6C4 9 10 2 11.3 1c.3-.2.6-.2.8 0 .6.5 1.7 1.6 2.7 3.2C15.6 3 16.6 2 17 1.7c.3-.2.6-.2.8.1C18.5 2.7 20 5.5 20 8.6c0 3.6-2 7-4 8.9.5-1.2.8-2.6.8-4 0-2.6-1.5-5-3.5-6.8-.2-.2-.5-.1-.7.1C11.4 8.2 10 10.8 10 13.3c0 1.6.6 3 1.5 4C9 16 7.5 13 7.5 10.6c0-.3-.4-.5-.6-.2C5.7 11.9 5 14 5 15.4c0 3.9 3.1 6.6 7 6.6z"/></svg>
               <span>{streak} day streak</span>
             </div>
           )}
@@ -104,10 +104,10 @@ export default function SchoolLayout({ children }: { children: React.ReactNode }
                   className="w-full flex items-center gap-2 px-4 py-2.5 text-left hover:bg-white/5 transition-colors"
                 >
                   <span
-                    className="w-5 h-5 rounded flex items-center justify-center text-xs shrink-0"
-                    style={{ backgroundColor: wave.color + '20', color: wave.color }}
+                    className="w-5 h-5 rounded flex items-center justify-center shrink-0"
+                    style={{ backgroundColor: wave.color + '20' }}
                   >
-                    {wave.icon}
+                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: wave.color }} />
                   </span>
                   <span className="flex-1 text-xs font-semibold text-white/80 truncate">
                     {wave.title}

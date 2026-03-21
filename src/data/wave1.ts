@@ -7,7 +7,7 @@ export const wave1: Wave = {
   subtitle: 'Your AI Journey Begins',
   description: 'Understand what AI is, how it works, and the landscape of tools available to you. Build a solid mental model before diving into hands-on work.',
   color: '#0ea5e9',
-  icon: '🧠',
+  icon: 'brain',
   weekRange: 'Week 1-2',
   totalXP: 0,
   units: [

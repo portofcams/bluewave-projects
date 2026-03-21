@@ -7,7 +7,7 @@ export const wave8: Wave = {
   subtitle: 'Master Level',
   description: 'Build an AI strategy for a real business, analyze ROI, choose the right tools, and complete a capstone project that demonstrates everything you\'ve learned.',
   color: '#ef4444',
-  icon: '🏗️',
+  icon: 'flask',
   weekRange: 'Week 8-10',
   totalXP: 0,
   units: [

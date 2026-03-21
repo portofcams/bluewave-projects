@@ -7,7 +7,7 @@ export const wave7: Wave = {
   subtitle: 'Automate Everything',
   description: 'Connect AI to real business tools using automation platforms like n8n, Zapier, and Make. Build multi-step AI pipelines that run on autopilot.',
   color: '#6366f1',
-  icon: '⚡',
+  icon: 'zap',
   weekRange: 'Week 7-8',
   totalXP: 0,
   units: [

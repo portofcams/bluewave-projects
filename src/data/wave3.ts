@@ -7,7 +7,7 @@ export const wave3: Wave = {
   subtitle: 'Write Faster, Write Better',
   description: 'Use AI to draft, edit, and polish any kind of written communication. From emails to blog posts to SOPs.',
   color: '#10b981',
-  icon: '✍️',
+  icon: 'edit',
   weekRange: 'Week 3-4',
   totalXP: 0,
   units: [
