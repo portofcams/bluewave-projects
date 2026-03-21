@@ -168,7 +168,7 @@ export default function LessonPageClient() {
           transition={{ duration: 0.4, delay: 0.2 }}
           className="mb-12"
         >
-          <LessonContent content={lesson.content} />
+          <LessonContent content={lesson.content} waveColor={wave?.color} />
         </motion.div>
 
         {/* Mark lesson complete button */}

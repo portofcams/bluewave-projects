@@ -32,6 +32,12 @@ export const wave1: Wave = {
 
 Artificial Intelligence (AI) is software that can perform tasks that normally require human intelligence — things like understanding language, recognizing images, making decisions, and generating new content.
 
+But here's the thing most people get wrong: AI isn't new. It's been around since the 1950s. What *is* new is how shockingly useful it's become — practically overnight.
+
+:::key
+AI is not a sentient being. It's a tool — like a calculator for language. It doesn't "think" or "want" anything. It predicts the most likely helpful response based on patterns in data.
+:::
+
 ## A Brief Timeline
 
 - **1950s**: Alan Turing asks "Can machines think?" — the Turing Test is born
@@ -40,22 +46,47 @@ Artificial Intelligence (AI) is software that can perform tasks that normally re
 - **2010s**: Deep learning revolution — neural networks with many layers
 - **2020s**: Large Language Models (ChatGPT, Claude, Gemini) — AI that truly converses
 
+Notice the pattern: each era built on the last. We didn't jump from nothing to ChatGPT. It took 70 years of compounding breakthroughs.
+
+---
+
 ## The AI You Use Today
 
 Modern AI isn't a sentient robot. It's a **prediction engine**. When you type a message to ChatGPT or Claude, the AI is predicting the most helpful next words based on patterns it learned from enormous amounts of text.
 
 Think of it like autocomplete on steroids. Your phone suggests the next word; AI suggests the next *paragraph* — and it's remarkably good at it.
 
+:::example
+You type: "Write me a professional email declining a meeting"
+
+The AI doesn't *understand* what a meeting is or why you're declining. It has seen millions of polite decline emails in its training data, so it predicts what a helpful decline email looks like — word by word, sentence by sentence.
+
+The result? A perfectly professional email in 3 seconds that would have taken you 10 minutes to write.
+:::
+
 ## Why Now?
 
-Three things converged:
+Three things converged at the same time, creating a perfect storm:
+
 1. **Data** — The internet created trillions of pages of text to learn from
 2. **Compute** — GPUs became powerful enough to train massive models
 3. **Algorithms** — The Transformer architecture (2017) was a breakthrough
 
+Without *all three*, none of this works. Remove the data, and the AI has nothing to learn from. Remove the compute, and training takes centuries. Remove the algorithm, and the AI can't make sense of what it reads.
+
+:::tip
+You don't need to understand how AI works internally to use it well. But knowing it's a prediction engine helps you write better prompts. If you give it vague input, it predicts vague output. Give it specific input, and it predicts specific, useful output. You'll master this in Wave 2.
+:::
+
+---
+
 ## Key Takeaway
 
-AI is a tool, not magic. It has incredible strengths (speed, consistency, breadth of knowledge) and real limitations (it can be wrong, it can't truly "understand," it reflects biases in training data). Throughout this course, you'll learn to leverage the strengths and guard against the weaknesses.`,
+AI is a tool, not magic. It has incredible strengths (speed, consistency, breadth of knowledge) and real limitations (it can be wrong, it can't truly "understand," it reflects biases in training data). Throughout this course, you'll learn to leverage the strengths and guard against the weaknesses.
+
+:::warning
+AI can sound extremely confident while being completely wrong. This is called **hallucination** — and it's the single most important limitation to understand. Never blindly trust AI output for facts, citations, or numbers. Always verify. We'll cover this in depth in Lesson 6.
+:::`,
           exercises: [
             {
               id: 'w1-u1-l1-e1',
@@ -104,7 +135,7 @@ AI is a tool, not magic. It has incredible strengths (speed, consistency, breadt
           order: 2,
           content: `# How Large Language Models Work
 
-You don't need to be a data scientist to understand LLMs. Here's the simplified version.
+You don't need to be a data scientist to understand LLMs. Here's the simplified version — and once you get this, everything else in this course makes more sense.
 
 ## Training: Reading the Internet
 
@@ -112,15 +143,30 @@ An LLM is trained by reading billions of pages of text — books, websites, arti
 
 It doesn't memorize pages verbatim. Instead, it builds a statistical model of language — a compressed understanding of how humans communicate.
 
+:::key
+Think of training like this: imagine reading every book, every Wikipedia article, every forum post ever written. You wouldn't memorize them word-for-word, but you'd develop an incredibly rich sense of how language works, what topics relate to each other, and what good writing looks like. That's what the AI has — but at superhuman scale.
+:::
+
+---
+
 ## The Transformer Architecture
 
-The key innovation is called **attention**. When processing your prompt, the model pays "attention" to which words relate to other words. In the sentence "The cat sat on the mat because it was tired," the model learns that "it" refers to "the cat," not "the mat."
+The key innovation is called **attention**. When processing your prompt, the model pays "attention" to which words relate to other words.
 
-This ability to track relationships across long passages is what makes modern AI so capable.
+:::example
+In the sentence "The cat sat on the mat because **it** was tired," the model learns that "it" refers to "the cat," not "the mat."
+
+This seems obvious to you, but for a computer to figure this out automatically — across millions of sentences — was a massive breakthrough.
+:::
+
+This ability to track relationships across long passages is what makes modern AI so capable. Before Transformers (2017), AI could barely handle a single paragraph. Now it can reason across 100,000+ words.
+
+---
 
 ## How It Generates Responses
 
-When you send a message, the AI:
+When you send a message, the AI follows these steps:
+
 1. **Tokenizes** your input (breaks it into pieces called tokens)
 2. **Processes** the tokens through dozens of layers of the neural network
 3. **Predicts** the most likely next token
@@ -128,19 +174,34 @@ When you send a message, the AI:
 
 Each token generation considers the entire conversation so far. That's why AI can stay on topic across long chats.
 
+:::tip
+The AI generates its response **one word at a time**, from left to right. When you see it "typing" in ChatGPT, that's not a display trick — it's literally deciding each word as it goes. This is why the beginning of a response influences the rest. If the AI starts down a wrong path, the rest of the answer follows that path. You can fix this by saying "Wait, let's reconsider" and it will start fresh.
+:::
+
+---
+
 ## Important Mental Model
 
 The AI doesn't "know" things the way you do. It has learned statistical associations. When it says "Paris is the capital of France," it's not recalling a fact from memory — it's producing the tokens that most naturally follow the pattern of the conversation.
 
-This is why AI can be confidently wrong (hallucination) — the statistically likely response isn't always the correct one.
+:::warning
+This is why AI can be **confidently wrong** (called hallucination). The statistically likely response isn't always the correct one. The AI has no way to flag "I'm not sure about this" — it just produces whatever tokens are most probable. Always verify facts, especially numbers, dates, and citations.
+:::
 
 ## Parameters and Model Size
 
-- **GPT-4**: Estimated ~1.7 trillion parameters
-- **Claude**: Undisclosed but similar scale
-- **Parameters** are the "knobs" the model adjusts during training
+| Model | Parameters | Context Window | Released |
+|-------|-----------|---------------|----------|
+| GPT-3.5 | 175 billion | 16K tokens | 2022 |
+| GPT-4 | ~1.7 trillion | 128K tokens | 2023 |
+| Claude 3.5 | Undisclosed | 200K tokens | 2024 |
+| Gemini 1.5 | Undisclosed | 1M tokens | 2024 |
 
-More parameters generally means more capability, but also more cost to run.`,
+**Parameters** are the "knobs" the model adjusts during training. More parameters generally means more capability, but also more cost to run.
+
+:::tip
+You don't need to memorize these numbers. The key insight: models are getting bigger, faster, and cheaper every 6-12 months. Whatever limitations you hit today will likely be gone within a year. Focus on learning the *skills* of working with AI — those transfer across every model upgrade.
+:::`,
           exercises: [
             {
               id: 'w1-u1-l2-e1',
