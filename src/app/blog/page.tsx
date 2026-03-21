@@ -12,14 +12,14 @@ export const metadata: Metadata = {
     url: "https://bluewaveprojects.com/blog",
     siteName: "BlueWave Projects",
     type: "website",
-    images: [{ url: "/og-blog.svg", width: 1200, height: 630 }],
+    images: [{ url: "/og-blog.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "BlueWave Blog",
     description:
       "AI insights, tutorials & case studies. Thoughts on AI, building products, and the future of work.",
-    images: ["/og-blog.svg"],
+    images: ["/og-blog.png"],
   },
 };
 
