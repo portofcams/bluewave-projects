@@ -250,9 +250,17 @@ You don't need to memorize these numbers. The key insight: models are getting bi
           order: 3,
           content: `# The AI Tool Landscape
 
-There are now dozens of AI tools, but a few dominate. Here's your field guide.
+There are now dozens of AI tools available, and the number grows every month. It can feel overwhelming, but here is the good news: you only need to understand a handful of major players to get started. Think of this lesson as your field guide -- a map of the terrain so you know where to go when you need something specific.
+
+:::key
+No single AI tool is "the best" at everything. Each model has distinct strengths. The most effective AI users keep two or three tools in their toolkit and reach for the right one depending on the task.
+:::
+
+---
 
 ## The Big Three Text Models
+
+These are the general-purpose AI assistants you will use most often. All three are excellent, but they each have a different personality and set of strengths.
 
 ### ChatGPT (OpenAI)
 - **Best for**: General tasks, creative writing, coding, image generation (DALL-E built in)
@@ -260,11 +268,15 @@ There are now dozens of AI tools, but a few dominate. Here's your field guide.
 - **Pricing**: Free tier available, Plus at $20/month
 - **Standout**: Huge plugin ecosystem, custom GPTs, image generation
 
+ChatGPT is the household name. It was the first AI chatbot to break into mainstream awareness, and it still has the largest ecosystem of third-party plugins and custom-built "GPTs" that extend its abilities. If you want one tool that does a little bit of everything -- including generating images on the fly -- ChatGPT is a strong default.
+
 ### Claude (Anthropic)
 - **Best for**: Long documents, analysis, careful reasoning, coding
 - **Models**: Claude 3.5 Sonnet (fast), Claude 3 Opus (most capable)
 - **Pricing**: Free tier, Pro at $20/month
 - **Standout**: 200K token context window, excellent at following complex instructions
+
+Claude shines when you need to work with long, complex material. Its 200K token context window means you can paste an entire 150-page document and ask questions about it. It also tends to follow detailed, multi-step instructions more faithfully than its competitors, which makes it a favorite for professional work.
 
 ### Gemini (Google)
 - **Best for**: Integration with Google Workspace, multimodal tasks
@@ -272,7 +284,19 @@ There are now dozens of AI tools, but a few dominate. Here's your field guide.
 - **Pricing**: Free tier, Advanced at $20/month
 - **Standout**: Deep Google integration, strong at research tasks
 
+If you live inside Google Workspace -- Gmail, Docs, Sheets, Calendar -- Gemini is the natural choice because it plugs directly into those tools. It is also particularly strong at multimodal tasks (working with images and text together) and research-style queries where you need grounded, cited answers.
+
+:::example
+Try sending the same prompt to all three: "Explain the pros and cons of remote work for a company with 50 employees, in a table format."
+
+You will notice each model has a slightly different style. ChatGPT tends toward creative, conversational phrasing. Claude tends toward thorough, carefully structured output. Gemini tends to cite sources and emphasize factual grounding. Neither style is "better" -- it depends on what you need.
+:::
+
+---
+
 ## Specialized AI Tools
+
+Beyond the big three text models, there is a rapidly growing ecosystem of tools built for specific tasks. You do not need all of these right now, but it helps to know they exist so you can reach for them when the moment is right.
 
 | Category | Tools | Use Case |
 |----------|-------|----------|
@@ -284,13 +308,25 @@ There are now dozens of AI tools, but a few dominate. Here's your field guide.
 | **Writing** | Jasper, Copy.ai, Grammarly | Content and copywriting |
 | **Voice** | ElevenLabs, Play.ht | Text-to-speech |
 
+:::tip
+If you are just starting out, ignore the specialized tools for now. Master one of the big three text models first. Once you are comfortable having productive AI conversations, the specialized tools will make much more sense -- and you will know which ones actually solve problems you have, rather than chasing shiny objects.
+:::
+
+---
+
 ## How to Choose
 
-1. **Try all three** major models with the same prompt — you'll notice different styles
+Here is a practical decision-making framework you can use right now:
+
+1. **Try all three** major models with the same prompt -- you will notice different styles and can pick the one that resonates with your workflow
 2. **Use Claude** for analysis, long documents, and careful reasoning
-3. **Use ChatGPT** for creative tasks and when you need plugins/image gen
-4. **Use Gemini** when you're already in the Google ecosystem
-5. **Don't marry one tool** — the landscape changes monthly`,
+3. **Use ChatGPT** for creative tasks and when you need plugins or image generation
+4. **Use Gemini** when you are already in the Google ecosystem and want tight integration
+5. **Don't marry one tool** -- the landscape changes monthly, and today's underdog might be tomorrow's leader
+
+:::warning
+The AI landscape moves fast. Models get updated, pricing changes, and entirely new tools launch every few weeks. Any specific comparison you read (including this one) has a shelf life. Build the habit of testing new models when they launch rather than assuming your current favorite is still the best. The skills you learn in this course transfer across every tool.
+:::`,
           exercises: [
             {
               id: 'w1-u1-l3-e1',
@@ -338,25 +374,38 @@ There are now dozens of AI tools, but a few dominate. Here's your field guide.
           order: 1,
           content: `# Tokens, Context Windows & Temperature
 
-These three concepts control how AI works. Understanding them makes you a dramatically better AI user.
+These three concepts are the invisible machinery behind every AI interaction. You do not need to memorize the technical details, but understanding what they are -- and how they affect your results -- will make you a dramatically better AI user. Think of this lesson as learning the controls of a car before you start driving.
+
+:::key
+Tokens, context windows, and temperature are the three numbers that govern every AI conversation. Tokens determine cost and length. The context window determines how much the AI can "remember." Temperature determines how creative or precise the output is.
+:::
+
+---
 
 ## Tokens: The Currency of AI
 
-A **token** is a piece of text — roughly 3/4 of a word in English. The sentence "I love artificial intelligence" is about 5 tokens.
+A **token** is a piece of text -- roughly 3/4 of a word in English. The sentence "I love artificial intelligence" is about 5 tokens. Longer or more unusual words get split into multiple tokens, while short common words are often a single token.
 
-Why tokens matter:
-- **Cost**: API pricing is per token (input + output)
-- **Speed**: More tokens = slower responses
-- **Limits**: Every model has a maximum token limit
+Why tokens matter in practice:
+- **Cost**: API pricing is per token (input + output). A lengthy conversation can cost real money if you are using the API directly.
+- **Speed**: More tokens means slower responses. If you have ever noticed the AI taking longer on a complicated request, token count is usually the reason.
+- **Limits**: Every model has a maximum token limit for a single interaction. Hit the ceiling, and the AI starts "forgetting" the start of your conversation.
 
-Quick estimates:
-- 1 token ≈ 4 characters in English
-- 100 tokens ≈ 75 words
-- 1,000 tokens ≈ 750 words (about 1.5 pages)
+Quick estimates to keep in your head:
+- 1 token is roughly 4 characters in English
+- 100 tokens is roughly 75 words
+- 1,000 tokens is roughly 750 words (about 1.5 pages of a document)
+- A typical back-and-forth conversation uses 2,000-5,000 tokens
+
+:::example
+Imagine you paste a 20-page contract into Claude and ask it to summarize the key terms. That contract is roughly 13,000 tokens of input. Claude's response might be another 500 tokens. Total: around 13,500 tokens consumed from the context window for that single exchange. If you then ask follow-up questions, each new message adds more tokens to the running total.
+:::
+
+---
 
 ## Context Window: AI's Working Memory
 
-The **context window** is the total number of tokens the AI can "see" at once — your prompt plus its response combined.
+The **context window** is the total number of tokens the AI can "see" at once -- your entire conversation history (every message you sent and every response the AI gave) all has to fit inside this window.
 
 | Model | Context Window |
 |-------|---------------|
@@ -365,19 +414,28 @@ The **context window** is the total number of tokens the AI can "see" at once �
 | Claude 3.5 | 200K tokens (~150K words) |
 | Gemini 1.5 | Up to 1M tokens |
 
-When you exceed the context window, the AI literally can't see the beginning of your conversation anymore. It's like having a conversation where the other person forgets what you said 20 minutes ago.
+When you exceed the context window, the AI literally cannot see the beginning of your conversation anymore. It is like having a conversation where the other person gradually forgets everything you said earlier. You might reference something from your first message, and the AI will have no idea what you are talking about.
 
-**Pro tip**: Start new conversations for new topics. Don't let context get polluted.
+:::tip
+Start new conversations for new topics. Do not let context get polluted with unrelated back-and-forth. If you have been going back and forth on a marketing email and then want to switch to a coding question, open a fresh chat. You will get better results because the AI is not distracted by irrelevant context, and you will conserve your token budget.
+:::
+
+---
 
 ## Temperature: Creativity vs Precision
 
-**Temperature** controls randomness in responses (0.0 to 2.0):
-- **0.0**: Deterministic — same input gives same output. Best for facts, code, data.
-- **0.7**: Balanced — the default for most tools. Good for general use.
-- **1.0+**: Creative — more varied and unexpected. Good for brainstorming, fiction.
-- **2.0**: Maximum chaos — often incoherent.
+**Temperature** controls the randomness of the AI's word choices. It is a number that typically ranges from 0.0 to 2.0, and it fundamentally changes the character of the output.
 
-Most chat interfaces don't let you set temperature directly, but API users and developers should know this.`,
+- **0.0**: Deterministic -- same input gives the same output every time. Best for facts, code, and data extraction where you want consistency.
+- **0.7**: Balanced -- the default setting for most chat tools. Good for general use where you want helpful, varied responses.
+- **1.0+**: Creative -- more varied and unexpected word choices. Good for brainstorming, creative fiction, generating alternative phrasings.
+- **2.0**: Maximum randomness -- often produces incoherent or bizarre output. Rarely useful in practice.
+
+Most chat interfaces (ChatGPT, Claude, Gemini) do not let you set temperature directly -- they use a sensible default behind the scenes. But if you use the API or tools like Cursor or the OpenAI Playground, you will see temperature as a setting you can adjust.
+
+:::warning
+Low temperature does not mean "more accurate." It means "more predictable." An AI can be consistently wrong at temperature 0.0 just as easily as it can be at 1.0. Temperature controls randomness in word selection, not factual accuracy. Always verify important claims regardless of the temperature setting.
+:::`,
           exercises: [
             {
               id: 'w1-u2-l1-e1',
@@ -416,9 +474,17 @@ Most chat interfaces don't let you set temperature directly, but API users and d
           order: 2,
           content: `# Your First AI Conversation
 
-Time to get hands-on. This lesson is about having a real conversation with AI and learning from it.
+Time to get hands-on. Reading about AI is useful, but actually *using* it is where the learning happens. This lesson walks you through your first structured AI conversation and shows you, concretely, how the quality of your input determines the quality of your output.
+
+:::key
+The single most important skill in working with AI is learning how to communicate clearly with it. This is not about memorizing magic words -- it is about the same skills that make you a good communicator with humans: being specific, giving context, and stating what you actually want.
+:::
+
+---
 
 ## The Anatomy of a Good First Message
+
+Your first message sets the tone for the entire conversation. A vague opening leads to a vague response, and then you spend five messages trying to steer the AI toward what you actually wanted. A clear opening gets you 80% of the way there on the first try.
 
 Bad first message:
 > "Help me"
@@ -426,11 +492,13 @@ Bad first message:
 Good first message:
 > "I'm a small business owner who runs a bakery. I need help writing a professional email to a supplier who delivered damaged goods. The tone should be firm but polite."
 
-The difference? **Context, specificity, and constraints**.
+The difference? **Context** (who you are and the situation), **specificity** (the exact task), and **constraints** (the tone). Those three ingredients transform AI from a frustrating guessing game into a genuinely useful assistant.
+
+---
 
 ## Exercise: The Three-Prompt Challenge
 
-Try these three prompts with any AI tool and observe the difference in quality:
+This exercise makes the point better than any explanation could. Try these three prompts with any AI tool and pay close attention to how the output quality changes with each version:
 
 ### Prompt 1: Vague
 > "Write an email"
@@ -446,21 +514,35 @@ Try these three prompts with any AI tool and observe the difference in quality:
 > - End with a clear call to action
 > - Keep it under 200 words"
 
-## What You'll Notice
+:::example
+Here is what typically happens:
 
-- Prompt 1 produces generic garbage
-- Prompt 2 produces something usable
-- Prompt 3 produces something you could send as-is
+**Prompt 1** produces a generic, lifeless email addressed to no one in particular, about nothing specific. You would never send it.
 
-**The lesson**: The quality of AI output is directly proportional to the quality of your input. This is the #1 rule of working with AI.
+**Prompt 2** produces something recognizably useful -- it mentions Sarah, it mentions web design -- but the tone might be off, the length might be wrong, and the content is still fairly generic.
+
+**Prompt 3** produces something you could copy, paste, and send with minimal editing. The 30 extra seconds you spent writing a better prompt saved you 10 minutes of rewriting.
+:::
+
+## What This Teaches You
+
+The quality of AI output is directly proportional to the quality of your input. This is the number one rule of working with AI, and it applies to every model, every task, and every use case. We will build on this principle throughout the entire course, but burn it into your memory now: **garbage in, garbage out. Clarity in, clarity out.**
+
+---
 
 ## Conversation Tips
 
-1. **Be specific** — Don't make the AI guess what you want
-2. **Give context** — Who are you? What's the situation?
-3. **Set constraints** — Word count, tone, format, audience
-4. **Iterate** — "Make it more formal" or "Add a bullet point about pricing"
-5. **Say what you DON'T want** — "Don't use jargon" or "No emojis"`,
+These five habits will immediately improve every AI interaction you have:
+
+1. **Be specific** -- Do not make the AI guess what you want. "Write a 200-word product description for a waterproof hiking boot" beats "Write about a product."
+2. **Give context** -- Who are you? Who is the audience? What is the situation? The AI cannot read your mind, so paint the picture.
+3. **Set constraints** -- Word count, tone, format, audience level. Constraints are not limiting -- they are *focusing*. They help the AI narrow in on exactly what you need.
+4. **Iterate** -- Your first result is rarely your final result. Say "Make it more formal" or "Add a bullet point about pricing" or "Shorten the second paragraph." Treat the AI like a collaborator, not a vending machine.
+5. **Say what you DON'T want** -- "Don't use jargon" or "Avoid cliches" or "No bullet points, use flowing paragraphs instead." Negative constraints are surprisingly powerful.
+
+:::tip
+If you are not happy with an AI response, resist the urge to start over. Instead, tell the AI what is wrong: "The tone is too casual -- make it sound like a Fortune 500 company." Iterating on a response is faster and produces better results than re-prompting from scratch, because the AI learns from the feedback within the conversation.
+:::`,
           exercises: [
             {
               id: 'w1-u2-l2-e1',
@@ -490,53 +572,88 @@ Try these three prompts with any AI tool and observe the difference in quality:
           order: 3,
           content: `# AI Ethics & Limitations
 
-AI is powerful, but it comes with real risks. Being an effective AI user means knowing the boundaries.
+AI is powerful, but it comes with real risks that you need to understand before you start relying on it. This is not a scare-tactic lesson -- it is a practical one. Being an effective AI user means knowing where the boundaries are so you can work confidently *within* them, rather than stumbling into trouble.
+
+:::key
+The most dangerous AI user is the one who trusts AI blindly. The most effective AI user is the one who knows exactly where AI is strong, where it is weak, and how to verify the difference.
+:::
+
+---
 
 ## Known Limitations
 
 ### 1. Hallucinations
-AI confidently states things that are completely false. It doesn't "know" when it's wrong because it's generating statistically likely text, not looking up facts.
 
-**Real examples of hallucinations:**
-- Citing academic papers that don't exist
-- Making up court case precedents (this got a lawyer sanctioned)
-- Providing incorrect code that looks correct
-- Fabricating statistics
+This is the big one. AI will sometimes state things that are completely, verifiably false -- and it will do so with the same confident tone it uses when it is right. It does not "know" when it is wrong because it is not looking up facts. It is generating statistically likely text, and sometimes the statistically likely response happens to be fiction.
 
-**Defense**: Always verify facts, especially for anything you'll publish or act on.
+**Real examples of hallucinations that caused real problems:**
+- Citing academic papers that do not exist (complete with fabricated authors, titles, and journal names)
+- Making up court case precedents (this got a New York lawyer sanctioned by a judge in 2023 -- a cautionary tale that made national news)
+- Providing code that looks syntactically correct but contains subtle logical errors
+- Fabricating statistics and attributing them to real organizations
+
+:::warning
+Hallucinations are not rare edge cases. They happen regularly, especially when you ask about niche topics, request specific citations, or push the AI outside its strongest domains. The AI will never say "I made that up." It will present fiction with the same polish as fact. Your job is to verify.
+:::
+
+**Defense**: Always verify facts, especially for anything you will publish, share publicly, or act on. Cross-check citations, run code before shipping it, and double-check statistics against primary sources.
+
+---
 
 ### 2. Training Data Cutoff
-Most models have a knowledge cutoff date. They don't know about events after their training data was collected.
 
-**Defense**: For current events or recent information, use AI search tools (Perplexity) or verify with up-to-date sources.
+Most models have a knowledge cutoff date -- a point after which they have no information. They do not know about events, discoveries, product launches, or news that happened after their training data was collected. The AI will not tell you "I don't know about that because it happened after my cutoff." It will either say nothing or, worse, hallucinate an answer that sounds plausible.
+
+**Defense**: For current events or recent information, use AI search tools like Perplexity that can access the web in real time, or pair AI with manual verification against up-to-date sources.
 
 ### 3. Bias
-AI reflects biases in its training data. This can manifest as:
-- Gender stereotypes (assuming doctors are male, nurses are female)
-- Cultural bias (defaulting to Western/American perspectives)
-- Representation gaps (performing worse for underrepresented groups)
 
-**Defense**: Be aware, review outputs critically, and explicitly ask for diverse perspectives.
+AI reflects biases present in its training data, because its training data is a mirror of the internet -- and the internet is not neutral. This can manifest in subtle but meaningful ways:
+
+- **Gender stereotypes**: Assuming doctors are male, nurses are female, engineers are male, teachers are female
+- **Cultural bias**: Defaulting to Western or American perspectives when asked about global topics
+- **Representation gaps**: Performing worse for underrepresented groups, languages, or dialects
+
+**Defense**: Be aware that bias exists in every model. Review outputs critically, especially when the AI is writing about people. You can explicitly ask for diverse perspectives: "Consider this from a non-Western point of view" or "Avoid gender assumptions."
+
+:::example
+If you ask an AI to "describe a typical CEO," the response will overwhelmingly skew toward describing a middle-aged white man in a suit -- because that is the pattern most heavily represented in the training data. This does not reflect reality, and it reinforces stereotypes if you use the output uncritically. A better prompt: "Describe a CEO -- do not default to any particular gender, age, or ethnicity."
+:::
+
+---
 
 ## Ethical Guidelines
 
+These are not abstract principles. They are practical rules that will keep you out of trouble and help you build good habits from the start.
+
 ### DO:
-- Disclose AI use when appropriate (especially in academic or professional settings)
+- Disclose AI use when appropriate (especially in academic or professional settings where transparency matters)
 - Verify important claims before acting on them
 - Use AI to augment your work, not replace your judgment
-- Protect sensitive data — don't paste passwords, SSNs, or private medical info
+- Protect sensitive data -- do not paste passwords, Social Security numbers, private medical records, or confidential business information into public AI tools
 
 ### DON'T:
-- Submit AI-generated work as entirely your own in contexts where that's dishonest
-- Use AI to generate misinformation or deceptive content
-- Blindly trust AI for medical, legal, or financial advice
-- Share others' private information with AI tools
+- Submit AI-generated work as entirely your own in contexts where that is dishonest (school assignments, work deliverables with explicit policies, etc.)
+- Use AI to generate misinformation, deepfakes, or deceptive content
+- Blindly trust AI for medical, legal, or financial advice -- always consult a qualified professional
+- Share other people's private information with AI tools without their knowledge and consent
+
+:::tip
+A good rule of thumb: if you would not want your boss, your professor, or a reporter to know you used AI for a particular task, that is a signal to think carefully about whether you should be using it -- or at least to disclose that you did. Transparency builds trust. Secrecy erodes it.
+:::
+
+---
 
 ## The Copyright Question
-AI-generated content occupies a legal gray area. Currently:
-- You generally can't copyright purely AI-generated content
-- Using AI as a tool in your creative process is fine
-- The law is evolving rapidly — stay informed`,
+
+AI-generated content occupies a legal gray area that is evolving rapidly. Here is where things stand as of early 2026:
+
+- You generally cannot copyright purely AI-generated content (the U.S. Copyright Office has ruled that copyright requires human authorship)
+- Using AI as a tool in your creative process is generally fine -- the human creative decisions you make on top of AI output can be protected
+- Multiple lawsuits are working through the courts regarding whether AI training on copyrighted material constitutes fair use
+- The law is evolving rapidly across different countries -- stay informed, especially if you work in creative industries
+
+The practical takeaway: use AI as a starting point and a collaborator, not as a replacement for your own creative input. The more of your own judgment, editing, and original thinking you layer on top, the stronger your position -- both legally and ethically.`,
           exercises: [
             {
               id: 'w1-u2-l3-e1',
@@ -585,47 +702,80 @@ AI-generated content occupies a legal gray area. Currently:
           order: 4,
           content: `# When to Use AI (And When Not To)
 
-Not every problem needs AI. Here's a practical framework.
+Not every problem needs AI. In fact, one of the most important skills you will develop is the ability to quickly judge whether AI is the right tool for a given task -- or whether you are better off doing it yourself. This lesson gives you a practical framework you can apply in seconds.
+
+:::key
+AI is a force multiplier, not a replacement for judgment. It makes you 2-10x faster at tasks you already know how to do. It is weakest when you rely on it for tasks you cannot evaluate yourself. Knowing when NOT to use AI is just as important as knowing when to use it.
+:::
+
+---
 
 ## The AI Decision Matrix
 
-### GREAT for AI ✅
-- **Drafting**: First drafts of emails, reports, content
-- **Brainstorming**: Generating ideas, alternatives, perspectives
-- **Summarizing**: Condensing long documents into key points
-- **Explaining**: Breaking down complex topics into simple terms
-- **Reformatting**: Converting data between formats
-- **Research starting points**: Getting an overview before deep diving
-- **Repetitive text tasks**: Form letters, templates, variations
-- **Code scaffolding**: Boilerplate code, common patterns
+### GREAT for AI
+These are the tasks where AI consistently saves time and delivers quality results with minimal oversight:
 
-### OKAY for AI (with verification) ⚠️
-- Factual research (always verify)
-- Technical documentation
-- Data analysis (check the math)
-- Translation (have a native speaker review)
-- Legal/medical information (always consult a professional)
+- **Drafting**: First drafts of emails, reports, blog posts, social media content. The AI gets you 80% of the way there; you polish the last 20%.
+- **Brainstorming**: Generating ideas, alternatives, perspectives you had not considered. AI is tireless and never runs out of suggestions.
+- **Summarizing**: Condensing long documents, meeting notes, or articles into key points. Paste in a 30-page PDF and get a one-page summary in seconds.
+- **Explaining**: Breaking down complex topics into simple terms. "Explain blockchain to someone who has never heard of it" is a prompt AI handles brilliantly.
+- **Reformatting**: Converting data between formats -- CSV to JSON, bullet points to paragraphs, raw notes to polished tables.
+- **Research starting points**: Getting an overview of a topic before you dive into primary sources. Think of it as a smarter, more conversational Wikipedia.
+- **Repetitive text tasks**: Form letters, email templates, variations of the same message for different audiences.
+- **Code scaffolding**: Boilerplate code, common patterns, starter templates. AI can generate a working React component or API endpoint in seconds.
 
-### NOT for AI ❌
-- **Final decisions**: AI can inform, not decide
-- **Sensitive data processing**: Don't paste passwords, private health info, or financial details into public AI tools
-- **Emotional support replacement**: AI can't truly empathize
-- **Real-time information**: Stock prices, live events, breaking news
-- **Anything requiring accountability**: If someone could get hurt, a human needs to be in the loop
+:::example
+A real-world example of AI at its best: you need to send a slightly different follow-up email to 12 clients, each referencing their specific project. Without AI, that is an hour of tedious copy-paste-edit work. With AI, you write one prompt -- "Here are 12 clients and their projects. Write a personalized follow-up email for each" -- and you have drafts for all 12 in under a minute. You review, tweak, and send.
+:::
+
+---
+
+### OKAY for AI (with verification)
+These tasks benefit from AI, but the output must be checked by a human before you act on it:
+
+- Factual research (always verify against primary sources)
+- Technical documentation (have a domain expert review)
+- Data analysis (check the math -- AI can make calculation errors)
+- Translation (have a native speaker review for nuance)
+- Legal/medical information (always consult a qualified professional before acting)
+
+### NOT for AI
+These are tasks where AI should not be your primary tool:
+
+- **Final decisions**: AI can inform your decision, but the decision itself must be yours. You are the one accountable for the outcome.
+- **Sensitive data processing**: Do not paste passwords, private health information, financial account details, or confidential business data into public AI tools.
+- **Emotional support replacement**: AI can offer comforting words, but it cannot truly empathize. It does not understand grief, fear, or joy -- it generates patterns that look like empathy.
+- **Real-time information**: Stock prices, live sports scores, breaking news, weather alerts. AI models do not have real-time access to the world.
+- **Anything requiring accountability**: If someone could get hurt -- physically, financially, legally -- a qualified human needs to be in the loop.
+
+:::warning
+The most common mistake new AI users make is using AI for tasks that fall in the "NOT for AI" category without realizing it. If you are using AI to draft a legal contract, write medical advice, or make a financial decision, stop and ask: "If this output is wrong, what is the worst that could happen?" If the answer involves real harm, bring in a qualified human.
+:::
+
+---
 
 ## The 10-Second Test
 
-Before using AI, ask yourself:
-1. **Would a wrong answer cause harm?** If yes, verify everything.
-2. **Does it need to be current?** If yes, use AI + real-time sources.
-3. **Is this sensitive data?** If yes, use enterprise/private AI tools only.
-4. **Am I replacing my judgment?** If yes, step back.
+Before reaching for AI, run through these four questions. It takes about ten seconds and will save you from the most common pitfalls:
+
+1. **Would a wrong answer cause harm?** If yes, verify everything the AI produces -- or skip AI entirely.
+2. **Does it need to be current?** If yes, pair AI with real-time sources (Perplexity, Google, live APIs).
+3. **Is this sensitive data?** If yes, use only enterprise or private AI tools that do not train on your data.
+4. **Am I replacing my judgment?** If yes, step back. AI should inform your thinking, not substitute for it.
+
+:::tip
+Print or bookmark this 10-second test. Run it before every AI interaction for the first two weeks. After that, it will become second nature -- you will instinctively know whether a task is a good fit for AI without even thinking about it.
+:::
+
+---
 
 ## The Sweet Spot
 
-AI is best as a **force multiplier** — it makes you 2-10x faster at tasks you already know how to do. It's weakest when you're relying on it for tasks you can't evaluate yourself.
+The best AI users are not the ones who use it for everything. They are the ones who know **exactly when** to reach for it and exactly when to put it down.
 
-The best AI users aren't the ones who use it for everything. They're the ones who know **exactly when** to reach for it.`,
+Here is the pattern that separates beginners from power users: beginners either avoid AI entirely (missing out on massive time savings) or use it for everything (running into quality and trust issues). Power users have a finely tuned sense for which tasks fall in the "great for AI" category -- and they use AI aggressively for those while keeping their own judgment firmly in control for everything else.
+
+That sense is exactly what you are building right now. By the end of this course, choosing when to use AI will feel as natural as choosing when to use a calculator.`,
           exercises: [
             {
               id: 'w1-u2-l4-e1',
