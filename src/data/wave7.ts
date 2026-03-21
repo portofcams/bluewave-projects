@@ -30,7 +30,11 @@ export const wave7: Wave = {
           order: 1,
           content: `# Introduction to Workflow Automation
 
-You've learned to use AI for individual tasks. Now it's time to connect AI to your business systems so work happens automatically — without you copying and pasting between tools.
+You've learned to use AI for individual tasks. Now it's time to connect AI to your business systems so work happens automatically -- without you copying and pasting between tools. This is where AI goes from "interesting toy" to "business infrastructure."
+
+:::key
+The combination of automation + AI is where the real business value lives. Traditional automation moves data from point A to point B. AI-powered automation actually understands the data, makes decisions about it, and takes intelligent action. That is the difference between forwarding all emails and intelligently routing them by urgency and topic.
+:::
 
 ## What is Workflow Automation?
 
@@ -105,6 +109,8 @@ Connecting the output of one step to the input of the next:
 - Action 1: AI summarization → Input: message → Output: summary
 - Action 2: Send email → Input: name, email, summary
 
+---
+
 ## Where AI Fits In
 
 AI transforms automations from simple "move data from A to B" into intelligent workflows:
@@ -116,7 +122,11 @@ AI transforms automations from simple "move data from A to B" into intelligent w
 | Send the same welcome email to everyone | Generate personalized welcome emails based on what the customer said |
 | Alert on every social media mention | Analyze sentiment first, only alert on negative mentions |
 
-The combination of automation + AI is where the real business value lives.`,
+The combination of automation + AI is where the real business value lives.
+
+:::tip
+Start by mapping one manual workflow you do weekly. List every step, every tool you touch, and the time each step takes. That map becomes your automation blueprint. Most people discover they spend 30-60 minutes per week on workflows that could run in seconds.
+:::`,
           exercises: [
             {
               id: 'w7-u1-l1-e1',
@@ -160,7 +170,11 @@ The combination of automation + AI is where the real business value lives.`,
           order: 2,
           content: `# Connecting AI to Workflows
 
-This is where the magic happens: adding AI as a step in your automated workflows. Instead of just moving data between apps, your workflow now *thinks*.
+This is where the magic happens: adding AI as a step in your automated workflows. Instead of just moving data between apps, your workflow now *thinks*. It reads an email and understands whether it is urgent. It scores a lead and decides which follow-up sequence to trigger. It summarizes a document and routes it to the right person.
+
+:::key
+There are five core AI workflow patterns -- Classify and Route, Enrich and Store, Generate and Review, Monitor and Alert, and Transform and Deliver. Every AI automation you will ever build is a variation of one of these five patterns. Learn them and you can design a workflow for any business process.
+:::
 
 ## Method 1: Built-In AI Actions
 
@@ -207,7 +221,14 @@ Every AI API call follows this pattern:
 5. **User message**: The data you want processed
 6. **Parameters**: Temperature, max tokens, etc.
 
+---
+
 ### Cost Management
+
+:::warning
+API calls cost money, and costs can spiral quickly if you are not careful. A workflow that processes 1,000 items per day using GPT-4 can cost hundreds of dollars per month. Use cheaper models for simple tasks and reserve expensive models for complex reasoning.
+:::
+
 API calls cost money. Be smart:
 - Use cheaper models (Claude Haiku, GPT-3.5) for simple tasks like classification
 - Use powerful models (Claude Sonnet/Opus, GPT-4) only for complex reasoning
@@ -252,7 +273,11 @@ Here's a simple workflow you can build in any platform:
 4. **AI Step**: "Organize these into a daily digest, with high-urgency items first"
 5. **Action**: Send the digest to yourself via Slack or email
 
-This takes 10 minutes to build and saves you 20+ minutes of email scanning every day.`,
+This takes 10 minutes to build and saves you 20+ minutes of email scanning every day.
+
+:::try
+Build the Smart Email Digest workflow this week. It is the simplest AI automation with the most immediate payoff. You will use it every single day, and it will prove to you (and your team) that AI automation actually works.
+:::`,
           exercises: [
             {
               id: 'w7-u1-l2-e1',
@@ -301,7 +326,11 @@ This takes 10 minutes to build and saves you 20+ minutes of email scanning every
           order: 3,
           content: `# Triggers, Actions & Data Flow
 
-Understanding how data flows through an automation is the key to building workflows that actually work. This lesson covers the mechanics.
+Understanding how data flows through an automation is the key to building workflows that actually work. If the previous lessons were about the "what" and "why" of automation, this lesson is about the "how." Master data flow and you can build any workflow on any platform.
+
+:::key
+Every step in a workflow produces output data. The next step can use that data as input. This is called data mapping, and it is the single most important concept in automation. Get data mapping wrong and your workflow produces garbage. Get it right and everything clicks together seamlessly.
+:::
 
 ## Trigger Types Deep Dive
 
@@ -367,9 +396,13 @@ Step 5 - Send Email
 
 Notice how each step can reference data from ANY previous step, not just the one immediately before it.
 
+---
+
 ## Error Handling
 
-What happens when a step fails? Robust workflows plan for failure.
+:::warning
+What happens when a step fails? If you do not plan for failure, your workflow will silently drop data, send broken emails, or create duplicate records. Every production workflow needs error handling -- it is not optional, it is foundational.
+:::
 
 ### Common Failure Points
 - **API rate limits**: Too many requests too fast
@@ -482,7 +515,11 @@ All four happen at once.
           order: 4,
           content: `# Building Your First Automation
 
-Time to get hands-on. We'll walk through building a practical AI-powered automation that you can adapt for your own business.
+Time to get hands-on. We'll walk through building a practical AI-powered automation that you can adapt for your own business. This is the lesson where theory becomes practice.
+
+:::key
+The Smart Lead Processor is a template you can adapt for virtually any "receive input, analyze it with AI, take action" workflow. Build it once for leads, then clone it for support tickets, job applications, customer feedback, or expense reports. The pattern is always the same -- only the prompts and destinations change.
+:::
 
 ## The "Smart Lead Processor" Workflow
 
@@ -569,7 +606,13 @@ The same workflow in n8n uses:
 
 The visual workflow builder lets you see the entire flow and debug each step.
 
+---
+
 ## Testing Your Automation
+
+:::tip
+Test with edge cases, not just happy paths. Submit a form with missing fields, unusual characters, or a language the AI might struggle with. The bugs you find during testing are the ones that would have embarrassed you in production.
+:::
 
 ### Test Checklist
 - [ ] Submit a test form with a hot lead profile → Does it get classified correctly?
@@ -648,7 +691,11 @@ This lead processor template can be adapted for:
           order: 1,
           content: `# Multi-Step AI Pipelines
 
-Simple automations use one AI step. Powerful automations chain multiple AI steps together, where the output of one feeds the input of the next — like an assembly line of AI workers.
+Simple automations use one AI step. Powerful automations chain multiple AI steps together, where the output of one feeds the input of the next -- like an assembly line of AI workers, each specializing in one task and passing their work to the next station.
+
+:::key
+The main advantage of multi-step pipelines over single AI calls: separation of concerns, quality checks, model optimization, and debuggability. When something goes wrong in a pipeline, you know exactly which step failed. When something goes wrong in a single massive prompt, good luck figuring out where.
+:::
 
 ## Why Multi-Step?
 
@@ -694,7 +741,13 @@ Without the pipeline: 4-6 hours of writing.
 **Step 6: Recommend** — AI suggests the top 3 actions based on the analysis
 **Step 7: Deliver** — Report sent to stakeholders via email/Slack
 
+---
+
 ## Choosing the Right Model for Each Step
+
+:::tip
+A pipeline using cheaper models for 3 steps and premium models for 2 steps costs 60-70% less than using premium for all 5 steps -- often with minimal quality difference. Classification and verification are simple tasks that do not need expensive reasoning power. Save the premium models for creative writing and complex analysis.
+:::
 
 Not every step needs your most powerful (and expensive) model:
 
@@ -774,7 +827,11 @@ Use multiple HTTP modules calling the AI API, with JSON parsing between steps.
           order: 2,
           content: `# Error Handling & Reliability
 
-Production workflows need to handle the real world — where APIs go down, data is messy, and AI sometimes returns nonsense. This lesson covers how to build workflows that recover gracefully.
+Production workflows need to handle the real world -- where APIs go down, data is messy, and AI sometimes returns nonsense. This lesson covers how to build workflows that recover gracefully instead of failing silently and losing data.
+
+:::key
+There are three types of failures -- transient (temporary issues that fix themselves), data (invalid input), and AI (unexpected output). Each type requires a different handling strategy. The dead letter queue ensures no data is ever silently lost, even when all recovery attempts fail.
+:::
 
 ## The Three Types of Failures
 
@@ -842,8 +899,13 @@ When a record fails all attempts at processing, don't lose it:
 
 This ensures no data is ever silently lost.
 
+---
+
 ### Idempotency
-If a workflow runs twice with the same input (which happens with retries), it should produce the same result without duplicates.
+
+:::warning
+If a workflow runs twice with the same input -- which happens with retries -- it should produce the same result without duplicates. Without idempotency, a retry can create duplicate CRM records, send duplicate emails, or charge a customer twice. Design every action to be safe to repeat.
+:::
 
 **How to achieve this:**
 - Check if a record already exists before creating it
@@ -930,7 +992,11 @@ Most automation platforms have built-in monitoring. For custom solutions, log to
           order: 3,
           content: `# Monitoring & Optimization
 
-A workflow in production is like a car — it needs regular maintenance, fuel efficiency checks, and dashboards to tell you when something is off.
+A workflow in production is like a car -- it needs regular maintenance, fuel efficiency checks, and dashboards to tell you when something is off. Ignore it long enough and something will break at the worst possible time.
+
+:::key
+The three pillars of workflow health are performance (is it fast enough?), reliability (is it working consistently?), and cost (are we staying within budget?). Track all three. A workflow that is fast and reliable but costs 10x what you expected is not healthy.
+:::
 
 ## What to Monitor
 
@@ -979,6 +1045,8 @@ If you frequently classify the same type of data, cache the results:
 - First time: AI classifies "I need to reset my password" → "account-access"
 - Next time someone says something similar: Check cache first
 
+---
+
 ### 5. Conditional AI Usage
 Not every record needs AI processing:
 \`\`\`
@@ -1005,6 +1073,10 @@ ELSE → Send to AI for classification
 - Benchmark against alternatives — has a better tool/method emerged?
 - Cost-benefit analysis — is the ROI still positive?
 - Plan improvements for next quarter
+
+:::tip
+Set up a monthly "cost per outcome" review. Divide your total automation cost by the number of items processed. If cost per outcome is rising, something is wrong -- either volume dropped, prompts got longer, or you are using the wrong model for a task. This single metric catches most optimization opportunities.
+:::
 
 ## Scaling Workflows
 
@@ -1066,7 +1138,11 @@ AI APIs have rate limits. When scaling:
           order: 4,
           content: `# Real Business Automation Examples
 
-Here are five complete, production-ready workflow blueprints. Each one solves a real business problem and can be built in a weekend.
+Here are five complete, production-ready workflow blueprints. Each one solves a real business problem and can be built in a weekend. These are not theoretical designs -- they are patterns that businesses are running right now.
+
+:::key
+Pick the blueprint that solves your biggest time waste, has the clearest ROI, has the lowest risk if AI makes a mistake, and uses tools you already have. Starting with low-risk, high-impact automations builds confidence and momentum for bigger projects later.
+:::
 
 ## Blueprint 1: The Customer Feedback Loop
 
@@ -1101,6 +1177,8 @@ Here are five complete, production-ready workflow blueprints. Each one solves a 
 8. **Publish**: Approved content is scheduled via Buffer/Hootsuite and email tool
 
 **ROI**: Reduces content creation from 10 hours to 2 hours per week. Maintains consistent publishing schedule.
+
+---
 
 ## Blueprint 3: The Intelligent Onboarding System
 
@@ -1148,6 +1226,12 @@ Here are five complete, production-ready workflow blueprints. Each one solves a 
 7. **Monthly Report**: AI compiles the month's intelligence into a strategic briefing
 
 **ROI**: Replaces hours of manual research per week. Ensures no important competitor move is missed.
+
+---
+
+:::tip
+Start with Blueprint 1 (Customer Feedback Loop) or Blueprint 2 (Automated Content Engine) if you are not sure which to pick. They have the clearest ROI, the lowest risk, and they produce visible results that build organizational support for more ambitious automations.
+:::
 
 ## How to Choose Your First Automation
 

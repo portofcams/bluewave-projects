@@ -30,11 +30,13 @@ export const wave5: Wave = {
           order: 1,
           content: `# Summarizing Reports & Documents
 
-AI can read a 50-page report and give you the key points in 30 seconds. But a lazy "summarize this" prompt gives you a lazy summary. Here's how to get genuinely useful output.
+AI can read a 50-page report and give you the key points in 30 seconds. But a lazy "summarize this" prompt gives you a lazy summary. The difference between a useless summary and a genuinely valuable one comes down to how you ask -- and the layered approach below is how professionals get it done.
+
+:::key
+The best analysts don't ask for one summary -- they ask for multiple layers, each serving a different purpose. Layer 1 is for your elevator pitch. Layer 2 is for your working document. Layer 3 is where AI reveals things you would have missed reading the full report yourself.
+:::
 
 ## The Layered Summary Approach
-
-The best analysts don't ask for one summary — they ask for multiple layers, each serving a different purpose.
 
 ### Layer 1: Executive Summary
 > "Summarize this document in 3 sentences. Focus on: the main finding, the most important recommendation, and the key risk. Audience: a busy CEO who has 30 seconds."
@@ -62,6 +64,8 @@ This is your working document. It captures enough detail to make decisions witho
 
 This is where AI really shines. It can spot logical gaps and missing perspectives that you might miss after reading 50 pages.
 
+---
+
 ## Handling Long Documents
 
 For documents that exceed the context window (roughly 75,000+ words for most models):
@@ -71,21 +75,31 @@ For documents that exceed the context window (roughly 75,000+ words for most mod
 3. **Extract and focus**: "Find all mentions of [specific topic] and summarize only those sections"
 4. **Table of contents first**: Paste the table of contents and ask which sections are most relevant to your question, then read only those
 
+:::tip
+The most valuable prompt is often "What does this report NOT address that it should?" AI can identify blind spots and missing perspectives faster than a human reader who gets absorbed in the content that IS there. This single question can save you from making decisions based on incomplete analysis.
+:::
+
 ## Real-World Application
 
 Imagine you receive a 40-page industry report. Here's the workflow:
 
-1. Paste it to AI with the Layer 1 prompt — get the 3-sentence version in 10 seconds
-2. If it's relevant, run the Layer 2 prompt — get the structured breakdown in 30 seconds
-3. For important reports, run Layer 3 — get the critical analysis in 60 seconds
+1. Paste it to AI with the Layer 1 prompt -- get the 3-sentence version in 10 seconds
+2. If it's relevant, run the Layer 2 prompt -- get the structured breakdown in 30 seconds
+3. For important reports, run Layer 3 -- get the critical analysis in 60 seconds
 4. Total time: under 2 minutes instead of 2 hours
+
+---
 
 ## Pro Tips
 
 - **Set the audience**: "Summarize for a technical audience" produces very different output than "summarize for a non-technical stakeholder"
 - **Specify format**: "Use bullet points" vs "Use a narrative paragraph" vs "Use a table"
 - **Ask for what's missing**: The most valuable prompt is often "What does this report NOT address that it should?"
-- **Compare versions**: If you get a summary that feels thin, ask "What important details did you leave out of this summary?"`,
+- **Compare versions**: If you get a summary that feels thin, ask "What important details did you leave out of this summary?"
+
+:::warning
+AI summaries can miss nuance, especially in legal documents, contracts, or highly technical papers where specific wording matters. Use AI summaries for general understanding and decision support, but for anything legally binding or safety-critical, read the original language yourself.
+:::`,
           exercises: [
             {
               id: 'w5-u1-l1-e1',
@@ -141,7 +155,11 @@ Imagine you receive a 40-page industry report. Here's the workflow:
           order: 2,
           content: `# Extracting Data from PDFs & Reports
 
-One of AI's superpowers is turning messy, unstructured documents into clean, usable data. Invoices, contracts, research papers, financial reports — AI can pull the numbers and facts you need.
+One of AI's superpowers is turning messy, unstructured documents into clean, usable data. Invoices, contracts, research papers, financial reports -- AI can pull the numbers and facts you need in seconds. This is the kind of task that used to require an intern, a spreadsheet, and half a day. Now it takes a single prompt.
+
+:::key
+The three-step extraction framework -- Define, Extract, Verify -- is your reliable process for pulling data from any document type. Skipping the verification step is where most people get burned, especially with financial data.
+:::
 
 ## The Data Extraction Framework
 
@@ -161,9 +179,11 @@ Upload the PDF (if the AI supports file uploads) or paste the text content. AI w
 
 ### Step 3: Verify Critical Data
 AI extraction is usually 95%+ accurate, but the 5% matters. Always verify:
-- Dollar amounts (especially totals — check the math)
+- Dollar amounts (especially totals -- check the math)
 - Dates (AI sometimes confuses MM/DD and DD/MM formats)
 - Names and titles (especially if multiple people are mentioned)
+
+---
 
 ## Common Extraction Patterns
 
@@ -178,6 +198,10 @@ AI extraction is usually 95%+ accurate, but the 5% matters. Always verify:
 > - Obligations for each party (what must each side do?)
 > - Termination conditions
 > - Any non-standard clauses that differ from a typical [contract type]"
+
+:::warning
+AI extraction of dates is a known weak point. International date formats (is 03/04/2025 March 4th or April 3rd?) cause frequent errors. When extracting dates from documents, explicitly tell AI which format to expect: "Dates in this document are in MM/DD/YYYY format." Verify every extracted date against the original.
+:::
 
 ### Research Papers
 > "From this research paper, extract:
@@ -195,6 +219,8 @@ AI extraction is usually 95%+ accurate, but the 5% matters. Always verify:
 > - Open questions or unresolved issues
 > - Next meeting date and agenda items"
 
+---
+
 ## Batch Processing
 
 If you have multiple similar documents (e.g., 10 invoices), establish the pattern once:
@@ -207,7 +233,11 @@ Then paste each document and get consistent, structured output.
 - **Be explicit about format**: "Output as CSV" or "Output as a markdown table" or "Output as JSON"
 - **Handle ambiguity**: "If a value is unclear or could be interpreted multiple ways, flag it with [VERIFY]"
 - **Set context**: "This is a commercial lease agreement for a retail space" helps AI understand domain-specific terms
-- **Ask for confidence**: "Rate your confidence (high/medium/low) for each extracted value"`,
+- **Ask for confidence**: "Rate your confidence (high/medium/low) for each extracted value"
+
+:::tip
+For batch processing, always establish the pattern with one example before processing the rest. AI will learn your exact expectations from that first document and apply them consistently to all subsequent ones. This alone can save hours of reformatting.
+:::`,
           exercises: [
             {
               id: 'w5-u1-l2-e1',
@@ -250,7 +280,11 @@ Then paste each document and get consistent, structured output.
           order: 3,
           content: `# Comparing Documents & Sources
 
-One document is information. Two documents are intelligence. AI excels at comparing texts to find agreements, contradictions, and gaps.
+One document is information. Two documents are intelligence. AI excels at comparing texts to find agreements, contradictions, and gaps -- the kind of analysis that takes a human hours of careful cross-referencing.
+
+:::key
+Triangulation -- checking a claim across three independent sources -- is the gold standard for verifying information. If all three sources agree, the claim is likely reliable. If only one source makes a claim, it needs verification. AI makes triangulation practical instead of theoretical.
+:::
 
 ## Side-by-Side Comparison
 
@@ -277,6 +311,8 @@ When comparing drafts or revisions:
 > Version 1: [paste]
 > Version 2: [paste]"
 
+---
+
 ## Multi-Source Analysis
 
 ### Triangulating Information
@@ -299,6 +335,10 @@ When comparing drafts or revisions:
 > - Weaknesses of each
 > - Overall recommendation for [your specific use case]"
 
+:::tip
+When comparing vendor proposals or product options, always include your specific use case and priorities in the prompt. Without context, AI will give you a generic comparison. With context -- "we are a 10-person team focused on speed over features" -- the comparison becomes a recommendation tailored to your situation.
+:::
+
 ## Due Diligence Applications
 
 ### Proposal Comparison
@@ -319,17 +359,23 @@ When comparing drafts or revisions:
 > - Ambiguous language that could cause disputes
 > - Anything I should negotiate before signing"
 
+---
+
 ## Tips for Better Comparisons
-- **Label your documents clearly** — "Q1 Report" vs "Q2 Report" or "Vendor A Proposal" vs "Vendor B Proposal"
-- **Specify what matters** — "Focus the comparison on cost and timeline" if those are your decision criteria
-- **Ask for a recommendation** — Don't just compare; ask AI to recommend based on your priorities
-- **Check for missing context** — "What information would you need to make a better comparison?"`,
+- **Label your documents clearly** -- "Q1 Report" vs "Q2 Report" or "Vendor A Proposal" vs "Vendor B Proposal"
+- **Specify what matters** -- "Focus the comparison on cost and timeline" if those are your decision criteria
+- **Ask for a recommendation** -- Don't just compare; ask AI to recommend based on your priorities
+- **Check for missing context** -- "What information would you need to make a better comparison?"
+
+:::warning
+AI comparisons are only as good as the documents you provide. If one vendor's proposal is detailed and another's is vague, AI will naturally favor the detailed one -- even if the vague one is the better choice. Always consider whether differences in the comparison reflect real differences or just differences in how thoroughly each party wrote their document.
+:::`,
           exercises: [
             {
               id: 'w5-u1-l3-e1',
               type: 'prompt-challenge',
               question: 'Find two articles or reports on the same topic from different sources. Use the triangulation prompt to compare them. What contradictions or gaps does AI find?',
-              hint: 'News articles work great for this — find two outlets covering the same story and compare their coverage, emphasis, and conclusions.',
+              hint: 'News articles work great for this -- find two outlets covering the same story and compare their coverage, emphasis, and conclusions.',
               xpBonus: 20,
             },
             {
@@ -366,18 +412,22 @@ When comparing drafts or revisions:
           order: 4,
           content: `# Creating Executive Briefs
 
-An executive brief is a short, decision-focused document that distills complex information for busy stakeholders. AI can turn your raw notes and data into polished briefs in minutes.
+An executive brief is a short, decision-focused document that distills complex information for busy stakeholders. The person reading it has 60 seconds and needs to know: what happened, what it means, and what they should do. AI can turn your raw notes and data into polished briefs in minutes.
+
+:::key
+BLUF -- Bottom Line Up Front -- is the single most important principle in executive communication. State the key message in the first 1-2 sentences. If the reader stops there, they should still know your recommendation. Everything else is supporting evidence.
+:::
 
 ## The Executive Brief Structure
 
 Every good brief follows this pattern:
 
-1. **Bottom Line Up Front (BLUF)** — The key message in 1-2 sentences
-2. **Background** — Just enough context (2-3 sentences)
-3. **Key Findings** — 3-5 bullet points with supporting data
-4. **Options/Recommendations** — What should we do?
-5. **Risks** — What could go wrong?
-6. **Next Steps** — Specific actions with owners and deadlines
+1. **Bottom Line Up Front (BLUF)** -- The key message in 1-2 sentences
+2. **Background** -- Just enough context (2-3 sentences)
+3. **Key Findings** -- 3-5 bullet points with supporting data
+4. **Options/Recommendations** -- What should we do?
+5. **Risks** -- What could go wrong?
+6. **Next Steps** -- Specific actions with owners and deadlines
 
 ## The Brief-Writing Prompt
 
@@ -385,13 +435,15 @@ Every good brief follows this pattern:
 > [paste notes, data, meeting minutes, research]
 >
 > Brief parameters:
-> - Audience: [who will read this — CEO, board, client, team]
+> - Audience: [who will read this -- CEO, board, client, team]
 > - Decision needed: [what decision does this brief support?]
 > - Length: [one page / two pages / 500 words]
 > - Tone: [formal / conversational / urgent]
 > - Format: Use BLUF structure (bottom line up front)
 >
 > Include specific numbers and data points. No fluff."
+
+---
 
 ## Tailoring for Different Audiences
 
@@ -407,6 +459,10 @@ Every good brief follows this pattern:
 ### For the Board
 > "Focus on strategic impact, financial implications, and competitive positioning. Include year-over-year comparisons."
 
+:::tip
+The most common mistake in executive briefs is burying the recommendation at the end. Busy executives read the first two sentences and decide whether to keep reading. If your recommendation is on page 2, they may never see it. Lead with the ask, then back it up with evidence.
+:::
+
 ## Turning Meeting Notes into Briefs
 
 This is one of the highest-value AI workflows:
@@ -421,12 +477,14 @@ This is one of the highest-value AI workflows:
 > 4. Action items (table: action, owner, deadline)
 > 5. Open issues requiring follow-up"
 
+---
+
 ## Iterating on Briefs
 
 After the first draft, refine with:
-- "Make it shorter — cut 30% without losing key points"
+- "Make it shorter -- cut 30% without losing key points"
 - "The audience pushes back on recommendations. Add a stronger data-backed argument for option B"
-- "Add a risk section — what happens if we do nothing?"
+- "Add a risk section -- what happens if we do nothing?"
 - "Convert the recommendations into a decision matrix with pros/cons for each option"
 
 ## Brief Quality Checklist
@@ -437,7 +495,11 @@ Ask AI to evaluate its own brief:
 > 2. Is every claim backed by data?
 > 3. Are the next steps specific and actionable?
 > 4. Would a skeptical reader find this convincing?
-> 5. Is there anything that could be cut without losing value?"`,
+> 5. Is there anything that could be cut without losing value?"
+
+:::warning
+Executive briefs that try to cover everything end up communicating nothing. The hardest part of writing a brief is deciding what to leave out. If your brief is longer than two pages, it is not a brief -- it is a report. Cut ruthlessly until every sentence earns its place.
+:::`,
           exercises: [
             {
               id: 'w5-u1-l4-e1',
@@ -490,15 +552,19 @@ Ask AI to evaluate its own brief:
           order: 1,
           content: `# Spreadsheet Analysis with AI
 
-You don't need to be an Excel guru. AI can analyze your data, write formulas, and explain what the numbers mean — all from a conversation.
+You don't need to be an Excel guru. AI can analyze your data, write formulas, and explain what the numbers mean -- all from a conversation. This is one of those capabilities that feels like magic the first time you use it, especially if spreadsheets have always felt intimidating.
+
+:::key
+The three-step data analysis workflow -- Describe, Analyze, Dig Deeper -- mirrors how professional data analysts work. Start broad to understand what you have, then zoom into what matters, then go deep on the most interesting finding. AI guides you through this process conversationally.
+:::
 
 ## Getting Data Into AI
 
 You can paste tabular data directly into AI in several formats:
-- **CSV** (comma-separated values) — works everywhere
-- **Markdown tables** — clean and readable
-- **Tab-separated text** — copy directly from Excel or Google Sheets
-- **Describe the data** — "I have a spreadsheet with columns: Date, Product, Units Sold, Revenue, Region"
+- **CSV** (comma-separated values) -- works everywhere
+- **Markdown tables** -- clean and readable
+- **Tab-separated text** -- copy directly from Excel or Google Sheets
+- **Describe the data** -- "I have a spreadsheet with columns: Date, Product, Units Sold, Revenue, Region"
 
 For large datasets, paste a sample (20-50 rows) and describe the full dataset's size and scope.
 
@@ -524,6 +590,8 @@ For large datasets, paste a sample (20-50 rows) and describe the full dataset's 
 > - What additional data would help confirm this pattern?
 > - What action should I take based on this?"
 
+---
+
 ## Formula Generation
 
 AI is exceptional at writing spreadsheet formulas:
@@ -538,6 +606,10 @@ AI is exceptional at writing spreadsheet formulas:
 > 5. Rank each sales rep by total revenue
 >
 > For each formula, explain what it does in plain English and which cell to put it in."
+
+:::tip
+When asking AI for spreadsheet formulas, always describe your column layout (A=Date, B=Name, etc.) and specify whether you use Google Sheets or Excel. The formula syntax differs slightly between them, and getting this wrong means the formula will not work when you paste it in.
+:::
 
 ## Anomaly Detection
 
@@ -561,8 +633,13 @@ AI is exceptional at writing spreadsheet formulas:
 >
 > [paste messy data]"
 
+---
+
 ## Important Caveat
-Always double-check AI's math on critical calculations. AI occasionally makes arithmetic errors, especially with complex multi-step calculations. For board-level or financial reporting, verify every number.`,
+
+:::warning
+Always double-check AI's math on critical calculations. AI occasionally makes arithmetic errors, especially with complex multi-step calculations. For board-level or financial reporting, verify every number. AI is excellent at identifying patterns and writing formulas, but treat its calculations as drafts that need verification.
+:::`,
           exercises: [
             {
               id: 'w5-u2-l1-e1',
@@ -605,7 +682,11 @@ Always double-check AI's math on critical calculations. AI occasionally makes ar
           order: 2,
           content: `# Trend Spotting & Forecasting
 
-AI helps you see the forest, not just the trees. It can identify trends that take humans hours to spot and project them forward.
+AI helps you see the forest, not just the trees. When you are buried in daily numbers, it is easy to miss the bigger patterns. AI can identify trends that take humans hours to spot and project them forward -- giving you a head start on planning for what comes next.
+
+:::key
+Always present AI forecasts as scenarios, not predictions. AI forecasting is based on pattern recognition from historical data. It cannot predict black swan events, competitor actions, or regulatory changes. The value is in exploring possibilities and preparing for multiple futures -- not in having a crystal ball.
+:::
 
 ## Trend Analysis Fundamentals
 
@@ -630,6 +711,8 @@ AI helps you see the forest, not just the trees. It can identify trends that tak
 > - How strong is the seasonal effect vs the overall trend?
 > - What should I plan for given these patterns?"
 
+---
+
 ## Forecasting with AI
 
 ### Simple Projection
@@ -653,6 +736,12 @@ AI helps you see the forest, not just the trees. It can identify trends that tak
 > - Scenario C: We raise prices by 10%
 >
 > For each scenario, project revenue, costs, and profit for the next 4 quarters. State your assumptions clearly."
+
+:::tip
+Leading indicators -- metrics that predict future performance -- are far more valuable than lagging indicators that confirm what already happened. Website traffic, pipeline deals, and customer inquiries are leading. Revenue, churn rate, and profit margin are lagging. Ask AI to identify both types for your business so you can react before problems show up in your bottom line.
+:::
+
+---
 
 ## Leading vs Lagging Indicators
 
@@ -681,13 +770,9 @@ AI helps you see the forest, not just the trees. It can identify trends that tak
 
 ## The Forecasting Caveat
 
-AI forecasting is based on pattern recognition from historical data. It cannot predict:
-- Black swan events (pandemic, market crash)
-- Competitor actions you don't know about
-- Regulatory changes
-- Viral moments or PR crises
-
-Always present AI forecasts as **scenarios**, not predictions. The value is in exploring possibilities, not in having a crystal ball.`,
+:::warning
+AI forecasting cannot predict black swan events (pandemic, market crash), competitor actions you don't know about, regulatory changes, or viral moments and PR crises. Always present AI forecasts as scenarios, not predictions. The value is in exploring possibilities, not in having a crystal ball.
+:::`,
           exercises: [
             {
               id: 'w5-u2-l2-e1',
@@ -743,11 +828,13 @@ Always present AI forecasts as **scenarios**, not predictions. The value is in e
           order: 3,
           content: `# Creating Dashboards & Reports with AI
 
-A good dashboard turns data into decisions. AI can design your dashboards, choose the right metrics, and even generate the reports that go with them.
+A good dashboard turns data into decisions. A bad dashboard drowns you in numbers and tells you nothing. AI can design your dashboards, choose the right metrics, and even generate the reports that go with them -- all starting from a conversation about what you actually need to know.
+
+:::key
+Most businesses track too many metrics. The important signals get lost in noise. Before building a dashboard, use AI to identify the 8-10 KPIs that actually matter for your specific business, stage, and current goals. If a metric would not change your behavior, it does not belong on your dashboard.
+:::
 
 ## KPI Selection
-
-Before building a dashboard, you need the right metrics. Most businesses track too many things and the important signals get lost.
 
 ### The KPI Design Prompt
 > "I run a [business type] with [X employees/revenue/customers]. We're currently focused on [key goal: growth / profitability / customer retention / etc.].
@@ -765,6 +852,8 @@ Before building a dashboard, you need the right metrics. Most businesses track t
 > 4. Measurement frequency (daily/weekly/monthly)
 > 5. Red/yellow/green thresholds"
 
+---
+
 ## Dashboard Layout Design
 
 > "Design a one-page executive dashboard layout for a [business type].
@@ -780,7 +869,11 @@ Before building a dashboard, you need the right metrics. Most businesses track t
 
 ## Automated Report Generation
 
-This is one of the highest-ROI AI workflows. Instead of spending hours writing a weekly report, create a template and let AI fill it in.
+This is one of the highest-ROI AI workflows. Instead of spending hours writing a weekly report, create a template and let AI fill it in with fresh data each period.
+
+:::tip
+Save your reporting prompts in a document. When you create a prompt that produces a great weekly report, keep it exactly as-is and reuse it every week with fresh data. Consistent prompts produce consistent reports, which makes week-over-week comparisons meaningful.
+:::
 
 ### Weekly Report Template
 > "Here's this week's raw data:
@@ -795,6 +888,8 @@ This is one of the highest-ROI AI workflows. Instead of spending hours writing a
 > 6. **Outlook** (what to expect next week)
 >
 > Tone: professional but direct. No fluff. Under 500 words."
+
+---
 
 ### Monthly Business Review
 > "Generate a monthly business review from this data:
@@ -818,13 +913,17 @@ This is one of the highest-ROI AI workflows. Instead of spending hours writing a
 | Monthly | Business review | Leadership | 30 minutes |
 | Quarterly | Strategic review | Board/Investors | 1-2 hours |
 
-The key is consistency. Create your templates once, then paste fresh data each period. AI handles the analysis and narrative — you handle the judgment calls and decisions.
+The key is consistency. Create your templates once, then paste fresh data each period. AI handles the analysis and narrative -- you handle the judgment calls and decisions.
 
 ## Tips
 - **Save your prompts**: Keep your reporting prompts in a document so they're consistent week to week
 - **Include context**: "This week we launched a new product" helps AI explain anomalies
 - **Ask for year-over-year**: Monthly comparisons miss seasonal effects; always include YoY where possible
-- **Iterate the template**: After a few weeks, refine what sections your audience actually reads`,
+- **Iterate the template**: After a few weeks, refine what sections your audience actually reads
+
+:::warning
+AI-generated reports are only as insightful as the data you feed them. If you provide raw numbers without context -- "we launched a new product this week" or "our main competitor dropped prices" -- the AI will miss the most important stories in your data. Always include qualitative context alongside quantitative data.
+:::`,
           exercises: [
             {
               id: 'w5-u2-l3-e1',
@@ -867,7 +966,11 @@ The key is consistency. Create your templates once, then paste fresh data each p
           order: 4,
           content: `# Data Visualization Prompts
 
-AI can't generate charts directly in most chat interfaces — but it can tell you exactly what to build, write the code to create it, and even generate chart specs you can paste into tools.
+AI can't generate charts directly in most chat interfaces -- but it can tell you exactly what to build, write the code to create it, and even generate chart specs you can paste into tools. The real skill is knowing which chart type tells which story.
+
+:::key
+Charts are only half the equation. The story you tell with them matters more. A chart without a narrative is just a picture. A chart with a clear "here is what this means and here is what you should do about it" is a decision tool.
+:::
 
 ## Choosing the Right Chart Type
 
@@ -888,13 +991,15 @@ AI can't generate charts directly in most chat interfaces — but it can tell yo
 | Process flow | Sankey diagram or funnel |
 | Multiple metrics at once | Dashboard with small multiples |
 
+---
+
 ## Detailed Chart Specifications
 
 > "Create a detailed specification for a chart showing [what]:
 > - Chart type and rationale
 > - X-axis: label, scale, range, tick marks
 > - Y-axis: label, scale, range
-> - Data series to include (with colors — suggest hex codes)
+> - Data series to include (with colors -- suggest hex codes)
 > - Title and subtitle
 > - Key annotations to highlight (peaks, drops, milestones)
 > - Legend placement
@@ -925,9 +1030,13 @@ If you can run code, AI can generate publication-quality charts:
 > Data: [paste or describe]
 > Features: tooltips on hover, responsive sizing, clean design."
 
-## Data Storytelling
+:::tip
+When asking AI to generate visualization code, always specify the tool and include sample data. "Create a chart" is vague. "Write Python code using matplotlib to create a grouped bar chart comparing Q1 vs Q2 revenue for these 5 product categories: [paste data]" gives AI everything it needs to produce working code on the first try.
+:::
 
-Charts are only half the equation. The story you tell with them matters more.
+---
+
+## Data Storytelling
 
 > "I have this chart showing [describe the chart and data]:
 > Write a 3-paragraph data story that:
@@ -946,18 +1055,15 @@ Ask AI to audit your chart choices:
 > - How could I improve the visualization?
 > - What common mistakes should I avoid?"
 
-Common pitfalls AI will catch:
-- Pie charts with too many segments (use bar chart instead)
-- Truncated Y-axis that exaggerates differences
-- 3D charts that distort proportions
-- Missing context (no title, no units, no time period)
-- Color choices that are inaccessible to colorblind viewers`,
+:::warning
+These are the most common chart mistakes AI will catch: pie charts with too many segments (use bar chart instead), truncated Y-axis that exaggerates differences, 3D charts that distort proportions, missing context (no title, no units, no time period), and color choices that are inaccessible to colorblind viewers. Always ask AI to review your visualization choices before building them.
+:::`,
           exercises: [
             {
               id: 'w5-u2-l4-e1',
               type: 'prompt-challenge',
               question: 'Describe a dataset you work with and ask AI to recommend the best visualization approach. Then ask for a detailed chart specification. Does the recommendation make sense for your audience?',
-              hint: 'Include details about who will see the chart (technical vs executive) — this changes everything about the recommendation.',
+              hint: 'Include details about who will see the chart (technical vs executive) -- this changes everything about the recommendation.',
               xpBonus: 15,
             },
             {

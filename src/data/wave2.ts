@@ -27,6 +27,8 @@ export const wave2: Wave = {
 
 A prompt is your instruction to the AI. Think of it like giving directions to a stranger in a new city -- the more precise and clear your directions, the faster they get where you want them to go. The difference between a mediocre and exceptional AI user almost always comes down to prompt quality.
 
+:::youtube eMlx5fFNoYc Watch: 3Blue1Brown — Attention in transformers (understanding why specificity matters)
+
 :::key
 The single biggest lever you have over AI output quality is your prompt. Better prompts do not require technical skills -- they require clear thinking.
 :::
@@ -318,6 +320,8 @@ Choose your examples carefully. If all your few-shot examples are straightforwar
           content: `# Chain of Thought Prompting
 
 Want AI to solve complex problems reliably? Four words can transform the quality of the output: "Think step by step." This simple technique dramatically improves reasoning on any task that involves multiple steps, calculations, or logical dependencies.
+
+:::youtube 9-Jl0dxWQs8 Watch: 3Blue1Brown — How might LLMs store facts (why step-by-step helps reasoning)
 
 :::key
 Chain of thought (CoT) prompting forces the AI to show its work rather than jumping straight to an answer. This single technique reduces reasoning errors more than almost any other prompting strategy.

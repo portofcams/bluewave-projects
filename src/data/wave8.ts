@@ -30,7 +30,11 @@ export const wave8: Wave = {
           order: 1,
           content: `# Building an AI Roadmap for Your Business
 
-An AI roadmap transforms vague excitement about AI into a concrete plan with priorities, timelines, and measurable outcomes. This is the skill that separates AI users from AI leaders.
+An AI roadmap transforms vague excitement about AI into a concrete plan with priorities, timelines, and measurable outcomes. Without a roadmap, AI adoption is random -- people try tools, get inconsistent results, and the whole effort fizzles. With a roadmap, you build momentum through quick wins and scale strategically.
+
+:::key
+The prioritization matrix -- plotting AI opportunities on Impact vs. Feasibility -- is the single most important tool in this lesson. High Impact + High Feasibility opportunities are your quick wins. Start there, prove value, and use that momentum to fund the bigger bets.
+:::
 
 ## The AI Readiness Assessment
 
@@ -79,6 +83,8 @@ Plot on a 2x2 matrix:
 - **High Impact + Low Feasibility** = Plan for (Strategic Bets)
 - **Low Impact + High Feasibility** = Nice to have (Fill-in projects)
 - **Low Impact + Low Feasibility** = Skip (Distractions)
+
+---
 
 ## The Phased Roadmap
 
@@ -135,7 +141,13 @@ Different audiences need different messages:
 ### For the Team
 > "We're adopting AI tools to handle the tedious parts of your job so you can focus on the work that matters. You'll be trained on [tool] starting [date]. This isn't about replacing anyone — it's about making your work life better."
 
+---
+
 ## Common Roadmap Mistakes
+
+:::warning
+The most common roadmap mistake is trying to AI-enable everything at once. If Phase 1 takes 6 months, you will lose organizational support long before you can show results. Start small, prove value fast, and expand from a position of demonstrated success.
+:::
 
 1. **Boiling the ocean**: Trying to AI-enable everything at once
 2. **No quick wins**: If Phase 1 takes 6 months, you'll lose support
@@ -184,7 +196,11 @@ Different audiences need different messages:
           order: 2,
           content: `# AI ROI Analysis
 
-"We should use AI" is an opinion. "AI will save us $4,200/month with a 3-month payback period" is a business case. This lesson teaches you to build the business case.
+"We should use AI" is an opinion. "AI will save us $4,200/month with a 3-month payback period" is a business case. This lesson teaches you to build the business case -- because in business, the person with numbers wins the argument.
+
+:::key
+ROI = (Value Created - Total Cost) / Total Cost x 100%. Simple formula, but the devil is in the details of calculating "value created" and "total cost." Most people overestimate value and underestimate cost. This lesson teaches you to be honest about both.
+:::
 
 ## The AI ROI Formula
 
@@ -246,7 +262,14 @@ Simple, but the devil is in the details of calculating "value created" and "tota
 - **Maintenance**: Ongoing prompt tuning, knowledge base updates, monitoring
 - **Change management**: Communication, documentation, support
 
+---
+
 ### Often-Missed Costs
+
+:::warning
+Verification time is the most commonly overlooked cost in AI initiatives. In the early months, humans will need to check AI output carefully. This verification time can eat up 30-50% of the time savings, making your actual ROI much lower than projected. Factor it in from the start and watch it decrease as the system proves itself.
+:::
+
 - **Verification time**: Humans checking AI output (especially early on)
 - **Error recovery**: Cost of fixing AI mistakes
 - **Opportunity cost**: What could the team be doing instead of AI setup?
@@ -290,7 +313,13 @@ Simple, but the devil is in the details of calculating "value created" and "tota
 | Custom sales agent | $500 (tools + API + setup amortized) | $5,000 (revenue increase) | 900% | 3 days |
 | Full department automation | $2,000 (tools + API + maintenance) | $8,000 (160 hrs saved) | 300% | 1 month |
 
+---
+
 ## The Honest Conversation
+
+:::tip
+Credibility comes from honest analysis, not AI hype. Being able to say "this AI initiative does not have good ROI" is more valuable than pitching every project as a slam dunk. The person who kills bad ideas early saves the organization more money than the person who launches everything and hopes for the best.
+:::
 
 Not every AI initiative has good ROI. Be willing to say:
 - "This would save time but not enough to justify the setup cost"
@@ -340,7 +369,11 @@ Credibility comes from honest analysis, not AI hype.`,
           order: 3,
           content: `# Choosing the Right AI Tools
 
-The AI tool market is overwhelming — hundreds of tools, each promising to transform your business. This lesson gives you a systematic framework for cutting through the noise.
+The AI tool market is overwhelming -- hundreds of tools, each promising to transform your business. New ones launch every week. Choosing based on marketing materials is a recipe for wasted money and shelfware. This lesson gives you a systematic framework for cutting through the noise and picking tools that actually fit.
+
+:::key
+The "Good Enough" Principle: don't spend weeks evaluating tools when a good-enough option exists today. The best tool is the one that solves your problem adequately, your team will actually use, you can afford, and you can switch away from later if needed. Perfect is the enemy of done.
+:::
 
 ## The Tool Evaluation Framework
 
@@ -387,9 +420,15 @@ Rate each tool on these criteria (1-5):
 | Community/support | 5% | | | |
 | **Weighted Total** | | | | |
 
+---
+
 ### Step 4: The Real-World Test
 
-Never buy based on demos or feature lists alone. Run a real test:
+:::warning
+Never buy based on demos or feature lists alone. Demos show best-case scenarios with cherry-picked data. Your data is messier, your use cases are more complex, and your team has different skills than the demo presenter. Always run your own test with your own data.
+:::
+
+Run a real test:
 
 1. **Prepare 10 test cases** from your actual work
 2. **Run them through each tool** being evaluated
@@ -491,7 +530,11 @@ Perfect is the enemy of done. Start with good enough and optimize later.`,
           order: 4,
           content: `# Managing AI Projects
 
-AI projects fail at a high rate — research suggests 50-85% of AI initiatives don't reach production. Not because the technology fails, but because the project management fails. Here's how to be in the successful minority.
+AI projects fail at a high rate -- research suggests 50-85% of AI initiatives don't reach production. Not because the technology fails, but because the project management fails. Unclear goals, scope creep, insufficient training, and no maintenance plan are what kill AI projects. Here's how to be in the successful minority.
+
+:::key
+The pilot approach is non-negotiable. Never go straight to full deployment. Pick 3-5 willing users, set a 30-day time limit, define kill criteria, and measure everything. If the pilot fails, you invested $450 instead of $45,000. If it succeeds, you have data to justify scaling.
+:::
 
 ## Why AI Projects Fail
 
@@ -564,9 +607,15 @@ Never go straight to full deployment. Always pilot first:
 4. **Measure everything**: Time saved, error rate, user satisfaction, cost
 5. **Decide**: Scale, iterate, or stop
 
+---
+
 ## Change Management for AI
 
-People resist change — even good change. Here's how to manage the human side:
+:::tip
+The biggest barrier to AI adoption is never the technology -- it is people. Frame AI adoption not as "we are adding AI" but as "we are eliminating the report you hate doing every Friday." When people see AI as solving their personal pain points rather than as a corporate initiative, adoption happens naturally.
+:::
+
+People resist change -- even good change. Here's how to manage the human side:
 
 ### Before Launch
 - **Communicate the "why"**: Not "we're adding AI" but "we're eliminating the report you hate doing every Friday"
@@ -678,7 +727,11 @@ People resist change — even good change. Here's how to manage the human side:
           order: 1,
           content: `# Capstone Project: Design an AI System
 
-This is your final project. You'll design a comprehensive AI system for a real business — combining strategy, tool selection, workflow design, agent creation, and ROI analysis.
+This is your final project. Everything you have learned across all eight waves comes together here. You will design a comprehensive AI system for a real business -- combining strategy, tool selection, workflow design, agent creation, and ROI analysis into a document you could actually present to a leadership team.
+
+:::key
+Choose Scenario D (your own business) if at all possible. The capstone produces the most valuable output when it is based on real problems you actually face. You will walk away with a usable AI roadmap, not just a course assignment.
+:::
 
 ## The Assignment
 
@@ -738,7 +791,13 @@ For your #1 priority initiative:
 - Mitigation plan for each risk
 - Kill criteria: When to stop
 
+---
+
 ## Quality Standards
+
+:::warning
+The most common capstone mistake is being vague about numbers. "Significant time savings" is not a business case. "$4,200/month in labor savings with a 2-week payback period" is a business case. If you cannot attach a specific number to a claim, either research it or explicitly mark it as an estimate.
+:::
 
 Your project will be evaluated on:
 - **Specificity**: Real numbers, real tools, real timelines (not "some AI tool" or "significant savings")
@@ -790,7 +849,11 @@ Your project will be evaluated on:
           order: 2,
           content: `# Present Your AI Strategy
 
-Even the best AI plan fails if you can't communicate it effectively. This lesson teaches you to present your capstone project as a compelling business case.
+Even the best AI plan fails if you can't communicate it effectively. You could design the perfect AI system, but if you cannot convince stakeholders to fund it, it stays on paper. This lesson teaches you to present your capstone project as a compelling business case that gets a "yes."
+
+:::key
+Lead with the problem, not the solution. Get heads nodding before you pitch anything. Nobody cares about "LLMs" or "RAG" -- they care about faster response times, lower costs, and happier customers. Frame everything in terms of business outcomes, never in terms of technology features.
+:::
 
 ## The Executive Presentation Structure
 
@@ -848,7 +911,13 @@ Be explicit about what you need.
 
 **Rules**: Small ask first. Lower the barrier to "yes."
 
+---
+
 ## Handling Objections
+
+:::tip
+Prepare responses for objections before the meeting, not during it. The five objections listed below cover 90% of what you will hear. Practice your responses until they feel natural. A confident, prepared answer to a tough question builds more credibility than any slide deck.
+:::
 
 ### "AI will replace our team"
 > "This replaces the sorting and drafting — the tedious parts. It frees the team to do what they're actually good at: solving complex problems and building relationships with customers. No headcount reduction planned."
@@ -926,7 +995,11 @@ After implementation: the email arrives, AI reads it in 2 seconds, classifies it
           order: 3,
           content: `# Peer Review & Iteration
 
-The best AI strategies are pressure-tested by smart people asking hard questions. This lesson teaches you to give and receive constructive feedback on AI plans.
+The best AI strategies are pressure-tested by smart people asking hard questions. A plan that has never been challenged is a plan with hidden weaknesses. This lesson teaches you to give and receive constructive feedback on AI plans -- and to use that feedback to make your strategy bulletproof.
+
+:::key
+The self-review checklist is your first line of defense. Before asking anyone else to review your work, evaluate it yourself against the checklist. The two hardest questions: "Am I recommending AI because it is the best solution, or because this is an AI course?" and "Would I bet my own money on this ROI estimate?" Be brutally honest.
+:::
 
 ## The Peer Review Framework
 
@@ -963,6 +1036,8 @@ When reviewing someone else's AI strategy (or asking others to review yours), as
 - Are costs comprehensive (including hidden costs)?
 - Has sensitivity analysis been done?
 - Would you invest your own money based on this analysis?
+
+---
 
 ## How to Give Good Feedback
 
@@ -1016,7 +1091,13 @@ Before asking for peer review, evaluate your own work:
 - [ ] Have I included what I'd do if this doesn't work?
 - [ ] Is my presentation clear enough for a non-technical stakeholder?
 
+---
+
 ## The Final Iteration
+
+:::tip
+Ask an AI to play the role of a skeptical CFO reviewing your plan. Prompt it to challenge every assumption, number, and timeline. This "AI stress test" catches weaknesses that self-review misses, and it prepares you for the real questions you will face when presenting to stakeholders.
+:::
 
 After receiving feedback, make one final pass through your capstone:
 

@@ -148,6 +148,34 @@ function parseMarkdown(content: string, waveColor: string): React.ReactNode[] {
 
     if (line.trim() === '') { i++; continue; }
 
+    // YouTube embed: :::youtube VIDEO_ID optional caption
+    const ytMatch = line.trim().match(/^:::youtube\s+([a-zA-Z0-9_-]+)\s*(.*)?$/);
+    if (ytMatch) {
+      const videoId = ytMatch[1];
+      const caption = ytMatch[2]?.trim() || '';
+      elements.push(
+        <AnimatedSection key={nextKey()} delay={sectionIndex * 0.03}>
+          <div className="my-8">
+            <div className="relative rounded-xl overflow-hidden border border-white/10 shadow-lg" style={{ paddingBottom: '56.25%' }}>
+              <iframe
+                className="absolute inset-0 w-full h-full"
+                src={`https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1`}
+                title="Video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+            {caption && (
+              <p className="mt-3 text-center text-sm text-white/40 italic">{caption}</p>
+            )}
+          </div>
+        </AnimatedSection>
+      );
+      i++;
+      sectionIndex++;
+      continue;
+    }
+
     // Callout blocks: :::tip / :::key / :::warning / :::example / :::try
     if (line.trim().startsWith(':::')) {
       const type = line.trim().slice(3).trim().toLowerCase();

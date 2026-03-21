@@ -34,6 +34,8 @@ Artificial Intelligence (AI) is software that can perform tasks that normally re
 
 But here's the thing most people get wrong: AI isn't new. It's been around since the 1950s. What *is* new is how shockingly useful it's become — practically overnight.
 
+:::youtube aircAruvnKk Watch: 3Blue1Brown — But what is a Neural Network? (the visual foundation for understanding AI)
+
 :::key
 AI is not a sentient being. It's a tool — like a calculator for language. It doesn't "think" or "want" anything. It predicts the most likely helpful response based on patterns in data.
 :::
@@ -137,6 +139,8 @@ AI can sound extremely confident while being completely wrong. This is called **
 
 You don't need to be a data scientist to understand LLMs. Here's the simplified version — and once you get this, everything else in this course makes more sense.
 
+:::youtube LPZh9BOjkQs Watch: 3Blue1Brown — Large Language Models explained briefly (excellent visual walkthrough)
+
 ## Training: Reading the Internet
 
 An LLM is trained by reading billions of pages of text — books, websites, articles, code, conversations. During training, it learns **patterns**: what words tend to follow other words, how sentences are structured, what facts are commonly stated.
@@ -160,6 +164,8 @@ This seems obvious to you, but for a computer to figure this out automatically �
 :::
 
 This ability to track relationships across long passages is what makes modern AI so capable. Before Transformers (2017), AI could barely handle a single paragraph. Now it can reason across 100,000+ words.
+
+:::youtube wjZofJX0v4M Watch: 3Blue1Brown — Transformers, the tech behind LLMs (deep dive into attention)
 
 ---
 

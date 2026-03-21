@@ -30,7 +30,11 @@ export const wave6: Wave = {
           order: 1,
           content: `# What Are AI Agents?
 
-You've been using AI as a chat tool — you ask, it answers. An AI **agent** goes further. It can take actions, use tools, make decisions, and work autonomously toward a goal.
+You've been using AI as a chat tool -- you ask, it answers. An AI **agent** goes further. It can take actions, use tools, make decisions, and work autonomously toward a goal. Think of the difference this way: a chatbot is like texting a knowledgeable friend. An agent is like hiring a capable employee who goes off and gets work done without you hovering over their shoulder.
+
+:::key
+Stop thinking "What question should I ask AI?" and start thinking "What job could I delegate to AI?" That mindset shift is the entire difference between using chatbots and building agents. Agents handle tasks, not just questions.
+:::
 
 ## Chatbot vs Agent
 
@@ -95,6 +99,8 @@ The rules, personality, and goals you give the agent. This is where you define:
 - What tools it has access to
 - What quality standards to follow
 
+---
+
 ## Why Agents Matter Now
 
 In 2024-2025, the infrastructure for building agents became accessible to non-developers:
@@ -110,10 +116,14 @@ Stop thinking: "What question should I ask AI?"
 Start thinking: "What job could I delegate to AI?"
 
 The best agents handle tasks that are:
-- **Repetitive** — you do them the same way every time
-- **Rule-based** — there are clear steps and decision criteria
-- **Time-consuming** — they eat up hours of your week
-- **Low-risk** — a mistake won't cause serious harm (or there's a human review step)`,
+- **Repetitive** -- you do them the same way every time
+- **Rule-based** -- there are clear steps and decision criteria
+- **Time-consuming** -- they eat up hours of your week
+- **Low-risk** -- a mistake won't cause serious harm (or there's a human review step)
+
+:::tip
+Start your agent journey by listing every task you do that follows a predictable pattern. If you can write instructions for it, an agent can probably do it. The best first agent is always the task you dread most -- the one you procrastinate on every week because it is tedious but necessary.
+:::`,
           exercises: [
             {
               id: 'w6-u1-l1-e1',
@@ -162,7 +172,11 @@ The best agents handle tasks that are:
           order: 2,
           content: `# Agent Architectures & Patterns
 
-Not all agents are built the same. Understanding the common patterns helps you design the right agent for each job.
+Not all agents are built the same. Understanding the common patterns helps you design the right agent for each job. Picking the wrong architecture is like hiring a specialist for a generalist role -- you will get frustrated and the agent will underperform.
+
+:::key
+The five agent patterns -- Single-Purpose, Router, Chain-of-Thought, Reactive, and Collaborative Team -- cover virtually every business automation scenario. Knowing which pattern fits your situation saves you from overengineering simple tasks or underbuilding complex ones.
+:::
 
 ## Pattern 1: The Single-Purpose Agent
 
@@ -239,7 +253,13 @@ Each agent passes its output to the next. A human approves at key checkpoints.
 | Need to watch for events and respond | Reactive Agent |
 | Complex workflow with multiple skill sets | Collaborative Agent Team |
 
+---
+
 ## The Human-in-the-Loop Principle
+
+:::warning
+Never deploy an agent without a human review step for high-stakes actions. Agents that send emails, process payments, or modify customer data should always have a human checkpoint -- at least until you have months of evidence that the agent handles edge cases correctly.
+:::
 
 The best agent architectures include human checkpoints:
 - **Review before sending**: Agent drafts, human approves
@@ -291,7 +311,11 @@ Start with more human oversight and reduce it as you build trust in the agent's 
           order: 3,
           content: `# Tool Use & Function Calling
 
-The difference between a chatbot and an agent is tools. Tools give agents the ability to *do things* in the real world — not just talk about doing things.
+The difference between a chatbot and an agent is tools. Tools give agents the ability to *do things* in the real world -- not just talk about doing things. A chatbot can tell you it would be a good idea to check your CRM. An agent with tools actually opens your CRM, looks up the customer, and tells you what it found.
+
+:::key
+The key insight about tool use: the agent decides which tools to use and in what order based on the request. You do not program each step -- you give it tools and let it figure out the workflow. This is what makes agents fundamentally different from traditional automation scripts.
+:::
 
 ## What Are Agent Tools?
 
@@ -356,7 +380,13 @@ You don't need to write code to give agents tools. Modern platforms handle this:
 
 The principle is always the same: define what the agent can access, set boundaries, and let it decide when to use each tool.
 
+---
+
 ## Security Considerations
+
+:::warning
+When you give agents access to tools, you are giving them capabilities that can affect real systems and real people. A misconfigured tool can send emails to the wrong customer, delete records, or run up API bills. Start with read-only access, add write access only after thorough testing, and always maintain audit logs.
+:::
 
 When you give agents access to tools, you're giving them *capabilities*. Be thoughtful:
 
@@ -413,7 +443,11 @@ When you give agents access to tools, you're giving them *capabilities*. Be thou
           order: 4,
           content: `# Agent Memory & Knowledge
 
-A chatbot forgets everything when you close the window. A well-built agent remembers your preferences, learns from past interactions, and has deep knowledge of your domain.
+A chatbot forgets everything when you close the window. A well-built agent remembers your preferences, learns from past interactions, and has deep knowledge of your domain. Memory is what transforms a generic AI tool into something that feels like a team member who actually knows your business.
+
+:::key
+There are four types of agent memory -- context (short-term conversation), knowledge base (uploaded documents), conversation memory (cross-session recall), and RAG (retrieval-augmented generation for large document sets). Understanding which type you need determines which platform and approach to use.
+:::
 
 ## Types of Agent Memory
 
@@ -504,7 +538,13 @@ Structure matters more than volume. A well-organized 10-page document beats a me
 - Memory updates in real-time as data changes
 - Best for agents that need current information
 
+---
+
 ## The Knowledge Maintenance Problem
+
+:::warning
+Agents are only as good as their knowledge. If your procedures change and the knowledge base does not, the agent gives wrong answers -- confidently. This is worse than having no agent at all, because people trust the agent's output.
+:::
 
 Agents are only as good as their knowledge. If your procedures change and the knowledge base doesn't, the agent gives wrong answers.
 
@@ -566,7 +606,11 @@ Agents are only as good as their knowledge. If your procedures change and the kn
           order: 1,
           content: `# Building with Claude Projects
 
-Claude Projects is one of the easiest ways to create a custom AI agent. No code required — just configure, upload knowledge, and start chatting.
+Claude Projects is one of the easiest ways to create a custom AI agent. No code required -- just configure, upload knowledge, and start chatting. If you have been following along and thinking "this all sounds great, but when do I actually build something?" -- this is that lesson.
+
+:::key
+The system prompt is the single most important element of any agent. Get it right and your agent is a superstar. Get it wrong and it is a confused intern who gives inconsistent answers. Plan to spend 80% of your agent-building time on the system prompt and 20% on everything else.
+:::
 
 ## What is a Claude Project?
 
@@ -622,6 +666,8 @@ Gather and upload:
 
 **Format tip**: Use clear headings and structure in your documents. AI navigates well-organized documents much better than wall-of-text PDFs.
 
+---
+
 ### Step 4: Test Thoroughly
 Try these test scenarios:
 1. **Happy path**: Ask a straightforward question you know the docs cover
@@ -642,7 +688,11 @@ Based on testing:
 - **Be specific in your instructions**: "Be helpful" is vague. "When a customer asks about pricing, always present all three plans in a comparison table" is actionable.
 - **Include examples**: Show the agent what a good response looks like for common questions.
 - **Set boundaries explicitly**: "If asked about competitor products, respond: 'I'm specialized in Acme Corp products. For comparisons, I'd recommend checking independent review sites.'"
-- **Update regularly**: As your product changes, update the knowledge base and instructions.`,
+- **Update regularly**: As your product changes, update the knowledge base and instructions.
+
+:::try
+Build a Claude Project right now. Pick one narrow use case -- a customer FAQ bot, a writing assistant for your brand voice, or an internal policy advisor. Write the system prompt, upload 2-3 documents, and run 10 test questions. Time how long it takes from start to working agent. Most people are surprised it takes under 30 minutes.
+:::`,
           exercises: [
             {
               id: 'w6-u2-l1-e1',
@@ -691,7 +741,11 @@ Based on testing:
           order: 2,
           content: `# Building Custom GPTs
 
-OpenAI's Custom GPTs let you create specialized AI assistants that anyone can use. They support custom instructions, file uploads, web browsing, code execution, and even external API connections.
+OpenAI's Custom GPTs let you create specialized AI assistants that anyone can use. They support custom instructions, file uploads, web browsing, code execution, and even external API connections. Where Claude Projects excels at team-internal tools, Custom GPTs can be published to a marketplace -- opening up the possibility of building agents other people pay to use.
+
+:::key
+Custom GPTs and Claude Projects follow the same principles -- system prompt, knowledge base, and tool access. The main difference is distribution: Custom GPTs can be shared publicly through the GPT Store, while Claude Projects are designed for team use. Learn to build on one platform and the skills transfer directly to the other.
+:::
 
 ## Custom GPTs vs Claude Projects
 
@@ -770,7 +824,13 @@ Popular GPT categories:
 - Creative tools (design, music, storytelling)
 - Productivity tools (planning, organization, research)
 
+---
+
 ## Common Mistakes
+
+:::warning
+The most common Custom GPT mistake is making it too broad. "A GPT that helps with everything" helps with nothing. The most successful GPTs serve a narrow audience with deep expertise: "Tax Deduction Finder for Freelancers" will always outperform "General Business Helper."
+:::
 
 1. **Too broad**: "A GPT that helps with everything" helps with nothing. Be specific.
 2. **No guardrails**: Without explicit restrictions, GPTs will wander off-topic.
@@ -819,7 +879,11 @@ Popular GPT categories:
           order: 3,
           content: `# Crafting Effective System Prompts
 
-The system prompt is the DNA of your agent. Get it right and your agent is a superstar. Get it wrong and it's a confused intern. This lesson teaches you the framework for writing system prompts that produce reliable, high-quality agent behavior.
+The system prompt is the DNA of your agent. Get it right and your agent is a superstar. Get it wrong and it is a confused intern who gives different answers to the same question depending on the day. This lesson teaches you the CRISP framework for writing system prompts that produce reliable, high-quality agent behavior every time.
+
+:::key
+CRISP stands for Context, Role & Responsibilities, Instructions & Rules, Style & Tone, and Patterns & Examples. The "P" -- Patterns & Examples -- is the most commonly skipped section and arguably the most impactful. Showing the agent what a great response looks like is more powerful than any number of written rules.
+:::
 
 ## The System Prompt Framework (CRISP)
 
@@ -878,7 +942,13 @@ Show, don't just tell. Include examples of good responses:
 >
 > They\'ll get an email with a link to join. The invite expires in 7 days. Need help with anything else?'"
 
+---
+
 ## Advanced Techniques
+
+:::tip
+When your agent handles a situation poorly, the fix is almost always in the system prompt -- not in the model or the tools. Add a specific rule or example for that edge case. Over time, your system prompt becomes a comprehensive playbook that handles 95%+ of scenarios correctly.
+:::
 
 ### Handling Edge Cases
 > "If a customer asks about a feature we don't have:
@@ -953,7 +1023,11 @@ No system prompt is perfect on the first try. Follow this cycle:
           order: 4,
           content: `# Testing & Iterating on Agents
 
-Building an agent is 20% of the work. Testing and refining it is the other 80%. Here's a systematic approach to making your agents production-ready.
+Building an agent is 20% of the work. Testing and refining it is the other 80%. Most people stop after building and wonder why their agent is inconsistent. The teams that build great agents are the ones that test obsessively and refine based on real failures.
+
+:::key
+Target: 80%+ of your test responses should score 4 or 5 (out of 5) before going live. Below that threshold, your agent will frustrate users more often than it helps them. Test with at least 25 scenarios covering happy paths, edge cases, out-of-scope requests, and adversarial attempts.
+:::
 
 ## The Agent Testing Framework
 
@@ -982,6 +1056,8 @@ Target: 80%+ of responses should score 4 or 5 before going live.
 
 ### 3. Regression Testing
 After changing the system prompt or knowledge base, re-run your test suite. Improving one area sometimes breaks another.
+
+---
 
 ## Common Agent Failure Modes
 
@@ -1031,7 +1107,11 @@ Once your agent is live, monitor these metrics:
 
 ## When is an Agent "Done"?
 
-An agent is never truly done — just like employee training is never truly done. But here are milestones:
+:::warning
+An agent is never truly done -- just like employee training is never truly done. If you set up an agent and walk away, quality will degrade as your business changes, customer expectations shift, and the knowledge base goes stale. Plan for ongoing maintenance from day one.
+:::
+
+Here are the milestones to aim for:
 
 - **MVP**: Handles 80% of common requests correctly → ready for internal testing
 - **Beta**: Handles 90% correctly, gracefully redirects the other 10% → ready for limited users

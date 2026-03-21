@@ -30,7 +30,11 @@ export const wave4: Wave = {
           order: 1,
           content: `# Customer Service Automation
 
-AI can transform how you handle customer support. Companies using AI for customer service report 30-50% faster resolution times and significantly more consistent quality across agents.
+AI can transform how you handle customer support. Companies using AI for customer service report 30-50% faster resolution times and significantly more consistent quality across agents. But the real win is not just speed -- it is the ability to treat every customer like they are your only customer.
+
+:::key
+The golden rule of AI customer service: use AI to draft, humans to send. This combination gives you the speed of automation with the judgment of a real person. As trust builds, you can increase autonomy -- but never start on autopilot.
+:::
 
 ## Triage & Classification
 
@@ -44,11 +48,13 @@ The first step in any support workflow is sorting. AI does this instantly:
 > 4. 'Your app has been down for 3 hours and I'm losing business'
 > 5. 'What are your business hours?'"
 
-Why this matters: Proper triage means urgent issues get handled first, and tickets go to the right team member automatically.
+Why this matters: Proper triage means urgent issues get handled first, and tickets go to the right team member automatically. Without it, a customer losing money sits in the same queue as someone asking about business hours.
+
+---
 
 ## Response Templates
 
-Templates aren't lazy — they're consistent. AI creates them fast:
+Templates aren't lazy -- they are consistent. When your support team of five people all write their own responses from scratch, you get five different tones, five different levels of detail, and five different customer experiences. AI creates standardized templates fast:
 
 > "Create 5 customer service response templates for a [business type] covering:
 > 1. Acknowledging a complaint (empathetic, take ownership)
@@ -68,6 +74,16 @@ Sometimes agents write technically correct but emotionally tone-deaf responses. 
 > Original: 'Your refund has been processed. It will take 5-7 business days. Is there anything else?'
 >
 > Make it warmer without being over-the-top or fake."
+
+:::example
+Before: "Your refund has been processed. It will take 5-7 business days. Is there anything else?"
+
+After: "I completely understand how frustrating this has been, and I am glad we could get this resolved for you. Your refund has been processed and should appear in your account within 5-7 business days. If it does not show up by then, please reach out directly and I will personally track it down. Is there anything else I can help with?"
+
+Same information, completely different emotional impact.
+:::
+
+---
 
 ## Escalation Decision Framework
 
@@ -90,7 +106,9 @@ Turn your support history into a self-service resource:
 > 3. A clear FAQ answer for each that could be posted on our help center
 > 4. Three product/process improvements that would prevent these tickets entirely"
 
-That last item is gold — AI doesn't just answer questions, it finds the root cause.
+:::tip
+That last item -- identifying root causes -- is gold. AI does not just answer questions, it finds patterns across hundreds of tickets that would take a human days to notice. Use this to reduce ticket volume at the source, not just respond faster.
+:::
 
 ## The Sentiment Dashboard
 
@@ -105,15 +123,19 @@ That last item is gold — AI doesn't just answer questions, it finds the root c
 ## Pro Tips
 
 1. **Never let AI respond to customers directly** without human review (at least initially)
-2. **Use AI to draft, humans to send** — the best workflow for quality + speed
+2. **Use AI to draft, humans to send** -- the best workflow for quality + speed
 3. **Track which templates get the best satisfaction scores** and have AI improve the others
-4. **Feed positive reviews into your marketing** — ask AI to turn 5-star reviews into testimonial snippets`,
+4. **Feed positive reviews into your marketing** -- ask AI to turn 5-star reviews into testimonial snippets
+
+:::warning
+Customer service is high-stakes territory. An AI-generated response that misreads the situation -- joking when a customer is furious, or being overly casual about a billing error -- can do serious damage. Always have a human review loop, especially for negative or emotional messages.
+:::`,
           exercises: [
             {
               id: 'w4-u1-l1-e1',
               type: 'prompt-challenge',
               question: 'Create a set of 5 customer service templates for a business you know. Test them by asking AI to fill in the placeholders with a fictional scenario. Are they human-sounding or robotic?',
-              hint: 'The biggest trap is templates that sound like templates. Read them aloud — would you feel good receiving this response?',
+              hint: 'The biggest trap is templates that sound like templates. Read them aloud -- would you feel good receiving this response?',
               xpBonus: 20,
             },
             {
@@ -124,7 +146,7 @@ That last item is gold — AI doesn't just answer questions, it finds the root c
                 'Always, to be safe',
                 'When the customer uses ALL CAPS',
                 'When it involves legal threats, safety issues, or repeated unresolved contacts',
-                'Never — AI can handle everything'
+                'Never -- AI can handle everything'
               ],
               correctAnswer: 2,
               xpBonus: 5,
@@ -157,11 +179,15 @@ That last item is gold — AI doesn't just answer questions, it finds the root c
           order: 2,
           content: `# Data Entry & Extraction
 
-One of AI's genuine superpowers: turning messy, unstructured text into clean, structured data. Tasks that used to take an intern all day now take 30 seconds.
+One of AI's genuine superpowers: turning messy, unstructured text into clean, structured data. Tasks that used to take an intern all day now take 30 seconds. This is not a marginal improvement -- it is an order-of-magnitude change in how fast you can process information.
+
+:::key
+The pattern for data extraction is always the same: tell AI exactly what fields you want, exactly what format to use, and what to do when data is missing or ambiguous. Specificity in, accuracy out.
+:::
 
 ## Extracting Data from Text
 
-The basic pattern — tell AI what fields you want and what format to use:
+The basic pattern -- tell AI what fields you want and what format to use:
 
 > "Extract the following information from this email/document and format as JSON:
 > - Company name
@@ -177,6 +203,8 @@ The basic pattern — tell AI what fields you want and what format to use:
 >
 > Document: [paste text]"
 
+---
+
 ## Invoice Processing
 
 > "Extract line items from this invoice text and format as a table:
@@ -187,7 +215,9 @@ The basic pattern — tell AI what fields you want and what format to use:
 >
 > Invoice: [paste invoice text]"
 
-The "double-check the math" instruction is critical — AI sometimes misreads numbers.
+:::warning
+The "double-check the math" instruction is critical. AI sometimes misreads numbers, transposes digits, or gets confused by formatting. For any financial data extraction, always include a validation step and verify the totals yourself before acting on them.
+:::
 
 ## Business Card / Contact Parsing
 
@@ -197,6 +227,8 @@ The "double-check the math" instruction is critical — AI sometimes misreads nu
 > Format: CSV with columns: First Name, Last Name, Title, Company, Email, Phone, Address, LinkedIn URL
 >
 > If a card has multiple phone numbers, use the mobile number for the Phone column and note others in a Notes column."
+
+---
 
 ## The Batch Processing Pattern
 
@@ -214,6 +246,10 @@ For processing many items at once, always provide an example first:
 > 3. 'Dinner with client Sarah at Olive Garden $127.50 on 3/10'
 > 4. 'Paid quarterly insurance premium $2,400 to State Farm'
 > 5. 'Gas station fill-up $62.18 Shell on Highway 101'"
+
+:::tip
+Providing one example before the batch dramatically improves consistency. AI learns your expectations for format and detail level from that single example and applies it uniformly across all items. Without the example, you will get inconsistent formatting that takes time to clean up.
+:::
 
 ## Cleaning Messy Data
 
@@ -240,18 +276,18 @@ Real-world data is never clean. AI handles the mess:
 
 ## Tips for Accurate Extraction
 
-1. **Always specify the output format** (JSON, CSV, table, etc.) — ambiguity kills accuracy
-2. **Provide one example** for complex extractions — AI learns your expectations
+1. **Always specify the output format** (JSON, CSV, table, etc.) -- ambiguity kills accuracy
+2. **Provide one example** for complex extractions -- AI learns your expectations
 3. **Ask AI to flag uncertain extractions** with a confidence indicator
-4. **Always verify extracted numbers** — AI occasionally misreads or transposes digits
+4. **Always verify extracted numbers** -- AI occasionally misreads or transposes digits
 5. **For critical data, ask AI to double-check itself**: "Review your extraction above. Did you miss anything or make any errors?"
-6. **Chunk large datasets** — Process 20-50 items at a time, not 500`,
+6. **Chunk large datasets** -- Process 20-50 items at a time, not 500`,
           exercises: [
             {
               id: 'w4-u1-l2-e1',
               type: 'prompt-challenge',
-              question: 'Find a real receipt, invoice, or email with data in it. Use AI to extract all data into a structured JSON format. Check every field against the original — how accurate was the extraction?',
-              hint: 'Try a receipt with at least 5 line items. Check the math on totals — that\'s where AI most commonly makes mistakes.',
+              question: 'Find a real receipt, invoice, or email with data in it. Use AI to extract all data into a structured JSON format. Check every field against the original -- how accurate was the extraction?',
+              hint: 'Try a receipt with at least 5 line items. Check the math on totals -- that\'s where AI most commonly makes mistakes.',
               xpBonus: 20,
             },
             {
@@ -295,7 +331,11 @@ Real-world data is never clean. AI handles the mess:
           order: 3,
           content: `# Scheduling & Planning
 
-Scheduling is one of those tasks that feels simple but is secretly complex — multiple constraints, time zones, preferences, and conflicts. AI handles this complexity effortlessly.
+Scheduling is one of those tasks that feels simple but is secretly complex -- multiple constraints, time zones, preferences, and conflicts all colliding in a calendar that never has enough room. AI handles this complexity effortlessly because it can hold all the constraints in its head simultaneously, which is exactly what humans struggle with.
+
+:::key
+AI does not just schedule -- it optimizes. Tell it your energy patterns, your priorities, and your constraints, and it will build a schedule that puts deep work during your peak hours and routine tasks during your low-energy slots. Most people have never experienced a truly optimized schedule.
+:::
 
 ## Drafting Scheduling Emails
 
@@ -320,9 +360,11 @@ Bad meetings have no agenda. Good meetings have an AI-generated one:
 >
 > Include a 5-minute buffer for overrun and end with clear next steps."
 
+---
+
 ## Time Zone Coordination
 
-This is where AI genuinely shines — a task that's tedious for humans but trivial for AI:
+This is where AI genuinely shines -- a task that is tedious for humans but trivial for AI:
 
 > "I need to schedule a meeting with people in:
 > - New York (ET)
@@ -331,6 +373,10 @@ This is where AI genuinely shines — a task that's tedious for humans but trivi
 > - San Francisco (PT)
 >
 > Find 3 time slots that are during business hours (9am-5pm) for as many participants as possible. If no time works for all, suggest the best compromise and identify who would need to flex."
+
+:::tip
+For recurring international meetings, ask AI to factor in daylight saving time changes. The time slot that works in March might not work in November when some countries shift clocks and others do not. AI can flag these transitions for you.
+:::
 
 ## Weekly Planning
 
@@ -349,6 +395,8 @@ Turn your chaotic to-do list into an organized schedule:
 > - Leaves buffer time between meetings
 > - Includes breaks
 > - Has a realistic buffer for overrun (tasks always take longer than expected)"
+
+---
 
 ## Project Timeline Generation
 
@@ -382,11 +430,15 @@ For teams using agile methodology:
 
 ## Pro Tips
 
-1. **Always include buffer time** — ask AI to add 20% padding to estimates
-2. **State your energy patterns** — AI can optimize for when you do your best work
-3. **Include constraints explicitly** — "I can't do calls before 10am" or "Fridays are no-meeting days"
-4. **Ask for a Plan B** — "What if task X takes twice as long? Show me the adjusted timeline"
-5. **Review AI timelines with your team** — AI estimates are starting points, not commitments`,
+1. **Always include buffer time** -- ask AI to add 20% padding to estimates
+2. **State your energy patterns** -- AI can optimize for when you do your best work
+3. **Include constraints explicitly** -- "I can't do calls before 10am" or "Fridays are no-meeting days"
+4. **Ask for a Plan B** -- "What if task X takes twice as long? Show me the adjusted timeline"
+5. **Review AI timelines with your team** -- AI estimates are starting points, not commitments
+
+:::warning
+AI-generated timelines are optimistic by default. They assume everything goes smoothly, nobody gets sick, and no surprise requests come in. Always add buffer and treat AI timelines as best-case scenarios, not promises.
+:::`,
           exercises: [
             {
               id: 'w4-u1-l3-e1',
@@ -436,7 +488,11 @@ For teams using agile methodology:
           order: 4,
           content: `# Meeting Notes & Action Items
 
-Meetings are a goldmine of information buried under hours of conversation. AI extracts the gold and discards the small talk.
+Meetings are a goldmine of information buried under hours of conversation. Decisions get made, commitments get spoken aloud, and then everyone walks away and forgets half of what was said. AI extracts the gold and discards the small talk.
+
+:::key
+The highest-value AI workflow for meetings: paste messy notes or a transcript, get back a clean summary with decisions, action items (with owners and deadlines), and open questions. This single workflow can transform your team's execution.
+:::
 
 ## The Meeting Summary Prompt
 
@@ -447,12 +503,14 @@ Here are my raw notes from a [type] meeting on [date]:
 Attendees: [list]
 
 Create a professional meeting summary with:
-1. Meeting overview (1-2 sentences — what was the meeting about?)
+1. Meeting overview (1-2 sentences -- what was the meeting about?)
 2. Key decisions made (numbered, with who decided)
 3. Action items (who is doing what, by when)
 4. Open questions/parking lot items (things that need follow-up)
 5. Next meeting date and proposed agenda items
 \`\`\`
+
+---
 
 ## From Transcript to Action
 
@@ -467,6 +525,10 @@ If you have a full transcript (from Otter.ai, Teams, Zoom, Fireflies, etc.):
 >
 > Ignore small talk, pleasantries, and off-topic tangents.
 > Format the output so it could be pasted directly into Slack or email."
+
+:::tip
+Take rough notes during the meeting, polish with AI after. Do not try to write perfect notes live -- you will miss important points while you are writing. Capture keywords and phrases, then let AI turn them into professional documentation afterward.
+:::
 
 ## The Follow-Up Email Generator
 
@@ -494,6 +556,8 @@ After summarizing, automatically draft the follow-up:
 >
 > At the end, add a 'Team Summary' section: overall velocity, shared blockers, and items that need cross-team coordination."
 
+---
+
 ## Extracting Commitments
 
 People make commitments in meetings that they (and everyone else) forget:
@@ -503,6 +567,10 @@ People make commitments in meetings that they (and everyone else) forget:
 > | Person | Commitment | Context | Deadline (if mentioned) |
 >
 > Include implicit commitments too (e.g., 'I'll look into that' counts)."
+
+:::warning
+Implicit commitments -- casual statements like "I will look into that" or "let me check on it" -- are the most commonly dropped balls in any organization. AI catches them. A human reviewer misses them. Make it a habit to run the commitment extraction prompt after every important meeting.
+:::
 
 ## Building a Meeting Knowledge Base
 
@@ -518,11 +586,11 @@ Over time, meeting summaries become institutional memory:
 ## Tips for Better Meeting Documentation
 
 1. **Record meetings** (with permission) and use AI transcription tools
-2. **Take rough notes during the meeting**, polish with AI after — don't try to write perfect notes live
+2. **Take rough notes during the meeting**, polish with AI after -- don't try to write perfect notes live
 3. **Share the AI-cleaned version with attendees** for correction within 24 hours
 4. **Build a template once, reuse it for every meeting** of that type
-5. **Track action items in a separate system** (Asana, Notion, Jira) — meeting notes get buried
-6. **Review past meeting summaries before the next meeting** — AI can prep you in 2 minutes`,
+5. **Track action items in a separate system** (Asana, Notion, Jira) -- meeting notes get buried
+6. **Review past meeting summaries before the next meeting** -- AI can prep you in 2 minutes`,
           exercises: [
             {
               id: 'w4-u1-l4-e1',
@@ -587,7 +655,11 @@ Over time, meeting summaries become institutional memory:
           order: 1,
           content: `# Market Research with AI
 
-Hiring a market research firm costs $10K-50K and takes weeks. AI can give you a solid 80% of that insight in an afternoon. It won't replace a dedicated research team, but it gives you the foundation to make informed decisions fast.
+Hiring a market research firm costs $10K-50K and takes weeks. AI can give you a solid 80% of that insight in an afternoon. It will not replace a dedicated research team for deep, original research, but it gives you the foundation to make informed decisions fast -- and it is available right now, not in six weeks.
+
+:::key
+Think of AI as your junior analyst -- fast and helpful, but needs supervision. AI market research is a starting point for forming hypotheses, not the final answer for making bets. Always verify the most important data points with authoritative sources.
+:::
 
 ## Industry Overview Prompt
 
@@ -602,7 +674,9 @@ Hiring a market research firm costs $10K-50K and takes weeks. AI can give you a 
 >
 > Flag any data points you're uncertain about. Distinguish between well-established facts and your best estimates."
 
-That last instruction is crucial — it forces AI to be honest about what it knows vs. what it's guessing.
+That last instruction is crucial -- it forces AI to be honest about what it knows vs. what it's guessing.
+
+---
 
 ## Customer Persona Development
 
@@ -615,6 +689,10 @@ That last instruction is crucial — it forces AI to be honest about what it kno
 > - **Objections they'd have**: Top 3 reasons they'd say no
 > - **What makes them buy**: The trigger event or pain point that pushes them to act
 > - **Where they hang out**: Online communities, social platforms, publications they read"
+
+:::tip
+The "objections" and "what makes them buy" fields are the most valuable parts of a persona. They directly feed your marketing copy and sales conversations. If you only have time to fill in two fields, make it those two.
+:::
 
 ## Trend Analysis
 
@@ -642,15 +720,13 @@ That last instruction is crucial — it forces AI to be honest about what it kno
 >
 > For each, provide: price point, positioning statement, ideal customer, risks, and projected margins."
 
+---
+
 ## Important Caveat
 
-AI market research is a **starting point**, not the final answer. AI data may be outdated or imprecise. Always:
-- Verify market size numbers from industry reports (IBISWorld, Statista, CB Insights)
-- Check competitor info on their actual websites (AI data may be months or years old)
-- Validate customer assumptions with real customers (5 conversations beat 50 AI personas)
-- Use AI research to form hypotheses, then test them with real data
-
-Think of AI as your junior analyst — fast and helpful, but needs supervision.`,
+:::warning
+AI market research data may be outdated or imprecise. Always verify market size numbers from industry reports (IBISWorld, Statista, CB Insights). Check competitor info on their actual websites. Validate customer assumptions with real customers -- 5 conversations beat 50 AI personas. Use AI research to form hypotheses, then test them with real data.
+:::`,
           exercises: [
             {
               id: 'w4-u2-l1-e1',
@@ -662,7 +738,7 @@ Think of AI as your junior analyst — fast and helpful, but needs supervision.`
             {
               id: 'w4-u2-l1-e2',
               type: 'prompt-challenge',
-              question: 'Create 3 customer personas for a business you\'re familiar with. Show them to someone who actually sells to those customers — would they recognize these people as real?',
+              question: 'Create 3 customer personas for a business you\'re familiar with. Show them to someone who actually sells to those customers -- would they recognize these people as real?',
               hint: 'The more specific the business context you provide, the more realistic the personas. Vague input gives you generic "Marketing Mary" personas.',
               xpBonus: 20,
             },
@@ -673,8 +749,8 @@ Think of AI as your junior analyst — fast and helpful, but needs supervision.`
               options: [
                 'Publish it directly in your business plan',
                 'Verify key data points with authoritative sources before making decisions',
-                'Trust it completely — AI has access to all data',
-                'Ignore it — AI market research is never accurate'
+                'Trust it completely -- AI has access to all data',
+                'Ignore it -- AI market research is never accurate'
               ],
               correctAnswer: 1,
               xpBonus: 5,
@@ -682,7 +758,7 @@ Think of AI as your junior analyst — fast and helpful, but needs supervision.`
             {
               id: 'w4-u2-l1-e4',
               type: 'fill-blank',
-              question: 'Think of AI as your junior _______ — fast and helpful, but needs supervision.',
+              question: 'Think of AI as your junior _______ -- fast and helpful, but needs supervision.',
               correctAnswer: 'analyst',
               xpBonus: 5,
             }
@@ -700,7 +776,11 @@ Think of AI as your junior analyst — fast and helpful, but needs supervision.`
           order: 2,
           content: `# Competitive Analysis with AI
 
-Understanding your competition isn't optional — it's how you find your edge. AI helps you do it systematically instead of relying on gut feelings.
+Understanding your competition isn't optional -- it's how you find your edge. Most businesses have a vague sense of who their competitors are and what they do, but few have a systematic, data-driven view. AI helps you move from gut feelings to structured intelligence.
+
+:::key
+The enhanced SWOT analysis -- with strategies and early warning indicators -- is dramatically more useful than a standalone SWOT grid. A standard SWOT tells you where you stand. The enhanced version tells you what to do about it and how to see threats coming before they arrive.
+:::
 
 ## The Competitor Deep Dive
 
@@ -715,6 +795,8 @@ Understanding your competition isn't optional — it's how you find your edge. A
 > 6. **Customer sentiment**: What do reviews (G2, Trustpilot, App Store) suggest?
 > 7. **Growth signals**: Are they hiring? Raising money? Launching new products?
 > 8. **Opportunities for me**: Where could I differentiate or serve their unhappy customers?"
+
+---
 
 ## Feature Comparison Matrix
 
@@ -745,17 +827,21 @@ Understanding your competition isn't optional — it's how you find your edge. A
 > Then provide:
 > - 3 SO strategies (use Strengths to capture Opportunities)
 > - 3 WT strategies (address Weaknesses before Threats materialize)
-> - 1 'Early Warning' indicator for each Threat — what signal would tell you it's happening?"
+> - 1 'Early Warning' indicator for each Threat -- what signal would tell you it's happening?"
 
-The SWOT + strategy + early warning combination is dramatically more useful than a standalone SWOT grid.
+:::tip
+The SO and WT strategies are what make this SWOT actionable instead of academic. An SO strategy connects a specific strength to a specific opportunity: "Our fast customer onboarding (strength) positions us to capture the wave of companies switching from [competitor] after their price increase (opportunity)." That is something you can act on today.
+:::
+
+---
 
 ## Positioning Map
 
 > "Create a competitive positioning analysis for [your product] vs [competitor 1], [competitor 2], [competitor 3].
 >
 > Map each on two axes:
-> - X-axis: [dimension 1, e.g., Price — low to high]
-> - Y-axis: [dimension 2, e.g., Complexity — simple to enterprise]
+> - X-axis: [dimension 1, e.g., Price -- low to high]
+> - Y-axis: [dimension 2, e.g., Complexity -- simple to enterprise]
 >
 > For each quadrant of the map, describe:
 > - What type of customer lives there
@@ -766,7 +852,7 @@ The SWOT + strategy + early warning combination is dramatically more useful than
 
 ## Competitive Response Planning
 
-> "If [competitor] launches [specific initiative — e.g., drops prices 20%, launches a new feature, gets acquired], what should our response be?
+> "If [competitor] launches [specific initiative -- e.g., drops prices 20%, launches a new feature, gets acquired], what should our response be?
 >
 > Consider:
 > - Immediate actions (first 48 hours)
@@ -786,11 +872,15 @@ The SWOT + strategy + early warning combination is dramatically more useful than
 
 ## Pro Tips
 
-1. **Update your competitive analysis quarterly** — markets change fast
+1. **Update your competitive analysis quarterly** -- markets change fast
 2. **Set up Google Alerts** for competitor names and feed them to AI for analysis
-3. **Read competitor reviews** — their 1-star and 2-star reviews are your opportunity list
-4. **Don't just copy competitors** — understand their strategy so you can counter it
-5. **Remember AI's limitations** — it may not have the latest info; always verify`,
+3. **Read competitor reviews** -- their 1-star and 2-star reviews are your opportunity list
+4. **Don't just copy competitors** -- understand their strategy so you can counter it
+5. **Remember AI's limitations** -- it may not have the latest info; always verify
+
+:::warning
+AI competitive analysis is based on publicly available information, which may be outdated. A competitor could have changed their pricing, launched new features, or pivoted entirely since AI's training data was collected. Always check their current website and recent announcements before making strategic decisions.
+:::`,
           exercises: [
             {
               id: 'w4-u2-l2-e1',
@@ -803,7 +893,7 @@ The SWOT + strategy + early warning combination is dramatically more useful than
               id: 'w4-u2-l2-e2',
               type: 'prompt-challenge',
               question: 'Create a feature comparison matrix for 3 products/services in a space you know. Verify at least 5 data points against the actual company websites. How accurate was AI?',
-              hint: 'This is a great exercise in verifying AI output. Competitor features change constantly — AI data may be outdated.',
+              hint: 'This is a great exercise in verifying AI output. Competitor features change constantly -- AI data may be outdated.',
               xpBonus: 15,
             },
             {
@@ -823,7 +913,7 @@ The SWOT + strategy + early warning combination is dramatically more useful than
               id: 'w4-u2-l2-e4',
               type: 'free-response',
               question: 'Think about your biggest competitor. What are 2 things they do better than you, and 2 things you do better than them? How would you verify this with real customer data?',
-              hint: 'Be honest about competitor strengths — you can\'t counter what you don\'t acknowledge. Consider running a customer survey or checking review sites.',
+              hint: 'Be honest about competitor strengths -- you can\'t counter what you don\'t acknowledge. Consider running a customer survey or checking review sites.',
               xpBonus: 10,
             }
           ]
@@ -840,7 +930,11 @@ The SWOT + strategy + early warning combination is dramatically more useful than
           order: 3,
           content: `# Financial Planning & Analysis
 
-AI won't replace your accountant, but it will help you think through financial decisions faster and more thoroughly. Use it for modeling, scenario planning, and understanding your numbers.
+AI won't replace your accountant, but it will help you think through financial decisions faster and more thoroughly. The real power is not in the calculations -- a spreadsheet does math better. The power is in AI's ability to model scenarios, identify what you are not thinking about, and translate complex financial concepts into plain language.
+
+:::key
+Scenario planning is where AI truly excels in finance. Instead of building one forecast and hoping it is right, AI can model optimistic, realistic, and pessimistic futures in seconds. The pessimistic scenario is always the most valuable -- it reveals risks you have not prepared for.
+:::
 
 ## Revenue Projection Framework
 
@@ -861,9 +955,9 @@ AI won't replace your accountant, but it will help you think through financial d
 > - Average monthly profit margin
 > - Cash needed to reach profitability"
 
-## Scenario Planning
+---
 
-This is where AI truly excels — running multiple "what if" scenarios:
+## Scenario Planning
 
 > "Using the revenue model above, show me 3 scenarios:
 >
@@ -876,6 +970,10 @@ This is where AI truly excels — running multiple "what if" scenarios:
 > - Cash position each month
 > - Break-even timeline
 > - One action we should take NOW to prepare"
+
+:::tip
+When running the pessimistic scenario, always ask: "What if the pessimistic scenario is STILL too optimistic?" This forces you to think about truly bad outcomes -- and those are the ones you need contingency plans for. If your business survives the worst case, the realistic case will take care of itself.
+:::
 
 ## Pricing Decision Analysis
 
@@ -892,6 +990,8 @@ This is where AI truly excels — running multiple "what if" scenarios:
 > - We lose 0% (best case)
 >
 > For each scenario: what's the break-even point? How long until the new pricing generates more total revenue than the old?"
+
+---
 
 ## Expense Analysis
 
@@ -937,11 +1037,9 @@ This is where AI truly excels — running multiple "what if" scenarios:
 
 ## Important Disclaimers
 
-1. **AI projections are models, not predictions** — they're only as good as your assumptions
-2. **Always validate assumptions** against real data and industry benchmarks
-3. **Use AI for exploration, not final numbers** — your accountant/CFO should review anything important
-4. **AI doesn't know your specific tax situation** — don't use it for tax planning
-5. **Garbage in, garbage out** — wrong assumptions produce confidently wrong projections`,
+:::warning
+AI projections are models, not predictions -- they are only as good as your assumptions. Always validate assumptions against real data and industry benchmarks. Use AI for exploration, not final numbers. Your accountant or CFO should review anything important. Garbage in, garbage out: wrong assumptions produce confidently wrong projections.
+:::`,
           exercises: [
             {
               id: 'w4-u2-l3-e1',
@@ -968,7 +1066,7 @@ This is where AI truly excels — running multiple "what if" scenarios:
             {
               id: 'w4-u2-l3-e4',
               type: 'fill-blank',
-              question: 'AI projections are _______, not predictions — they are only as good as your assumptions.',
+              question: 'AI projections are _______, not predictions -- they are only as good as your assumptions.',
               correctAnswer: 'models',
               xpBonus: 5,
             }
@@ -986,17 +1084,21 @@ This is where AI truly excels — running multiple "what if" scenarios:
           order: 4,
           content: `# Hiring & HR Operations
 
-Hiring is one of the most high-stakes activities in any business. A bad hire costs 30-150% of their annual salary. AI helps you be more systematic, consistent, and thorough throughout the process.
+Hiring is one of the most high-stakes activities in any business. A bad hire costs 30-150% of their annual salary when you factor in recruiting costs, training time, lost productivity, and the disruption of eventually letting them go. AI helps you be more systematic, consistent, and thorough throughout the process -- from the job description to the 90-day review.
+
+:::key
+Use AI for the process, not the judgment. AI is a tool for creating consistent interview rubrics, generating thoughtful questions, and structuring evaluations. The final hiring decision must always be human -- AI can have biases from training data and cannot assess the intangibles that make someone a great fit for your specific team.
+:::
 
 ## Writing Job Descriptions
 
-Most job descriptions are terrible — they're either wishlists or copy-pasted from competitors. AI helps you write ones that attract the right people:
+Most job descriptions are terrible -- they are either wishlists or copy-pasted from competitors. AI helps you write ones that attract the right people:
 
 > "Write a job description for a [role] at [company type].
 >
 > About us: [2-3 sentences about your company, culture, mission]
-> Role purpose: [why this role exists — what problem does this person solve?]
-> Must-have skills: [non-negotiable requirements — keep this list SHORT]
+> Role purpose: [why this role exists -- what problem does this person solve?]
+> Must-have skills: [non-negotiable requirements -- keep this list SHORT]
 > Nice-to-have: [bonus skills that aren't dealbreakers]
 > Compensation: [range]
 > Work arrangement: [remote/hybrid/onsite]
@@ -1007,6 +1109,8 @@ Most job descriptions are terrible — they're either wishlists or copy-pasted f
 > - Avoids gendered language or unnecessary requirements (no 'rock star' or '10 years required' for a mid-level role)
 > - Makes someone excited to apply, not intimidated
 > - Includes 3 reasons why someone would WANT this job"
+
+---
 
 ## Screening Resumes
 
@@ -1024,7 +1128,9 @@ Most job descriptions are terrible — they're either wishlists or copy-pasted f
 >
 > Resume: [paste resume text]"
 
-**Important ethical note**: Use AI as a screening assistant, not a decision-maker. AI can have biases from training data. Always have humans make final hiring decisions.
+:::warning
+Use AI as a screening assistant, not a decision-maker. AI can have biases from training data -- it may unconsciously favor certain schools, companies, or phrasing patterns. Always have humans make final hiring decisions, and be mindful of protected characteristics. Never paste identifiable information into public AI tools; use enterprise versions for HR workflows.
+:::
 
 ## Interview Question Generation
 
@@ -1043,6 +1149,8 @@ Most job descriptions are terrible — they're either wishlists or copy-pasted f
 > - Questions designed to surface concerning patterns like: blame-shifting, inability to learn from mistakes, or dishonesty
 >
 > For each question, provide: what a great answer sounds like and what a red flag answer sounds like."
+
+---
 
 ## Interview Debrief
 
@@ -1085,6 +1193,10 @@ Most job descriptions are terrible — they're either wishlists or copy-pasted f
 >
 > Include a checklist the manager can use to track progress."
 
+:::tip
+The "red flag detector" questions in interviews are the most revealing. Open-ended questions like "Tell me about a project that failed" expose how people handle adversity. Great candidates own their failures and explain what they learned. Red-flag candidates blame others and position themselves as victims of circumstance.
+:::
+
 ## Performance Review Assistance
 
 > "Help me write a performance review for [name], who holds the [role] position.
@@ -1103,11 +1215,11 @@ Most job descriptions are terrible — they're either wishlists or copy-pasted f
 
 ## Pro Tips
 
-1. **Standardize your process** — AI helps you create consistent interview and evaluation rubrics
-2. **Watch for bias** — AI can perpetuate biases; review all hiring outputs critically
-3. **Document everything** — AI can help you maintain compliant records of hiring decisions
-4. **Use AI for the process, not the judgment** — it's a tool to be more organized, not a replacement for human evaluation
-5. **Protect candidate privacy** — don't paste identifiable information into public AI tools; use enterprise versions`,
+1. **Standardize your process** -- AI helps you create consistent interview and evaluation rubrics
+2. **Watch for bias** -- AI can perpetuate biases; review all hiring outputs critically
+3. **Document everything** -- AI can help you maintain compliant records of hiring decisions
+4. **Use AI for the process, not the judgment** -- it's a tool to be more organized, not a replacement for human evaluation
+5. **Protect candidate privacy** -- don't paste identifiable information into public AI tools; use enterprise versions`,
           exercises: [
             {
               id: 'w4-u2-l4-e1',
