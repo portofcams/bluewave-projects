@@ -50,9 +50,9 @@ const icons: Record<string, ReactNode> = {
 };
 
 const stats = [
-  { value: "10+", label: "Hours Saved / Week" },
-  { value: "50+", label: "Workflows Automated" },
-  { value: "100%", label: "Clients See Results Week 1" },
+  { value: "6+", label: "Live Products" },
+  { value: "400+", label: "Cameras Streaming" },
+  { value: "62", label: "AI Lessons Built" },
 ];
 
 // Animated wave SVG for the background
@@ -268,7 +268,7 @@ export default function Hero() {
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm text-white/60 mb-8">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            Now booking free AI audits
+            AI Consulting + AI School
           </div>
         </motion.div>
 

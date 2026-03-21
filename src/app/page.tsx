@@ -7,7 +7,7 @@ import BeforeAfter from "@/components/BeforeAfter";
 import Pricing from "@/components/Pricing";
 import School from "@/components/School";
 import About from "@/components/About";
-import Testimonials from "@/components/Testimonials";
+
 import LeadMagnet from "@/components/LeadMagnet";
 import BlogPreview from "@/components/BlogPreview";
 import FAQ from "@/components/FAQ";
@@ -26,7 +26,7 @@ export default function Home() {
       <School />
       <About />
       <Pricing />
-      <Testimonials />
+
       <LeadMagnet />
       <BlogPreview />
       <FAQ />

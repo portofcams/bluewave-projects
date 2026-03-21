@@ -1107,6 +1107,193 @@ The cost of AI tools for a small business is $50-$500/month. The cost of not usi
 
 The math isn't complicated. The only question is how long you'll wait before doing it.`,
   },
+  {
+    id: "12",
+    slug: "ai-for-restaurants-bars-hotels",
+    title: "How Restaurants, Bars & Hotels Are Using AI Right Now",
+    excerpt:
+      "Hospitality businesses are saving 15+ hours a week with AI. Here are the exact workflows they're using.",
+    date: "Mar 20, 2026",
+    readTime: "5 min read",
+    category: "Industry",
+    categoryColor: "bg-lava-500/20 text-lava-400",
+    gradient: "from-lava-500 to-amber-400",
+    author: { name: "Captain J", role: "Founder, BlueWave Projects" },
+    content: `If you run a restaurant, bar, or hotel, you already know the pain: scheduling 20+ employees, managing inventory, responding to the same customer questions over and over, posting on social media, updating menus, handling reviews. It never stops.
+
+Here's what the smart operators are doing differently.
+
+## Staff Scheduling
+
+The old way: spend 45 minutes to an hour every week building the schedule in a spreadsheet, then field texts all week from people wanting to swap shifts.
+
+The AI way: paste your employee availability and labor budget into Claude or ChatGPT. Ask it to build the schedule optimizing for coverage and labor cost. It takes 5 minutes. When someone calls out, paste the current schedule and ask for the best replacement option. Another 2 minutes.
+
+One bar owner I talked to went from 4 hours a week on scheduling to about 20 minutes.
+
+## Inventory and Ordering
+
+Track what you ordered last month. Paste your sales data and inventory counts into AI. Ask it to flag items you're about to run low on and suggest order quantities based on the next two weeks of reservations.
+
+This doesn't replace your gut instinct about what sells. It catches the stuff you'd miss because you're busy running the floor.
+
+## Review Responses
+
+You should be responding to every Google and Yelp review. You probably aren't because each one takes 5-10 minutes to write.
+
+Set up a simple prompt: "Write a response to this Google review from a locally-owned restaurant. Be warm, personal, and mention the specific dish or experience they described. Under 4 sentences."
+
+Paste the review, get a draft, tweak it in 30 seconds, post it. What used to take an hour a week now takes 10 minutes.
+
+## Social Media
+
+Most restaurants post inconsistently because the owner is too busy cooking or managing to also be a content creator. AI changes the math.
+
+Take 5 photos of your food on Monday. Paste them into a prompt with your restaurant's vibe and ask for a week of Instagram captions with hashtags. Schedule them all at once. Your social presence goes from dead to consistent with 30 minutes a week.
+
+## Menu Descriptions
+
+This one is underrated. Good menu descriptions sell more of your high-margin items. AI can rewrite your entire menu with appetizing, specific descriptions in 15 minutes. Test the new descriptions for a month and watch your average ticket change.
+
+## The Bottom Line
+
+None of this requires custom software. None of it costs more than $20/month for an AI subscription. The businesses that adopt these workflows early get a structural advantage over competitors who are still doing everything manually.
+
+The question isn't whether AI works for hospitality. It's whether you can afford to ignore it while your competitors don't.`,
+  },
+  {
+    id: "13",
+    slug: "ai-audit-what-to-expect",
+    title: "What Happens in a Free AI Audit (And Why You Should Book One)",
+    excerpt:
+      "A free 30-minute session where we find 10+ hours of automatable work in your business. Here's exactly what to expect.",
+    date: "Mar 21, 2026",
+    readTime: "3 min read",
+    category: "BlueWave",
+    categoryColor: "bg-ocean-500/20 text-ocean-400",
+    gradient: "from-ocean-500 to-wave-500",
+    author: { name: "Captain J", role: "Founder, BlueWave Projects" },
+    content: `People ask what actually happens in a BlueWave AI audit. Fair question. Here's the full breakdown.
+
+## Before the Call
+
+You fill out our intake form (takes about 2 minutes). It asks about your business, your current tools, and where your time goes. This gives us a head start so we don't waste your 30 minutes on background questions.
+
+## The First 10 Minutes
+
+We ask you to walk us through a typical day. Not the ideal day. The real one. Where does your morning go? What tasks eat your afternoon? What do you dread doing every week?
+
+Most business owners have never actually mapped this out. The act of describing it to someone else usually surfaces surprises. "I didn't realize I spend 6 hours a week on email" is a common reaction.
+
+## The Middle 10 Minutes
+
+This is where it gets interesting. We take your biggest time sinks and show you, live, how AI handles them. Not in theory. We open Claude or ChatGPT on screen share and run your actual scenario.
+
+Typical examples:
+- Paste one of your customer emails and draft a response in 15 seconds
+- Take your employee list and build next week's schedule in 2 minutes
+- Turn your messy meeting notes into action items and follow-up emails
+
+When people see their own work being done in real-time, the "aha" moment is immediate.
+
+## The Last 10 Minutes
+
+We map out which workflows to automate first, ranked by time saved and ease of implementation. You leave with a concrete list, not vague advice.
+
+If you want to implement it yourself, great. We'll point you to the right tools. If you want help, we'll talk about what that looks like. No hard sell either way.
+
+## What It Costs
+
+Nothing. The audit is free. No credit card required. No obligation. We do it because most people who see the possibilities in that first session want to keep going. And even if you don't, you walk away with a plan you can execute on your own.
+
+## How to Book
+
+Two options:
+1. Fill out the intake form at bluewaveprojects.com/intake (2 minutes)
+2. Book directly at bluewaveprojects.com/booking (pick a time slot)
+
+We do sessions Monday through Friday, Hawaii time. Most slots are available within the next few days.
+
+The worst case is you spend 30 minutes and learn something. The best case is you find 10+ hours a week you didn't know you were losing.`,
+  },
+  {
+    id: "14",
+    slug: "build-your-first-ai-workflow-in-10-minutes",
+    title: "Build Your First AI Workflow in 10 Minutes (No Code)",
+    excerpt:
+      "A step-by-step guide to creating your first automated workflow using AI. Paste, prompt, done.",
+    date: "Mar 22, 2026",
+    readTime: "4 min read",
+    category: "Tutorial",
+    categoryColor: "bg-green-500/20 text-green-400",
+    gradient: "from-green-500 to-emerald-400",
+    author: { name: "Captain J", role: "Founder, BlueWave Projects" },
+    content: `You don't need to write code, buy expensive software, or take a course to start using AI in your business. You can build your first real workflow in 10 minutes with nothing but a free ChatGPT or Claude account.
+
+Here's exactly how.
+
+## Step 1: Pick One Repetitive Task (1 minute)
+
+Think about something you do at least once a week that follows a pattern. Good candidates:
+
+- Writing customer emails
+- Summarizing meeting notes
+- Creating social media posts
+- Drafting proposals or quotes
+- Responding to reviews
+- Organizing your weekly priorities
+
+Pick the one that annoys you the most. That's your target.
+
+## Step 2: Write Down How You Currently Do It (2 minutes)
+
+Open a blank note and describe the task in plain English. Not how you wish you did it. How you actually do it right now, including the messy parts.
+
+Example: "Every Monday I look at my email from the past week, pull out anything that needs follow-up, write a response to each one, and add tasks to my to-do list for anything that requires action."
+
+## Step 3: Turn That Into a Prompt (3 minutes)
+
+Take what you wrote and restructure it as an instruction to an AI:
+
+"I'm going to paste a batch of emails I received this week. For each email, I need you to:
+1. Decide if it needs a response, action, or can be archived
+2. For emails that need a response, draft a reply in my tone (friendly, professional, concise)
+3. For emails that need action, create a task with a suggested deadline
+4. Format the output as a simple list I can work through in order of priority"
+
+That's it. That's a real workflow prompt.
+
+## Step 4: Test It With Real Data (3 minutes)
+
+Open ChatGPT or Claude. Paste your prompt. Then paste some real examples of the work you normally do manually. See what comes back.
+
+The first result won't be perfect. That's normal. Tweak the prompt:
+- "Make the email responses shorter"
+- "Add urgency level to each task"
+- "Don't include newsletters or marketing emails"
+
+Two or three iterations and you'll have something genuinely useful.
+
+## Step 5: Save Your Prompt (1 minute)
+
+Once you have a prompt that works, save it somewhere you'll find it. A note on your phone. A bookmark. A pinned tab. The goal is zero friction when Monday rolls around and you need to use it.
+
+## What You Just Built
+
+Congratulations -- you just built your first AI workflow. It's not fancy. There's no automation platform, no API, no integration. It's a prompt and a paste.
+
+And that's the point. The most valuable AI workflows are often the simplest ones. A good prompt that saves you 30 minutes a week is worth more than a complex automation pipeline that takes weeks to build and breaks when something changes.
+
+## What Comes Next
+
+Once you've used this for a week or two and proven it works, you can level up:
+
+- Save multiple prompts for different tasks (a personal "prompt library")
+- Use Claude Projects or Custom GPTs to pre-load your context so you don't have to paste it every time
+- Automate the trigger (n8n, Zapier, or Make can watch for new emails and run the prompt automatically)
+
+But start here. Start simple. Start with one task, one prompt, and 10 minutes. That's how every advanced AI user began.`,
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
