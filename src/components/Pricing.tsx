@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
+import { getStoredUser } from "@/lib/auth";
 
 const plans = [
   {
@@ -74,10 +75,11 @@ function PricingCard({ plan, index }: { plan: (typeof plans)[number]; index: num
     }
     setLoading(true);
     try {
+      const user = getStoredUser();
       const res = await fetch("https://ai.portofcams.com/api/bluewave/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan: planKey }),
+        body: JSON.stringify({ plan: planKey, email: user?.email || undefined }),
       });
       const data = await res.json();
       if (data.url) {

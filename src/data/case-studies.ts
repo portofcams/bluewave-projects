@@ -78,6 +78,214 @@ The entire scaling effort was done by a solo developer working with Claude. No a
       "Claude wrote all 10 scrapers, generated 24,500+ page templates, debugged HLS streaming issues, optimized MediaMTX configuration, and handled SEO markup generation. It served as the full engineering team — architect, backend developer, frontend developer, and DevOps — across a two-week sprint.",
   },
   {
+    slug: "perdiemify",
+    title: "Automating Per Diem Calculations for Traveling Workers",
+    client: "Perdiemify",
+    tag: "Business Tool",
+    tagColor: "bg-violet-500/20 text-violet-400",
+    gradient: "from-violet-500 to-purple-400",
+    excerpt:
+      "How we built a per diem calculator that automates GSA rate lookups and saves companies hours per week on travel expense calculations.",
+    url: "https://perdiemify.com",
+    stats: [
+      { label: "GSA Rates", value: "All US" },
+      { label: "Time Saved", value: "5+ hrs/wk" },
+      { label: "API Response", value: "<200ms" },
+      { label: "Uptime", value: "99.9%" },
+    ],
+    challenge: `Traveling workers — construction crews, consultants, healthcare staffing agencies, government contractors — deal with per diem calculations constantly. Every trip to a different city means a different GSA (General Services Administration) rate for lodging and meals. Companies with 50+ traveling employees were spending 5-10 hours per week manually looking up rates, cross-referencing locations, and calculating reimbursements.
+
+The existing options were painful. The GSA website is functional but slow and designed for one-off lookups, not bulk processing. Spreadsheet-based solutions break every October when rates update. Enterprise travel management platforms cost thousands per month and are overkill for mid-size companies.
+
+The goal was simple: build a fast, reliable tool that takes a location and date range and instantly returns accurate per diem rates — with an API for companies that want to integrate it into their own payroll and expense systems.`,
+    solution: `Claude designed and built the entire platform from scratch:
+
+**FastAPI Backend**
+The core is a Python/FastAPI service that ingests GSA rate data, normalizes it by location and fiscal year, and serves it through a clean REST API. Claude handled the tricky parts — GSA publishes rates in formats that change between fiscal years, county boundaries don't always match city names, and some locations have seasonal rate variations that need special handling.
+
+**Instant Rate Lookups**
+Users enter a city, state, or ZIP code and get back the current per diem rates for lodging, meals, and incidental expenses. The lookup handles fuzzy matching (misspelled city names, alternate spellings) and falls back to standard CONUS rates when a specific locality isn't found.
+
+**Bulk Processing**
+For companies with multiple travelers, the tool accepts CSV uploads with employee trip data and returns a complete per diem calculation for every trip — ready to paste into payroll. What took an HR administrator an entire morning now takes 30 seconds.
+
+**API for Integration**
+A documented REST API lets companies integrate per diem lookups directly into their payroll systems, expense management tools, or custom applications. Rate-limited and key-authenticated for production use.
+
+**Rate Update Pipeline**
+When GSA publishes new rates each fiscal year, the update pipeline ingests the new data, validates it against the previous year for anomalies, and deploys automatically. No manual intervention required.`,
+    results: `Perdiemify launched as a fully functional per diem calculator serving companies and individual travelers:
+
+- **Sub-200ms response times** for all rate lookups, including fuzzy location matching
+- **Complete US coverage** — every GSA-defined locality plus standard CONUS fallback rates
+- **Bulk processing** that handles hundreds of trip calculations in a single request
+- **API adoption** by companies integrating per diem lookups into their payroll workflows
+- **Automatic rate updates** every fiscal year with zero downtime
+- **5+ hours per week saved** for companies with traveling workforces
+
+The entire application was built and deployed by a solo developer working with Claude across a handful of sessions. From concept to live product in under a week.`,
+    techStack: [
+      "Python",
+      "FastAPI",
+      "Docker",
+      "Vultr VPS",
+      "Nginx",
+      "REST API",
+    ],
+    claudeRole:
+      "Claude architected the data pipeline for GSA rate ingestion, built the FastAPI backend, implemented fuzzy location matching, designed the bulk processing system, and deployed the entire application to production. It handled every layer — from data normalization to API design to deployment configuration.",
+  },
+  {
+    slug: "last-frontier-events",
+    title: "An Autonomous Events Platform for Alaska with 13 Scrapers",
+    client: "Last Frontier Events",
+    tag: "Events Platform",
+    tagColor: "bg-cyan-500/20 text-cyan-400",
+    gradient: "from-cyan-500 to-blue-400",
+    excerpt:
+      "How we cloned a proven events platform architecture to Alaska, built 13 custom scrapers, added a ticketing system with QR scanning, and launched a full business portal — all with AI.",
+    url: "https://lastfrontierevents.com",
+    stats: [
+      { label: "Events Tracked", value: "252+" },
+      { label: "Scrapers", value: "13" },
+      { label: "Ticket Fee", value: "2% + $0.99" },
+      { label: "Business Portal", value: "Full CRM" },
+    ],
+    challenge: `Alaska has a unique events landscape — aurora viewing tours, salmon derbies, dog mushing races, Native cultural celebrations, summer solstice festivals — spread across a state larger than Texas, California, and Montana combined. There was no comprehensive events calendar for the state.
+
+Existing solutions fell short in every direction. Eventbrite only captured ticketed events in Anchorage. Facebook events were scattered across hundreds of community groups. Tourism sites like Alaska.org had partial listings but no aggregation. Local venues published events on their own websites with no standardized format.
+
+The vision went beyond a simple calendar. Alaska's events industry needed:
+- A self-updating calendar that discovers events automatically from every source
+- A ticketing system that undercuts Eventbrite's 13.8% fee
+- A business portal where venues and promoters can manage events, teams, and ticket sales
+- Affiliate monetization through Alaska-specific product recommendations
+- A CRM for managing relationships with event organizers`,
+    solution: `Claude built the entire platform by cloning and extending the proven AlohaCalendar architecture:
+
+**13 Custom Scrapers**
+Each Alaska event source required its own scraper because none share a common API:
+- **Ticketmaster API**: structured JSON with pagination and category mapping — the most reliable source with 16+ events
+- **Eventbrite API**: OAuth-authenticated with venue resolution, re-enabled after initial issues
+- **Alaska.org**: HTML scraping with Cheerio, handling 155+ events with deduplication
+- **Alaska Events**: another HTML source yielding 336 discovered events
+- **Venue-specific scrapers**: Alaska PAC, JAHC, Fairbanks Concert Association — each with completely different DOM structures and date formats
+
+Claude wrote every scraper, handling edge cases like relative dates ("next Saturday"), inconsistent timezones across Alaska's two time zones, missing images, and HTML entities in titles. Scrapers run on a 30-minute cron cycle with automatic past-event expiration.
+
+**Ticketing System with QR Scanning**
+A full ticketing engine at 2% + $0.99 per ticket — a fraction of Eventbrite's 13.8%. Features include:
+- Stripe-integrated checkout with real-time ticket generation
+- QR code scanning for door entry validation
+- Organizer payout tracking and reporting
+
+**Business Portal**
+Event organizers get a complete management dashboard:
+- Team management with role-based access
+- Event creation, editing, and analytics
+- Ticket sales tracking and revenue reporting
+- CRM for managing attendee relationships
+- Affiliate tracking for partner referrals
+
+**Monetization Stack**
+- Amazon Associates affiliate links — Alaska-themed products (bear spray, hand warmers, aurora tripods, cold weather gear)
+- Stripe live mode for ticketing revenue
+- Newsletter digest via Resend for subscriber engagement
+- Google AdSense for ad revenue`,
+    results: `Last Frontier Events launched as Alaska's most comprehensive events platform:
+
+- **252+ approved events** with 13 active scrapers discovering new events 24/7
+- **Zero manual curation** — scrapers run autonomously every 30 minutes with auto-expire and deduplication
+- **Ticketing at 2% + $0.99** — saving event organizers 80%+ compared to Eventbrite's fees
+- **Full business portal** with team management, CRM, and affiliate tracking
+- **Newsletter system** with automated weekly digests (Sunday 7pm UTC)
+- **Blog roundup** auto-generated weekly (Monday 5pm UTC)
+- **Cloned from AlohaCalendar** in a single session — proving the architecture is a repeatable template for any regional events market
+
+The platform was built, deployed, and made fully autonomous by a solo developer working with Claude. The entire clone-and-customize process from AlohaCalendar to LFE took one development session.`,
+    techStack: [
+      "Next.js",
+      "Prisma",
+      "PostgreSQL",
+      "Docker",
+      "Stripe",
+      "Resend",
+      "Cheerio",
+      "Node.js",
+    ],
+    claudeRole:
+      "Claude cloned the AlohaCalendar codebase, adapted all 13 scrapers for Alaska-specific sources, built the ticketing system with QR scanning, created the business portal with CRM and team management, implemented the affiliate tracking system, and deployed everything to production. It served as the sole engineering resource for the entire platform.",
+  },
+  {
+    slug: "address-api",
+    title: "A Multi-Source Address Enrichment API for Real Estate and Insurance",
+    client: "Address API",
+    tag: "Developer API",
+    tagColor: "bg-amber-500/20 text-amber-400",
+    gradient: "from-amber-500 to-orange-400",
+    excerpt:
+      "How we built a production API that enriches any US address with flood risk, demographics, and broadband data from 5 redundant government sources.",
+    url: "https://addressapi.portofcams.com",
+    stats: [
+      { label: "Data Sources", value: "5" },
+      { label: "Response Time", value: "<500ms" },
+      { label: "Redundancy", value: "Full" },
+      { label: "Coverage", value: "All US" },
+    ],
+    challenge: `Real estate platforms, insurance underwriters, and property management companies need enriched address data — flood risk zones, demographic profiles, broadband availability — but getting this data is a nightmare of government APIs, each with different formats, authentication methods, and reliability issues.
+
+The FEMA National Flood Hazard Layer API returns XML in one format. The Census Bureau's American Community Survey requires raw URL construction (it rejects encoded URL parameters). FCC broadband data uses yet another schema. Each source has its own rate limits, downtime patterns, and data quirks.
+
+Companies were either paying enterprise vendors thousands per month for aggregated data, or building fragile in-house integrations that broke whenever a government API changed its format. There was a clear gap for a clean, affordable API that handles the complexity behind a single endpoint.`,
+    solution: `Claude architected and built the entire API service:
+
+**5 Data Sources with Redundancy**
+Each data category has a primary source with an automatic fallback:
+- **Flood risk**: FEMA National Flood Hazard Layer (NFHL) as primary, OpenFEMA NFIP Policies as fallback. If the primary GIS query times out or returns no data, the system automatically queries the fallback source and normalizes the response to the same schema.
+- **Demographics**: Census American Community Survey (ACS). Claude discovered that the Census API rejects URLSearchParams-encoded requests — it requires raw URL construction, a quirk that would have taken hours to debug without AI assistance.
+- **Broadband**: FCC broadband availability data by location
+- **Geocoding**: Address normalization and coordinate resolution
+- **Property basics**: Parcel-level data where available
+
+**Clean REST API**
+A single endpoint accepts any US address and returns enriched data across all five categories. The response is normalized — regardless of which underlying source provided the data, the API returns a consistent JSON schema. Developers don't need to understand FEMA flood zone codes or Census tract identifiers.
+
+**Production Infrastructure**
+- Node.js service running as a systemd unit on Vultr
+- SSL via Let's Encrypt with auto-renewal
+- API key authentication with rate limiting
+- Health monitoring integrated with the shared dashboard
+- Nginx Proxy Manager routing at addressapi.portofcams.com
+
+**Error Handling and Resilience**
+Government APIs are notoriously unreliable. The service implements:
+- Automatic failover between primary and fallback sources
+- Graceful degradation (returns available data even if one source is down)
+- Response caching for repeated lookups
+- Detailed error logging for source-specific debugging`,
+    results: `Address API launched as a production-ready enrichment service:
+
+- **5 integrated data sources** with full redundancy — no single point of failure
+- **Sub-500ms response times** for enriched address lookups including flood, demographics, and broadband
+- **All-US coverage** with automatic fallback when primary sources are unavailable
+- **Clean developer experience** — one endpoint, one API key, consistent JSON responses
+- **SSL-secured** with Let's Encrypt auto-renewal (next renewal June 2026)
+- **Zero maintenance** since deployment — the systemd service has required no manual intervention
+
+The API was built, tested, and deployed to production in three development sessions. Every line of code — HTTP handlers, source integrations, error handling, deployment scripts — was written with Claude as the engineering partner.`,
+    techStack: [
+      "Node.js",
+      "Express",
+      "Systemd",
+      "Nginx",
+      "Let's Encrypt",
+      "REST API",
+      "Vultr VPS",
+    ],
+    claudeRole:
+      "Claude designed the multi-source architecture with automatic failover, built every data source integration (debugging the Census API's URL encoding quirk), implemented the response normalization layer, configured systemd deployment, and set up SSL with Let's Encrypt. It served as the sole engineer across three build sessions.",
+  },
+  {
     slug: "probuildcalc",
     title: "AI-Powered Job Estimation for Construction Contractors",
     client: "ProBuildCalc",

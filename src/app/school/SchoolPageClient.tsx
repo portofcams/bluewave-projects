@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { allWaves } from '@/lib/curriculum';
 import { getTotalXP, getCurrentStreak, isLessonComplete, getProgress, isWaveComplete } from '@/lib/school-progress';
+import { getStoredUser, isLoggedIn, checkSubscription } from '@/lib/auth';
 import XPBar from '@/components/school/XPBar';
 
 /* ── Wave icon mapping (Lucide-style SVG paths, no emojis) ── */
@@ -30,12 +31,21 @@ export default function SchoolPage() {
   const [streak, setStreak] = useState(0);
   const [completedCount, setCompletedCount] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const [userPlan, setUserPlan] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
     setTotalXP(getTotalXP());
     setStreak(getCurrentStreak());
     setCompletedCount(getProgress().completedLessons.length);
+
+    // Check user subscription
+    const storedUser = getStoredUser();
+    if (storedUser?.plan) {
+      setUserPlan(storedUser.plan);
+    } else if (isLoggedIn()) {
+      checkSubscription().then(sub => setUserPlan(sub.plan));
+    }
   }, []);
 
   const totalLessons = allWaves.reduce((sum, w) => sum + w.units.reduce((s, u) => s + u.lessons.length, 0), 0);
@@ -173,7 +183,8 @@ export default function SchoolPage() {
                   const done = mounted && isLessonComplete(lesson.id);
                   const globalIndex = allLessons.findIndex(l => l.id === lesson.id);
                   const isCurrent = globalIndex === firstIncompleteIndex;
-                  const isLocked = !done && globalIndex > firstIncompleteIndex + 2;
+                  const isPremiumLocked = mounted && wave.number > 1 && userPlan !== 'school' && userPlan !== 'pro';
+                  const isLocked = isPremiumLocked || (!done && globalIndex > firstIncompleteIndex + 2);
                   const lessonTotalXP = lesson.xp + lesson.exercises.reduce((s, e) => s + e.xpBonus, 0);
 
                   // Alternate left/right for winding path feel
@@ -345,6 +356,36 @@ export default function SchoolPage() {
           );
         })}
       </div>
+
+      {/* Upgrade CTA for free users */}
+      {mounted && userPlan !== 'school' && userPlan !== 'pro' && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="max-w-2xl mx-auto px-4 py-12"
+        >
+          <div className="glass rounded-2xl p-8 text-center border border-ocean-500/20">
+            <div className="w-12 h-12 rounded-full bg-ocean-500/10 flex items-center justify-center mx-auto mb-4">
+              <svg className="w-6 h-6 text-ocean-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">Unlock All 8 Waves</h3>
+            <p className="text-sm text-white/40 mb-6 max-w-md mx-auto">
+              Wave 1 is free. Subscribe to access Waves 2-8 with advanced AI skills, automation, and the capstone project.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link
+                href="/#pricing"
+                className="btn-primary px-6 py-3 rounded-full text-sm font-semibold text-white"
+              >
+                View Plans
+              </Link>
+            </div>
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }

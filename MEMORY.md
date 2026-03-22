@@ -96,9 +96,22 @@
 - **Auth**: JWT with Keychain storage, Apple/Google Sign In ready
 - **Needs**: Apple Developer account ($99/yr), then TestFlight
 
+## Student Auth + Paywall (2026-03-22)
+- **Auth lib**: `src/lib/auth.ts` — JWT in localStorage, talks to `ai.portofcams.com/api/bluewave/auth/*`
+- **Login page**: `/login` — email/password, redirect support, registered success message
+- **Signup page**: `/signup` — name/email/password, validation, auto-redirect on success
+- **Paywall component**: `src/components/school/Paywall.tsx` — gates premium content
+- **Paywall logic**: Wave 1 is free for everyone, Waves 2-8 require `school` or `pro` subscription
+- **School sidebar**: Shows user avatar/name/plan, login/signup link, logout button, lock icons on premium waves
+- **School overview**: Premium waves show locked lesson nodes, upgrade CTA banner at bottom
+- **Pricing buttons**: Now pass logged-in user email to Stripe checkout for pre-fill
+- **Stripe checkout**: Already existed on backend (`POST /api/bluewave/checkout`), no changes needed
+- **Stripe webhook**: Already existed on backend (`POST /api/bluewave/webhook`), no changes needed
+
 ## What's NOT Built Yet (TODOs)
 - [ ] Apple Developer account enrollment ($99/yr) — user does tomorrow
-- [ ] Stripe checkout for $79/$249 plans
+- [x] Stripe checkout for $79/$249 plans (backend already done, frontend buttons wired)
+- [x] Student auth (login/signup/paywall) — built 2026-03-22
 - [ ] Google Sign-In SDK integration for iOS
 - [ ] Booking system for 1-on-1 consulting
 - [ ] Email sequences (welcome, weekly nudge)

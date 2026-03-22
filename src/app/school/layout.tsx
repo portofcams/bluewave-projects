@@ -6,6 +6,8 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { allWaves } from '@/lib/curriculum';
 import { getTotalXP, getCurrentStreak, isLessonComplete } from '@/lib/school-progress';
+import { getStoredUser, isLoggedIn, logout as authLogout } from '@/lib/auth';
+import type { User } from '@/lib/auth';
 import XPBar from '@/components/school/XPBar';
 
 export default function SchoolLayout({ children }: { children: React.ReactNode }) {
@@ -15,11 +17,15 @@ export default function SchoolLayout({ children }: { children: React.ReactNode }
   const [totalXP, setTotalXP] = useState(0);
   const [streak, setStreak] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     setTotalXP(getTotalXP());
     setStreak(getCurrentStreak());
+    setLoggedIn(isLoggedIn());
+    setUser(getStoredUser());
   }, [pathname]);
 
   const toggleWave = (waveId: string) => {
@@ -95,6 +101,9 @@ export default function SchoolLayout({ children }: { children: React.ReactNode }
             const isExpanded = expandedWaves.includes(wave.id);
             const waveLessons = wave.units.flatMap(u => u.lessons);
             const completedCount = mounted ? waveLessons.filter(l => isLessonComplete(l.id)).length : 0;
+            const isPremiumWave = wave.number > 1;
+            const hasPlan = user?.plan === 'school' || user?.plan === 'pro';
+            const isLocked = mounted && isPremiumWave && !hasPlan;
 
             return (
               <div key={wave.id} className="mb-1">
@@ -107,14 +116,24 @@ export default function SchoolLayout({ children }: { children: React.ReactNode }
                     className="w-5 h-5 rounded flex items-center justify-center shrink-0"
                     style={{ backgroundColor: wave.color + '20' }}
                   >
-                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: wave.color }} />
+                    {isLocked ? (
+                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke={wave.color} strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                      </svg>
+                    ) : (
+                      <span className="w-2 h-2 rounded-full" style={{ backgroundColor: wave.color }} />
+                    )}
                   </span>
-                  <span className="flex-1 text-xs font-semibold text-white/80 truncate">
+                  <span className={`flex-1 text-xs font-semibold truncate ${isLocked ? 'text-white/40' : 'text-white/80'}`}>
                     {wave.title}
                   </span>
-                  <span className="text-[10px] text-white/30">
-                    {completedCount}/{waveLessons.length}
-                  </span>
+                  {isLocked ? (
+                    <span className="text-[9px] text-lava-500 font-bold uppercase tracking-wider">Pro</span>
+                  ) : (
+                    <span className="text-[10px] text-white/30">
+                      {completedCount}/{waveLessons.length}
+                    </span>
+                  )}
                   <svg
                     className={`w-3 h-3 text-white/30 transition-transform ${isExpanded ? 'rotate-90' : ''}`}
                     fill="none"
@@ -178,7 +197,46 @@ export default function SchoolLayout({ children }: { children: React.ReactNode }
         </nav>
 
         {/* Sidebar footer */}
-        <div className="p-4 border-t border-white/5">
+        <div className="p-4 border-t border-white/5 space-y-3">
+          {mounted && loggedIn && user ? (
+            <div className="flex items-center gap-2">
+              <div className="w-7 h-7 rounded-full bg-ocean-500/20 flex items-center justify-center text-ocean-400 text-xs font-bold shrink-0">
+                {user.name?.charAt(0)?.toUpperCase() || user.email?.charAt(0)?.toUpperCase() || '?'}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="text-xs text-white/70 truncate">{user.name || user.email}</div>
+                {user.plan ? (
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-wave-400">{user.plan} plan</span>
+                ) : (
+                  <Link href="/#pricing" className="text-[9px] font-bold uppercase tracking-wider text-lava-500 hover:text-lava-400">
+                    Upgrade
+                  </Link>
+                )}
+              </div>
+              <button
+                onClick={() => {
+                  authLogout();
+                  window.location.href = '/';
+                }}
+                className="text-white/20 hover:text-white/50 transition-colors shrink-0"
+                title="Log out"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+                </svg>
+              </button>
+            </div>
+          ) : mounted ? (
+            <Link
+              href={`/login?redirect=${encodeURIComponent(pathname)}`}
+              className="flex items-center gap-2 text-xs text-ocean-400 hover:text-ocean-300 transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+              </svg>
+              Log in / Sign up
+            </Link>
+          ) : null}
           <Link
             href="/"
             className="flex items-center gap-2 text-xs text-white/40 hover:text-white/70 transition-colors"

@@ -17,9 +17,11 @@ import {
   isLessonComplete,
   isExerciseComplete,
 } from '@/lib/school-progress';
+import { getStoredUser, isLoggedIn as checkLoggedIn, canAccessLesson, checkSubscription } from '@/lib/auth';
 import LessonContent from '@/components/school/LessonContent';
 import ExerciseRenderer from '@/components/school/ExerciseRenderer';
 import XPBar from '@/components/school/XPBar';
+import Paywall from '@/components/school/Paywall';
 
 export default function LessonPageClient() {
   const params = useParams();
@@ -29,6 +31,9 @@ export default function LessonPageClient() {
   const [lessonDone, setLessonDone] = useState(false);
   const [showLessonXP, setShowLessonXP] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [userPlan, setUserPlan] = useState<string | null>(null);
+  const [authChecked, setAuthChecked] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const lesson = getLessonById(lessonId);
   const wave = lesson ? getWaveById(lesson.waveId) : undefined;
@@ -41,6 +46,23 @@ export default function LessonPageClient() {
     setTotalXP(getTotalXP());
     setLessonDone(isLessonComplete(lessonId));
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Check auth and subscription for paywall
+    const isUserLoggedIn = checkLoggedIn();
+    setLoggedIn(isUserLoggedIn);
+    const storedUser = getStoredUser();
+    if (storedUser?.plan) {
+      setUserPlan(storedUser.plan);
+      setAuthChecked(true);
+    } else if (isUserLoggedIn) {
+      // Check subscription from backend
+      checkSubscription().then(sub => {
+        setUserPlan(sub.plan);
+        setAuthChecked(true);
+      });
+    } else {
+      setAuthChecked(true);
+    }
   }, [lessonId]);
 
   const handleXPEarned = useCallback((xp: number) => {
@@ -72,6 +94,20 @@ export default function LessonPageClient() {
   }
 
   const allExercisesDone = mounted && lesson.exercises.every(ex => isExerciseComplete(ex.id));
+
+  // Paywall: Wave 1 is free, Waves 2-8 require a subscription
+  if (mounted && authChecked && wave && !canAccessLesson(wave.number, userPlan)) {
+    return (
+      <Paywall
+        waveNumber={wave.number}
+        waveTitle={wave.title}
+        waveColor={wave.color}
+        lessonTitle={lesson.title}
+        lessonDescription={lesson.description}
+        isLoggedIn={loggedIn}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen pb-24">
