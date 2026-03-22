@@ -8,8 +8,9 @@ export function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params }: { params: { id: string } }): Metadata {
-  const lesson = getLessonById(params.id);
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const lesson = getLessonById(id);
   if (!lesson) {
     return { title: "Lesson Not Found — BlueWave AI School" };
   }
@@ -41,8 +42,9 @@ export function generateMetadata({ params }: { params: { id: string } }): Metada
   };
 }
 
-export default function LessonPage({ params }: { params: { id: string } }) {
-  const lesson = getLessonById(params.id);
+export default async function LessonPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const lesson = getLessonById(id);
   const wave = lesson ? getWaveById(lesson.waveId) : null;
 
   return (
