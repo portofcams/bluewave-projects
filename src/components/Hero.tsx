@@ -50,7 +50,7 @@ const icons: Record<string, ReactNode> = {
 };
 
 const stats = [
-  { value: "7+", label: "Live Products" },
+  { value: "8+", label: "Live Products" },
   { value: "400+", label: "Cameras Streaming" },
   { value: "62", label: "AI Lessons Built" },
 ];
@@ -260,7 +260,7 @@ export default function Hero() {
       <MetricsCard />
 
       {/* Main content */}
-      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center pt-16 sm:pt-0">
+      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center pt-28 sm:pt-0">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
