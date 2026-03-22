@@ -13,11 +13,14 @@ import {
 } from '@/lib/curriculum';
 import {
   getTotalXP,
+  getProgress,
+  saveProgressDirect,
   markLessonComplete,
   isLessonComplete,
   isExerciseComplete,
 } from '@/lib/school-progress';
 import { getStoredUser, isLoggedIn as checkLoggedIn, canAccessLesson, checkSubscription } from '@/lib/auth';
+import { initProgressSync, mergeServerProgress } from '@/lib/progress-sync';
 import LessonContent from '@/components/school/LessonContent';
 import ExerciseRenderer from '@/components/school/ExerciseRenderer';
 import XPBar from '@/components/school/XPBar';
@@ -63,6 +66,23 @@ export default function LessonPageClient() {
     } else {
       setAuthChecked(true);
     }
+
+    // Initialize progress syncing: flush queue + merge server progress
+    const cleanup = initProgressSync();
+
+    if (isUserLoggedIn) {
+      // Merge server progress with local (async, non-blocking)
+      const localProgress = getProgress();
+      mergeServerProgress(localProgress).then(merged => {
+        if (merged) {
+          saveProgressDirect(merged);
+          setTotalXP(Object.values(merged.xpEarned).reduce((s, x) => s + x, 0));
+          setLessonDone(merged.completedLessons.includes(lessonId));
+        }
+      });
+    }
+
+    return cleanup;
   }, [lessonId]);
 
   const handleXPEarned = useCallback((xp: number) => {

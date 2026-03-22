@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { allWaves } from '@/lib/curriculum';
-import { getTotalXP, getCurrentStreak, isLessonComplete, getProgress, isWaveComplete } from '@/lib/school-progress';
+import { getTotalXP, getCurrentStreak, isLessonComplete, getProgress, saveProgressDirect, isWaveComplete } from '@/lib/school-progress';
 import { getStoredUser, isLoggedIn, checkSubscription } from '@/lib/auth';
+import { initProgressSync, mergeServerProgress } from '@/lib/progress-sync';
 import XPBar from '@/components/school/XPBar';
 
 /* ── Wave icon mapping (Lucide-style SVG paths, no emojis) ── */
@@ -40,12 +41,30 @@ export default function SchoolPage() {
     setCompletedCount(getProgress().completedLessons.length);
 
     // Check user subscription
+    const loggedIn = isLoggedIn();
     const storedUser = getStoredUser();
     if (storedUser?.plan) {
       setUserPlan(storedUser.plan);
-    } else if (isLoggedIn()) {
+    } else if (loggedIn) {
       checkSubscription().then(sub => setUserPlan(sub.plan));
     }
+
+    // Initialize progress syncing and merge server state
+    const cleanup = initProgressSync();
+
+    if (loggedIn) {
+      const localProgress = getProgress();
+      mergeServerProgress(localProgress).then(merged => {
+        if (merged) {
+          saveProgressDirect(merged);
+          setTotalXP(Object.values(merged.xpEarned).reduce((s, x) => s + x, 0));
+          setStreak(merged.currentStreak);
+          setCompletedCount(merged.completedLessons.length);
+        }
+      });
+    }
+
+    return cleanup;
   }, []);
 
   const totalLessons = allWaves.reduce((sum, w) => sum + w.units.reduce((s, u) => s + u.lessons.length, 0), 0);

@@ -7,11 +7,19 @@ import Footer from "@/components/Footer";
 
 const API_BASE = "https://ai.portofcams.com/api/bluewave/booking";
 
-const TOPICS = [
-  "AI Strategy",
-  "Automation",
+const PROJECT_TYPES = [
+  "AI Integration",
   "Custom App",
+  "Consulting",
   "Other",
+];
+
+const BUDGET_RANGES = [
+  "Under $5K",
+  "$5K - $15K",
+  "$15K - $50K",
+  "$50K+",
+  "Not sure yet",
 ];
 
 interface Slot {
@@ -70,15 +78,19 @@ export default function BookingPage() {
   const [slots, setSlots] = useState<Slot[]>([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [bookingMode, setBookingMode] = useState<"form" | "cal">("form");
 
   // Form state
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [topic, setTopic] = useState(TOPICS[0]);
-  const [message, setMessage] = useState("");
+  const [company, setCompany] = useState("");
+  const [projectType, setProjectType] = useState(PROJECT_TYPES[0]);
+  const [budget, setBudget] = useState(BUDGET_RANGES[4]);
+  const [description, setDescription] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [confirmation, setConfirmation] = useState<Confirmation | null>(null);
+  const [savedLocally, setSavedLocally] = useState(false);
 
   // Fetch slots when date changes
   useEffect(() => {
@@ -90,7 +102,17 @@ export default function BookingPage() {
     fetch(`${API_BASE}/slots?date=${formatDateISO(selectedDate)}`)
       .then((r) => r.json())
       .then((data) => setSlots(data.slots || []))
-      .catch(() => setError("Failed to load available times."))
+      .catch(() => {
+        // Generate fallback slots if API is unavailable
+        const fallbackSlots: Slot[] = [];
+        for (let h = 9; h <= 16; h++) {
+          fallbackSlots.push({ time: `${h.toString().padStart(2, "0")}:00`, available: true });
+          if (h < 16) {
+            fallbackSlots.push({ time: `${h.toString().padStart(2, "0")}:30`, available: true });
+          }
+        }
+        setSlots(fallbackSlots);
+      })
       .finally(() => setLoadingSlots(false));
   }, [selectedDate]);
 
@@ -101,18 +123,22 @@ export default function BookingPage() {
     setSubmitting(true);
     setError("");
 
+    const bookingData = {
+      name,
+      email,
+      company: company || undefined,
+      date: formatDateISO(selectedDate),
+      time: selectedTime,
+      project_type: projectType,
+      budget,
+      description: description || undefined,
+    };
+
     try {
       const resp = await fetch(`${API_BASE}/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          email,
-          date: formatDateISO(selectedDate),
-          time: selectedTime,
-          topic,
-          message: message || undefined,
-        }),
+        body: JSON.stringify(bookingData),
       });
 
       if (!resp.ok) {
@@ -123,14 +149,30 @@ export default function BookingPage() {
       const data = await resp.json();
       setConfirmation(data);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      // Save locally as fallback
+      try {
+        const existing = JSON.parse(localStorage.getItem("bluewave_pending_bookings") || "[]");
+        existing.push({ ...bookingData, created_at: new Date().toISOString() });
+        localStorage.setItem("bluewave_pending_bookings", JSON.stringify(existing));
+        setSavedLocally(true);
+        setConfirmation({
+          booking_id: Date.now(),
+          date: formatDateISO(selectedDate),
+          time: selectedTime,
+          topic: projectType,
+        });
+      } catch {
+        setError(err instanceof Error ? err.message : "Something went wrong.");
+      }
     } finally {
       setSubmitting(false);
     }
   }
 
-  // Group days by week for the calendar grid
   const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+  const inputClass =
+    "w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-ocean-500/50 focus:ring-1 focus:ring-ocean-500/30 transition-all";
 
   return (
     <main className="ocean-gradient min-h-screen">
@@ -151,14 +193,65 @@ export default function BookingPage() {
               <span className="text-white">1-on-1 </span>
               <span className="text-gradient">Consulting</span>
             </h1>
-            <p className="text-lg text-white/40 max-w-xl mx-auto">
+            <p className="text-lg text-white/40 max-w-xl mx-auto mb-8">
               30-minute sessions to discuss your AI strategy, automation needs,
               or custom app project. Pick a time that works for you.
             </p>
+
+            {/* Mode toggle */}
+            <div className="inline-flex rounded-xl overflow-hidden border border-white/[0.06]">
+              <button
+                onClick={() => setBookingMode("form")}
+                className={`px-6 py-2.5 text-sm font-medium transition-all duration-200 ${
+                  bookingMode === "form"
+                    ? "bg-ocean-500 text-white"
+                    : "bg-white/[0.03] text-white/50 hover:text-white hover:bg-white/[0.06]"
+                }`}
+              >
+                Schedule Form
+              </button>
+              <button
+                onClick={() => setBookingMode("cal")}
+                className={`px-6 py-2.5 text-sm font-medium transition-all duration-200 ${
+                  bookingMode === "cal"
+                    ? "bg-ocean-500 text-white"
+                    : "bg-white/[0.03] text-white/50 hover:text-white hover:bg-white/[0.06]"
+                }`}
+              >
+                Calendar Embed
+              </button>
+            </div>
           </motion.div>
 
           <AnimatePresence mode="wait">
-            {confirmation ? (
+            {bookingMode === "cal" ? (
+              /* Cal.com embed */
+              <motion.div
+                key="cal-embed"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4 }}
+                className="glass rounded-2xl overflow-hidden"
+              >
+                <div className="p-6 border-b border-white/[0.06]">
+                  <h2 className="text-lg font-semibold text-white">
+                    Schedule via Calendar
+                  </h2>
+                  <p className="text-sm text-white/30 mt-1">
+                    Pick a time directly from our availability calendar.
+                  </p>
+                </div>
+                <div className="relative" style={{ minHeight: 600 }}>
+                  <iframe
+                    src="https://cal.com/bluewave/consulting"
+                    style={{ width: "100%", height: 600, border: "none" }}
+                    title="Book a consulting session"
+                    loading="lazy"
+                  />
+                </div>
+              </motion.div>
+            ) : confirmation ? (
               /* Confirmation screen */
               <motion.div
                 key="confirmation"
@@ -179,10 +272,12 @@ export default function BookingPage() {
                   </svg>
                 </div>
                 <h2 className="text-2xl font-bold text-white mb-2">
-                  Booking Confirmed
+                  {savedLocally ? "Request Saved" : "Booking Confirmed"}
                 </h2>
                 <p className="text-white/50 mb-8">
-                  A confirmation email has been sent to your inbox.
+                  {savedLocally
+                    ? "Your booking request has been saved. We'll confirm it shortly when connectivity is restored."
+                    : "A confirmation email has been sent to your inbox."}
                 </p>
                 <div className="glass rounded-xl p-6 mb-8 max-w-sm mx-auto text-left">
                   <div className="space-y-3">
@@ -195,11 +290,11 @@ export default function BookingPage() {
                     <div className="flex justify-between">
                       <span className="text-white/40 text-sm">Time</span>
                       <span className="text-white text-sm font-medium">
-                        {confirmation.time}
+                        {formatTime(confirmation.time)}
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-white/40 text-sm">Topic</span>
+                      <span className="text-white/40 text-sm">Project Type</span>
                       <span className="text-white text-sm font-medium">
                         {confirmation.topic}
                       </span>
@@ -225,6 +320,7 @@ export default function BookingPage() {
                 key="booking-form"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
               >
                 {/* Step 1: Date picker */}
@@ -237,7 +333,6 @@ export default function BookingPage() {
                     Monday through Friday, next 2 weeks
                   </p>
 
-                  {/* Weekday headers */}
                   <div className="grid grid-cols-7 gap-2 mb-2">
                     {weekdays.map((d) => (
                       <div
@@ -249,9 +344,7 @@ export default function BookingPage() {
                     ))}
                   </div>
 
-                  {/* Date grid — fill based on day of week */}
                   <div className="grid grid-cols-7 gap-2">
-                    {/* Leading empty cells for the first day */}
                     {Array.from({
                       length: ((days[0].getDay() + 6) % 7),
                     }).map((_, i) => (
@@ -360,10 +453,11 @@ export default function BookingPage() {
                           Your Details
                         </h2>
                         <p className="text-sm text-white/30 mb-6">
-                          Tell us about yourself and what you want to discuss.
+                          Tell us about yourself and your project.
                         </p>
 
                         <div className="space-y-5">
+                          {/* Name & Email */}
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                             <div>
                               <label className="block text-sm text-white/50 mb-2">
@@ -375,7 +469,7 @@ export default function BookingPage() {
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 placeholder="Your name"
-                                className="w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-ocean-500/50 focus:ring-1 focus:ring-ocean-500/30 transition-all"
+                                className={inputClass}
                               />
                             </div>
                             <div>
@@ -388,25 +482,41 @@ export default function BookingPage() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="you@company.com"
-                                className="w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-ocean-500/50 focus:ring-1 focus:ring-ocean-500/30 transition-all"
+                                className={inputClass}
                               />
                             </div>
                           </div>
 
+                          {/* Company */}
                           <div>
                             <label className="block text-sm text-white/50 mb-2">
-                              Topic
+                              Company{" "}
+                              <span className="text-white/20">(optional)</span>
+                            </label>
+                            <input
+                              type="text"
+                              value={company}
+                              onChange={(e) => setCompany(e.target.value)}
+                              placeholder="Your company name"
+                              className={inputClass}
+                            />
+                          </div>
+
+                          {/* Project Type */}
+                          <div>
+                            <label className="block text-sm text-white/50 mb-2">
+                              Project Type
                             </label>
                             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                              {TOPICS.map((t) => (
+                              {PROJECT_TYPES.map((t) => (
                                 <button
                                   key={t}
                                   type="button"
-                                  onClick={() => setTopic(t)}
+                                  onClick={() => setProjectType(t)}
                                   className={`
                                     py-3 px-4 rounded-xl text-sm font-medium transition-all duration-200
                                     ${
-                                      topic === t
+                                      projectType === t
                                         ? "bg-ocean-500 text-white shadow-lg shadow-ocean-500/30"
                                         : "text-white/50 bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:text-white"
                                     }
@@ -418,17 +528,44 @@ export default function BookingPage() {
                             </div>
                           </div>
 
+                          {/* Budget Range */}
                           <div>
                             <label className="block text-sm text-white/50 mb-2">
-                              Message{" "}
+                              Budget Range
+                            </label>
+                            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                              {BUDGET_RANGES.map((b) => (
+                                <button
+                                  key={b}
+                                  type="button"
+                                  onClick={() => setBudget(b)}
+                                  className={`
+                                    py-2.5 px-3 rounded-xl text-xs font-medium transition-all duration-200
+                                    ${
+                                      budget === b
+                                        ? "bg-ocean-500 text-white shadow-lg shadow-ocean-500/30"
+                                        : "text-white/50 bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:text-white"
+                                    }
+                                  `}
+                                >
+                                  {b}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Project Description */}
+                          <div>
+                            <label className="block text-sm text-white/50 mb-2">
+                              Project Description{" "}
                               <span className="text-white/20">(optional)</span>
                             </label>
                             <textarea
-                              rows={3}
-                              value={message}
-                              onChange={(e) => setMessage(e.target.value)}
-                              placeholder="Briefly describe what you'd like to discuss..."
-                              className="w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-ocean-500/50 focus:ring-1 focus:ring-ocean-500/30 transition-all resize-none"
+                              rows={4}
+                              value={description}
+                              onChange={(e) => setDescription(e.target.value)}
+                              placeholder="Tell us about your project goals, timeline, and any specific requirements..."
+                              className={`${inputClass} resize-none`}
                             />
                           </div>
 

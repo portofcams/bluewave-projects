@@ -4,7 +4,8 @@ import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { register, isLoggedIn } from '@/lib/auth';
+import { register, isLoggedIn, getToken } from '@/lib/auth';
+import { triggerWelcomeSequence } from '@/lib/welcome-emails';
 import { WaveLogo } from '@/components/Logo';
 
 export default function SignupClient() {
@@ -53,6 +54,13 @@ function SignupClientInner() {
     const result = await register(email.trim().toLowerCase(), password, name.trim());
 
     if (result.success) {
+      // Trigger welcome email drip sequence (fire-and-forget, don't block navigation)
+      triggerWelcomeSequence(
+        email.trim().toLowerCase(),
+        name.trim(),
+        getToken() || undefined
+      );
+
       // If the register endpoint returns a token, user is auto-logged in
       if (result.user) {
         router.push(redirect);

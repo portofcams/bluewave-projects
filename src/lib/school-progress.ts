@@ -1,6 +1,7 @@
 'use client';
 
 import { allWaves } from '@/lib/curriculum';
+import { syncLessonComplete, syncExerciseComplete } from '@/lib/progress-sync';
 
 export interface SchoolProgress {
   completedLessons: string[];
@@ -38,6 +39,11 @@ function saveProgress(progress: SchoolProgress): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
 }
 
+/** Save progress directly (used by sync merge). */
+export function saveProgressDirect(progress: SchoolProgress): void {
+  saveProgress(progress);
+}
+
 function updateStreak(progress: SchoolProgress): SchoolProgress {
   const today = new Date().toISOString().split('T')[0];
   if (progress.lastActivityDate === today) {
@@ -71,6 +77,10 @@ export function markLessonComplete(lessonId: string, xp: number): SchoolProgress
   progress.xpEarned[lessonId] = (progress.xpEarned[lessonId] || 0) + xp;
   updateStreak(progress);
   saveProgress(progress);
+
+  // Sync to server (fire-and-forget, queues if offline)
+  syncLessonComplete(lessonId, xp);
+
   return progress;
 }
 
@@ -82,6 +92,10 @@ export function markExerciseComplete(exerciseId: string, xp: number): SchoolProg
   progress.xpEarned[exerciseId] = xp;
   updateStreak(progress);
   saveProgress(progress);
+
+  // Sync to server (fire-and-forget, queues if offline)
+  syncExerciseComplete(exerciseId, xp);
+
   return progress;
 }
 
