@@ -266,7 +266,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm text-white/60 mb-8">
+          <div className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm text-white/60 mb-8">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             AI Consulting + AI School
           </div>
