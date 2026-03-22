@@ -65,6 +65,21 @@ const projects = [
     ),
   },
   {
+    name: "Last Frontier Events",
+    tag: "Events Platform",
+    description:
+      "Alaska's premier event discovery platform. Aggregates events from multiple sources with deals, northern lights viewing, and region-based browsing across 6 Alaska regions.",
+    tech: ["Next.js", "Prisma", "PostgreSQL", "Scrapers"],
+    color: "from-amber-500 to-yellow-400",
+    link: "https://lastfrontierevents.com",
+    stat: "6 Alaska Regions",
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+      </svg>
+    ),
+  },
+  {
     name: "Address API",
     tag: "Developer API",
     description:

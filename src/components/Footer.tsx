@@ -42,6 +42,16 @@ export default function Footer() {
                 </a>
               </li>
               <li>
+                <a href="https://alohacalendar.com" target="_blank" rel="noopener noreferrer" className="text-sm text-white/30 hover:text-white/70 transition-colors">
+                  AlohaCalendar
+                </a>
+              </li>
+              <li>
+                <a href="https://lastfrontierevents.com" target="_blank" rel="noopener noreferrer" className="text-sm text-white/30 hover:text-white/70 transition-colors">
+                  Last Frontier Events
+                </a>
+              </li>
+              <li>
                 <a href="https://addressapi.portofcams.com" target="_blank" rel="noopener noreferrer" className="text-sm text-white/30 hover:text-white/70 transition-colors">
                   Address API
                 </a>

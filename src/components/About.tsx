@@ -19,11 +19,11 @@ const consultants = [
     ],
     bio: [
       "I build things that work and teach people to do the same.",
-      "100-ton USCG Captain with 1,000+ sea days. Solo developer and AI consultant based in the Pacific. I\u2019ve built 6+ live products \u2014 from webcam streaming platforms to iOS apps to AI-powered automation tools. Every one of them is in production, serving real users.",
+      "100-ton USCG Captain with 1,000+ sea days. Solo developer and AI consultant based in the Pacific. I\u2019ve built 7+ live products \u2014 from webcam streaming platforms to event calendars to AI-powered contractor tools. Every one of them is in production, serving real users.",
       "Beyond software, I assist friends in project management of high-net-worth homes and commercial businesses. I started BlueWave because I saw too many people overwhelmed by AI and too many consultants overcomplicating it. My approach is simple: show you what works, help you build it, and get out of the way.",
     ],
     stats: [
-      { value: "6+", label: "Live Products" },
+      { value: "7+", label: "Live Products" },
       { value: "1,000+", label: "Sea Days" },
       { value: "24/7", label: "Systems Running" },
     ],
@@ -152,7 +152,7 @@ export default function About() {
             <span className="text-gradient">behind this.</span>
           </h2>
           <p className="text-white/40 max-w-2xl mx-auto text-lg">
-            One builder. Six live products. Systems that run themselves so you don&apos;t have to.
+            One builder. Seven live products. Systems that run themselves so you don&apos;t have to.
           </p>
         </motion.div>
 

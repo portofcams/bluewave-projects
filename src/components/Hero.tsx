@@ -50,7 +50,7 @@ const icons: Record<string, ReactNode> = {
 };
 
 const stats = [
-  { value: "6+", label: "Live Products" },
+  { value: "7+", label: "Live Products" },
   { value: "400+", label: "Cameras Streaming" },
   { value: "62", label: "AI Lessons Built" },
 ];
