@@ -57,17 +57,24 @@ export default function Contact() {
     setToast(null);
 
     try {
-      // POST to backend API
+      // POST to AlohaCalendar feedback API (shared email endpoint)
+      const feedbackMessage = [
+        `Name: ${formData.name}`,
+        `Email: ${formData.email}`,
+        formData.interest ? `Interest: ${formData.interest}` : null,
+        `\n${formData.message}`,
+      ]
+        .filter(Boolean)
+        .join("\n");
+
       const res = await fetch(
-        "https://ai.portofcams.com/api/bluewave/contact",
+        "https://alohacalendar.com/api/feedback",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            name: formData.name,
-            email: formData.email,
-            interest: formData.interest,
-            message: formData.message,
+            message: feedbackMessage,
+            page: "BlueWave Contact Form",
           }),
         }
       );
