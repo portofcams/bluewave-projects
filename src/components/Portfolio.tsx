@@ -20,13 +20,13 @@ const projects = [
     ),
   },
   {
-    name: "ContractorCalc",
+    name: "ProBuildCalc",
     tag: "Business Tool",
     description:
       "Smart calculator for contractors to estimate jobs, track costs, and manage projects. Built with AI-assisted estimation and mobile-first design.",
     tech: ["Next.js", "Prisma", "Capacitor", "Claude AI"],
     color: "from-lava-500 to-amber-400",
-    link: "https://contract.portofcams.com",
+    link: "https://probuildcalc.com",
     stat: "AI-Powered Estimates",
     icon: (
       <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">

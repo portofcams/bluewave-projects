@@ -220,7 +220,7 @@ Then I ship it. Not when it's perfect — when it's useful.
 
 1. **Port of Cams** — Live webcam streaming platform. 400+ cameras across Hawaii, Alaska, and the Pacific Northwest. Built with Astro and HLS.js.
 
-2. **ContractorCalc** — Job estimation tool for contractors. AI-powered cost calculations. Next.js with Capacitor for mobile.
+2. **ProBuildCalc** — Job estimation tool for contractors. AI-powered cost calculations. Next.js with Capacitor for mobile.
 
 3. **Perdiemify** — Per diem rate calculator for travelers. Instant GSA rate lookups. FastAPI backend with React frontend.
 
@@ -940,7 +940,7 @@ Over six months, I built and shipped six live applications:
 
 **Port of Cams** — a live webcam streaming platform serving 400+ cameras across Hawaii, Alaska, and the Pacific Northwest. Built with Astro, HLS.js, and MediaMTX. This started as a personal project to watch surf cameras and became a real platform.
 
-**ContractorCalc** — a job estimation tool for contractors with AI-powered cost calculations. Built because a contractor friend was doing estimates on napkins and spreadsheets.
+**ProBuildCalc** — a job estimation tool for contractors with AI-powered cost calculations. Built because a contractor friend was doing estimates on napkins and spreadsheets.
 
 **Perdiemify** — a per diem rate calculator for travelers. Instant GSA rate lookups that save road warriors time every travel day.
 
