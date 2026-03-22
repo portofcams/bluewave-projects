@@ -6,6 +6,7 @@ import { WaveLogo } from "./Logo";
 
 const navLinks = [
   { label: "Work", href: "#portfolio" },
+  { label: "Case Studies", href: "/case-studies" },
   { label: "Services", href: "#services" },
   { label: "AI School", href: "/school" },
   { label: "Blog", href: "/blog" },

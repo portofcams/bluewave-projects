@@ -50,6 +50,21 @@ const projects = [
     ),
   },
   {
+    name: "AlohaCalendar",
+    tag: "Events Platform",
+    description:
+      "Automated Hawaii events calendar with 13 scrapers, AI image enrichment, Stripe ticketing, and newsletter automation. Self-updating every 30 minutes.",
+    tech: ["Next.js", "Prisma", "PostgreSQL", "Stripe"],
+    color: "from-emerald-500 to-teal-400",
+    link: "https://alohacalendar.com",
+    stat: "13 Auto-Scrapers",
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+      </svg>
+    ),
+  },
+  {
     name: "Address API",
     tag: "Developer API",
     description:
