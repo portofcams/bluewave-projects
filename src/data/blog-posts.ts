@@ -1294,6 +1294,338 @@ Once you've used this for a week or two and proven it works, you can level up:
 
 But start here. Start simple. Start with one task, one prompt, and 10 minutes. That's how every advanced AI user began.`,
   },
+  {
+    id: "15",
+    slug: "how-we-built-a-24500-camera-streaming-platform",
+    title: "How We Built a 24,500+ Camera Streaming Platform",
+    excerpt:
+      "The technical story behind Port of Cams — from 30 webcams to 24,500+ pages in two weeks, powered by 10 custom scrapers and Claude AI.",
+    date: "Mar 22, 2026",
+    readTime: "8 min read",
+    category: "Building",
+    categoryColor: "bg-lava-500/20 text-lava-500",
+    gradient: "from-ocean-500 to-wave-500",
+    author: { name: "Captain J", role: "Founder, BlueWave Projects" },
+    content: `Port of Cams started the way most side projects start — with a personal itch. I wanted to check surf conditions in Hawaii and snow levels in Alaska without opening six different websites. So I set up a simple HLS streaming relay: point MediaMTX at an RTSP camera source, serve it through Caddy with SSL, and watch it in a browser.
+
+That was 30 cameras. Six months later, it's 24,500+ pages covering every scenic highway cam, ski resort, DOT traffic feed, and FAA weather station in the United States. Here's exactly how that happened.
+
+## The Architecture That Made Scaling Possible
+
+The core infrastructure is surprisingly simple. MediaMTX handles RTSP-to-HLS transcoding on a single Vultr VPS. Caddy terminates TLS and serves the streams at cams.portofcams.com. The frontend is an Astro static site on Cloudflare Pages.
+
+The key architectural decision was making streams on-demand. MediaMTX only connects to a camera's RTSP source when a viewer requests the HLS playlist. This means 24,500 cameras don't require 24,500 active connections — the server only maintains connections for cameras someone is actually watching.
+
+This on-demand approach meant we could scale the camera catalog without scaling the infrastructure. The same 2 vCPU, 4GB RAM server that handled 30 cameras handles 24,500. The bottleneck was never compute — it was content.
+
+## The Scraper Sprint: 10 Sources in 3 Days
+
+The real challenge was getting camera data from government agencies and third-party APIs, each with completely different formats, authentication methods, and quirks.
+
+**FAA WeatherCams (2,041 cameras):** The FAA publishes weather camera imagery at weathercams.faa.gov. We discovered their REST API requires a Referer header — requests without it get silently rejected. Claude figured this out by analyzing the network requests from the browser and built a scraper that pulls camera metadata, coordinates, and image URLs for every FAA station in the country.
+
+**WSDOT (1,644 cameras):** Washington State DOT publishes an open JSON API at data.wsdot.wa.gov. No authentication, clean data, easy pagination. This was the fastest scraper to build — Claude had it working in under 20 minutes.
+
+**Oregon DOT (1,115 cameras):** TripCheck serves direct JPG images with no API. Claude built a scraper that parses the TripCheck page structure, extracts camera locations and image URLs, and generates corresponding Astro pages.
+
+**12-State 511 Platform (thousands of cameras):** Utah, Idaho, Nevada, Arizona, Florida, Georgia, New York, Pennsylvania, Connecticut, Louisiana, New England — each uses a variation of the 511 DOT platform, but with different API endpoints, data formats, and authentication. Some use Iteris GeoJSON feeds. Others use ArcGIS REST endpoints. Claude wrote a base scraper that could be configured per state, then customized each one for the state-specific quirks.
+
+**Caltrans (30 cameras):** California's scenic highway cams — Donner Summit, Bay Bridge, Malibu Pier, Lake Tahoe, Hearst Castle, Pacific Coast Highway. These required parsing Caltrans' CCTV feed directory and mapping cameras to scenic locations.
+
+**Windy API (70 cameras, 14 countries):** Windy's webcam API provides cameras from Italy, Japan, Australia, Iceland, Norway, Thailand, and more. API key authenticated with straightforward JSON responses.
+
+**Alaska DOT 511 (115 cameras):** These cameras have multiple views per site — 2 to 8 angles each. Claude built a multi-view grid layout that displays all angles for each DOT site, with automatic view cycling.
+
+**Ski Resorts (29 cameras):** Hardcoded direct image URLs from resort webcam pages. The simplest scraper, but the content is some of the most popular on the site.
+
+## Page Generation at Scale
+
+For each camera, Claude generated a complete Astro page with:
+
+- HLS.js video player with auto-recovery and stall detection
+- Weather widget showing current conditions at the camera's location
+- Interactive Leaflet map with precise coordinates
+- SEO metadata, JSON-LD structured data, and OpenGraph tags
+- Amazon Associates affiliate links, context-aware by location (surf gear for coastal cams, ski equipment for mountain cams)
+- Multi-view grid layouts for DOT sites with multiple angles
+
+The page generation was templated but not generic. Each camera type — HLS stream, MJPEG image, YouTube embed, Windy iframe — required different player components and different metadata handling. Claude generated the templates and handled the conditional logic for each source type.
+
+## The HLS.js Challenge
+
+Streaming 24,500 cameras reliably meant dealing with every possible failure mode:
+
+- Camera goes offline mid-stream
+- Network packet loss corrupts HLS segments
+- Player stalls on a corrupted frame and never recovers
+- Browser tab goes to sleep and the stream falls behind
+
+Claude implemented comprehensive error recovery in HLS.js across all player instances. The player detects stalls, automatically destroys and recreates the HLS instance, handles network errors gracefully, and shows a clear "camera offline" state instead of a frozen frame. This required tuning MediaMTX to 4-second segments with 4x queue depth and forcing TCP transport to eliminate packet loss.
+
+## Monetization From Day One
+
+Every page ships with monetization built in:
+
+- **Google AdSense** ad slots positioned for the camera viewing experience
+- **Amazon Associates** affiliate links with location-aware product recommendations (the tag is portofcams-20)
+- **Meta Pixel** tracking for audience building and potential ad campaigns
+- **Stripe Premium** subscription ($9.99/mo or $89.99/yr) for power users
+
+The affiliate links are context-aware — a camera in Tahoe shows ski gear, a camera on the PCH shows surfboards and sunscreen, an Alaska camera shows cold weather gear and aurora photography equipment.
+
+## What I Learned
+
+**Infrastructure simplicity scales.** A single VPS with MediaMTX and Caddy handles 24,500 cameras because of the on-demand architecture. Over-engineering the infrastructure would have slowed the entire project.
+
+**Government APIs are wild.** Every state, every agency, every data feed has its own format, quirks, and failure modes. Having Claude analyze each API's behavior and write custom scrapers was the difference between a two-week sprint and a two-month slog.
+
+**SEO compounds.** 24,500 pages targeting location-specific camera queries means long-tail organic traffic grows automatically. Someone searching "Donner Summit road conditions camera" or "Maui surf cam live" finds a purpose-built page.
+
+**AI made this possible.** A solo developer building 10 scrapers, generating 24,500 pages, debugging HLS streaming issues, and optimizing server configuration in two weeks would have been impossible without Claude as the engineering partner. It handled the breadth of the work while I focused on the architecture and product decisions.
+
+The platform is still growing. There are 11,000+ additional cameras researched and ready for the pipeline. But 24,500 pages of live webcam content, all served from a single $24/month server, built by one person in two weeks — that's the power of the right architecture and the right AI tools.`,
+  },
+  {
+    id: "16",
+    slug: "building-ai-powered-apps-lessons-from-8-production-projects",
+    title: "Building AI-Powered Apps: Lessons from 8 Production Projects",
+    excerpt:
+      "What I learned building 8 live applications with Claude AI — the patterns that work, the mistakes that cost time, and why AI is a multiplier, not a shortcut.",
+    date: "Mar 22, 2026",
+    readTime: "7 min read",
+    category: "Building",
+    categoryColor: "bg-lava-500/20 text-lava-500",
+    gradient: "from-lava-500 to-violet-500",
+    author: { name: "Captain J", role: "Founder, BlueWave Projects" },
+    content: `Eight production applications. All live. All serving real users. All built by one person working with Claude AI. Here are the lessons that took me from shipping my first app to running a portfolio of products — lessons you won't find in any tutorial.
+
+## The Projects
+
+Quick context on what we're talking about:
+
+1. **Port of Cams** — 24,500+ page webcam streaming platform (Astro, HLS.js, MediaMTX)
+2. **AlohaCalendar** — Hawaii events calendar with 13 scrapers and ticketing (Next.js, Prisma, PostgreSQL)
+3. **Last Frontier Events** — Alaska events platform cloned from AlohaCalendar (Next.js, Prisma)
+4. **ProBuildCalc** — AI-powered contractor estimation tool (Next.js, FastAPI, Capacitor)
+5. **Perdiemify** — Per diem rate calculator for traveling workers (Python, FastAPI)
+6. **Address API** — Address enrichment API with 5 data sources (Node.js, Express)
+7. **RentReady** — Rental inspection app with LiDAR scanning (React, Capacitor, Supabase)
+8. **HitchLife** — Rotation worker lifestyle app (React, Express, Supabase)
+
+All eight run on a single Vultr VPS plus Cloudflare Pages. Total monthly infrastructure cost: under $30.
+
+## Lesson 1: The First 80% Is Easy. The Last 20% Is Everything.
+
+AI is phenomenal at getting you to a working prototype. Claude can scaffold an entire application — database schema, API routes, frontend components, deployment config — in a single session. You'll have something that looks and feels like a real product in hours, not weeks.
+
+The trap is thinking you're almost done. That first 80% is the easy part. The last 20% — error handling, edge cases, mobile responsiveness, loading states, empty states, authentication edge cases, data validation, accessibility — is where products become professional and where most AI-assisted projects stall.
+
+I learned to budget twice as much time for the polish phase as for the initial build. Claude handles this phase well too, but you have to explicitly ask for it. AI will happily declare victory after the happy path works unless you push it to handle every failure mode.
+
+## Lesson 2: Shared Infrastructure Compounds
+
+The biggest force multiplier isn't AI — it's shared infrastructure. Every application I build makes the next one faster because they share:
+
+- **One server** with Docker containers and Nginx Proxy Manager
+- **One dashboard** for monitoring, deployment tracking, and activity logging
+- **One deployment pattern** — scp files to the server, restart the container
+- **One domain structure** — subdomains under portofcams.com for all services
+- **One monitoring stack** — Uptime Kuma for health checks, custom metrics server
+
+When I built HitchLife (app #8), the infrastructure setup took 15 minutes instead of the 4 hours it took for ProBuildCalc (app #2). Same Docker Compose pattern, same Nginx routing, same SSL setup. I just added a new container and a new subdomain.
+
+If you're building multiple products, invest heavily in your shared infrastructure. The compound returns are enormous.
+
+## Lesson 3: Clone, Don't Rebuild
+
+AlohaCalendar and Last Frontier Events are the same codebase. When I decided to build an events platform for Alaska, Claude cloned AlohaCalendar, swapped the branding and theming, adapted the scrapers for Alaska-specific sources, and deployed it — all in a single session.
+
+This sounds obvious, but the temptation to "do it better this time" is strong. Every developer wants to rewrite things with the knowledge they gained from the first version. Resist this. A proven architecture with minor customizations ships in hours. A rewrite ships in weeks and introduces new bugs.
+
+The same pattern applies within a single product. When I needed to add a new scraper to AlohaCalendar, Claude could reference the existing scrapers' patterns and build a new one that followed the same conventions. Consistency beats cleverness.
+
+## Lesson 4: AI Doesn't Replace Architecture Decisions
+
+Claude will write whatever code you ask for. If you ask for a bad architecture, you'll get beautifully written bad architecture. The model is an excellent implementer, but it optimizes for what you ask, not necessarily for what you need.
+
+The architectural decisions — monolith vs microservices, SQL vs NoSQL, static generation vs server rendering, which data to cache and where — still require human judgment informed by the specific constraints of your project.
+
+I made this mistake early. I asked Claude to build a feature without thinking through the data model first. It produced clean code with the wrong data structure, and I spent more time refactoring than I would have spent designing upfront.
+
+Now I always start with architecture. I describe the constraints, the scale requirements, the user flows, and ask Claude to propose a data model and system design before writing any implementation code. This conversation is the highest-value use of AI time.
+
+## Lesson 5: Government APIs Will Break Your Heart
+
+Three of my eight applications integrate with government data sources: Port of Cams (DOT cameras, FAA weather stations), Address API (FEMA flood data, Census demographics), and the events platforms (state tourism APIs).
+
+Government APIs are a special kind of challenge:
+- Documentation is often outdated or wrong
+- Endpoints change without notice or versioning
+- Rate limits are undocumented and inconsistent
+- Data formats vary between agencies and sometimes between endpoints within the same agency
+- The Census API literally rejects properly URL-encoded parameters (you have to send raw URLs)
+
+Claude is invaluable here because it can analyze API responses, identify quirks, and build resilient integrations with automatic failover. My Address API has primary and fallback sources for every data category specifically because government APIs are unreliable. When FEMA's NFHL endpoint goes down, the system automatically queries OpenFEMA's NFIP Policies endpoint instead.
+
+Build redundancy into every government API integration. It's not a question of if it will go down — it's when.
+
+## Lesson 6: Ship Small, Measure, Then Expand
+
+Every one of these eight applications launched with minimal features. Port of Cams started with 30 cameras. AlohaCalendar launched with 57 events. Address API launched with 3 data sources.
+
+The features I thought were essential before launch were rarely the ones users actually cared about. Port of Cams users didn't ask for the features I'd planned — they asked for specific cameras I hadn't considered. AlohaCalendar users wanted better search, not the premium features I'd built.
+
+Launch with the smallest thing that delivers value. Watch how people use it. Build what they actually need, not what you imagine they need. This is standard product advice, but AI makes it uniquely actionable because you can ship responses to user feedback in hours instead of weeks.
+
+## Lesson 7: Documentation Is Not Optional
+
+With eight applications running on shared infrastructure, documentation is the difference between productivity and chaos. Every project has a CLAUDE.md file that describes:
+
+- Architecture and key files
+- Deployment workflow
+- Credentials and API keys
+- Current status and known issues
+- Session logs of what was built and when
+
+When I start a new session with Claude, the first thing it reads is this documentation. Without it, every session would start with 30 minutes of "let me figure out where we left off." With it, we're productive within seconds.
+
+MEMORY.md files track cross-session state — what was done, what's pending, what broke. This is especially critical because AI sessions can run out of context. If you don't document as you go, completed work gets lost and the next session wastes time re-verifying.
+
+## Lesson 8: One Person, Eight Products — The Math Works
+
+Total infrastructure cost: ~$30/month (Vultr VPS + domains)
+Total AI tool cost: ~$200/month (Claude Pro + API credits)
+Total time investment: ~6 months of part-time development
+Revenue streams: SaaS subscriptions, API access, affiliate commissions, ad revenue, consulting leads
+
+The math works because AI compresses the development timeline and shared infrastructure compresses the operational cost. Each additional product adds marginal complexity, not multiplicative complexity.
+
+This isn't about being a genius programmer. I started as a maritime captain who couldn't write Python. It's about understanding what to build, using AI to build it efficiently, and shipping relentlessly.
+
+The tools exist. The infrastructure is affordable. The only real constraint is deciding to start.`,
+  },
+  {
+    id: "17",
+    slug: "from-idea-to-launch-ship-products-in-days",
+    title: "From Idea to Launch: How We Ship Products in Days, Not Months",
+    excerpt:
+      "The exact process we use to go from a blank terminal to a live product in days. No team. No funding. Just AI, discipline, and a $24/month server.",
+    date: "Mar 22, 2026",
+    readTime: "6 min read",
+    category: "Building",
+    categoryColor: "bg-lava-500/20 text-lava-500",
+    gradient: "from-emerald-500 to-ocean-500",
+    author: { name: "Captain J", role: "Founder, BlueWave Projects" },
+    content: `The traditional product development timeline looks something like this: two months of planning, three months of development, one month of testing, two weeks of launch prep. Total: six months, minimum.
+
+We ship in days. Not because we cut corners — because we've built a system that eliminates everything that isn't building. Here's the exact process.
+
+## Day 0: The Idea Filter
+
+Not every idea deserves to become a product. Before I write a line of code, every idea goes through three questions:
+
+**1. Can I explain it in one sentence?**
+"Per diem calculator that automates GSA rate lookups." "Address enrichment API for real estate." "Events calendar that scrapes 13 sources automatically." If the idea needs a paragraph to explain, it's either too complex or not clearly defined.
+
+**2. Does it solve a problem I've personally experienced?**
+Perdiemify exists because I got tired of manually looking up per diem rates. Port of Cams exists because I wanted to check surf cameras without opening six websites. Address API exists because I needed flood risk data for a property and the FEMA website was unusable.
+
+Personal experience with the problem means I understand the user. I don't need market research to know the pain point is real.
+
+**3. Can I build an MVP in one week?**
+If the minimum viable product takes longer than a week, the scope is too big. Reduce it until it fits. Perdiemify's MVP was a single API endpoint that takes a location and returns per diem rates. Address API's MVP was one endpoint with three data sources. Port of Cams started as a handful of webcams with an HLS player.
+
+The MVP is not the product. It's the experiment. Ship the experiment fast, learn from it, then decide if it's worth expanding.
+
+## Day 1: Architecture and Skeleton
+
+Morning: I describe the product to Claude in detail — what it does, who it's for, what the data model looks like, what the API needs to expose. Claude proposes an architecture. We discuss tradeoffs. We settle on a plan.
+
+The technology choice follows a simple decision tree:
+- **Needs a database and auth?** Next.js + Prisma + PostgreSQL
+- **API-only service?** Node.js + Express or Python + FastAPI
+- **Content-heavy site?** Astro + Cloudflare Pages
+- **Needs mobile?** Add Capacitor to any of the above
+
+Afternoon: scaffold the project, set up Docker configuration, create the database schema, wire up the basic deployment pipeline. By end of day, there's a "hello world" running on the server at its subdomain. Claude handles all the boilerplate — Docker Compose files, Nginx configurations, systemd units, SSL setup.
+
+This infrastructure phase used to take me two days. Now it takes two hours because every new project follows the same pattern as the previous eight.
+
+## Day 2-3: Core Build
+
+This is where Claude Code earns its keep. I describe each feature, Claude implements it, I review every line, we iterate. The cycle time per feature is roughly:
+
+- **Simple API endpoint**: 15-30 minutes (describe, implement, test)
+- **Database model + CRUD**: 30-60 minutes (schema, migrations, routes, validation)
+- **Frontend page with data**: 45-90 minutes (component, data fetching, styling, mobile)
+- **External API integration**: 1-2 hours (research the API, build the integration, handle errors, test edge cases)
+
+A typical day produces 5-8 completed features. In two days, the core product is functional — not polished, but working end-to-end.
+
+Key principle: I never ask Claude to build something I can't explain. If I can't articulate what the feature should do, I'm not ready to build it. Clarity of specification is the bottleneck, not coding speed.
+
+## Day 4: Polish and Edge Cases
+
+This is the day most developers skip, and it's why most MVPs feel like prototypes instead of products.
+
+- Loading states for every async operation
+- Error messages that tell users what went wrong and what to do about it
+- Empty states (what does the page look like with no data?)
+- Mobile responsiveness (every page, every component)
+- Input validation (server-side, always)
+- Rate limiting on public endpoints
+- Health check endpoint for monitoring
+- Graceful degradation when external services are down
+
+Claude handles all of this efficiently once you ask for it. The trick is asking for it — creating a checklist and working through it methodically instead of declaring the product "done" when the happy path works.
+
+## Day 5: Launch
+
+Launch day is deliberately anticlimactic. The product is already running on the server. The domain is already resolving. SSL is already configured.
+
+Launch means:
+- Final manual test of every user-facing flow
+- Deploy script validates configs and restarts services
+- Add the product to the monitoring dashboard
+- POST an activity entry to the shared dashboard
+- Update project documentation (CLAUDE.md, MEMORY.md)
+- Create the case study content for bluewaveprojects.com
+
+No launch page. No Product Hunt campaign. No social media blitz. Just a working product at a URL that solves a problem. Marketing comes later, once the product has proven it delivers value.
+
+## Why This Works
+
+**AI eliminates the mechanical parts of coding.** I spend my time on architecture, product decisions, and review — the work that requires judgment. Claude handles the implementation — the work that requires volume. This is the correct division of labor.
+
+**Shared infrastructure eliminates setup time.** Every new product plugs into the same server, same monitoring, same deployment pattern. The first product took a week. The eighth took two days.
+
+**Scope discipline eliminates waste.** One-sentence products. One-week MVPs. Launch before it's perfect. Expand based on real feedback. This isn't moving fast and breaking things — it's moving fast by building only the things that matter.
+
+**Documentation eliminates context loss.** Every project is documented. Every session is logged. When I return to a project after working on something else, the documentation tells me exactly where I left off and what's next. No ramp-up time.
+
+## The Compound Effect
+
+Each product I ship teaches me something that makes the next one faster:
+
+- Port of Cams taught me HLS streaming and scraper patterns
+- AlohaCalendar taught me event data modeling and Stripe integration
+- Last Frontier Events taught me how to clone and adapt an existing codebase
+- ProBuildCalc taught me Capacitor mobile deployment
+- Address API taught me government API resilience patterns
+- Perdiemify taught me bulk data processing
+- RentReady taught me offline-first architecture
+- HitchLife taught me social feature design
+
+The knowledge compounds. The infrastructure compounds. The speed compounds. Product number eight took less than half the time of product number one, and it's a more sophisticated application.
+
+## Start Shipping
+
+The barrier to building software products has never been lower. A $24/month server. A Claude subscription. A domain name. That's the entire capital requirement.
+
+The skills are learnable. The tools are accessible. The process is repeatable.
+
+Stop planning. Start shipping. Your first product won't be perfect — none of mine were. But it will be live, it will be real, and it will teach you more in one week than six months of planning ever could.`,
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
