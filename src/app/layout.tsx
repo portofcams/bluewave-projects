@@ -73,7 +73,8 @@ export default function RootLayout({
       </body>
       <Script
         defer
-        src="https://ai.portofcams.com/api/analytics/tracker.js"
+        src="https://ai.portofcams.com/static/tracker.js"
+        data-site="bluewaveprojects"
         strategy="afterInteractive"
       />
     </html>
