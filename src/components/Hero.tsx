@@ -206,7 +206,7 @@ function MetricsCard() {
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20 sm:pt-0">
       {/* Animated background orbs */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-ocean-600/20 rounded-full blur-[128px] animate-pulse-glow" />
@@ -260,7 +260,7 @@ export default function Hero() {
       <MetricsCard />
 
       {/* Main content */}
-      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center pt-36 sm:pt-0">
+      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center pt-16 sm:pt-0">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}

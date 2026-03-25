@@ -19,11 +19,11 @@ const consultants = [
     ],
     bio: [
       "I build things that work and teach people to do the same.",
-      "100-ton USCG Captain with 1,000+ sea days. Solo developer and AI consultant based in the Pacific. I\u2019ve built 7+ live products \u2014 from webcam streaming platforms to event calendars to AI-powered contractor tools. Every one of them is in production, serving real users.",
+      "100-ton USCG Captain with 1,000+ sea days. Solo developer and AI consultant based in the Pacific. I\u2019ve built 8+ live products \u2014 from webcam streaming platforms to event calendars to AI-powered contractor tools. Every one of them is in production, serving real users.",
       "Beyond software, I assist friends in project management of high-net-worth homes and commercial businesses. I started BlueWave because I saw too many people overwhelmed by AI and too many consultants overcomplicating it. My approach is simple: show you what works, help you build it, and get out of the way.",
     ],
     stats: [
-      { value: "7+", label: "Live Products" },
+      { value: "8+", label: "Live Products" },
       { value: "1,000+", label: "Sea Days" },
       { value: "24/7", label: "Systems Running" },
     ],
