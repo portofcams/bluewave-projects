@@ -1626,6 +1626,542 @@ The skills are learnable. The tools are accessible. The process is repeatable.
 
 Stop planning. Start shipping. Your first product won't be perfect — none of mine were. But it will be live, it will be real, and it will teach you more in one week than six months of planning ever could.`,
   },
+  {
+    id: "11",
+    slug: "how-much-does-it-cost-to-build-an-app-in-2026",
+    title: "How Much Does It Cost to Build an App in 2026",
+    excerpt:
+      "Real numbers from someone who builds production apps. The honest breakdown of solo developer vs agency vs offshore, and why the math has changed completely.",
+    date: "Mar 24, 2026",
+    readTime: "8 min read",
+    category: "Strategy",
+    categoryColor: "bg-rose-500/20 text-rose-400",
+    gradient: "from-rose-500 to-lava-500",
+    author: { name: "Captain J", role: "Founder, BlueWave Projects" },
+    content: `Everyone Googles this question at some point. You have an app idea, you want to know what it costs, and the answers you find online are either wildly vague ("anywhere from $10,000 to $500,000") or trying to sell you something. Let me give you real numbers from real projects.
+
+I have built and currently maintain eight production applications. Not prototypes. Not MVPs collecting dust. Live products with real users, running on real infrastructure. Here is what they actually cost.
+
+## The Three Paths
+
+### Path 1: Traditional Agency ($50,000 - $300,000+)
+
+A development agency will quote you anywhere from $50K for a simple app to $300K+ for something complex. That usually includes design, project management, QA, and a team of 3-8 people working for 3-6 months.
+
+The hidden costs are what kill you. Post-launch maintenance runs $2,000-5,000/month. Feature requests get quoted at agency rates ($150-250/hour). You are locked into their stack and their timeline. If they go under or you want to switch, you are paying migration costs on top of everything.
+
+For a well-funded startup with VC money, this path makes sense. For a small business owner testing an idea, it is financial suicide.
+
+### Path 2: Offshore Development ($15,000 - $80,000)
+
+Offshore teams (typically Eastern Europe, South Asia, or Latin America) charge $25-75/hour versus $150-250 for US agencies. The math looks great on paper.
+
+The reality is more complicated. Communication overhead eats 20-30% of your budget. Time zone gaps slow iteration to a crawl. Code quality varies dramatically — I have inherited offshore codebases that cost more to fix than to rebuild. Some offshore teams are excellent. Many are not. You are gambling.
+
+### Path 3: AI-Augmented Solo Developer ($500 - $5,000)
+
+This is the path I take. Here is the actual cost breakdown for one of my apps, AlohaCalendar (a Hawaii events calendar with 250+ events, automated scrapers, and Stripe payments):
+
+- **Server**: $24/month (Vultr VPS, shared across all my apps)
+- **Domain**: $12/year
+- **AI tools**: ~$200/month (Claude Pro, API credits)
+- **Stripe fees**: 2.9% + $0.30 per transaction
+- **Total to launch**: Under $500
+- **Time to launch**: 2 weeks
+
+That is not a typo. The same class of application that would cost $75,000+ from an agency cost me under $500 in hard dollars plus two weeks of focused work.
+
+## Why the Math Changed
+
+AI coding tools — specifically Claude Code, which I use daily — have compressed development timelines by roughly 5-10x. Tasks that used to take a full day (writing API endpoints, building database schemas, debugging edge cases) now take an hour or two.
+
+I built ProBuildCalc (a contractor estimation tool) with 47 API routes and 20 database tables. That is not a toy project. In a traditional development model, that is 3-4 months of full-time work. I shipped it in weeks.
+
+The infrastructure costs have also collapsed. Docker lets me run eight applications on a single $24/month server. Cloudflare Pages hosts my front-ends for free. Supabase and similar services provide databases with generous free tiers.
+
+## What Determines Your Actual Cost
+
+The biggest variable is not the technology. It is the complexity of your business logic. A simple content site or directory costs almost nothing. A marketplace with payments, user accounts, and real-time features costs more — not because the code is expensive, but because the decisions are harder.
+
+Here is a rough framework:
+
+- **Static site / landing page**: $200-500 (1-3 days)
+- **Directory / content platform**: $500-2,000 (1-2 weeks)
+- **SaaS with user accounts and payments**: $2,000-5,000 (2-4 weeks)
+- **Complex platform with integrations**: $5,000-15,000 (1-3 months)
+
+These are solo developer numbers using AI tools. They assume you (or your developer) know what they are doing.
+
+## The Monthly Reality
+
+Launch cost is only part of the equation. Here is what I actually pay to keep eight apps running:
+
+- **Server**: $24/month
+- **Domains**: ~$10/month across all properties
+- **AI subscriptions**: ~$200/month
+- **Monitoring / email / misc SaaS**: ~$50/month
+- **Total**: Under $300/month for eight production applications
+
+Compare that to a single agency-built app costing $3,000-5,000/month in maintenance.
+
+## What This Means for You
+
+If you are a business owner with an app idea, you have more options than you think. You do not need $100K and a development team. You need either:
+
+1. **A solo developer who uses AI tools effectively** — expect to pay $3,000-15,000 for a production app, delivered in weeks not months.
+2. **To learn the basics yourself** — with AI tools, the learning curve has flattened dramatically. My AI School plans ($79-249/month) teach business owners to build and maintain their own tools.
+3. **A clear scope** — the single biggest cost driver is scope creep. Know exactly what your app needs to do at launch. Everything else is version 2.
+
+The era of six-figure app development budgets for small business software is over. The tools exist to build production-quality applications at a fraction of the historical cost. The question is not whether you can afford to build it. The question is whether you can afford not to.`,
+  },
+  {
+    id: "12",
+    slug: "claude-vs-chatgpt-vs-gemini-which-ai-for-business",
+    title: "Claude vs ChatGPT vs Gemini: Which AI Should Your Business Use",
+    excerpt:
+      "An honest comparison from someone who uses all three in production every day. What each model is actually best at, with real examples.",
+    date: "Mar 22, 2026",
+    readTime: "7 min read",
+    category: "Tools",
+    categoryColor: "bg-wave-500/20 text-wave-400",
+    gradient: "from-wave-500 to-glacier-300",
+    author: { name: "Captain J", role: "Founder, BlueWave Projects" },
+    content: `I spend money on all three. Not because I like collecting AI subscriptions, but because each model has genuine strengths that matter for different tasks. After building eight production applications and running an AI consulting practice, here is my honest breakdown.
+
+## Claude (Anthropic)
+
+**Best for**: Writing production code, analyzing long documents, nuanced writing, complex reasoning.
+
+Claude is my daily driver for software development. When I need to build a feature — say, adding a Stripe subscription system to an existing app — Claude produces code that reads like a senior engineer wrote it. Variable names make sense. Error handling is thorough. It matches existing codebase patterns instead of rewriting everything in its preferred style.
+
+Where Claude really separates from the pack is long-context work. I regularly feed it 50,000+ tokens of context (entire codebases, lengthy specifications) and it tracks details across the full document. I built the scraper system for LastFrontierEvents (which processes 13 different data sources) largely through Claude, and it kept track of shared interfaces, error handling patterns, and database schemas across all of them.
+
+Claude Code — the CLI tool that lets Claude work directly in your terminal — changed my workflow permanently. Instead of copy-pasting code between a chat window and my editor, Claude reads my files, makes changes, runs tests, and iterates. This is how I ship features in hours instead of days.
+
+**Weaknesses**: No web browsing. No image generation. Can be overly cautious on certain topics. The API can be slower than competitors for simple queries.
+
+## ChatGPT (OpenAI)
+
+**Best for**: Quick research, image generation, browsing the web, general-purpose questions, DALL-E integration.
+
+ChatGPT with GPT-4o is the best general-purpose AI assistant available. When I need to quickly research a topic, get current information, or generate images for a project, ChatGPT is where I go.
+
+The browsing capability is genuinely useful for business tasks. "What are the current Stripe API rate limits?" or "What changed in the latest Astro release?" — these questions need current data that Claude cannot provide from training data alone.
+
+GPT-4o is also fast. For simple tasks (drafting an email, answering a quick question, brainstorming names), the speed advantage matters when you are context-switching between multiple projects throughout the day.
+
+I use the ChatGPT API for specific features in my applications. The Address API service I built uses AI for data enrichment, and GPT-4o-mini hits the right price-performance sweet spot for high-volume, lower-complexity API calls.
+
+**Weaknesses**: Code quality is good but not as consistent as Claude for large projects. More likely to hallucinate confidently. The conversation style can be overly enthusiastic and verbose.
+
+## Gemini (Google)
+
+**Best for**: Multimodal analysis (especially video and images), Google Workspace integration, large context windows, data analysis.
+
+Gemini's standout feature is its multimodal capabilities. Analyzing images, processing video content, and working with mixed media is where it performs best. For my camera monitoring projects (PortOfCams runs 24,500+ camera pages), Gemini's vision capabilities have been useful for analyzing camera feeds and detecting content.
+
+The Google Workspace integration is underrated for business use. If your company runs on Google Docs, Sheets, and Gmail, Gemini slots into that workflow more naturally than the alternatives.
+
+Gemini also offers genuinely large context windows. For tasks like "analyze this entire 200-page contract" or "review all 50 of these customer support transcripts," Gemini handles the volume well.
+
+**Weaknesses**: Code output is a step behind Claude and ChatGPT. The product has gone through multiple rebrandings which makes the ecosystem confusing. API pricing and model naming can be hard to follow.
+
+## My Actual Daily Workflow
+
+Here is how I use all three in a typical workday:
+
+**Morning (planning and research)**: ChatGPT. I browse current information, check competitor updates, research API documentation. Quick questions, fast answers.
+
+**Building (coding and architecture)**: Claude. All serious development work goes through Claude Code. Feature implementation, debugging, code review, database design. This is where 60-70% of my AI usage happens.
+
+**Content and analysis**: Split between Claude and Gemini depending on the task. Long-form writing goes to Claude. Image or video analysis goes to Gemini. Data processing depends on the format.
+
+## The Real Answer
+
+If you can only pick one and you write code or need high-quality written output: Claude.
+
+If you can only pick one and you need a versatile general assistant with web access: ChatGPT.
+
+If you are deep in the Google ecosystem and work heavily with images and documents: Gemini.
+
+If you are serious about using AI in your business, you will eventually use at least two. The subscription costs ($20/month each) pay for themselves within the first week if you are using them for real work.
+
+## What I Tell My Consulting Clients
+
+Stop agonizing over which AI is "best." They are all good enough to transform your workflow. Pick the one that fits your primary use case, get proficient with it, and expand from there.
+
+The businesses I see getting the most value from AI are not the ones with the fanciest tools. They are the ones who picked one model, learned to prompt it well, and integrated it into their daily operations. Consistency beats optimization every time.`,
+  },
+  {
+    id: "13",
+    slug: "how-to-build-a-saas-product-as-a-solo-developer",
+    title: "How to Build a SaaS Product as a Solo Developer",
+    excerpt:
+      "The actual tech stack, tools, and deployment workflow I use to ship production SaaS products in days. No team required.",
+    date: "Mar 20, 2026",
+    readTime: "9 min read",
+    category: "Building",
+    categoryColor: "bg-lava-500/20 text-lava-500",
+    gradient: "from-lava-500 to-amber-400",
+    author: { name: "Captain J", role: "Founder, BlueWave Projects" },
+    content: `I maintain eight production applications as a solo developer. Not side projects. Production software with users, payments, and uptime requirements. People ask how this is possible, and the answer is boringly practical: the right stack, ruthless prioritization, and AI tools that compress timelines by 5-10x.
+
+Here is the exact playbook.
+
+## The Stack
+
+Every choice here optimizes for one thing: shipping speed without sacrificing production quality.
+
+**Frontend**: Astro (static sites), React + Vite (interactive apps), Tailwind CSS. Astro is my default for content-heavy sites (PortOfCams, AlohaCalendar, LastFrontierEvents). React + Vite for apps that need heavy client-side interactivity (ProBuildCalc, CamDrop). Tailwind eliminates CSS decision fatigue entirely.
+
+**Backend**: FastAPI (Python) or Express (Node.js). FastAPI when I need robust API documentation and Python's ecosystem (ML, data processing). Express when the project is JavaScript-heavy and I want one language across the stack. Both deploy identically via Docker.
+
+**Database**: PostgreSQL via Supabase or direct Docker. Supabase gives you auth, real-time subscriptions, and row-level security for free. For simpler projects, a Postgres container is enough.
+
+**Infrastructure**: One Vultr VPS ($24/month, 8GB RAM), Docker Compose for everything, Nginx Proxy Manager for routing, Cloudflare Pages for static front-ends. This single server runs all eight applications.
+
+**Payments**: Stripe. No alternatives worth considering for a solo developer. Their documentation is excellent, the API is clean, and the dashboard gives you everything you need.
+
+**AI**: Claude Code for development, Claude API for in-app AI features, GPT-4o-mini for high-volume API tasks.
+
+## The Process
+
+### Week 1: Core Product
+
+Day 1-2: Define the core loop. Every SaaS product has one. For AlohaCalendar, it is "find an event near you." For Perdiemify, it is "calculate your per diem." For CamDrop, it is "see your jobsite camera." Write down the core loop in one sentence. If you cannot, your idea is too complex for v1.
+
+Day 3-5: Build the core loop. Nothing else. No user settings, no admin panel, no analytics dashboard. Just the one thing that makes someone say "this is useful." Using Claude Code, I can typically build a working backend + frontend for a focused feature in 2-3 days.
+
+Day 6-7: Add auth and payments. Supabase handles auth (email/password, magic links, OAuth). Stripe handles payments. These are solved problems — do not reinvent them.
+
+### Week 2: Polish and Ship
+
+Day 8-9: Error handling, loading states, mobile responsiveness. The stuff that separates a prototype from a product. This is where most solo developers give up, and it is exactly where you cannot.
+
+Day 10-11: Deploy. Docker Compose file, push to server, configure DNS, verify SSL. My deploy script for a new app is about 30 lines of bash. The entire process takes under an hour.
+
+Day 12-14: SEO basics, analytics, monitoring. Structured data, sitemap, Google Analytics, Uptime Kuma for health checks. Do this at launch, not "later." Later never comes.
+
+## What Not to Build
+
+This list has saved me more time than any tool:
+
+- **Do not build custom auth.** Use Supabase, Clerk, or Auth0.
+- **Do not build custom payments.** Use Stripe.
+- **Do not build custom email.** Use Resend or SendGrid.
+- **Do not build custom hosting.** Use a VPS with Docker or a managed platform.
+- **Do not build an admin panel until you need one.** Direct database queries are fine for your first 100 users.
+- **Do not build features nobody asked for.** Ship the core loop, talk to users, then build what they request.
+
+## The AI Development Workflow
+
+This is the force multiplier. Here is how a typical feature build works with Claude Code:
+
+1. I describe what I want in plain English, including the existing code patterns I want followed.
+2. Claude Code reads my codebase, understands the architecture, and implements the feature.
+3. I review the changes, test the critical paths, and iterate on anything that needs adjustment.
+4. The feature ships.
+
+A concrete example: adding the 13-source scraper system to LastFrontierEvents. Each scraper needs to fetch events from a different website format, normalize the data, handle errors, deduplicate against existing events, and store results. In a traditional workflow, that is 2-3 weeks of work. With Claude Code, I built all 13 scrapers in under a week, including testing and debugging.
+
+The key insight is that AI does not replace your judgment. You still make every architecture decision, every product decision, every "should we build this" decision. What AI eliminates is the mechanical translation of decisions into code. The thinking stays with you. The typing goes to the machine.
+
+## Revenue on Day One
+
+Do not launch without a way to make money. Even if it is a simple $9/month plan that unlocks one premium feature. Perdiemify launched with a basic free tier and a $9.99/month premium tier. The revenue was small at first, but it validated that people would pay.
+
+Stripe Checkout can be set up in under an hour. There is no excuse for launching a SaaS product without a payment flow.
+
+## The Solo Developer Advantage
+
+You might think being a solo developer is a disadvantage. It is not. Here is why:
+
+- **Zero communication overhead.** No standups, no Slack threads, no PR review queues.
+- **Instant decisions.** You see a problem, you fix it. No meetings to discuss the fix.
+- **Full context.** You know every line of code because you wrote it (or reviewed what Claude wrote).
+- **Low burn rate.** Your monthly costs are $300, not $30,000.
+
+The disadvantage is that you are the single point of failure. Mitigate this with monitoring (Uptime Kuma), automated backups, and documentation. If you get sick for a week, your apps should keep running without intervention.
+
+## Start Today
+
+Pick an idea. Define the core loop in one sentence. Open Claude Code. Start building.
+
+Your first SaaS product will not be perfect. Mine were not. ProBuildCalc started with five features and now has 47 API routes. AlohaCalendar started with manual event entry and now has 13 automated scrapers. The product evolves. But it can only evolve if it exists.
+
+Ship first. Optimize later. There has never been a better time to be a solo developer.`,
+  },
+  {
+    id: "14",
+    slug: "ai-for-hawaii-small-businesses-practical-guide",
+    title: "AI for Hawaii Small Businesses: A Practical Guide",
+    excerpt:
+      "Specific, actionable AI use cases for restaurants, tour operators, hotels, and surf shops in Hawaii. No theory, just what works.",
+    date: "Mar 18, 2026",
+    readTime: "7 min read",
+    category: "Strategy",
+    categoryColor: "bg-rose-500/20 text-rose-400",
+    gradient: "from-rose-500 to-pink-400",
+    author: { name: "Captain J", role: "Founder, BlueWave Projects" },
+    content: `Hawaii's small business landscape is unique. Seasonal tourism swings, high operating costs, a tight labor market, and customers who expect a personal touch. Generic AI advice from mainland consultants misses these realities entirely. This guide is written from Hawaii, for Hawaii businesses.
+
+I live here, I build software here, and I work with local businesses. Here is what actually works.
+
+## Restaurants and Food Trucks
+
+**The problem**: Staff shortages, inconsistent reservation management, menu updates scattered across five platforms, and review responses that take forever.
+
+**AI solutions that work today**:
+
+Inventory forecasting. Feed your POS sales data into an AI tool and ask it to predict next week's order quantities based on the last 90 days, adjusted for upcoming events and holidays. A poke shop on Oahu reduced food waste by 15% doing exactly this. The prompt is simple: "Here are my daily sales by item for the last 90 days. Predict quantities for next week, accounting for [specific events]."
+
+Review response automation. Set up a workflow where new Google/Yelp reviews get routed to an AI that drafts a response in your restaurant's voice. You review and approve in 30 seconds instead of spending 10 minutes writing each response. This is not about being fake — it is about being consistent when you are too busy running the kitchen to sit at a computer.
+
+Menu translation. Hawaii serves international tourists constantly. AI can translate your menu into Japanese, Korean, and Mandarin in minutes. Have a native speaker verify it once, then you are set.
+
+## Tour Operators and Activity Companies
+
+**The problem**: Booking inquiries that come in at all hours (tourists in different time zones), weather-dependent scheduling, and the constant need for fresh content.
+
+**AI solutions that work today**:
+
+Automated booking responses. A simple AI agent that answers common questions (What should I wear? Where do we meet? What is your cancellation policy?) can handle 60-70% of incoming inquiries instantly. The remaining 30% — the ones that actually need a human — get escalated. Your customers get instant answers at 2am Tokyo time, and you stop losing bookings to competitors who responded faster.
+
+Weather-contingent messaging. Connect a weather API to an AI workflow that automatically sends guests updated activity recommendations when conditions change. "Tomorrow's surf is looking rough on the North Shore — here are three great alternatives" beats a generic cancellation email every time.
+
+Social media content. Tour operators sit on a goldmine of photo and video content. AI can help batch-process this into social posts, email content, and website updates. One whale watching tour operator I worked with had 3,000 photos from the last season sitting on a hard drive. We turned them into six months of Instagram content in an afternoon.
+
+## Hotels and Vacation Rentals
+
+**The problem**: Guest communication at scale, pricing optimization, cleaning coordination, and competing with the big platforms.
+
+**AI solutions that work today**:
+
+Dynamic pricing analysis. Feed your booking data, local event calendars, and competitor rates into an AI model and get pricing recommendations. I built AlohaCalendar specifically to aggregate Hawaii events — knowing that the Merrie Monarch Festival is coming next month is the difference between pricing your Hilo rental at $150/night and $300/night.
+
+Guest communication. Pre-arrival, during-stay, and post-checkout messages can be templated and personalized by AI. "Welcome to our Kailua property, Sarah. The farmers market is tomorrow morning — it's a 5-minute walk from your front door" is the kind of message that earns five-star reviews.
+
+Maintenance scheduling. Take photos of wear items (grout, paint, appliances) during cleaning and use AI vision to flag things that need attention before they become guest complaints. Proactive maintenance is cheaper than reactive complaints.
+
+## Surf Shops and Outdoor Retail
+
+**The problem**: Seasonal inventory, tourist customers who need education, and competing with online retailers.
+
+**AI solutions that work today**:
+
+Customer education at scale. Build a simple chatbot trained on your product knowledge. When a tourist walks in asking which board they should rent, your staff gives expert advice. When that same question comes via your website at midnight, the AI gives the same expert advice. Consistency matters.
+
+Inventory recommendations. AI can analyze your sales patterns against surf forecasts, tourist arrival data, and seasonal trends. Stock more soft-tops before summer (beginner tourist season) and more shortboards before winter (experienced surfer season). Obvious in hindsight, but the data makes the timing precise.
+
+Local content marketing. "Best surf spots for beginners on Oahu" is a search query that sends qualified customers to whoever ranks for it. AI can help you produce the kind of local-expert content that ranks well and drives foot traffic.
+
+## Getting Started Without Breaking the Bank
+
+You do not need a $50,000 AI implementation. Start here:
+
+1. **Pick one pain point.** Not three. One. The one that costs you the most time or money every week.
+2. **Use existing tools.** ChatGPT Plus ($20/month) or Claude Pro ($20/month) can handle 80% of the use cases above without any custom development.
+3. **Measure the result.** Track hours saved or revenue gained for 30 days. If it works, expand. If it does not, try a different pain point.
+4. **Then consider custom tools.** Once you know exactly what you need, a custom AI solution built for your specific workflow will outperform any generic tool. That is where working with someone who knows both AI and Hawaii business comes in.
+
+## The Local Advantage
+
+Mainland AI consultants will sell you a generic chatbot and call it innovation. What Hawaii businesses need is someone who understands that your restaurant closes for Makahiki season, that North Shore surf conditions change your entire customer demographic, and that "aloha spirit" is not a marketing slogan — it is an expectation your customers have at every touchpoint.
+
+AI tools are powerful. But they need to be configured by someone who understands your market. That is the difference between a chatbot that says "How can I help you?" and one that says "Aloha! Looking for something to do this weekend? The Waikiki Spam Jam is happening Saturday."
+
+Start with one problem. Solve it. Then solve the next one.`,
+  },
+  {
+    id: "15",
+    slug: "what-is-an-ai-agent-and-why-your-business-needs-one",
+    title: "What Is an AI Agent and Why Your Business Needs One",
+    excerpt:
+      "AI agents explained in plain English, with real examples from production systems that run 24/7 without human intervention.",
+    date: "Mar 16, 2026",
+    readTime: "7 min read",
+    category: "Education",
+    categoryColor: "bg-emerald-500/20 text-emerald-400",
+    gradient: "from-emerald-500 to-teal-400",
+    author: { name: "Captain J", role: "Founder, BlueWave Projects" },
+    content: `The tech industry has a habit of taking simple concepts and wrapping them in jargon until nobody understands them. "AI agents" is the latest example. Let me cut through the noise.
+
+## What an AI Agent Actually Is
+
+An AI agent is software that does a task for you, makes decisions along the way, and handles unexpected situations without needing you to intervene. That is it.
+
+Compare this to a regular AI chatbot, where you type a question and get an answer. The chatbot waits for you. An agent acts on its own.
+
+A simple analogy: a chatbot is like texting a knowledgeable friend. An agent is like hiring an employee who shows up, does the work, and reports back when they are done.
+
+## Real Examples From My Production Systems
+
+I run several AI agents in production right now. Here is what they actually do.
+
+### Event Scrapers (AlohaCalendar and LastFrontierEvents)
+
+These agents run every 30 minutes. They visit 13 different websites, extract event information, normalize the data into a consistent format, check for duplicates against existing events in the database, and store new events. When a website changes its layout (which happens regularly), the agents detect the failure and log it for review.
+
+No human triggers this process. No human reviews individual events. The agents process hundreds of events per cycle autonomously. A human reviews the results periodically, but the agents do the work.
+
+Before these agents existed, keeping event calendars current required hours of manual data entry per week. Now it requires about 15 minutes of oversight per week.
+
+### Camera Monitoring (PortOfCams)
+
+PortOfCams serves 24,500+ camera pages. An agent runs every 10 minutes checking camera feed health. When a stream goes down, it logs the failure, attempts recovery, and if the stream stays down, flags it for review. When YouTube-sourced cameras change their stream URLs (which happens frequently), the agent detects the change.
+
+This is a task that would be impossible for a human to do manually. You cannot sit there checking 24,500 cameras. But an agent handles it without breaking a sweat.
+
+### Auto-Posting and Content Generation
+
+Another agent monitors camera feeds for interesting conditions (golden hour lighting, weather events, unusual activity), captures clips, and queues them for social media posting. The agent makes decisions about what is "interesting" enough to post, what time to post it, and what caption to write.
+
+This is a step beyond simple automation. A cron job could capture a frame every hour. An agent evaluates whether that frame is worth sharing.
+
+## Why This Matters for Your Business
+
+Every business has tasks that are:
+
+1. **Repetitive** — they happen on a schedule or in response to a trigger
+2. **Rule-based** — the decisions follow a logic that can be described
+3. **Time-consuming** — they eat hours that a human could spend on higher-value work
+
+These are agent candidates. Here are common examples across industries:
+
+**Lead follow-up.** A new inquiry comes in through your website at 9pm. Instead of waiting until morning, an agent responds within minutes, asks qualifying questions, and routes hot leads to your phone.
+
+**Invoice processing.** An agent reads incoming invoices (email or upload), extracts line items, matches them against purchase orders, flags discrepancies, and prepares them for approval. The human approves or rejects. The agent does the processing.
+
+**Inventory monitoring.** An agent checks stock levels against sales velocity, weather forecasts, and upcoming events. It generates reorder recommendations and sends alerts when action is needed.
+
+**Competitive monitoring.** An agent checks competitor pricing, new product listings, or review sentiment on a daily basis and delivers a summary. You spend 2 minutes reading instead of 2 hours researching.
+
+**Customer review management.** An agent monitors new reviews across Google, Yelp, and TripAdvisor, drafts responses in your brand voice, and queues them for one-click approval.
+
+## How AI Agents Differ From Simple Automation
+
+Regular automation (like Zapier or a cron job) follows rigid rules. "When X happens, do Y." If something unexpected occurs, it either fails silently or does the wrong thing.
+
+AI agents handle ambiguity. When my event scraper encounters a website that has restructured its HTML, it does not just crash. It recognizes the change, attempts to extract data using the new structure, and if it cannot, it reports what changed so I can update the parser. That adaptability is the difference.
+
+The practical implication: agents require less maintenance than traditional automation. They handle the 80% of edge cases that would otherwise require you to write specific rules for every scenario.
+
+## The Cost Reality
+
+A custom AI agent for a specific business task typically costs $2,000-10,000 to build and $50-200/month to run. Compare this to:
+
+- A part-time employee doing the same task: $2,000-3,000/month
+- Not doing the task at all: whatever revenue or efficiency you are leaving on the table
+
+The ROI calculation is usually straightforward. If an agent saves 10 hours per week of staff time at $25/hour, that is $1,000/month in savings against $100-200/month in operating costs. Payback period is measured in weeks, not years.
+
+## Getting Started
+
+You do not need to start with a complex, autonomous system. The best path:
+
+1. **Identify one repetitive task** that eats disproportionate time.
+2. **Document the decision logic.** If you can explain how a human does it step by step, an agent can likely do it.
+3. **Start supervised.** Have the agent do the work and present results for human approval. Once you trust it, reduce oversight.
+4. **Expand gradually.** One reliable agent teaches you more about the technology than reading ten articles.
+
+The businesses that will thrive in the next five years are not the ones with the most employees. They are the ones with the best agents — tireless, consistent, and running 24/7 while the owner sleeps.`,
+  },
+  {
+    id: "16",
+    slug: "idea-to-revenue-in-30-days-with-ai",
+    title: "How to Go From Idea to Revenue in 30 Days with AI",
+    excerpt:
+      "A step-by-step framework for launching a revenue-generating product in 30 days, with real examples from apps that followed this exact process.",
+    date: "Mar 14, 2026",
+    readTime: "8 min read",
+    category: "Building",
+    categoryColor: "bg-lava-500/20 text-lava-500",
+    gradient: "from-lava-500 to-amber-400",
+    author: { name: "Captain J", role: "Founder, BlueWave Projects" },
+    content: `Thirty days from a blank screen to a product generating revenue. It sounds aggressive. It is aggressive. But I have done it multiple times, and the framework is repeatable.
+
+This is not about building a toy or a landing page with an email signup. This is about shipping a functional product that people pay money to use within 30 days. Here is exactly how.
+
+## The Framework
+
+### Days 1-3: Validate the Idea (Do Not Skip This)
+
+Most failed products die because the creator built something nobody wanted. Spend three days — not three months — validating demand.
+
+**Day 1: Find the pain.** Look for problems people are already paying to solve, poorly. Browse Reddit, industry forums, and competitor review sections. The best ideas are not novel. They are existing solutions done better, cheaper, or for an underserved audience.
+
+When I built Perdiemify (a per diem calculator), the validation was instant. Government per diem rates are public data, but every existing tool for calculating them was either ugly, inaccurate, or locked behind enterprise paywalls. The pain was obvious and the existing solutions were bad.
+
+**Day 2: Size the audience.** Google the main keywords. Check search volume with free tools (Ubersuggest, Google Trends). Look at competitor traffic estimates with SimilarWeb. You do not need a million users. You need a few hundred willing to pay.
+
+**Day 3: Define the core transaction.** What is the one thing a user does in your product that delivers value? For AlohaCalendar, it is finding an event. For the Address API, it is enriching an address with flood and demographic data. For ProBuildCalc, it is generating a job estimate. Write this in one sentence. If you cannot, simplify until you can.
+
+### Days 4-10: Build the Core Product
+
+Seven days to build a working product. This is where AI tools make the impossible possible.
+
+**Day 4-5: Backend and database.** Using Claude Code, I set up the database schema, API endpoints, and core business logic. For a typical SaaS product, this means 10-20 API routes, 5-10 database tables, and authentication. In the pre-AI era, this was 2-3 weeks of work. With Claude Code, it is two focused days.
+
+Real example: The Address API. Day one, I defined the schema (addresses, enrichment results, API keys, usage tracking). Day two, Claude Code built 15 API routes with proper validation, rate limiting, and error handling. By end of day two, I had a working API that could accept an address and return enriched data from five different sources.
+
+**Day 6-8: Frontend.** Build only the screens that support the core transaction. A landing page, the main product screen, a pricing page, and a checkout flow. That is four pages. Tailwind CSS makes them look professional without a designer. Astro or React + Vite gives you a modern framework without configuration headaches.
+
+**Day 9-10: Payments.** Stripe Checkout for the payment flow. Stripe webhooks for subscription management. This is a solved problem with excellent documentation. Do not overcomplicate it. One free tier, one paid tier. You can add complexity later.
+
+### Days 11-17: Polish and Reliability
+
+This week separates products that retain users from products that lose them.
+
+**Day 11-12: Error handling.** Every API endpoint needs proper error responses. Every frontend interaction needs loading states and error messages. Users forgive missing features. They do not forgive broken features.
+
+**Day 13-14: Mobile responsiveness.** More than half your traffic will be mobile. If your product does not work on a phone, you are throwing away half your potential revenue.
+
+**Day 15-16: Monitoring and ops.** Set up Uptime Kuma or a similar monitoring tool. Configure alerts for downtime. Set up automated database backups. This takes a few hours and prevents catastrophic failures.
+
+**Day 17: Testing the full flow.** Sign up as a new user, complete the core transaction, upgrade to paid, and verify everything works. Fix what breaks. Do this on both desktop and mobile.
+
+### Days 18-24: Go to Market
+
+The product works. Now people need to find it.
+
+**Day 18-19: SEO fundamentals.** Structured data (JSON-LD), sitemap, meta descriptions, Open Graph tags. Submit to Google Search Console. These take hours to implement and compound over months.
+
+**Day 20-21: Content.** Write 3-5 pages of content targeting keywords your audience searches for. For AlohaCalendar, this meant pages for each Hawaii region. For PortOfCams, it meant pages for each camera category (beach cams, ski cams, traffic cams). Content is the cheapest customer acquisition channel that exists.
+
+**Day 22-23: Direct outreach.** Identify 50 potential customers and reach out personally. Not a mass email blast. Individual messages explaining how your product solves their specific problem. For CamDrop (jobsite camera monitoring), I identified 97 construction companies and contacted them directly.
+
+**Day 24: Analytics.** Google Analytics 4 for traffic. Stripe dashboard for revenue. Set up a simple dashboard so you can see what is working.
+
+### Days 25-30: Iterate and Optimize
+
+**Day 25-27: User feedback.** If you have any users (even a handful), talk to them. Ask what is missing, what is confusing, and what they would pay more for. Build the top-requested feature.
+
+**Day 28-29: Conversion optimization.** Look at where users drop off. Is it the landing page? The pricing page? The checkout flow? Fix the biggest leak first.
+
+**Day 30: Revenue check.** You should have at least a few paying customers by now. If you do not, the problem is either distribution (people are not finding you) or product-market fit (the product does not solve a real problem well enough). Both are fixable, but you need to diagnose which one it is.
+
+## Real Timeline: AlohaCalendar
+
+- **Day 1-3**: Validated demand (thousands of monthly searches for "Hawaii events this weekend," existing options were scattered and incomplete)
+- **Day 4-10**: Built scraper system, event database, public-facing calendar with search and filters
+- **Day 11-17**: Added Stripe payments, user accounts, email notifications, mobile optimization
+- **Day 18-24**: SEO pages for each island and event category, submitted to search engines, direct outreach to event organizers
+- **Day 25-30**: Iterated on scraper reliability, added Ticketmaster integration, launched newsletter
+
+Revenue within 30 days? Modest. But real. And growing every month since.
+
+## Why 30 Days Matters
+
+The 30-day constraint is not arbitrary. It serves three critical purposes:
+
+1. **It forces ruthless prioritization.** You physically cannot build everything in 30 days, so you build only what matters.
+2. **It kills perfectionism.** Your product will launch with rough edges. That is fine. Users care about value, not polish.
+3. **It generates real feedback.** A live product with real users teaches you more in one week than three months of planning.
+
+The biggest risk for solo developers is not shipping a bad product. It is never shipping at all. The 30-day framework makes "never shipping" impossible, because the clock is ticking from day one.
+
+Stop planning. Start the clock.`,
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
