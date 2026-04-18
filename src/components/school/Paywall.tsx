@@ -80,7 +80,7 @@ export default function Paywall({ waveNumber, waveTitle, waveColor, lessonTitle,
         ) : (
           <>
             <p className="text-sm text-white/50 mb-4">
-              Wave 1 is free. Unlock all 8 waves with a subscription.
+              Wave 1 is free. Unlock all 9 waves with a subscription.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <button

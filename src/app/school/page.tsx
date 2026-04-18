@@ -5,12 +5,12 @@ import SchoolPageClient from "./SchoolPageClient";
 export const metadata: Metadata = {
   title: "AI School — Learn AI Like a Game | BlueWave Projects",
   description:
-    "Learn AI like a game. 8 waves, 62 lessons, hands-on exercises. Master prompt engineering, AI workflows, automation, and more through progressive, gamified training.",
+    "Learn AI like a game. 9 waves, 66 lessons, hands-on exercises. Master prompt engineering, AI workflows, automation, and more through progressive, gamified training.",
   alternates: { canonical: "https://bluewaveprojects.com/school" },
   openGraph: {
-    title: "BlueWave AI School — 8 Waves, 62 Lessons",
+    title: "BlueWave AI School — 9 Waves, 66 Lessons",
     description:
-      "Learn AI like a game. 8 waves, 62 lessons, hands-on exercises. Master AI skills through progressive, gamified training.",
+      "Learn AI like a game. 9 waves, 66 lessons, hands-on exercises. Master AI skills through progressive, gamified training.",
     url: "https://bluewaveprojects.com/school",
     siteName: "BlueWave Projects",
     type: "website",
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "BlueWave AI School — 8 Waves, 62 Lessons",
+    title: "BlueWave AI School — 9 Waves, 66 Lessons",
     description:
       "Learn AI like a game. Master AI skills through progressive, gamified training.",
     images: ["/og-school.png"],
@@ -54,7 +54,7 @@ export default function SchoolPage() {
             "@context": "https://schema.org",
             "@type": "ItemList",
             name: "BlueWave AI School Curriculum",
-            description: "8 progressive waves covering AI foundations through advanced automation.",
+            description: "9 progressive waves covering AI foundations through advanced automation and a hands-on RAG build track.",
             numberOfItems: allWaves.length,
             itemListElement: courseInstances.map((course, i) => ({
               "@type": "ListItem",

@@ -19,6 +19,7 @@ const WAVE_ICONS: Record<number, React.ReactNode> = {
   6: <><path strokeLinecap="round" strokeLinejoin="round" d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7C5 4 4 5 4 7z" /><circle cx="9" cy="10" r="1.5" fill="currentColor"/><circle cx="15" cy="10" r="1.5" fill="currentColor"/><path strokeLinecap="round" strokeLinejoin="round" d="M9 15h6" /></>,
   7: <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />,
   8: <path strokeLinecap="round" strokeLinejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />,
+  9: <path strokeLinecap="round" strokeLinejoin="round" d="M4 6l8-3 8 3M4 10l8-3 8 3M4 14l8-3 8 3M4 18l8-3 8 3" />,
 };
 
 const difficultyColors: Record<string, string> = {
@@ -98,7 +99,7 @@ export default function SchoolPage() {
               AI School
             </h1>
             <p className="text-white/40 text-base max-w-md mx-auto mb-10">
-              Master AI skills through 8 progressive waves. Complete lessons, earn XP, and level up.
+              Master AI skills through 9 progressive waves. Complete lessons, earn XP, and level up.
             </p>
 
             {/* Stats */}
@@ -390,9 +391,9 @@ export default function SchoolPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
               </svg>
             </div>
-            <h3 className="text-xl font-bold text-white mb-2">Unlock All 8 Waves</h3>
+            <h3 className="text-xl font-bold text-white mb-2">Unlock All 9 Waves</h3>
             <p className="text-sm text-white/40 mb-6 max-w-md mx-auto">
-              Wave 1 is free. Subscribe to access Waves 2-8 with advanced AI skills, automation, and the capstone project.
+              Wave 1 is free. Subscribe to access Waves 2-9 with advanced AI skills, automation, the capstone project, and the RAG &amp; Evals build track.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link

@@ -187,7 +187,7 @@ export default function School() {
             </svg>
           </a>
           <p className="text-sm text-white/30 mt-4">
-            8 waves. 61 lessons. Start free, upgrade anytime.
+            9 waves. 66 lessons. Start free, upgrade anytime.
           </p>
         </motion.div>
       </div>

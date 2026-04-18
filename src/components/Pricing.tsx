@@ -11,7 +11,7 @@ const plans = [
     period: "/mo",
     description: "Self-paced AI mastery at your own speed.",
     features: [
-      "8 waves of interactive content",
+      "9 waves of interactive content",
       "Hands-on exercises & projects",
       "XP tracking & achievements",
       "Community access",

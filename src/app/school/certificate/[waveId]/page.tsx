@@ -11,6 +11,7 @@ export function generateStaticParams() {
     { waveId: 'wave-6' },
     { waveId: 'wave-7' },
     { waveId: 'wave-8' },
+    { waveId: 'wave-9' },
   ];
 }
 

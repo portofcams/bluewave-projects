@@ -6,9 +6,10 @@ import { wave5 } from '@/data/wave5';
 import { wave6 } from '@/data/wave6';
 import { wave7 } from '@/data/wave7';
 import { wave8 } from '@/data/wave8';
+import { wave9 } from '@/data/wave9';
 import type { Wave, Lesson, Unit } from '@/data/curriculum-types';
 
-export const allWaves: Wave[] = [wave1, wave2, wave3, wave4, wave5, wave6, wave7, wave8];
+export const allWaves: Wave[] = [wave1, wave2, wave3, wave4, wave5, wave6, wave7, wave8, wave9];
 
 export function getAllLessons(): Lesson[] {
   return allWaves.flatMap(w => w.units.flatMap(u => u.lessons));
