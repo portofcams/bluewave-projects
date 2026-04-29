@@ -20,48 +20,18 @@ const projects = [
     ),
   },
   {
-    name: "CamDrop",
-    tag: "B2B SaaS",
+    name: "Binnacle.ai",
+    tag: "Maritime SaaS",
     description:
-      "Construction site timelapse cameras. Weatherproof cameras that capture months of progress into shareable timelapses. Perfect for builders, developers, and project managers.",
-    tech: ["Next.js", "HLS.js", "Cloudflare", "Stripe"],
-    color: "from-sky-500 to-cyan-400",
-    link: "https://camdrop.portofcams.com",
-    stat: "$99/mo Starter Plan",
+      "AI-powered USCG compliance platform for commercial mariners and operators. Credential tracking, inspection prep, regulation lookup, and rotation planning for the maritime industry.",
+    tech: ["Next.js", "PostgreSQL", "Claude AI", "Stripe"],
+    color: "from-blue-600 to-indigo-500",
+    link: "https://binnacleai.com",
+    stat: "USCG Compliance",
     icon: (
       <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
-        <path d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
-      </svg>
-    ),
-  },
-  {
-    name: "ProBuildCalc",
-    tag: "Business Tool",
-    description:
-      "Smart calculator for contractors to estimate jobs, track costs, and manage projects. Built with AI-assisted estimation and mobile-first design.",
-    tech: ["Next.js", "Prisma", "Capacitor", "Claude AI"],
-    color: "from-lava-500 to-amber-400",
-    link: "https://probuildcalc.com",
-    stat: "AI-Powered Estimates",
-    icon: (
-      <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25v-.008zm2.498-6.75h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007v-.008zm2.504-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008v-.008zm-6.004-9h9.004a1.5 1.5 0 011.5 1.5v12a1.5 1.5 0 01-1.5 1.5h-9.004a1.5 1.5 0 01-1.5-1.5v-12a1.5 1.5 0 011.5-1.5z" />
-      </svg>
-    ),
-  },
-  {
-    name: "Perdiemify",
-    tag: "Finance App",
-    description:
-      "Per diem rate calculator and tracker for travelers and remote workers. Instant GSA rate lookups, trip logging, and expense reporting made dead simple.",
-    tech: ["FastAPI", "React", "GSA Data", "Python"],
-    color: "from-emerald-500 to-teal-400",
-    link: "https://perdiemify.com",
-    stat: "All 50 States Covered",
-    icon: (
-      <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18v-.008zm-12 0h.008v.008H6v-.008z" />
+        <path d="M12 21a9 9 0 100-18 9 9 0 000 18z" />
+        <path d="M12 3v18M3 12h18M12 7.5l3 3-3 3-3-3 3-3z" />
       </svg>
     ),
   },
@@ -96,6 +66,21 @@ const projects = [
     ),
   },
   {
+    name: "Ikena",
+    tag: "Construction Tech",
+    description:
+      "Design-build OS for premium residential renovation. Client portal, crew app, and AR plan overlay for design-build GCs. AR/LiDAR-native, built and dogfooded on Oahu.",
+    tech: ["Next.js", "iOS", "ARKit", "LiDAR"],
+    color: "from-slate-700 to-cyan-500",
+    link: "https://ikenagroup.com",
+    stat: "In Development",
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M2.25 21h19.5M3 21V8.25l9-6 9 6V21M9 21V12h6v9M9 7.5h.008v.008H9V7.5zm3 0h.008v.008H12V7.5zm3 0h.008v.008H15V7.5z" />
+      </svg>
+    ),
+  },
+  {
     name: "Address API",
     tag: "Developer API",
     description:
@@ -112,6 +97,36 @@ const projects = [
     ),
   },
   {
+    name: "ProBuildCalc",
+    tag: "Business Tool",
+    description:
+      "Smart calculator for contractors to estimate jobs, track costs, and manage projects. Built with AI-assisted estimation and mobile-first design.",
+    tech: ["Next.js", "Prisma", "Capacitor", "Claude AI"],
+    color: "from-lava-500 to-amber-400",
+    link: "https://probuildcalc.com",
+    stat: "AI-Powered Estimates",
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25v-.008zm2.498-6.75h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007v-.008zm2.504-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008v-.008zm-6.004-9h9.004a1.5 1.5 0 011.5 1.5v12a1.5 1.5 0 01-1.5 1.5h-9.004a1.5 1.5 0 01-1.5-1.5v-12a1.5 1.5 0 011.5-1.5z" />
+      </svg>
+    ),
+  },
+  {
+    name: "Perdiemify",
+    tag: "Finance App",
+    description:
+      "Per diem rate calculator and tracker for travelers and remote workers. Instant GSA rate lookups, trip logging, and expense reporting made dead simple.",
+    tech: ["FastAPI", "React", "GSA Data", "Python"],
+    color: "from-emerald-500 to-teal-400",
+    link: "https://perdiemify.com",
+    stat: "All 50 States Covered",
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18v-.008zm-12 0h.008v.008H6v-.008z" />
+      </svg>
+    ),
+  },
+  {
     name: "Family Tree",
     tag: "Personal App",
     description:
@@ -123,6 +138,22 @@ const projects = [
     icon: (
       <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+      </svg>
+    ),
+  },
+  {
+    name: "CamDrop",
+    tag: "B2B SaaS",
+    description:
+      "Construction site timelapse cameras. Weatherproof cameras that capture months of progress into shareable timelapses. Perfect for builders, developers, and project managers.",
+    tech: ["Next.js", "HLS.js", "Cloudflare", "Stripe"],
+    color: "from-sky-500 to-cyan-400",
+    link: "#",
+    stat: "$99/mo Starter Plan",
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
+        <path d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
       </svg>
     ),
   },
