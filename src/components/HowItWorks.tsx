@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useReveal } from "@/hooks/useReveal";
 
 const steps = [
   {
@@ -40,20 +39,16 @@ const steps = [
 ];
 
 export default function HowItWorks() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const { ref, inView } = useReveal();
 
   return (
     <section id="how-it-works" className="py-32 px-6 relative">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-ocean-950/20 to-transparent" />
 
       <div className="max-w-7xl mx-auto relative">
-        <motion.div
+        <div
           ref={ref}
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          className={`reveal-up ${inView ? "in" : ""} text-center mb-20`}
         >
           <span className="text-sm font-medium text-ocean-400 uppercase tracking-widest mb-4 block">
             How It Works
@@ -65,57 +60,47 @@ export default function HowItWorks() {
           <p className="text-lg text-white/40 max-w-2xl mx-auto">
             No long contracts. No complicated onboarding. Just a clear path to getting your time back.
           </p>
-        </motion.div>
+        </div>
 
         <div className="relative grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Connecting line */}
           <div className="hidden md:block absolute top-24 left-[16.66%] right-[16.66%] h-[2px]">
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={inView ? { scaleX: 1 } : {}}
-              transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
-              className="h-full bg-gradient-to-r from-ocean-500 via-wave-400 to-glacier-300 origin-left"
+            <div
+              style={{
+                transform: inView ? "scaleX(1)" : "scaleX(0)",
+                transformOrigin: "left",
+                transition: "transform 1s ease-out 0.4s",
+              }}
+              className="h-full bg-gradient-to-r from-ocean-500 via-wave-400 to-glacier-300"
             />
           </div>
 
-          {steps.map((step, index) => {
-            const stepRef = useRef(null);
-            const stepInView = useInView(stepRef, { once: true, margin: "-40px" });
-
-            return (
-              <motion.div
-                ref={stepRef}
-                key={step.number}
-                initial={{ opacity: 0, y: 40 }}
-                animate={stepInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
-                className="relative text-center"
-              >
-                <div className="flex justify-center mb-8">
-                  <div className="relative">
-                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-ocean-500 to-wave-500 flex items-center justify-center text-white shadow-lg shadow-ocean-500/20">
-                      {step.icon}
-                    </div>
-                    <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-deep-800 border-2 border-ocean-400 flex items-center justify-center">
-                      <span className="text-xs font-bold text-ocean-400">{step.number}</span>
-                    </div>
+          {steps.map((step, index) => (
+            <div
+              key={step.number}
+              className={`reveal-up reveal-d-${(index + 1) * 2} ${inView ? "in" : ""} relative text-center`}
+            >
+              <div className="flex justify-center mb-8">
+                <div className="relative">
+                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-ocean-500 to-wave-500 flex items-center justify-center text-white shadow-lg shadow-ocean-500/20">
+                    {step.icon}
+                  </div>
+                  <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-deep-800 border-2 border-ocean-400 flex items-center justify-center">
+                    <span className="text-xs font-bold text-ocean-400">{step.number}</span>
                   </div>
                 </div>
+              </div>
 
-                <h3 className="text-2xl font-bold text-white mb-4">{step.title}</h3>
-                <p className="text-white/40 leading-relaxed max-w-xs mx-auto">
-                  {step.description}
-                </p>
-              </motion.div>
-            );
-          })}
+              <h3 className="text-2xl font-bold text-white mb-4">{step.title}</h3>
+              <p className="text-white/40 leading-relaxed max-w-xs mx-auto">
+                {step.description}
+              </p>
+            </div>
+          ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="text-center mt-16"
+        <div
+          className={`reveal-up-sm reveal-d-7 ${inView ? "in" : ""} text-center mt-16`}
         >
           <a
             href="#contact"
@@ -126,7 +111,7 @@ export default function HowItWorks() {
               <path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
             </svg>
           </a>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useReveal } from "@/hooks/useReveal";
 
 const testimonials = [
   {
@@ -67,16 +66,13 @@ function TestimonialCard({
   testimonial: (typeof testimonials)[number];
   index: number;
 }) {
-  const cardRef = useRef(null);
-  const cardInView = useInView(cardRef, { once: true, margin: "-40px" });
+  const { ref, inView } = useReveal();
+  const delayClass = index >= 1 && index <= 8 ? `reveal-d-${index}` : "";
 
   return (
-    <motion.div
-      ref={cardRef}
-      initial={{ opacity: 0, y: 40 }}
-      animate={cardInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      className="glass glass-hover rounded-2xl p-8 sm:p-10 transition-all duration-500 relative"
+    <div
+      ref={ref}
+      className={`reveal-up ${delayClass} ${inView ? "in" : ""} glass glass-hover rounded-2xl p-8 sm:p-10 transition-all duration-500 relative`}
     >
       {/* Quote mark */}
       <div className="absolute top-6 right-8 text-6xl text-white/5 font-serif leading-none">
@@ -98,13 +94,12 @@ function TestimonialCard({
           <div className="text-xs text-white/40">{testimonial.role}</div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
 export default function Testimonials() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const { ref, inView } = useReveal();
 
   return (
     <section id="testimonials" className="py-32 px-6 relative">
@@ -113,12 +108,9 @@ export default function Testimonials() {
       </div>
 
       <div className="max-w-7xl mx-auto relative">
-        <motion.div
+        <div
           ref={ref}
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          className={`reveal-up ${inView ? "in" : ""} text-center mb-20`}
         >
           <span className="text-sm font-medium text-ocean-400 uppercase tracking-widest mb-4 block">
             Testimonials
@@ -132,11 +124,8 @@ export default function Testimonials() {
           </p>
 
           {/* Counter */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={inView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="inline-flex items-center gap-2 mt-8 px-5 py-2.5 rounded-full bg-white/5 border border-white/10"
+          <div
+            className={`reveal-up-sm reveal-d-3 ${inView ? "in" : ""} inline-flex items-center gap-2 mt-8 px-5 py-2.5 rounded-full bg-white/5 border border-white/10`}
           >
             <div className="flex -space-x-2">
               {["bg-ocean-500", "bg-wave-500", "bg-lava-500", "bg-emerald-500"].map((bg, i) => (
@@ -146,8 +135,8 @@ export default function Testimonials() {
             <span className="text-sm text-white/60">
               Join <span className="text-white font-medium">50+</span> students and clients
             </span>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {testimonials.map((testimonial, i) => (

@@ -115,3 +115,167 @@ body {
   box-shadow: 0 0 30px rgba(14, 165, 233, 0.3);
   transform: translateY(-1px);
 }
+
+/* === Reveal animations (replaces framer-motion useInView pattern) === */
+
+.reveal-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  will-change: opacity, transform;
+}
+.reveal-up.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-up-sm {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+.reveal-up-sm.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.reveal-left.in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.95) translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.reveal-scale.in {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.reveal-pop {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+}
+.reveal-pop.in {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Stagger delays */
+.reveal-d-1 { transition-delay: 0.08s; }
+.reveal-d-2 { transition-delay: 0.16s; }
+.reveal-d-3 { transition-delay: 0.24s; }
+.reveal-d-4 { transition-delay: 0.32s; }
+.reveal-d-5 { transition-delay: 0.4s; }
+.reveal-d-6 { transition-delay: 0.48s; }
+.reveal-d-7 { transition-delay: 0.56s; }
+.reveal-d-8 { transition-delay: 0.64s; }
+
+/* === On-mount animations (no observer needed) === */
+
+@keyframes mount-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes mount-up-sm {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes mount-up-lg {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes mount-left {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes mount-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes mount-scale {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes mount-pop {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes slide-down {
+  from { transform: translateY(-80px); }
+  to { transform: translateY(0); }
+}
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+@keyframes width-grow-92 {
+  from { width: 0; }
+  to { width: 92%; }
+}
+@keyframes width-grow-68 {
+  from { width: 0; }
+  to { width: 68%; }
+}
+
+.anim-mount-up { animation: mount-up 0.8s ease-out both; }
+.anim-mount-up-sm { animation: mount-up-sm 0.8s ease-out both; }
+.anim-mount-up-lg { animation: mount-up-lg 0.8s ease-out both; }
+.anim-mount-left { animation: mount-left 0.8s ease-out both; }
+.anim-mount-fade { animation: mount-fade 1s ease-out both; }
+.anim-mount-scale { animation: mount-scale 0.8s ease-out both; }
+.anim-mount-pop { animation: mount-pop 1s ease-out both; }
+.anim-slide-down { animation: slide-down 0.6s ease-out both; }
+.anim-float-y { animation: float-y 4s ease-in-out infinite; }
+.anim-scroll-bounce { animation: scroll-bounce 2s ease-in-out infinite; }
+.anim-width-92 { animation: width-grow-92 1.5s ease-out both; animation-delay: 1.8s; }
+.anim-width-68 { animation: width-grow-68 1.5s ease-out both; animation-delay: 2s; }
+
+/* Animation delays for staggered mount entrances */
+.anim-d-1 { animation-delay: 0.15s; }
+.anim-d-2 { animation-delay: 0.3s; }
+.anim-d-3 { animation-delay: 0.45s; }
+.anim-d-4 { animation-delay: 0.7s; }
+.anim-d-5 { animation-delay: 0.8s; }
+.anim-d-6 { animation-delay: 1.2s; }
+.anim-d-7 { animation-delay: 1.5s; }
+.anim-d-8 { animation-delay: 2s; }
+.anim-d-9 { animation-delay: 2.5s; }
+.anim-d-10 { animation-delay: 3s; }
+
+/* === Expand/collapse (replaces AnimatePresence height animation) === */
+
+.expand {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+.expand.open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+.expand > * {
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Plus icon rotate (FAQ) */
+.icon-rotate {
+  transition: transform 0.2s ease-out;
+}
+.icon-rotate.open {
+  transform: rotate(45deg);
+}

@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useReveal } from "@/hooks/useReveal";
 
 const comparisons = [
   {
@@ -91,16 +90,13 @@ function ComparisonCard({
   item: (typeof comparisons)[number];
   index: number;
 }) {
-  const cardRef = useRef(null);
-  const cardInView = useInView(cardRef, { once: true, margin: "-40px" });
+  const { ref, inView } = useReveal();
+  const delayClass = index >= 1 && index <= 8 ? `reveal-d-${index}` : "";
 
   return (
-    <motion.div
-      ref={cardRef}
-      initial={{ opacity: 0, y: 30 }}
-      animate={cardInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.08 }}
-      className="glass glass-hover rounded-2xl p-6 sm:p-8 transition-all duration-500"
+    <div
+      ref={ref}
+      className={`reveal-up-sm ${delayClass} ${inView ? "in" : ""} glass glass-hover rounded-2xl p-6 sm:p-8 transition-all duration-500`}
     >
       <div className="flex items-center gap-3 mb-6">
         <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-ocean-500 to-wave-500 flex items-center justify-center text-white">
@@ -125,23 +121,20 @@ function ComparisonCard({
 
       {/* Progress bar */}
       <div className="h-2 rounded-full bg-white/5 overflow-hidden">
-        <motion.div
-          initial={{ width: 0 }}
-          animate={cardInView ? { width: `${item.percent}%` } : {}}
-          transition={{ duration: 1.2, delay: 0.3 + index * 0.08, ease: "easeOut" }}
+        <div
+          style={{ width: inView ? `${item.percent}%` : 0, transition: "width 1.2s ease-out", transitionDelay: `${0.3 + index * 0.08}s` }}
           className="h-full rounded-full bg-gradient-to-r from-ocean-500 to-wave-400"
         />
       </div>
       <div className="text-right mt-2">
         <span className="text-xs text-wave-400 font-medium">{item.percent}% time saved</span>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
 export default function BeforeAfter() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const { ref, inView } = useReveal();
 
   return (
     <section id="before-after" className="py-32 px-6 relative">
@@ -150,12 +143,9 @@ export default function BeforeAfter() {
       </div>
 
       <div className="max-w-7xl mx-auto relative">
-        <motion.div
+        <div
           ref={ref}
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          className={`reveal-up ${inView ? "in" : ""} text-center mb-20`}
         >
           <span className="text-sm font-medium text-lava-500 uppercase tracking-widest mb-4 block">
             Before &amp; After
@@ -167,7 +157,7 @@ export default function BeforeAfter() {
           <p className="text-lg text-white/40 max-w-2xl mx-auto">
             Real scenarios from real business owners. This is what changes when you stop doing everything manually.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {comparisons.map((item, i) => (

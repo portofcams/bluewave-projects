@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { useReveal } from "@/hooks/useReveal";
+import { useState, useEffect } from "react";
 
 const previewItems = [
   "The \"CEO Briefing\" prompt — summarize anything in 30 seconds",
@@ -12,14 +12,12 @@ const previewItems = [
 ];
 
 export default function LeadMagnet() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const { ref, inView } = useReveal();
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Check if already submitted
   useEffect(() => {
     const savedEmail = localStorage.getItem("bluewave_lead_email");
     if (savedEmail) {
@@ -30,30 +28,20 @@ export default function LeadMagnet() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
-
     setLoading(true);
     setError("");
-
     try {
       const res = await fetch("https://ai.portofcams.com/api/bluewave/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
-
-      if (!res.ok) {
-        throw new Error("Something went wrong. Please try again.");
-      }
-
+      if (!res.ok) throw new Error("Something went wrong. Please try again.");
       localStorage.setItem("bluewave_lead_email", email);
       setSubmitted(true);
       setEmail("");
     } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Something went wrong. Please try again."
-      );
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -66,12 +54,9 @@ export default function LeadMagnet() {
       </div>
 
       <div className="max-w-7xl mx-auto relative">
-        <motion.div
+        <div
           ref={ref}
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="relative rounded-3xl overflow-hidden"
+          className={`reveal-up ${inView ? "in" : ""} relative rounded-3xl overflow-hidden`}
         >
           {/* Gradient border effect */}
           <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-ocean-500/30 via-wave-500/20 to-glacier-300/30 p-[1px]">
@@ -82,10 +67,8 @@ export default function LeadMagnet() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left: copy + form */}
               <div>
-                <motion.div
-                  initial={{ opacity: 0, x: -30 }}
-                  animate={inView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.6, delay: 0.2 }}
+                <div
+                  className={`reveal-left reveal-d-2 ${inView ? "in" : ""}`}
                 >
                   <span className="text-sm font-medium text-lava-500 uppercase tracking-widest mb-4 block">
                     Free Resource
@@ -99,16 +82,12 @@ export default function LeadMagnet() {
                   </p>
 
                   {submitted ? (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="flex items-center gap-3 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20"
-                    >
+                    <div className="anim-mount-pop flex items-center gap-3 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
                       <svg viewBox="0 0 24 24" className="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M4.5 12.75l6 6 9-13.5" />
                       </svg>
                       <span className="text-emerald-400 font-medium">Check your inbox! The AI Starter Kit is on its way.</span>
-                    </motion.div>
+                    </div>
                   ) : (
                     <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
                       <input
@@ -141,27 +120,21 @@ export default function LeadMagnet() {
                   )}
 
                   {error && (
-                    <motion.p
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="text-sm text-red-400 mt-3"
-                    >
+                    <p className="anim-mount-fade text-sm text-red-400 mt-3">
                       {error}
-                    </motion.p>
+                    </p>
                   )}
 
                   <p className="text-xs text-white/20 mt-4">
                     No spam. Unsubscribe anytime. We respect your inbox.
                   </p>
-                </motion.div>
+                </div>
               </div>
 
               {/* Right: mock PDF preview */}
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="hidden lg:block"
+              <div
+                className={`reveal-up reveal-d-3 ${inView ? "in" : ""} hidden lg:block`}
+                style={{ transform: inView ? "translateX(0)" : "translateX(30px)" }}
               >
                 <div className="glass rounded-2xl p-8 relative">
                   <div className="flex items-center gap-3 mb-6">
@@ -178,18 +151,15 @@ export default function LeadMagnet() {
 
                   <div className="space-y-3">
                     {previewItems.map((item, i) => (
-                      <motion.div
+                      <div
                         key={i}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={inView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ duration: 0.4, delay: 0.5 + i * 0.1 }}
-                        className="flex items-start gap-3 p-3 rounded-xl bg-white/3"
+                        className={`reveal-up-sm reveal-d-${Math.min(i + 4, 8)} ${inView ? "in" : ""} flex items-start gap-3 p-3 rounded-xl bg-white/3`}
                       >
                         <div className="w-5 h-5 rounded-full bg-ocean-500/20 flex items-center justify-center shrink-0 mt-0.5">
                           <span className="text-xs text-ocean-400 font-bold">{i + 1}</span>
                         </div>
                         <span className="text-sm text-white/50">{item}</span>
-                      </motion.div>
+                      </div>
                     ))}
                   </div>
 
@@ -197,10 +167,10 @@ export default function LeadMagnet() {
                     + 5 more inside...
                   </div>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

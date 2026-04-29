@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useReveal } from "@/hooks/useReveal";
 
 const consultants = [
   {
@@ -46,12 +45,10 @@ function ConsultantCard({
   const pulseClass = isOcean ? "border-emerald-400" : "border-lava-500";
   const dotClass = isOcean ? "bg-emerald-400" : "bg-lava-500";
 
+  const delayClass = index >= 1 && index <= 8 ? `reveal-d-${Math.min(index * 2, 8)}` : "reveal-d-2";
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: 0.2 + index * 0.2 }}
-      className="flex flex-col"
+    <div
+      className={`reveal-up ${delayClass} ${inView ? "in" : ""} flex flex-col`}
     >
       <div className="glass rounded-2xl p-8 sm:p-10 h-full flex flex-col">
         {/* Photo + Name + Title */}
@@ -79,16 +76,13 @@ function ConsultantCard({
           {/* Skills grid */}
           <div className="grid grid-cols-2 gap-2.5 w-full max-w-sm">
             {consultant.skills.map((skill, i) => (
-              <motion.div
+              <div
                 key={skill.name}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={inView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.4, delay: 0.5 + index * 0.2 + i * 0.06 }}
-                className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 border border-white/5"
+                className={`reveal-up-sm ${i >= 1 && i <= 8 ? `reveal-d-${i}` : ""} ${inView ? "in" : ""} flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 border border-white/5`}
               >
                 <span className="text-base">{skill.icon}</span>
                 <span className="text-xs text-white/60">{skill.name}</span>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -128,25 +122,21 @@ function ConsultantCard({
           ))}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
 export default function About() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const { ref, inView } = useReveal();
 
   return (
     <section id="about" className="py-32 px-6 relative">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-ocean-950/20 to-transparent" />
 
       <div className="max-w-7xl mx-auto relative">
-        <motion.div
+        <div
           ref={ref}
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          className={`reveal-up ${inView ? "in" : ""} text-center mb-20`}
         >
           <span className="text-sm font-medium text-ocean-400 uppercase tracking-widest mb-4 block">
             Who We Are
@@ -158,7 +148,7 @@ export default function About() {
           <p className="text-white/40 max-w-2xl mx-auto text-lg">
             One builder. Seven live products. Systems that run themselves so you don&apos;t have to.
           </p>
-        </motion.div>
+        </div>
 
         <div className="max-w-xl mx-auto">
           {consultants.map((consultant, i) => (

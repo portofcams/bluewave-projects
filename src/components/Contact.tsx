@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useInView, AnimatePresence } from "framer-motion";
-import { useRef, useState } from "react";
+import { useReveal } from "@/hooks/useReveal";
+import { useState } from "react";
 
 interface FormData {
   name: string;
@@ -11,8 +11,7 @@ interface FormData {
 }
 
 export default function Contact() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const { ref, inView } = useReveal();
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -115,12 +114,9 @@ export default function Contact() {
       <div className="absolute inset-0 bg-gradient-to-t from-ocean-950/50 to-transparent" />
 
       <div className="max-w-4xl mx-auto relative">
-        <motion.div
+        <div
           ref={ref}
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center"
+          className={`reveal-up ${inView ? "in" : ""} text-center`}
         >
           <span className="text-sm font-medium text-ocean-400 uppercase tracking-widest mb-4 block">
             Let&apos;s Talk
@@ -133,13 +129,10 @@ export default function Contact() {
             Whether you need an app built, want to learn AI, or have an idea
             that needs R&amp;D — we&apos;re here for it.
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="glass rounded-2xl p-8 sm:p-12"
+        <div
+          className={`reveal-up reveal-d-2 ${inView ? "in" : ""} glass rounded-2xl p-8 sm:p-12`}
         >
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -240,18 +233,13 @@ export default function Contact() {
               )}
             </button>
           </form>
-        </motion.div>
+        </div>
 
         {/* Toast notification */}
-        <AnimatePresence>
-          {toast && (
-            <motion.div
-              initial={{ opacity: 0, y: 20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 20, scale: 0.95 }}
-              transition={{ duration: 0.3 }}
-              className="fixed bottom-6 right-6 z-50"
-            >
+        {toast && (
+          <div
+            className="anim-mount-pop fixed bottom-6 right-6 z-50"
+          >
               <div
                 className={`flex items-center gap-3 px-5 py-4 rounded-xl shadow-2xl border ${
                   toast.type === "success"
@@ -297,9 +285,8 @@ export default function Contact() {
                   </svg>
                 </button>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            </div>
+        )}
       </div>
     </section>
   );

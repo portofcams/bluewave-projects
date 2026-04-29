@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { WaveLogo } from "./Logo";
 
 const navLinks = [
@@ -25,11 +24,8 @@ export default function Nav() {
   }, []);
 
   return (
-    <motion.nav
-      initial={{ y: -80 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+    <nav
+      className={`anim-slide-down fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
           ? "glass border-b border-white/5 shadow-lg shadow-black/20"
           : "bg-transparent"
@@ -75,37 +71,30 @@ export default function Nav() {
         </button>
       </div>
 
-      {/* Mobile menu */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden glass border-t border-white/5"
-          >
-            <div className="px-6 py-6 flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="text-lg text-white/60 hover:text-white transition-colors"
-                >
-                  {link.label}
-                </a>
-              ))}
+      {/* Mobile menu — CSS grid trick for height auto animation */}
+      <div className={`expand ${mobileOpen ? "open" : ""} md:hidden`}>
+        <div className="glass border-t border-white/5">
+          <div className="px-6 py-6 flex flex-col gap-4">
+            {navLinks.map((link) => (
               <a
-                href="#contact"
+                key={link.href}
+                href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="btn-primary text-center font-medium px-5 py-3 rounded-full text-white mt-2"
+                className="text-lg text-white/60 hover:text-white transition-colors"
               >
-                Get Started
+                {link.label}
               </a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.nav>
+            ))}
+            <a
+              href="#contact"
+              onClick={() => setMobileOpen(false)}
+              className="btn-primary text-center font-medium px-5 py-3 rounded-full text-white mt-2"
+            >
+              Get Started
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
   );
 }

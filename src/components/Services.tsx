@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef, type ReactNode } from "react";
+import { useReveal } from "@/hooks/useReveal";
+import { type ReactNode } from "react";
 
 interface Service {
   title: string;
@@ -58,16 +58,13 @@ const services: Service[] = [
 ];
 
 function ServiceCard({ service, index }: { service: Service; index: number }) {
-  const cardRef = useRef(null);
-  const cardInView = useInView(cardRef, { once: true, margin: "-40px" });
+  const { ref, inView } = useReveal();
+  const delayClass = index >= 1 && index <= 8 ? `reveal-d-${index}` : "";
 
   return (
-    <motion.div
-      ref={cardRef}
-      initial={{ opacity: 0, y: 40 }}
-      animate={cardInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      className="group glass glass-hover rounded-2xl p-10 transition-all duration-500"
+    <div
+      ref={ref}
+      className={`reveal-up ${delayClass} ${inView ? "in" : ""} group glass glass-hover rounded-2xl p-10 transition-all duration-500`}
     >
       <div
         className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center text-white mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}
@@ -78,25 +75,21 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
       <h3 className="text-2xl font-bold text-white mb-4">{service.title}</h3>
 
       <p className="text-white/40 leading-relaxed">{service.description}</p>
-    </motion.div>
+    </div>
   );
 }
 
 export default function Services() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const { ref, inView } = useReveal();
 
   return (
     <section id="services" className="py-32 px-6 relative">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-ocean-950/30 to-transparent" />
 
       <div className="max-w-7xl mx-auto relative">
-        <motion.div
+        <div
           ref={ref}
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          className={`reveal-up ${inView ? "in" : ""} text-center mb-20`}
         >
           <span className="text-sm font-medium text-ocean-400 uppercase tracking-widest mb-4 block">
             What We Do
@@ -109,7 +102,7 @@ export default function Services() {
             We find the hours you&apos;re losing and build the systems to get them back.
             No jargon. No fluff. Just results.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {services.map((service, i) => (

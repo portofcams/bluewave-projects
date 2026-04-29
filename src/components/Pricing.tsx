@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useReveal } from "@/hooks/useReveal";
+import { useState } from "react";
 import { getStoredUser } from "@/lib/auth";
 
 const plans = [
@@ -63,9 +63,9 @@ const plans = [
 ];
 
 function PricingCard({ plan, index }: { plan: (typeof plans)[number]; index: number }) {
-  const cardRef = useRef(null);
-  const cardInView = useInView(cardRef, { once: true, margin: "-40px" });
+  const { ref, inView } = useReveal();
   const [loading, setLoading] = useState(false);
+  const delayClass = index >= 1 && index <= 8 ? `reveal-d-${index}` : "";
 
   const handleCheckout = async (planKey: string) => {
     // Consulting plan links to booking page instead of Stripe
@@ -95,12 +95,9 @@ function PricingCard({ plan, index }: { plan: (typeof plans)[number]; index: num
   };
 
   return (
-    <motion.div
-      ref={cardRef}
-      initial={{ opacity: 0, y: 40 }}
-      animate={cardInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      className={`relative glass rounded-2xl p-10 transition-all duration-500 ${
+    <div
+      ref={ref}
+      className={`reveal-up ${delayClass} ${inView ? "in" : ""} relative glass rounded-2xl p-10 transition-all duration-500 ${
         plan.featured
           ? "border-ocean-500/30 shadow-lg shadow-ocean-500/10 md:scale-105"
           : "glass-hover"
@@ -155,13 +152,12 @@ function PricingCard({ plan, index }: { plan: (typeof plans)[number]; index: num
       >
         {loading ? "Redirecting..." : plan.cta}
       </button>
-    </motion.div>
+    </div>
   );
 }
 
 export default function Pricing() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const { ref, inView } = useReveal();
 
   return (
     <section id="pricing" className="py-32 px-6 relative">
@@ -170,12 +166,9 @@ export default function Pricing() {
       </div>
 
       <div className="max-w-7xl mx-auto relative">
-        <motion.div
+        <div
           ref={ref}
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          className={`reveal-up ${inView ? "in" : ""} text-center mb-20`}
         >
           <span className="text-sm font-medium text-ocean-400 uppercase tracking-widest mb-4 block">
             Pricing
@@ -187,7 +180,7 @@ export default function Pricing() {
           <p className="text-lg text-white/40 max-w-2xl mx-auto">
             Whether you want to learn AI or leverage it for your business — there&apos;s a plan for you. No contracts. Cancel anytime.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
           {plans.map((plan, i) => (

@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useReveal } from "@/hooks/useReveal";
 
 const projects = [
   {
@@ -166,16 +165,13 @@ function ProjectCard({
   project: (typeof projects)[number];
   index: number;
 }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const { ref, inView } = useReveal();
+  const delayClass = index >= 1 && index <= 8 ? `reveal-d-${index}` : "";
 
   return (
-    <motion.div
+    <div
       ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
-      className="group glass glass-hover rounded-2xl p-8 flex flex-col h-full transition-all duration-500"
+      className={`reveal-up ${delayClass} ${inView ? "in" : ""} group glass glass-hover rounded-2xl p-8 flex flex-col h-full transition-all duration-500`}
     >
       <div className="flex items-start justify-between mb-6">
         <div
@@ -225,23 +221,19 @@ function ProjectCard({
           <span className="text-sm text-white/20">In Development</span>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 }
 
 export default function Portfolio() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const { ref, inView } = useReveal();
 
   return (
     <section id="portfolio" className="py-32 px-6">
       <div className="max-w-7xl mx-auto">
-        <motion.div
+        <div
           ref={ref}
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          className={`reveal-up ${inView ? "in" : ""} text-center mb-20`}
         >
           <span className="text-sm font-medium text-ocean-400 uppercase tracking-widest mb-4 block">
             Our Work
@@ -254,7 +246,7 @@ export default function Portfolio() {
             Live products generating real traffic. Every project in our portfolio
             is built, deployed, and actively maintained by our team.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project, i) => (

@@ -1,18 +1,22 @@
+import dynamic from "next/dynamic";
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import Portfolio from "@/components/Portfolio";
-import Services from "@/components/Services";
-import HowItWorks from "@/components/HowItWorks";
-import BeforeAfter from "@/components/BeforeAfter";
-import Pricing from "@/components/Pricing";
-import School from "@/components/School";
-import About from "@/components/About";
-import Testimonials from "@/components/Testimonials";
-import LeadMagnet from "@/components/LeadMagnet";
-import BlogPreview from "@/components/BlogPreview";
-import FAQ from "@/components/FAQ";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
+
+// Below-the-fold sections — lazy-loaded so they don't block first paint.
+// ssr: true keeps SEO content in static HTML; only the JS hydration is deferred.
+const Services = dynamic(() => import("@/components/Services"));
+const HowItWorks = dynamic(() => import("@/components/HowItWorks"));
+const BeforeAfter = dynamic(() => import("@/components/BeforeAfter"));
+const School = dynamic(() => import("@/components/School"));
+const About = dynamic(() => import("@/components/About"));
+const Testimonials = dynamic(() => import("@/components/Testimonials"));
+const Pricing = dynamic(() => import("@/components/Pricing"));
+const LeadMagnet = dynamic(() => import("@/components/LeadMagnet"));
+const BlogPreview = dynamic(() => import("@/components/BlogPreview"));
+const FAQ = dynamic(() => import("@/components/FAQ"));
+const Contact = dynamic(() => import("@/components/Contact"));
+const Footer = dynamic(() => import("@/components/Footer"));
 
 export default function Home() {
   return (

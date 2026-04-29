@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useReveal } from "@/hooks/useReveal";
 
 const features = [
   {
@@ -60,29 +59,25 @@ function FeatureCard({
   feature: (typeof features)[number];
   index: number;
 }) {
-  const fRef = useRef(null);
-  const fInView = useInView(fRef, { once: true, margin: "-40px" });
+  const { ref, inView } = useReveal();
+  const delayClass = index >= 1 && index <= 8 ? `reveal-d-${index}` : "";
 
   return (
-    <motion.div
-      ref={fRef}
-      initial={{ opacity: 0, y: 30 }}
-      animate={fInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.08 }}
-      className="glass glass-hover rounded-2xl p-8 transition-all duration-500"
+    <div
+      ref={ref}
+      className={`reveal-up-sm ${delayClass} ${inView ? "in" : ""} glass glass-hover rounded-2xl p-8 transition-all duration-500`}
     >
       <div className="text-3xl mb-4">{feature.icon}</div>
       <h3 className="text-lg font-bold text-white mb-2">{feature.title}</h3>
       <p className="text-sm text-white/40 leading-relaxed">
         {feature.description}
       </p>
-    </motion.div>
+    </div>
   );
 }
 
 export default function School() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const { ref, inView } = useReveal();
 
   return (
     <section id="school" className="py-32 px-6 relative">
@@ -92,12 +87,9 @@ export default function School() {
       </div>
 
       <div className="max-w-7xl mx-auto relative">
-        <motion.div
+        <div
           ref={ref}
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          className={`reveal-up ${inView ? "in" : ""} text-center mb-20`}
         >
           <span className="text-sm font-medium text-wave-400 uppercase tracking-widest mb-4 block">
             AI School
@@ -110,14 +102,11 @@ export default function School() {
             The BlueWave Learning Console. Interactive, gamified AI training
             that makes you dangerous with AI — at your own pace or with a guide.
           </p>
-        </motion.div>
+        </div>
 
         {/* Skill tree preview */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="glass rounded-2xl p-8 sm:p-10 mb-16"
+        <div
+          className={`reveal-up reveal-d-2 ${inView ? "in" : ""} glass rounded-2xl p-8 sm:p-10 mb-16`}
         >
           <div className="flex items-center gap-3 mb-8">
             <div className="w-3 h-3 rounded-full bg-emerald-400 animate-pulse" />
@@ -128,12 +117,9 @@ export default function School() {
 
           <div className="flex flex-wrap gap-3">
             {skillTree.map((skill, i) => (
-              <motion.div
+              <div
                 key={skill.name}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={inView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.4, delay: 0.3 + i * 0.08 }}
-                className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white/5 border border-white/5 hover:border-white/15 transition-all duration-300 group cursor-default"
+                className={`reveal-up-sm ${i >= 1 && i <= 8 ? `reveal-d-${i}` : ""} ${inView ? "in" : ""} flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white/5 border border-white/5 hover:border-white/15 transition-all duration-300 group cursor-default`}
               >
                 <div
                   className={`w-2.5 h-2.5 rounded-full ${skill.color} shadow-lg`}
@@ -144,16 +130,14 @@ export default function School() {
                 <span className="text-xs text-white/20 ml-1">
                   Lv.{skill.level}
                 </span>
-              </motion.div>
+              </div>
             ))}
           </div>
 
           <div className="mt-8 flex items-center gap-4">
             <div className="flex-grow h-2 rounded-full bg-white/5 overflow-hidden">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={inView ? { width: "15%" } : {}}
-                transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
+              <div
+                style={{ width: inView ? "15%" : 0, transition: "width 1.5s ease-out 0.5s" }}
                 className="h-full rounded-full bg-gradient-to-r from-ocean-500 to-wave-400"
               />
             </div>
@@ -161,7 +145,7 @@ export default function School() {
               Your Journey
             </span>
           </div>
-        </motion.div>
+        </div>
 
         {/* Feature grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -171,11 +155,8 @@ export default function School() {
         </div>
 
         {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="text-center mt-16"
+        <div
+          className={`reveal-up-sm reveal-d-6 ${inView ? "in" : ""} text-center mt-16`}
         >
           <a
             href="/school"
@@ -189,7 +170,7 @@ export default function School() {
           <p className="text-sm text-white/30 mt-4">
             9 waves. 66 lessons. Start free, upgrade anytime.
           </p>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

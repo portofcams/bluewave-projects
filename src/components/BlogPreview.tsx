@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useReveal } from "@/hooks/useReveal";
 import Link from "next/link";
 import { blogPosts } from "@/data/blog-posts";
 
@@ -17,17 +16,14 @@ const posts = blogPosts.slice(0, 3).map((post) => ({
 }));
 
 function BlogCard({ post, index }: { post: (typeof posts)[number]; index: number }) {
-  const cardRef = useRef(null);
-  const cardInView = useInView(cardRef, { once: true, margin: "-40px" });
+  const { ref, inView } = useReveal();
+  const delayClass = index >= 1 && index <= 8 ? `reveal-d-${index}` : "";
 
   return (
     <Link href={`/blog/${post.slug}`}>
-      <motion.div
-        ref={cardRef}
-        initial={{ opacity: 0, y: 40 }}
-        animate={cardInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6, delay: index * 0.1 }}
-        className="group glass glass-hover rounded-2xl overflow-hidden transition-all duration-500 cursor-pointer"
+      <div
+        ref={ref}
+        className={`reveal-up ${delayClass} ${inView ? "in" : ""} group glass glass-hover rounded-2xl overflow-hidden transition-all duration-500 cursor-pointer`}
       >
         {/* Gradient header bar */}
         <div className={`h-1.5 bg-gradient-to-r ${post.gradient}`} />
@@ -54,26 +50,22 @@ function BlogCard({ post, index }: { post: (typeof posts)[number]; index: number
             </svg>
           </div>
         </div>
-      </motion.div>
+      </div>
     </Link>
   );
 }
 
 export default function BlogPreview() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const { ref, inView } = useReveal();
 
   return (
     <section id="blog" className="py-32 px-6 relative">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-ocean-950/20 to-transparent" />
 
       <div className="max-w-7xl mx-auto relative">
-        <motion.div
+        <div
           ref={ref}
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          className={`reveal-up ${inView ? "in" : ""} text-center mb-20`}
         >
           <span className="text-sm font-medium text-ocean-400 uppercase tracking-widest mb-4 block">
             From the Lab
@@ -85,7 +77,7 @@ export default function BlogPreview() {
           <p className="text-lg text-white/40 max-w-2xl mx-auto">
             Thoughts on AI, building products, and the future of work. No fluff — just signal.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {posts.map((post, i) => (
@@ -93,11 +85,8 @@ export default function BlogPreview() {
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-center mt-12"
+        <div
+          className={`reveal-up-sm reveal-d-5 ${inView ? "in" : ""} text-center mt-12`}
         >
           <Link
             href="/blog"
@@ -108,7 +97,7 @@ export default function BlogPreview() {
               <path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
             </svg>
           </Link>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

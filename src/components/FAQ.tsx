@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useInView, AnimatePresence } from "framer-motion";
-import { useRef, useState } from "react";
+import { useReveal } from "@/hooks/useReveal";
+import { useState } from "react";
 
 const faqs = [
   {
@@ -38,67 +38,48 @@ const faqs = [
 
 function FAQItem({ faq, index }: { faq: (typeof faqs)[number]; index: number }) {
   const [isOpen, setIsOpen] = useState(false);
-  const itemRef = useRef(null);
-  const itemInView = useInView(itemRef, { once: true, margin: "-40px" });
+  const { ref, inView } = useReveal();
+  const delayClass = index >= 1 && index <= 8 ? `reveal-d-${index}` : "";
 
   return (
-    <motion.div
-      ref={itemRef}
-      initial={{ opacity: 0, y: 20 }}
-      animate={itemInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.08 }}
-      className="glass glass-hover rounded-2xl overflow-hidden transition-all duration-500"
+    <div
+      ref={ref}
+      className={`reveal-up-sm ${delayClass} ${inView ? "in" : ""} glass glass-hover rounded-2xl overflow-hidden transition-all duration-500`}
     >
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between p-6 sm:p-8 text-left cursor-pointer"
       >
         <span className="text-lg font-medium text-white pr-4">{faq.question}</span>
-        <motion.div
-          animate={{ rotate: isOpen ? 45 : 0 }}
-          transition={{ duration: 0.2 }}
-          className="shrink-0"
-        >
+        <div className={`icon-rotate ${isOpen ? "open" : ""} shrink-0`}>
           <svg viewBox="0 0 24 24" className="w-6 h-6 text-ocean-400" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M12 4.5v15m7.5-7.5h-15" />
           </svg>
-        </motion.div>
+        </div>
       </button>
 
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="overflow-hidden"
-          >
-            <div className="px-6 sm:px-8 pb-6 sm:pb-8">
-              <p className="text-white/40 leading-relaxed">{faq.answer}</p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
+      <div className={`expand ${isOpen ? "open" : ""}`}>
+        <div>
+          <div className="px-6 sm:px-8 pb-6 sm:pb-8">
+            <p className="text-white/40 leading-relaxed">{faq.answer}</p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
 export default function FAQ() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const { ref, inView } = useReveal();
 
   return (
     <section id="faq" className="py-32 px-6 relative">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-ocean-950/20 to-transparent" />
 
       <div className="max-w-3xl mx-auto relative">
-        <motion.div
+        <div
           ref={ref}
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          className={`reveal-up ${inView ? "in" : ""} text-center mb-20`}
         >
           <span className="text-sm font-medium text-ocean-400 uppercase tracking-widest mb-4 block">
             FAQ
@@ -110,7 +91,7 @@ export default function FAQ() {
           <p className="text-lg text-white/40 max-w-2xl mx-auto">
             Here are the ones we get the most. If yours isn&apos;t here, book a free audit and ask us directly.
           </p>
-        </motion.div>
+        </div>
 
         <div className="space-y-4">
           {faqs.map((faq, i) => (
