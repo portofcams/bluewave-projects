@@ -11,9 +11,22 @@
 
 ## Credentials
 - **Admin password**: bluewave2026
-- **API Key**: fn_pbhINS8ivTLYF84ofv_nGPjj3ZdBPVa5SsCz0k9BZ3idn
+- **API Key**: fn_AE62t51zNXfksvtk3HzeJhBu28yD3F78HSm2FtPlwrOIGjdo7LhJHp8f_EESQmVI
 - **Contact form endpoint**: POST https://ai.portofcams.com/api/bluewave/contact
 - **Email notifications**: portofcams@gmail.com via Resend
+
+## Portfolio Order (2026-04-28)
+Cards in `src/components/Portfolio.tsx`, top → bottom:
+1. Port of Cams
+2. Binnacle.ai (added 2026-04-28)
+3. AlohaCalendar
+4. Last Frontier Events
+5. Ikena (added 2026-04-28, link → ikenagroup.com only)
+6. Address API
+7. ProBuildCalc
+8. Perdiemify
+9. Family Tree
+10. CamDrop (moved to bottom, link suppressed via "#")
 
 ## What's Built (2026-03-16)
 ### Landing Page (15 sections)

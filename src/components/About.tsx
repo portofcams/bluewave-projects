@@ -7,7 +7,7 @@ const consultants = [
   {
     name: "Captain J",
     title: "Founder & Lead Developer",
-    photo: "/captain.jpg",
+    photo: "/captain.webp",
     color: "ocean",
     skills: [
       { name: "React / Next.js", icon: "" },
@@ -61,6 +61,10 @@ function ConsultantCard({
               <img
                 src={consultant.photo}
                 alt={consultant.name}
+                width={176}
+                height={176}
+                loading="eager"
+                decoding="async"
                 className="w-full h-full object-cover"
               />
             </div>
