@@ -1,12 +1,12 @@
 import { type ReactNode } from "react";
 
 const floatingItems = [
-  { label: "AI Agents", x: "8%", y: "18%", delay: 0, icon: "sparkle" },
-  { label: "Automations", x: "85%", y: "15%", delay: 0.5, icon: "code" },
-  { label: "Workflows", x: "80%", y: "68%", delay: 1.2, icon: "bolt" },
-  { label: "Integrations", x: "10%", y: "65%", delay: 0.8, icon: "terminal" },
-  { label: "APIs", x: "92%", y: "40%", delay: 1.5, icon: "server" },
-  { label: "Dashboards", x: "3%", y: "42%", delay: 0.3, icon: "phone" },
+  { label: "Scope", x: "8%", y: "18%", delay: 0, icon: "sparkle" },
+  { label: "Blueprint", x: "85%", y: "15%", delay: 0.5, icon: "code" },
+  { label: "Timeline", x: "80%", y: "68%", delay: 1.2, icon: "bolt" },
+  { label: "Client portal", x: "10%", y: "65%", delay: 0.8, icon: "terminal" },
+  { label: "Off-market deals", x: "92%", y: "40%", delay: 1.5, icon: "server" },
+  { label: "RoomPlan", x: "3%", y: "42%", delay: 0.3, icon: "phone" },
 ];
 
 const icons: Record<string, ReactNode> = {
@@ -47,9 +47,9 @@ const icons: Record<string, ReactNode> = {
 };
 
 const stats = [
-  { value: "8+", label: "Live Products" },
-  { value: "400+", label: "Cameras Streaming" },
-  { value: "62", label: "AI Lessons Built" },
+  { value: "1 tenant", label: "One project room per company" },
+  { value: "60 sec", label: "Scope generator turnaround" },
+  { value: "$0", label: "Free trial — full features" },
 ];
 
 // Static ocean waves (was animated path morph — now static for perf)
@@ -201,34 +201,34 @@ export default function Hero() {
         <div className="anim-mount-up">
           <div className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm text-white/60 mb-8">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            AI Consulting + AI School
+            Built by a Hawaii design-build contractor, for design-build contractors
           </div>
         </div>
 
         <h1 className="anim-mount-up anim-d-1 text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.95] mb-8">
-          <span className="text-white">Get your</span>
+          <span className="text-white">The contractor&apos;s</span>
           <br />
-          <span className="text-gradient">time back.</span>
+          <span className="text-gradient">project room.</span>
         </h1>
 
         <p className="anim-mount-up-sm anim-d-2 text-lg sm:text-xl text-white/50 max-w-2xl mx-auto mb-12 leading-relaxed">
-          We show business owners how to use AI to eliminate busywork,
+          Scope, blueprint, client-shareable timeline, off-market deal flow —
           <br className="hidden sm:block" />
-          automate operations, and reclaim 10+ hours every week.
+          every project lives in one tenant your whole crew can see.
         </p>
 
         <div className="anim-mount-up-sm anim-d-3 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
-            href="/booking"
+            href="/signup"
             className="btn-primary px-8 py-4 rounded-full text-white font-medium text-lg"
           >
-            Book a Free Audit
+            Start free trial
           </a>
           <a
-            href="#portfolio"
+            href="#how-it-works"
             className="px-8 py-4 rounded-full text-white/60 hover:text-white border border-white/10 hover:border-white/25 transition-all duration-300 font-medium text-lg"
           >
-            See Results
+            See how it works
           </a>
         </div>
       </div>

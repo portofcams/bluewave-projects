@@ -4,24 +4,26 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://bluewaveprojects.com"),
-  title: "BlueWave Projects — AI Consulting, Custom Apps & AI School",
+  title: "BlueWave Projects — Project room for design-build contractors",
   description:
-    "AI consulting, custom app development, and gamified AI training. Built in the Pacific, serving everyone. Learn AI through interactive lessons or hire us to build.",
+    "One tenant, every project. AI scope generator, RoomPlan blueprints, client-shareable timelines, and Hawaii off-market deal flow — built for design-build contractors.",
   keywords: [
-    "AI consulting",
-    "AI training",
-    "learn AI",
-    "prompt engineering",
-    "custom apps",
+    "contractor project management",
+    "construction software",
+    "AI scope generator",
+    "RoomPlan blueprint",
+    "design build SaaS",
+    "Hawaii contractor software",
+    "client portal construction",
     "BlueWave Projects",
   ],
   alternates: {
     canonical: "https://bluewaveprojects.com",
   },
   openGraph: {
-    title: "BlueWave Projects — AI Consulting, Custom Apps & AI School",
+    title: "BlueWave Projects — Project room for design-build contractors",
     description:
-      "AI consulting, custom app development, and gamified AI training. Built in the Pacific, serving everyone. Learn AI through interactive lessons or hire us to build.",
+      "One tenant, every project. AI scope generator, RoomPlan blueprints, client-shareable timelines, and Hawaii off-market deal flow.",
     url: "https://bluewaveprojects.com",
     siteName: "BlueWave Projects",
     type: "website",
@@ -29,9 +31,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "BlueWave Projects — AI Consulting, Custom Apps & AI School",
+    title: "BlueWave Projects — Project room for design-build contractors",
     description:
-      "AI consulting, custom app development, and gamified AI training. Built in the Pacific, serving everyone. Learn AI through interactive lessons or hire us to build.",
+      "One tenant, every project. Scope, blueprint, client share — built for design-build contractors.",
     images: ["/og-default.png"],
   },
 };
@@ -50,23 +52,51 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "ProfessionalService",
+              "@type": "SoftwareApplication",
               name: "BlueWave Projects",
               url: "https://bluewaveprojects.com",
+              applicationCategory: "BusinessApplication",
+              applicationSubCategory: "Construction Management",
+              operatingSystem: "Web",
               description:
-                "AI consulting, custom app development, and gamified AI training.",
-              sameAs: [],
-              address: {
-                "@type": "PostalAddress",
-                addressRegion: "HI",
-                addressCountry: "US",
-              },
-              areaServed: "Worldwide",
-              serviceType: [
-                "AI Consulting",
-                "Custom App Development",
-                "AI Training",
+                "Multi-tenant project management for design-build contractors. AI scope generator, RoomPlan blueprint editor, client-shareable timelines, and off-market deal flow.",
+              offers: [
+                {
+                  "@type": "Offer",
+                  name: "Solo",
+                  price: "0",
+                  priceCurrency: "USD",
+                  description: "Free trial — one project, full features",
+                },
+                {
+                  "@type": "Offer",
+                  name: "Pro",
+                  price: "99",
+                  priceCurrency: "USD",
+                  priceSpecification: {
+                    "@type": "UnitPriceSpecification",
+                    price: "99",
+                    priceCurrency: "USD",
+                    unitText: "MONTH",
+                  },
+                  description: "Unlimited projects, client portal, team invites",
+                },
               ],
+              creator: {
+                "@type": "Organization",
+                name: "Ikena Design & Build",
+                url: "https://ikenagroup.com",
+                address: {
+                  "@type": "PostalAddress",
+                  addressLocality: "Honolulu",
+                  addressRegion: "HI",
+                  addressCountry: "US",
+                },
+              },
+              audience: {
+                "@type": "Audience",
+                audienceType: "Design-build contractors, renovation companies, custom home builders",
+              },
             }),
           }}
         />
