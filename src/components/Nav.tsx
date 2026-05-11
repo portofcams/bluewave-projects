@@ -8,6 +8,8 @@ const navLinks = [
   { label: "Property Brief", href: "/property-brief" },
   { label: "Aloha Network", href: "/aloha" },
   { label: "Pricing", href: "#pricing" },
+  { label: "Hire", href: "/work" },
+  { label: "Captain", href: "/captain" },
   { label: "Case Studies", href: "/case-studies" },
   { label: "Blog", href: "/blog" },
 ];
