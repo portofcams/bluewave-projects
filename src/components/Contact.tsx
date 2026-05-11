@@ -122,12 +122,11 @@ export default function Contact() {
             Let&apos;s Talk
           </span>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-            <span className="text-white">Ready to</span>{" "}
-            <span className="text-gradient">ride the wave?</span>
+            <span className="text-white">Talk to</span>{" "}
+            <span className="text-gradient">a working contractor.</span>
           </h2>
           <p className="text-lg text-white/40 max-w-xl mx-auto mb-12">
-            Whether you need an app built, want to learn AI, or have an idea
-            that needs R&amp;D — we&apos;re here for it.
+            Free trial is the fastest path, but if you want to talk it through first — drop a note and we&apos;ll get back same day.
           </p>
         </div>
 
@@ -177,11 +176,13 @@ export default function Contact() {
                 className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white/60 focus:outline-none focus:border-ocean-500/50 focus:ring-1 focus:ring-ocean-500/30 transition-all appearance-none"
               >
                 <option value="">Select one...</option>
-                <option value="consulting">AI Consulting / 1-on-1</option>
-                <option value="school">AI School Access</option>
-                <option value="app">Custom App Development</option>
-                <option value="api">API / Infrastructure</option>
-                <option value="other">Something Else</option>
+                <option value="solo-trial">Try the Solo free trial</option>
+                <option value="pro-demo">See a live Pro demo</option>
+                <option value="founding-builder">Founding Builder ($499/mo)</option>
+                <option value="property-brief">Property Brief ($15/mo)</option>
+                <option value="aloha">Aloha Off-Market Network</option>
+                <option value="partnership">Partnership / integration</option>
+                <option value="other">Something else</option>
               </select>
             </div>
 

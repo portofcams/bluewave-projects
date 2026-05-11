@@ -5,34 +5,34 @@ import { useState } from "react";
 
 const faqs = [
   {
-    question: "How much time can I actually save?",
+    question: "Do I need an iPhone with LiDAR?",
     answer:
-      "Most clients save 10-15 hours per week within the first month. It depends on your business, but we find the wins fast.",
+      "For the scope generator's photo + RoomPlan flow, yes — iPhone 12 Pro or newer (any Pro / Pro Max model). The rest of BlueWave Projects (project room, blueprint editor, client timelines, invoices) works on any device. Multiple crew members can share one iPhone if needed.",
   },
   {
-    question: "Do I need to be technical?",
+    question: "Is this built for Hawaii contractors specifically?",
     answer:
-      "Not at all. We handle the technical side. You just need to know your business.",
+      "It was built BY a Hawaii contractor — so Hawaii GET (General Excise Tax), §237-13(3)(B) sub deductions, and Honolulu DPP permit lookups all work out of the box. But there's nothing Hawaii-specific in the project management itself. Contractors in CA, TX, FL are using it; we just don't auto-compute their state's tax rules (yet).",
   },
   {
-    question: "What does a typical session look like?",
+    question: "How does the free Solo tier work?",
     answer:
-      "30 minutes on Zoom. We screen-share, walk through your tools, and build automations together in real time.",
+      "One active project, 5 scope generations per month, every other feature unlocked. No credit card to start. Use it for as long as it takes to be sure — most working GCs upgrade to Pro within 2-3 weeks once the workflow clicks.",
   },
   {
-    question: "How fast do I see results?",
+    question: "Can clients see my pricing?",
     answer:
-      "Usually within the first week. We start with quick wins — the stuff that saves you time immediately.",
+      "Only what you choose to share. Invoices show the totals the client signed off on; internal scope notes, sub costs, and your margin stay private to your tenant. The client-shareable timeline shows milestones and progress photos, not financials.",
   },
   {
-    question: "What if AI isn't right for my business?",
+    question: "What happens to my data if I leave?",
     answer:
-      "We'll tell you honestly in the first session. No hard sell. If there's nothing to automate, we won't charge you.",
+      "Your tenant's projects, scopes, blueprints, photos, and invoices all export as JSON + PDF on demand. No lock-in. We'd rather have you stay because the tool earns its keep than because you can't get your data out.",
   },
   {
-    question: "Can you build custom tools for my business?",
+    question: "Can I bring my whole crew?",
     answer:
-      "Yes. If off-the-shelf AI doesn't cut it, we build exactly what you need. Apps, APIs, dashboards — whatever gets you your time back.",
+      "Yes. Pro tier includes unlimited teammates at no per-seat cost. Subs get a limited-access role so they can log time and upload photos without seeing your margins or other projects.",
   },
 ];
 
@@ -89,7 +89,7 @@ export default function FAQ() {
             <span className="text-gradient">questions?</span>
           </h2>
           <p className="text-lg text-white/40 max-w-2xl mx-auto">
-            Here are the ones we get the most. If yours isn&apos;t here, book a free audit and ask us directly.
+            The ones working contractors ask before they sign up. If yours isn&apos;t here, start a free trial and try the workflow on a real walk-through — you&apos;ll know within a week.
           </p>
         </div>
 
