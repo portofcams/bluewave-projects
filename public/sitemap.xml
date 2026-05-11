@@ -62,14 +62,31 @@
     <priority>0.8</priority>
   </url>
 
-  <!-- Blog index — posts themselves are empty until contractor-focused
-       content lands. Old AI-agency posts are 410'd at the edge via
-       functions/blog/[slug].ts -->
+  <!-- Blog index + contractor-focused posts. Old AI-agency slugs are
+       410'd at the edge via functions/blog/[slug].ts -->
   <url>
     <loc>https://bluewaveprojects.com/blog</loc>
     <lastmod>2026-05-10</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bluewaveprojects.com/blog/roomplan-vs-matterport-vs-polycam-for-contractors</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bluewaveprojects.com/blog/hawaii-get-tax-for-contractors-237-13-3-b</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bluewaveprojects.com/blog/scope-a-renovation-in-60-seconds</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 
   <!-- Legal -->

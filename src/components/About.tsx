@@ -4,29 +4,29 @@ import { useReveal } from "@/hooks/useReveal";
 
 const consultants = [
   {
-    name: "Captain J",
-    title: "Founder & Lead Developer",
+    name: "John Thomas",
+    title: "Founder \u00b7 Ikena Design & Build \u00b7 Honolulu",
     photo: "/captain.webp",
     color: "ocean",
     skills: [
-      { name: "React / Next.js", icon: "" },
-      { name: "Swift / iOS", icon: "" },
-      { name: "Python / FastAPI", icon: "" },
-      { name: "Claude / ChatGPT", icon: "" },
-      { name: "Docker / DevOps", icon: "" },
-      { name: "n8n / Automation", icon: "" },
+      { name: "Hawaii GC-B path", icon: "" },
+      { name: "RoomPlan / LiDAR", icon: "" },
+      { name: "Hawaii GET tax", icon: "" },
+      { name: "Renovation scoping", icon: "" },
+      { name: "Multi-tenant SaaS", icon: "" },
+      { name: "Honolulu permits + zoning", icon: "" },
     ],
     bio: [
-      "I build things that work and teach people to do the same.",
-      "100-ton USCG Captain with 1,000+ sea days. Solo developer and AI consultant based in the Pacific. I\u2019ve built 8+ live products \u2014 from webcam streaming platforms to event calendars to AI-powered contractor tools. Every one of them is in production, serving real users.",
-      "Beyond software, I assist friends in project management of high-net-worth homes and commercial businesses. I started BlueWave because I saw too many people overwhelmed by AI and too many consultants overcomplicating it. My approach is simple: show you what works, help you build it, and get out of the way.",
+      "I run an active design-build practice in Honolulu \u2014 and I built BlueWave Projects because I needed it.",
+      "Before software I spent a decade as a 100-ton USCG Captain with 1,000+ sea days; the contractor work came after I came ashore. Everything in BlueWave Projects exists because I needed it on a real job site \u2014 scoping, blueprints, change orders, Hawaii \u00a7237-13(3)(B) GET deduction tracking \u2014 and couldn\u2019t find software that worked the way contractors actually work.",
+      "If you\u2019re a design-build shop, custom home builder, or active renovation GC, this tool was built by someone with sawdust on their boots \u2014 not a SaaS bro chasing a vertical.",
     ],
     stats: [
-      { value: "8+", label: "Live Products" },
-      { value: "1,000+", label: "Sea Days" },
-      { value: "24/7", label: "Systems Running" },
+      { value: "Honolulu", label: "Based in" },
+      { value: "GC-B", label: "License track" },
+      { value: "Design-build", label: "Daily practice" },
     ],
-    link: null as { url: string; label: string } | null,
+    link: { url: "https://ikenagroup.com", label: "Visit Ikena Design & Build \u2192" } as { url: string; label: string } | null,
   },
 ];
 
@@ -142,11 +142,12 @@ export default function About() {
             Who We Are
           </span>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-            <span className="text-white">Who&apos;s</span>{" "}
-            <span className="text-gradient">behind this.</span>
+            <span className="text-white">Built by</span>{" "}
+            <span className="text-gradient">a working contractor.</span>
           </h2>
           <p className="text-white/40 max-w-2xl mx-auto text-lg">
-            One builder. Seven live products. Systems that run themselves so you don&apos;t have to.
+            Not a SaaS startup chasing a vertical. A Honolulu design-build practice
+            that needed all of this on real job sites — and shipped it.
           </p>
         </div>
 

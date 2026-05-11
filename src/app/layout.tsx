@@ -47,6 +47,49 @@ export default function RootLayout({
     <html lang="en" className="antialiased">
       <body className="font-sans">
         {children}
+        {/* Two structured-data blocks: the product (SoftwareApplication)
+            and the company behind it (LocalBusiness, Honolulu). Google
+            uses LocalBusiness for the Hawaii local pack + maps; the
+            SoftwareApplication block sets product context for the
+            Search Console listing. */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              "@id": "https://bluewaveprojects.com/#business",
+              name: "BlueWave Projects",
+              description:
+                "Construction project management software built by a Honolulu design-build practice.",
+              url: "https://bluewaveprojects.com",
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: "Honolulu",
+                addressRegion: "HI",
+                addressCountry: "US",
+              },
+              geo: {
+                "@type": "GeoCoordinates",
+                latitude: 21.3099,
+                longitude: -157.8581,
+              },
+              areaServed: [
+                { "@type": "State", name: "Hawaii" },
+                { "@type": "City", name: "Honolulu" },
+                { "@type": "City", name: "Kailua" },
+                { "@type": "City", name: "Kahala" },
+                { "@type": "City", name: "Kona" },
+              ],
+              founder: {
+                "@type": "Person",
+                name: "John Thomas",
+                jobTitle: "Founder, Ikena Design & Build",
+              },
+              sameAs: ["https://ikenagroup.com"],
+            }),
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

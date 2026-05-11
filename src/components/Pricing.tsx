@@ -6,57 +6,57 @@ import { getStoredUser } from "@/lib/auth";
 
 const plans = [
   {
-    name: "AI School",
-    price: "$79",
-    period: "/mo",
-    description: "Self-paced AI mastery at your own speed.",
+    name: "Solo",
+    price: "Free",
+    period: "trial",
+    description: "One project room, every feature unlocked. For solo GCs proving the workflow.",
     features: [
-      "9 waves of interactive content",
-      "Hands-on exercises & projects",
-      "XP tracking & achievements",
-      "Community access",
-      "New content added monthly",
-      "Cancel anytime",
+      "1 active project",
+      "AI scope generator (5 / month)",
+      "RoomPlan blueprint editor",
+      "Client-shareable timeline",
+      "Daily logs + invoices",
+      "Hawaii GET handling",
     ],
-    cta: "Start Learning",
-    planKey: "school",
+    cta: "Start free",
+    planKey: "solo",
     featured: false,
     gradient: "from-ocean-500 to-wave-500",
   },
   {
-    name: "AI School + Coaching",
-    price: "$249",
-    period: "/mo",
-    description: "Everything in School, plus personal guidance.",
-    badge: "Most Popular",
+    name: "Pro",
+    price: "$99",
+    period: "/ month",
+    description: "Unlimited projects, full team, branded client portal.",
+    badge: "Most builders pick this",
     features: [
-      "Everything in AI School",
-      "2 monthly 1-on-1 sessions",
-      "Priority support",
-      "Custom exercises for your goals",
-      "Direct access via chat",
-      "Personalized learning path",
+      "Unlimited projects",
+      "Unlimited scope generations",
+      "Invite teammates (no per-seat fee)",
+      "Custom subdomain + branding",
+      "Change orders with public approve links",
+      "Property Brief credits included",
     ],
-    cta: "Get Started",
+    cta: "Start 14-day trial",
     planKey: "pro",
     featured: true,
     gradient: "from-wave-400 to-glacier-300",
   },
   {
-    name: "Consulting",
-    price: "Custom",
-    period: "",
-    description: "For businesses ready to integrate AI.",
+    name: "Founding Builder",
+    price: "$499",
+    period: "/ month",
+    description: "For shops doing $5M+ a year. Includes Aloha Network Builder tier.",
     features: [
-      "Custom AI strategy & roadmap",
-      "App development & automation",
-      "Team training & workshops",
-      "Ongoing technical support",
-      "Priority project scheduling",
-      "Dedicated Slack channel",
+      "Everything in Pro",
+      "Aloha Off-Market Network — Builder tier",
+      "Adjacent-permit alerts",
+      "Direct line to the BlueWave team",
+      "Quarterly underwriting workshop",
+      "Locked-in price for life",
     ],
-    cta: "Book a Call",
-    planKey: "consulting",
+    cta: "Talk to us",
+    planKey: "founding",
     featured: false,
     gradient: "from-lava-500 to-amber-400",
   },
@@ -68,8 +68,13 @@ function PricingCard({ plan, index }: { plan: (typeof plans)[number]; index: num
   const delayClass = index >= 1 && index <= 8 ? `reveal-d-${index}` : "";
 
   const handleCheckout = async (planKey: string) => {
-    // Consulting plan links to booking page instead of Stripe
-    if (planKey === "consulting") {
+    // Solo = free trial → signup. Founding Builder is sales-touch → booking.
+    // Pro is the only Stripe checkout path.
+    if (planKey === "solo") {
+      window.location.href = "/signup";
+      return;
+    }
+    if (planKey === "founding") {
       window.location.href = "/booking";
       return;
     }
@@ -174,11 +179,12 @@ export default function Pricing() {
             Pricing
           </span>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-            <span className="text-white">Invest in your</span>{" "}
-            <span className="text-gradient">future.</span>
+            <span className="text-white">Priced for</span>{" "}
+            <span className="text-gradient">working contractors.</span>
           </h2>
           <p className="text-lg text-white/40 max-w-2xl mx-auto">
-            Whether you want to learn AI or leverage it for your business — there&apos;s a plan for you. No contracts. Cancel anytime.
+            Start free. Upgrade when the workflow earns you back its first month. No per-seat
+            tax, no setup fee, no contract.
           </p>
         </div>
 

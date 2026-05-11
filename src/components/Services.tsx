@@ -6,51 +6,69 @@ import { type ReactNode } from "react";
 interface Service {
   title: string;
   description: string;
+  href: string;
+  cta: string;
   icon: ReactNode;
   gradient: string;
 }
 
 const services: Service[] = [
   {
-    title: "AI Workflow Audit",
+    title: "AI Scope Generator",
     description:
-      "We map your daily operations and find the hours you're losing to manual work.",
+      "Photos and an address in. Phase-by-phase scope of work, line-item ranges, and Hawaii GET gross-up out — in 60 seconds. Send it as a real lead with one click.",
+    href: "/scope",
+    cta: "See how scoping works",
     icon: (
       <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <path d="M3 7h18M3 12h12M3 17h7" strokeLinecap="round" />
+        <path d="M18 14l3 3-3 3" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
     gradient: "from-ocean-500 to-wave-400",
   },
   {
-    title: "Custom Automation",
+    title: "Project Room (Tenant)",
     description:
-      "We build systems that handle the repetitive stuff — scheduling, invoicing, follow-ups — so you don't have to.",
+      "One tenant per company, every project inside. RoomPlan blueprints, client-shareable timelines, daily logs, invoices with GET handling, change orders with public approve links.",
+    href: "/signup",
+    cta: "Start free trial",
     icon: (
       <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+        <rect x="3" y="3" width="7" height="7" rx="1" />
+        <rect x="14" y="3" width="7" height="7" rx="1" />
+        <rect x="3" y="14" width="7" height="7" rx="1" />
+        <rect x="14" y="14" width="7" height="7" rx="1" />
       </svg>
     ),
     gradient: "from-violet-500 to-purple-400",
   },
   {
-    title: "1-on-1 Coaching",
+    title: "Property Brief",
     description:
-      "Weekly sessions where we show you exactly how to use AI in your specific business. No fluff.",
+      "$15 / month homeowner intel. Your address every Wednesday: TMK, zoning, lava zone, permit history, comps. Built on the same Hawaii data layer the scope generator uses.",
+    href: "/property-brief",
+    cta: "$15 / month — preview free",
     icon: (
       <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+        <circle cx="12" cy="10" r="3" />
       </svg>
     ),
     gradient: "from-emerald-500 to-teal-400",
   },
   {
-    title: "Ongoing Support",
+    title: "Aloha Off-Market Network",
     description:
-      "Questions at 2am? Slack us. Need a tweak? We handle it. You focus on your business.",
+      "Deal flow before MLS. Three tiers — $99 watcher, $499 builder, $1,500 founding member. Hawaii adjacency alerts, distressed-permit signals, intros to vetted agents + lenders.",
+    href: "/aloha",
+    cta: "Compare tiers",
     icon: (
       <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
+        <path d="M3 18l4-8 5 6 4-3 5 5" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="7" cy="10" r="1.2" fill="currentColor" />
+        <circle cx="12" cy="16" r="1.2" fill="currentColor" />
+        <circle cx="16" cy="13" r="1.2" fill="currentColor" />
       </svg>
     ),
     gradient: "from-lava-500 to-amber-400",
@@ -62,9 +80,10 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
   const delayClass = index >= 1 && index <= 8 ? `reveal-d-${index}` : "";
 
   return (
-    <div
+    <a
+      href={service.href}
       ref={ref}
-      className={`reveal-up ${delayClass} ${inView ? "in" : ""} group glass glass-hover rounded-2xl p-10 transition-all duration-500`}
+      className={`reveal-up ${delayClass} ${inView ? "in" : ""} group glass glass-hover rounded-2xl p-10 transition-all duration-500 block`}
     >
       <div
         className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center text-white mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}
@@ -74,8 +93,15 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
 
       <h3 className="text-2xl font-bold text-white mb-4">{service.title}</h3>
 
-      <p className="text-white/40 leading-relaxed">{service.description}</p>
-    </div>
+      <p className="text-white/50 leading-relaxed mb-6">{service.description}</p>
+
+      <div className="text-ocean-400 group-hover:text-ocean-300 transition-colors text-sm font-medium inline-flex items-center gap-2">
+        {service.cta}
+        <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </div>
+    </a>
   );
 }
 
@@ -92,15 +118,17 @@ export default function Services() {
           className={`reveal-up ${inView ? "in" : ""} text-center mb-20`}
         >
           <span className="text-sm font-medium text-ocean-400 uppercase tracking-widest mb-4 block">
-            What We Do
+            What&apos;s in your tenant
           </span>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-            <span className="text-white">Your time is</span>{" "}
-            <span className="text-gradient">valuable.</span>
+            <span className="text-white">Four tools,</span>{" "}
+            <span className="text-gradient">one project room.</span>
           </h2>
-          <p className="text-lg text-white/40 max-w-2xl mx-auto">
-            We find the hours you&apos;re losing and build the systems to get them back.
-            No jargon. No fluff. Just results.
+          <p className="text-lg text-white/50 max-w-2xl mx-auto">
+            Built by a Honolulu design-build practice that needed all of this
+            and couldn&apos;t find it anywhere. Each piece works alone — together
+            they replace your scoping spreadsheet, your CRM, and your
+            client-update emails.
           </p>
         </div>
 

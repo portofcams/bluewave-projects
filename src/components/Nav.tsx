@@ -4,13 +4,12 @@ import { useState, useEffect } from "react";
 import { WaveLogo } from "./Logo";
 
 const navLinks = [
-  { label: "Work", href: "#portfolio" },
+  { label: "Scope", href: "/scope" },
+  { label: "Property Brief", href: "/property-brief" },
+  { label: "Aloha Network", href: "/aloha" },
+  { label: "Pricing", href: "#pricing" },
   { label: "Case Studies", href: "/case-studies" },
-  { label: "Services", href: "#services" },
-  { label: "AI School", href: "/school" },
   { label: "Blog", href: "/blog" },
-  { label: "Book a Call", href: "/booking" },
-  { label: "Contact", href: "#contact" },
 ];
 
 export default function Nav() {
@@ -48,10 +47,10 @@ export default function Nav() {
             </a>
           ))}
           <a
-            href="#contact"
+            href="/signup"
             className="btn-primary text-sm font-medium px-5 py-2.5 rounded-full text-white"
           >
-            Get Started
+            Start free trial
           </a>
         </div>
 
@@ -86,11 +85,11 @@ export default function Nav() {
               </a>
             ))}
             <a
-              href="#contact"
+              href="/signup"
               onClick={() => setMobileOpen(false)}
               className="btn-primary text-center font-medium px-5 py-3 rounded-full text-white mt-2"
             >
-              Get Started
+              Start free trial
             </a>
           </div>
         </div>
