@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { blogPosts } from "@/data/blog-posts";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
 
 function BlogCard({
   post,
@@ -59,35 +61,10 @@ function BlogCard({
 
 export default function BlogPage() {
   return (
-    <div className="min-h-screen bg-deep-900">
-      {/* Nav bar */}
-      <nav className="glass border-b border-white/5 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link
-            href="/"
-            className="text-white font-bold text-lg hover:text-ocean-400 transition-colors"
-          >
-            BlueWave
-          </Link>
-          <div className="flex items-center gap-6">
-            <Link
-              href="/"
-              className="text-sm text-white/50 hover:text-white transition-colors"
-            >
-              Home
-            </Link>
-            <Link
-              href="/school"
-              className="text-sm text-white/50 hover:text-white transition-colors"
-            >
-              AI School
-            </Link>
-            <span className="text-sm text-white font-medium">Blog</span>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen ocean-gradient">
+      <Nav />
 
-      <div className="py-24 px-6">
+      <div className="py-24 pt-32 px-6">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <motion.div
@@ -141,6 +118,8 @@ export default function BlogPage() {
           </motion.div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }

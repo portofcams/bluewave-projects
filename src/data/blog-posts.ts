@@ -109,7 +109,7 @@ Each tool does one job well. Don't try to make one of them do all three.
 
 We ingest RoomPlan parametric output directly. Drop the scan into your BlueWave tenant, the [scope generator](/scope) reads it, asks two clarifying questions, and writes a phase-by-phase scope of work in 60 seconds. The model lives in your project room — clients see it on a public timeline link, your crew sees it in the blueprint editor.
 
-If you're still scoping renovations by hand because the tools you tried felt wrong, [start a free trial](/signup) and try the RoomPlan → scope flow on your next walk-through. The whole loop, from boots on site to scope in the client's inbox, is under 20 minutes.`,
+If you're still scoping renovations by hand because the tools you tried felt wrong, [book a demo](/booking) and try the RoomPlan → scope flow on your next walk-through. The whole loop, from boots on site to scope in the client's inbox, is under 20 minutes.`,
   },
   {
     id: "2",
@@ -196,7 +196,7 @@ We built the sub deduction directly into the BlueWave Projects invoice + sub tra
 
 The GET deduction is computed automatically on every invoice. You see your post-deduction GET liability before you hit "send." It's the kind of thing that should have been baked into contractor software a decade ago — we built it because we needed it for our own jobs.
 
-Want to try it? [Start a free trial](/signup). The Hawaii GET handling is on every plan, including the free Solo tier.`,
+Want to try it? [Book a demo](/booking). Hawaii tax handling is wired in on every plan.`,
   },
   {
     id: "3",
@@ -285,7 +285,7 @@ It can:
 
 ## Try the loop on your next site walk
 
-[Start a free trial](/signup) — the scope generator runs 5 times a month on the free Solo tier, unlimited on Pro. If you've got an iPhone with LiDAR and a site walk on your calendar this week, you have what you need to try it.
+[Book a demo](/booking) — we'll walk you through the scope generator on a real site of yours and set up your tenant on the call. If you've got an iPhone with LiDAR and a site walk on your calendar this week, you have what you need to try it.
 
 The first one will feel weird. By the third one, you won't go back to hand-writing.`,
   },

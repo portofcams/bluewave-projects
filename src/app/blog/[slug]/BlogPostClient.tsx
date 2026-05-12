@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { getPostBySlug, getRelatedPosts } from "@/data/blog-posts";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
 
 function renderMarkdownContent(content: string) {
   const lines = content.split("\n");
@@ -160,40 +162,10 @@ export default function BlogPostClient({ slug }: { slug: string }) {
   const relatedPosts = getRelatedPosts(slug, 3);
 
   return (
-    <div className="min-h-screen bg-deep-900">
-      {/* Nav bar */}
-      <nav className="glass border-b border-white/5 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link
-            href="/"
-            className="text-white font-bold text-lg hover:text-ocean-400 transition-colors"
-          >
-            BlueWave
-          </Link>
-          <div className="flex items-center gap-6">
-            <Link
-              href="/"
-              className="text-sm text-white/50 hover:text-white transition-colors"
-            >
-              Home
-            </Link>
-            <Link
-              href="/blog"
-              className="text-sm text-white/50 hover:text-white transition-colors"
-            >
-              Blog
-            </Link>
-            <Link
-              href="/school"
-              className="text-sm text-white/50 hover:text-white transition-colors"
-            >
-              AI School
-            </Link>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen ocean-gradient">
+      <Nav />
 
-      <article className="py-16 sm:py-24 px-6">
+      <article className="py-16 sm:py-24 pt-32 px-6">
         <div className="max-w-3xl mx-auto">
           {/* Back link */}
           <motion.div
@@ -298,6 +270,8 @@ export default function BlogPostClient({ slug }: { slug: string }) {
           </motion.div>
         </div>
       </article>
+
+      <Footer />
     </div>
   );
 }

@@ -47,9 +47,9 @@ const icons: Record<string, ReactNode> = {
 };
 
 const stats = [
-  { value: "1 tenant", label: "One project room per company" },
+  { value: "$1M+", label: "Active construction managed" },
   { value: "60 sec", label: "Scope generator turnaround" },
-  { value: "$0", label: "Free trial — full features" },
+  { value: "1 tenant", label: "One project room per company" },
 ];
 
 // Static ocean waves (was animated path morph — now static for perf)

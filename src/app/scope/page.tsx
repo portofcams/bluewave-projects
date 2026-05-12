@@ -57,11 +57,11 @@ export default function ScopePage() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 mb-16">
-          <a href="/signup" className="btn-primary px-8 py-4 rounded-full text-white font-medium text-lg">
-            Try the scope generator
+          <a href="/booking" className="btn-primary px-8 py-4 rounded-full text-white font-medium text-lg">
+            Book a demo to try it
           </a>
-          <a href="/booking" className="px-8 py-4 rounded-full text-white/60 hover:text-white border border-white/10 hover:border-white/25 transition-all duration-300 font-medium text-lg">
-            See a sample output
+          <a href="/contractors" className="px-8 py-4 rounded-full text-white/60 hover:text-white border border-white/10 hover:border-white/25 transition-all duration-300 font-medium text-lg">
+            See the full contractor stack
           </a>
         </div>
 
