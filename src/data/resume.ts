@@ -360,7 +360,7 @@ export const resume = {
     tagline:
       "Ships agent-augmented production code. Lives in Honolulu (UTC-10) — overlaps US morning, async-friendly with Europe.",
     pitch:
-      "I build AI-native SaaS end-to-end, alone — frontend, iOS, backend, infra, billing, ops. In 9 weeks of focused build I shipped 10+ products across the stack with Claude Code as primary collaborator, including a multi-tenant SaaS running a live $139K construction job for tenant one. Looking for a remote founding-engineer or staff role at an AI / vertical-SaaS company where shipping speed and depth of stack actually matter.",
+      "I build AI-native SaaS end-to-end, alone — frontend, iOS, backend, infra, billing, ops. In 9 weeks of focused build I shipped 12+ products across the stack with Claude Code as primary collaborator, including a multi-tenant SaaS running a live $139K construction job for tenant one. Looking for a remote founding-engineer or staff role at an AI / vertical-SaaS company where shipping speed and depth of stack actually matter.",
     location: "Honolulu, Hawaii · UTC-10 · Remote",
     availability: "Available now · Open to founding / staff / senior eng roles",
   },
@@ -541,7 +541,7 @@ export const resume = {
       domain: "various",
       stage: "shipped-portfolio",
       summary:
-        "Perdiemify (perdiemify.com), Last Frontier Events, AlohaCalendar, HitchLife, RentReady, Workout BlueWave, Family Tree, CamDrop, Address API, ContractorCalc/ProBuildCalc web.",
+        "Last Frontier Events, AlohaCalendar, Workout BlueWave, Family Tree, CamDrop, Address API, ContractorCalc/ProBuildCalc web — and the just-published claude-prompt-cache open-source package.",
       stack: "Mixed: Next.js, FastAPI, iOS, Cloudflare",
       role: "Solo across the board",
     },
@@ -569,7 +569,7 @@ export const resume = {
     {
       title: "Operates without supervision",
       detail:
-        "Ran charter LLCs, dive operations, snowcat fleet, vessel salvage. Solo founder building 10+ products in parallel. I make decisions, document them, and ship — without needing a manager in the loop.",
+        "Ran charter LLCs, dive operations, snowcat fleet, vessel salvage. Solo founder building 12+ products in parallel. I make decisions, document them, and ship — without needing a manager in the loop.",
     },
     {
       title: "Knows what 'AI in production' really takes",

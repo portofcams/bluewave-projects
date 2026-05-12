@@ -78,7 +78,7 @@ export default function BookingPage() {
   const [slots, setSlots] = useState<Slot[]>([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  const [bookingMode, setBookingMode] = useState<"form" | "cal">("form");
+  // bookingMode toggle removed 2026-05-11; only the form path is live.
 
   // Form state
   const [name, setName] = useState("");
@@ -200,60 +200,11 @@ export default function BookingPage() {
               or custom app project. Pick a time that works for you.
             </p>
 
-            {/* Mode toggle */}
-            <div className="inline-flex rounded-xl overflow-hidden border border-white/[0.06]">
-              <button
-                onClick={() => setBookingMode("form")}
-                className={`px-6 py-2.5 text-sm font-medium transition-all duration-200 ${
-                  bookingMode === "form"
-                    ? "bg-ocean-500 text-white"
-                    : "bg-white/[0.03] text-white/50 hover:text-white hover:bg-white/[0.06]"
-                }`}
-              >
-                Schedule Form
-              </button>
-              <button
-                onClick={() => setBookingMode("cal")}
-                className={`px-6 py-2.5 text-sm font-medium transition-all duration-200 ${
-                  bookingMode === "cal"
-                    ? "bg-ocean-500 text-white"
-                    : "bg-white/[0.03] text-white/50 hover:text-white hover:bg-white/[0.06]"
-                }`}
-              >
-                Calendar Embed
-              </button>
-            </div>
+            {/* Mode toggle removed 2026-05-11: Cal.com embed pointed at cal.com/bluewave/consulting which 404s. Re-add once the Cal.com handle is provisioned. */}
           </motion.div>
 
           <AnimatePresence mode="wait">
-            {bookingMode === "cal" ? (
-              /* Cal.com embed */
-              <motion.div
-                key="cal-embed"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.4 }}
-                className="glass rounded-2xl overflow-hidden"
-              >
-                <div className="p-6 border-b border-white/[0.06]">
-                  <h2 className="text-lg font-semibold text-white">
-                    Schedule via Calendar
-                  </h2>
-                  <p className="text-sm text-white/30 mt-1">
-                    Pick a time directly from our availability calendar.
-                  </p>
-                </div>
-                <div className="relative" style={{ minHeight: 600 }}>
-                  <iframe
-                    src="https://cal.com/bluewave/consulting"
-                    style={{ width: "100%", height: 600, border: "none" }}
-                    title="Book a consulting session"
-                    loading="lazy"
-                  />
-                </div>
-              </motion.div>
-            ) : confirmation ? (
+            {confirmation ? (
               /* Confirmation screen */
               <motion.div
                 key="confirmation"

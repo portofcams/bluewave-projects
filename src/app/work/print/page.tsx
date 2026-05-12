@@ -132,7 +132,7 @@ export default function WorkPrintPage() {
 
           {/* What I ship */}
           <div className="section">
-            <h2>What I ship · 10+ live or shipping products</h2>
+            <h2>What I ship · 12+ live or shipping products</h2>
             <div className="grid-2">
               {products.map((p) => (
                 <div className="product" key={p.name}>
