@@ -35,7 +35,7 @@ export default function StudioHero() {
           15B+ Claude tokens · 580+ commits · ~600K lines · 60 days · solo with Claude Code.
         </p>
         <p className="text-xs text-white/30 max-w-3xl mx-auto mb-12 font-mono leading-relaxed">
-          token breakdown · 11.6B cache reads (hot context replayed) · 378M cache writes · 38M output tokens (model-generated code) · 34 logged sessions on the primary Mac alone
+          token breakdown · 11.6B cache reads (hot context replayed) · 378M cache writes · 38M output tokens (model-generated code) · across the home Apple server (multi-Mac development fleet)
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

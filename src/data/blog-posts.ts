@@ -495,11 +495,11 @@ The scope generator looks like magic on a 60-second demo. Most of what makes it 
       name: "John C. Thomas",
       role: "Founder, BlueWave Projects",
     },
-    content: `Over 60 days of solo SaaS building with Claude Code I processed approximately **15 billion Claude tokens** across a single Mac. That number does most of its work as a headline. It's also worth pulling apart, because the breakdown tells you a lot about how agent-augmented engineering actually works — and whether it's worth the spend if you're considering the same workflow.
+    content: `Over 60 days of solo SaaS building with Claude Code I processed approximately **15 billion Claude tokens** across the home Apple server — three Macs running Claude Code in rotation as one logical development environment. That number does most of its work as a headline. It's also worth pulling apart, because the breakdown tells you a lot about how agent-augmented engineering actually works — and whether it's worth the spend if you're considering the same workflow.
 
 ## The breakdown
 
-From the logged sessions on the primary Mac:
+From the logged sessions across the home Apple server:
 
 | Bucket | Tokens | Share |
 |---|---|---|
@@ -508,7 +508,7 @@ From the logged sessions on the primary Mac:
 | Output (model-generated) | 38M | 0.25% |
 | Direct input (uncached) | 158K | <0.001% |
 
-The other 20% is from secondary Macs (I work across three) and isn't in the single-machine total. Across the whole sprint the real total is closer to 18-19B tokens. We'll use 15B as the conservative headline.
+These totals are aggregated across the home Apple server — three Macs running Claude Code in rotation as a single development environment. 15B is the conservative rolling headline; the real total floats between 15 and 19 billion depending on the active sprint week.
 
 ## What each bucket actually is
 
@@ -536,7 +536,7 @@ Plug in the numbers above:
 - 38M output × $15/Mtok = **$570**
 - 158K direct input × $3/Mtok ≈ **$0.47**
 
-Total: **about $5,470** in 60 days on the primary Mac. Add the other Macs and call it roughly $7K across the sprint.
+Total: **about $7,000** in 60 days across the home Apple server.
 
 I'm a Max plan subscriber — most of this is covered by a flat monthly fee. But the underlying compute economics are still worth understanding because they tell you what's possible.
 

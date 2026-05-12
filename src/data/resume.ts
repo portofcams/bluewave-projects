@@ -366,7 +366,7 @@ export const resume = {
   },
 
   velocity: [
-    { value: "~12B", label: "Claude tokens processed", sub: "Through Claude Code on one Mac in 60 days" },
+    { value: "~15B", label: "Claude tokens processed", sub: "Through Claude Code on the home Apple server in 60 days" },
     { value: "580+", label: "Git commits", sub: "Across 10 active repos, Mar–May 2026" },
     { value: "600K+", label: "Lines of code shipped", sub: "Production code I wrote or directed" },
     { value: "10+", label: "Products live or shipping", sub: "Web, iOS, backend, multi-tenant SaaS" },
