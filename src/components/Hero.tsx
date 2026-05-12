@@ -153,7 +153,7 @@ function MetricsCard() {
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20 sm:pt-0">
+    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-28">
       {/* Animated background orbs */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-ocean-600/20 rounded-full blur-[128px] animate-pulse-glow" />
@@ -219,16 +219,16 @@ export default function Hero() {
 
         <div className="anim-mount-up-sm anim-d-3 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
-            href="/signup"
+            href="/booking"
             className="btn-primary px-8 py-4 rounded-full text-white font-medium text-lg"
           >
-            Start free trial
+            Book a demo
           </a>
           <a
-            href="#how-it-works"
-            className="px-8 py-4 rounded-full text-white/60 hover:text-white border border-white/10 hover:border-white/25 transition-all duration-300 font-medium text-lg"
+            href="/scope"
+            className="px-8 py-4 rounded-full text-white/70 hover:text-white border border-white/10 hover:border-white/25 transition-all duration-300 font-medium text-lg"
           >
-            See how it works
+            Try the AI scope tool
           </a>
         </div>
       </div>

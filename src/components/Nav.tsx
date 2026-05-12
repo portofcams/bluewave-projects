@@ -3,15 +3,22 @@
 import { useState, useEffect } from "react";
 import { WaveLogo } from "./Logo";
 
+// Primary product nav — desktop top bar. Keep this list tight so it fits
+// on tablet widths without wrapping. Personal pages (/work, /captain) are
+// not products — they live in the footer + the mobile drawer only.
 const navLinks = [
   { label: "Scope", href: "/scope" },
   { label: "Property Brief", href: "/property-brief" },
   { label: "Aloha Network", href: "/aloha" },
   { label: "Pricing", href: "#pricing" },
-  { label: "Hire", href: "/work" },
-  { label: "Captain", href: "/captain" },
   { label: "Case Studies", href: "/case-studies" },
   { label: "Blog", href: "/blog" },
+];
+
+// Secondary links — only surface in the mobile drawer (and footer).
+const secondaryLinks = [
+  { label: "Hire me", href: "/work" },
+  { label: "Captain résumé", href: "/captain" },
 ];
 
 export default function Nav() {
@@ -26,10 +33,8 @@ export default function Nav() {
 
   return (
     <nav
-      className={`anim-slide-down fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "glass border-b border-white/5 shadow-lg shadow-black/20"
-          : "bg-transparent"
+      className={`anim-slide-down fixed top-0 left-0 right-0 z-50 transition-all duration-500 glass border-b border-white/5 ${
+        scrolled ? "shadow-lg shadow-black/20" : ""
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -37,8 +42,8 @@ export default function Nav() {
           <WaveLogo size={40} className="group-hover:opacity-90 transition-opacity" />
         </a>
 
-        {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-8">
+        {/* Desktop nav — appears at lg (1024px+) to avoid mid-width overlap */}
+        <div className="hidden lg:flex items-center gap-6">
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -49,17 +54,17 @@ export default function Nav() {
             </a>
           ))}
           <a
-            href="/signup"
-            className="btn-primary text-sm font-medium px-5 py-2.5 rounded-full text-white"
+            href="/booking"
+            className="btn-primary text-sm font-medium px-5 py-2.5 rounded-full text-white whitespace-nowrap"
           >
-            Start free trial
+            Book a demo
           </a>
         </div>
 
         {/* Mobile toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden text-white/70 hover:text-white"
+          className="lg:hidden text-white/70 hover:text-white"
           aria-label="Toggle menu"
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -73,7 +78,7 @@ export default function Nav() {
       </div>
 
       {/* Mobile menu — CSS grid trick for height auto animation */}
-      <div className={`expand ${mobileOpen ? "open" : ""} md:hidden`}>
+      <div className={`expand ${mobileOpen ? "open" : ""} lg:hidden`}>
         <div className="glass border-t border-white/5">
           <div className="px-6 py-6 flex flex-col gap-4">
             {navLinks.map((link) => (
@@ -86,12 +91,24 @@ export default function Nav() {
                 {link.label}
               </a>
             ))}
+            <div className="border-t border-white/5 pt-4 mt-2 flex flex-col gap-3">
+              {secondaryLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="text-base text-white/40 hover:text-white/80 transition-colors"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
             <a
-              href="/signup"
+              href="/booking"
               onClick={() => setMobileOpen(false)}
               className="btn-primary text-center font-medium px-5 py-3 rounded-full text-white mt-2"
             >
-              Start free trial
+              Book a demo
             </a>
           </div>
         </div>

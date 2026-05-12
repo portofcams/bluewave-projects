@@ -18,7 +18,7 @@ const plans = [
       "Daily logs + invoices",
       "Hawaii GET handling",
     ],
-    cta: "Start free",
+    cta: "Book a demo to start",
     planKey: "solo",
     featured: false,
     gradient: "from-ocean-500 to-wave-500",
@@ -37,7 +37,7 @@ const plans = [
       "Change orders with public approve links",
       "Property Brief credits included",
     ],
-    cta: "Start 14-day trial",
+    cta: "Book a demo · $99/mo",
     planKey: "pro",
     featured: true,
     gradient: "from-wave-400 to-glacier-300",
@@ -68,14 +68,12 @@ function PricingCard({ plan, index }: { plan: (typeof plans)[number]; index: num
   const delayClass = index >= 1 && index <= 8 ? `reveal-d-${index}` : "";
 
   const handleCheckout = async (planKey: string) => {
-    // Solo = free trial → signup. Founding Builder is sales-touch → booking.
-    // Pro is the only Stripe checkout path.
-    if (planKey === "solo") {
-      window.location.href = "/signup";
-      return;
-    }
-    if (planKey === "founding") {
-      window.location.href = "/booking";
+    // No public self-serve contractor signup yet — every contractor plan
+    // routes to /booking with the plan flagged so John can pick up the
+    // call already knowing the tier. Once Stripe products + tenant
+    // provisioning are wired, Pro can switch to /billing/checkout.
+    if (planKey === "solo" || planKey === "founding" || planKey === "pro") {
+      window.location.href = `/booking?plan=${encodeURIComponent(planKey)}`;
       return;
     }
     setLoading(true);

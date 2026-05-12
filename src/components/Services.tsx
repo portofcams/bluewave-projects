@@ -31,8 +31,8 @@ const services: Service[] = [
     title: "Project Room (Tenant)",
     description:
       "One tenant per company, every project inside. RoomPlan blueprints, client-shareable timelines, daily logs, invoices with GET handling, change orders with public approve links.",
-    href: "/signup",
-    cta: "Start free trial",
+    href: "/booking",
+    cta: "Book a demo",
     icon: (
       <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5">
         <rect x="3" y="3" width="7" height="7" rx="1" />
