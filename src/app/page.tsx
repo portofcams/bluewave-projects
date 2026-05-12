@@ -3,35 +3,37 @@ import dynamic from "next/dynamic";
 import Nav from "@/components/Nav";
 import StudioHero from "@/components/StudioHero";
 
-// Homepage is the studio overview — every operational app in one place.
-// The contractor-specific pitch (Hero, Services, HowItWorks, Pricing,
+// Homepage = studio overview: AI consulting + custom apps + AI school.
+// The contractor-vertical pitch (Hero, Services, HowItWorks, Pricing,
 // FAQ, blog, etc.) lives at /contractors. About + Contact + Footer are
 // reused on both pages.
+const StudioServices = dynamic(() => import("@/components/StudioServices"));
+const RadarScope = dynamic(() => import("@/components/RadarScope"), { ssr: true });
 const Portfolio = dynamic(() => import("@/components/Portfolio"));
 const About = dynamic(() => import("@/components/About"));
 const Contact = dynamic(() => import("@/components/Contact"));
 const Footer = dynamic(() => import("@/components/Footer"));
 
 export const metadata: Metadata = {
-  title: "BlueWave Projects — Pacific software studio · Honolulu",
+  title: "BlueWave Projects — AI consulting, custom apps & AI school · Honolulu",
   description:
-    "Independent software studio shipping web, iOS, and AI-native apps from Honolulu. A dozen products live: contractor SaaS, real estate signals, webcam streaming, maritime compliance, events, and more.",
+    "Independent software studio in Honolulu. AI consulting, custom AI apps (web + iOS), multi-tenant SaaS builds, and the BlueWave AI School. Twelve products live to prove it.",
   keywords: [
-    "software studio",
-    "Honolulu software",
-    "Hawaii software studio",
-    "AI app developer",
-    "custom apps",
-    "iOS RoomPlan",
-    "FastAPI Next.js",
-    "Pacific software",
+    "AI consulting Hawaii",
+    "AI app developer Honolulu",
+    "custom AI apps",
+    "AI school",
+    "Claude API integration",
+    "Multi-tenant SaaS Hawaii",
+    "iOS RoomPlan developer",
+    "FastAPI Next.js studio",
     "BlueWave Projects",
   ],
   alternates: { canonical: "https://bluewaveprojects.com" },
   openGraph: {
-    title: "BlueWave Projects — Pacific software studio",
+    title: "BlueWave Projects — AI consulting, custom apps & AI school",
     description:
-      "Independent studio. A dozen apps live in production. Built solo from Honolulu.",
+      "Independent AI studio in Honolulu. Consulting · custom apps · multi-tenant SaaS · AI school.",
     url: "https://bluewaveprojects.com",
     siteName: "BlueWave Projects",
     type: "website",
@@ -44,6 +46,37 @@ export default function Home() {
     <main className="ocean-gradient min-h-screen">
       <Nav />
       <StudioHero />
+
+      {/* Maritime credibility flourish — radar scope between hero and services */}
+      <section className="px-6 pt-4 pb-20">
+        <div className="max-w-6xl mx-auto grid lg:grid-cols-[1fr_420px] gap-10 lg:gap-16 items-center">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-300/90 text-xs uppercase tracking-[0.16em] mb-5 font-mono">
+              From the bridge to the cloud
+            </div>
+            <h2 className="text-3xl sm:text-5xl font-bold tracking-tight leading-tight mb-5">
+              Built by a 100-ton captain
+              <br />
+              <span className="text-gradient">who codes the same way he runs a watch.</span>
+            </h2>
+            <p className="text-lg text-white/60 leading-relaxed max-w-xl mb-6">
+              Before the studio there was 1,000+ days at sea, 10+ vessels captained, and a USCG Master credential.
+              Software here ships the way a good watch is stood — calm, attentive, and ready for weather. Maritime
+              and contractor verticals are first-class citizens because they&apos;re what the captain actually knows.
+            </p>
+            <div className="flex flex-wrap gap-4 text-xs uppercase tracking-[0.18em] text-white/40 font-mono">
+              <span>USCG Master · 100T</span>
+              <span aria-hidden>·</span>
+              <span>1,000+ Sea days</span>
+              <span aria-hidden>·</span>
+              <span>10+ Vessels</span>
+            </div>
+          </div>
+          <RadarScope />
+        </div>
+      </section>
+
+      <StudioServices />
       <Portfolio />
 
       {/* For pros callout — bridge to /contractors */}
