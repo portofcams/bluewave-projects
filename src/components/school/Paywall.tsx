@@ -86,10 +86,10 @@ export default function Paywall({ waveNumber, waveTitle, waveColor, lessonTitle,
               <button
                 onClick={async () => {
                   try {
-                    const res = await fetch('https://ai.portofcams.com/api/bluewave/checkout', {
+                    const res = await fetch('https://ai.portofcams.com/api/bluewave/billing/checkout', {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ plan: 'school' }),
+                      body: JSON.stringify({ product: 'school' }),
                     });
                     const data = await res.json();
                     if (data.url) window.location.href = data.url;
@@ -104,10 +104,10 @@ export default function Paywall({ waveNumber, waveTitle, waveColor, lessonTitle,
               <button
                 onClick={async () => {
                   try {
-                    const res = await fetch('https://ai.portofcams.com/api/bluewave/checkout', {
+                    const res = await fetch('https://ai.portofcams.com/api/bluewave/billing/checkout', {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ plan: 'pro' }),
+                      body: JSON.stringify({ product: 'pro' }),
                     });
                     const data = await res.json();
                     if (data.url) window.location.href = data.url;

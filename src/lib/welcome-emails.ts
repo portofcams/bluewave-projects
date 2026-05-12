@@ -297,6 +297,14 @@ export async function triggerWelcomeSequence(
   name: string,
   token?: string
 ): Promise<{ success: boolean; error?: string }> {
+  // Backend endpoint /email/welcome-sequence is not implemented (only
+  // /emails/enqueue + /emails/process exist). Until the drip orchestrator
+  // is built, no-op so every signup doesn't fire a 404 + console warning.
+  // Re-enable when the backend route lands.
+  void email; void name; void token;
+  return { success: false, error: 'not-implemented' };
+
+  // eslint-disable-next-line no-unreachable
   try {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',

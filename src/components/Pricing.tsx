@@ -81,10 +81,10 @@ function PricingCard({ plan, index }: { plan: (typeof plans)[number]; index: num
     setLoading(true);
     try {
       const user = getStoredUser();
-      const res = await fetch("https://ai.portofcams.com/api/bluewave/checkout", {
+      const res = await fetch("https://ai.portofcams.com/api/bluewave/billing/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan: planKey, email: user?.email || undefined }),
+        body: JSON.stringify({ product: planKey, email: user?.email || undefined }),
       });
       const data = await res.json();
       if (data.url) {

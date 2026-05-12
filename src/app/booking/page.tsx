@@ -129,8 +129,10 @@ export default function BookingPage() {
       company: company || undefined,
       date: formatDateISO(selectedDate),
       time: selectedTime,
+      topic: projectType,
       project_type: projectType,
       budget,
+      message: description || undefined,
       description: description || undefined,
     };
 
