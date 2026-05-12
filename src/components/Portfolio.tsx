@@ -157,6 +157,23 @@ const projects: Project[] = [
     logo: "/logos/lastfrontier.png",
   },
   {
+    name: "ProtestTracker",
+    tag: "Civic Data · Live",
+    description:
+      "Global protest tracker — Next.js + Prisma + Postgres. Just relaunched: rebuilt container, attached persistent pgdata volume, restored DNS, behind the same Vultr / Nginx Proxy Manager stack as the rest of the studio.",
+    tech: ["Next.js", "Prisma", "PostgreSQL", "Docker"],
+    color: "from-rose-500 to-orange-500",
+    link: "https://protestracker.portofcams.com",
+    stat: "Live · ProtestPulse",
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18" />
+        <circle cx="17" cy="8" r="1.5" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
+  {
     name: "Hawaii Property Lookup",
     tag: "Public Tool + API",
     description:
