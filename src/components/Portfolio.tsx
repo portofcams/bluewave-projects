@@ -20,6 +20,41 @@ const projects = [
     ),
   },
   {
+    name: "Ikena Portal",
+    tag: "Live Preview · Demo Mode",
+    description:
+      "The Ikena-branded contractor portal — 9 ops tools (invoices, subs & GET, time, daily logs, documents, selections, change orders, blueprint, 3D editor) plus public client-share pages. Demo role picker on the homepage, no signup required.",
+    tech: ["Next.js", "FastAPI", "DocuSeal", "Postgres"],
+    color: "from-slate-700 to-cyan-500",
+    link: "https://portal.ikenagroup.com",
+    stat: "Try the demo · 9 ops tools",
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <rect x="3" y="4" width="18" height="16" rx="2" />
+        <path d="M3 9h18" />
+        <circle cx="7" cy="6.5" r="0.6" fill="currentColor" />
+        <circle cx="9.5" cy="6.5" r="0.6" fill="currentColor" />
+        <path d="M7 13h6M7 16h10" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    name: "Hawaii 3D Map",
+    tag: "Geospatial Product",
+    description:
+      "Every parcel, building, and address in Hawaiʻi as TypeScript — served as a 3D map. 384,262 statewide TMK parcels, 239,458 Honolulu building footprints with real heights, 204,775 address points. Click any property → instant TMK, acres, qPublic link.",
+    tech: ["Three.js", "Hawaii GIS", "ArcGIS", "TypeScript"],
+    color: "from-emerald-500 to-sky-400",
+    link: "https://maps.ikenagroup.com",
+    stat: "384K parcels · 4 islands",
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z" strokeLinejoin="round" />
+        <path d="M9 3v15M15 6v15" />
+      </svg>
+    ),
+  },
+  {
     name: "Property Brief",
     tag: "Subscription Product",
     description:
