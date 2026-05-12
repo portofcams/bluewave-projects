@@ -120,7 +120,7 @@ export default function WorkPage() {
       {/* Velocity stats */}
       <section className="max-w-6xl mx-auto px-6 py-8">
         <div className="text-center mb-8">
-          <p className="text-sm uppercase tracking-[0.2em] text-white/40 mb-2">Shipping velocity · last 60 days</p>
+          <p className="text-sm uppercase tracking-[0.2em] text-white/40 mb-2">Shipping velocity · one focused sprint</p>
           <h2 className="text-3xl sm:text-4xl font-bold">
             Agent-augmented engineer, <span className="text-gradient">measured.</span>
           </h2>
@@ -318,7 +318,7 @@ export default function WorkPage() {
               name: "Anthropic",
               vertical: "AI labs",
               role: "Applied AI Engineer (Beneficial Deployments) · Staff+ Developer Productivity",
-              fit: "15B Claude tokens through Claude Code in 60 days. I am exactly the customer they should be hiring from — power-user with production scars and a vertical-SaaS shipping pattern they can amplify.",
+              fit: "15B Claude tokens through Claude Code in one focused sprint. I am exactly the customer they should be hiring from — power-user with production scars and a vertical-SaaS shipping pattern they can amplify.",
               url: "https://job-boards.greenhouse.io/anthropic",
             },
             {

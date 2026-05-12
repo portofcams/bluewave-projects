@@ -32,7 +32,7 @@ export default function StudioHero() {
           streaming hundreds of Pacific cameras.
         </p>
         <p className="text-sm text-white/40 max-w-2xl mx-auto mb-2 font-mono">
-          15B+ Claude tokens · 580+ commits · ~600K lines · 60 days · solo with Claude Code.
+          15B+ Claude tokens · 580+ commits · ~600K lines · solo with Claude Code.
         </p>
         <p className="text-xs text-white/30 max-w-3xl mx-auto mb-12 font-mono leading-relaxed">
           token breakdown · 11.6B cache reads (hot context replayed) · 378M cache writes · 38M output tokens (model-generated code) · across the home Apple server (multi-Mac development fleet)

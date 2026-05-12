@@ -485,7 +485,7 @@ The scope generator looks like magic on a 60-second demo. Most of what makes it 
     slug: "token-economics-15-billion-claude-tokens",
     title: "Token economics: what 15 billion Claude tokens actually cost, and what they bought",
     excerpt:
-      "An honest breakdown of where 15B Claude tokens went in 60 days of solo SaaS-building with Claude Code, what they actually cost, and the operator math behind agent-augmented engineering.",
+      "An honest breakdown of where 15B Claude tokens went in one focused sprint of solo SaaS-building with Claude Code, what they actually cost, and the operator math behind agent-augmented engineering.",
     date: "2026-05-11",
     readTime: "8 min",
     category: "Engineering",
@@ -495,7 +495,7 @@ The scope generator looks like magic on a 60-second demo. Most of what makes it 
       name: "John C. Thomas",
       role: "Founder, BlueWave Projects",
     },
-    content: `Over 60 days of solo SaaS building with Claude Code I processed approximately **15 billion Claude tokens** across the home Apple server — three Macs running Claude Code in rotation as one logical development environment. That number does most of its work as a headline. It's also worth pulling apart, because the breakdown tells you a lot about how agent-augmented engineering actually works — and whether it's worth the spend if you're considering the same workflow.
+    content: `Over one focused sprint of solo SaaS building with Claude Code I processed approximately **15 billion Claude tokens** across the home Apple server — three Macs running Claude Code in rotation as one logical development environment. That number does most of its work as a headline. It's also worth pulling apart, because the breakdown tells you a lot about how agent-augmented engineering actually works — and whether it's worth the spend if you're considering the same workflow.
 
 ## The breakdown
 
@@ -518,7 +518,7 @@ These totals are aggregated across the home Apple server — three Macs running 
 
 **Output (38M).** The actual model-generated tokens: code suggestions, edits, plans, reasoning, summaries. This is the bucket where "Claude wrote the code" literally lives.
 
-**Direct input (158K).** Tokens that flowed in *without* a cache hit. Almost negligible — under one Pride and Prejudice's worth of text across 60 days of nonstop work. This is what most people imagine when they hear "input tokens." It's actually a rounding error.
+**Direct input (158K).** Tokens that flowed in *without* a cache hit. Almost negligible — under one Pride and Prejudice's worth of text across the whole sprint of nonstop work. This is what most people imagine when they hear "input tokens." It's actually a rounding error.
 
 ## Rough cost math
 
@@ -536,13 +536,13 @@ Plug in the numbers above:
 - 38M output × $15/Mtok = **$570**
 - 158K direct input × $3/Mtok ≈ **$0.47**
 
-Total: **about $7,000** in 60 days across the home Apple server.
+Total: **about $7,000** across the home Apple server over the sprint.
 
 I'm a Max plan subscriber — most of this is covered by a flat monthly fee. But the underlying compute economics are still worth understanding because they tell you what's possible.
 
 ## What that bought
 
-Concrete deliverables shipped in the same 60 days:
+Concrete deliverables shipped in the same sprint:
 
 - **BlueWave Projects** — multi-tenant SaaS, 15+ tables, full auth, signup, billing scaffolding, ~9 ops tools
 - **Ikena Portal** — production tenant running a real $139K renovation end-to-end
