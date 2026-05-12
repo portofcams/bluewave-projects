@@ -1,3 +1,11 @@
 User-agent: *
 Allow: /
+
+# Funnel pages — let Google crawl but they're not the main entry points
+# (Allow remains in effect; nothing disallowed)
+
+# Admin surfaces — keep out of the index
+Disallow: /admin
+Disallow: /admin/
+
 Sitemap: https://bluewaveprojects.com/sitemap.xml
