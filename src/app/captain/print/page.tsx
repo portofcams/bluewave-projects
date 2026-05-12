@@ -47,6 +47,14 @@ export default function CaptainPrintPage() {
     <>
       <style>{`
         @page { size: letter; margin: 0.45in; }
+        /* Force browsers to preserve background colors when printing
+           (and when "Save as PDF" — same engine). Without this,
+           Chrome strips the blue header bar and the stat tiles. */
+        * {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+          color-adjust: exact !important;
+        }
         @media print {
           .no-print { display: none !important; }
           body { background: #fff !important; }
@@ -91,7 +99,9 @@ export default function CaptainPrintPage() {
         }
         .resume-doc .role { margin-bottom: 9pt; }
         .resume-doc .header-bar {
-          background: linear-gradient(135deg, #0284c7, #005f85);
+          /* Solid color — gradients render unreliably in Chrome's
+             print pipeline even with print-color-adjust set. */
+          background: #0284c7;
           color: #fff;
           padding: 14pt 16pt;
           border-radius: 4pt;

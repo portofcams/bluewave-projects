@@ -35,6 +35,14 @@ export default function WorkPrintPage() {
     <>
       <style>{`
         @page { size: letter; margin: 0.4in; }
+        /* Force browsers to preserve background colors when printing
+           (and when "Save as PDF" — same engine). Without this,
+           Chrome strips the blue header bar and the stat-row tiles. */
+        * {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+          color-adjust: exact !important;
+        }
         @media print {
           .no-print { display: none !important; }
           body { background: #fff !important; }
@@ -56,7 +64,10 @@ export default function WorkPrintPage() {
         .doc .accent { color: #0284c7; }
         .doc .section { margin-bottom: 10pt; }
         .doc .header-bar {
-          background: linear-gradient(135deg, #0284c7, #005f85);
+          /* Solid color instead of gradient — gradients render
+             unreliably in Chrome's print pipeline even with
+             print-color-adjust set. Solid blue prints every time. */
+          background: #0284c7;
           color: #fff;
           padding: 12pt 14pt;
           border-radius: 4pt;
