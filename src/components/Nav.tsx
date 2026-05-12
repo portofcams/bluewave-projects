@@ -3,20 +3,22 @@
 import { useState, useEffect } from "react";
 import { WaveLogo } from "./Logo";
 
-// Primary product nav — desktop top bar. Keep this list tight so it fits
-// on tablet widths without wrapping. Personal pages (/work, /captain) are
-// not products — they live in the footer + the mobile drawer only.
+// Primary nav — desktop top bar. Keep this list tight so it fits on
+// tablet widths without wrapping. Apps + Contractors are the two top
+// surfaces; sub-products and personal pages live in the mobile drawer +
+// footer.
 const navLinks = [
-  { label: "Scope", href: "/scope" },
-  { label: "Property Brief", href: "/property-brief" },
-  { label: "Aloha Network", href: "/aloha" },
-  { label: "Pricing", href: "#pricing" },
+  { label: "Apps", href: "/#apps" },
+  { label: "Contractors", href: "/contractors" },
   { label: "Case Studies", href: "/case-studies" },
   { label: "Blog", href: "/blog" },
 ];
 
 // Secondary links — only surface in the mobile drawer (and footer).
 const secondaryLinks = [
+  { label: "AI Scope Tool", href: "/scope" },
+  { label: "Property Brief", href: "/property-brief" },
+  { label: "Aloha Network", href: "/aloha" },
   { label: "Hire me", href: "/work" },
   { label: "Captain résumé", href: "/captain" },
 ];

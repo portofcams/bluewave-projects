@@ -4,6 +4,56 @@ import { useReveal } from "@/hooks/useReveal";
 
 const projects = [
   {
+    name: "BlueWave Projects",
+    tag: "Multi-Tenant SaaS",
+    description:
+      "Project room for design-build contractors. AI scope generator, RoomPlan blueprints, client-shareable timelines, Hawaii GET tax handling. Multi-tenant — Tenant 1 (Ikena) is actively running a $139K renovation through the system.",
+    tech: ["Next.js 16", "FastAPI", "Postgres", "Claude API"],
+    color: "from-wave-400 to-ocean-500",
+    link: "/contractors",
+    stat: "Live · Tenant 1 running real jobs",
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M3 9.75l9-7 9 7v11.25a1.5 1.5 0 01-1.5 1.5H4.5A1.5 1.5 0 013 21V9.75z" />
+        <path d="M9 22V12h6v10" />
+      </svg>
+    ),
+  },
+  {
+    name: "Property Brief",
+    tag: "Subscription Product",
+    description:
+      "Weekly Hawaii property data digest for homeowners and investors. TMK, zoning, lava zone, permit history, comps — your saved addresses every Wednesday. Built on the same Hawaii data layer as the scope generator.",
+    tech: ["Next.js", "FastAPI cron", "Resend", "Hawaii GIS"],
+    color: "from-ocean-500 to-glacier-300",
+    link: "/property-brief",
+    stat: "$15 / month · waitlist open",
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+        <circle cx="12" cy="10" r="3" />
+      </svg>
+    ),
+  },
+  {
+    name: "Aloha Off-Market Network",
+    tag: "Real Estate Signals",
+    description:
+      "Deal flow before MLS. Hawaii adjacency alerts, distressed-permit signals, intros to vetted agents and lenders. Three tiers — $99 watcher, $499 builder, $1,500 founding member.",
+    tech: ["Next.js", "FastAPI", "Stripe", "Hawaii GIS"],
+    color: "from-lava-500 to-amber-400",
+    link: "/aloha",
+    stat: "$99 / $499 / $1500 tiers",
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M3 18l4-8 5 6 4-3 5 5" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="7" cy="10" r="1.2" fill="currentColor" />
+        <circle cx="12" cy="16" r="1.2" fill="currentColor" />
+        <circle cx="16" cy="13" r="1.2" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
     name: "Port of Cams",
     tag: "Live Platform",
     description:
@@ -65,14 +115,14 @@ const projects = [
     ),
   },
   {
-    name: "Ikena",
-    tag: "Construction Tech",
+    name: "Ikena Design & Build",
+    tag: "Active GC Practice",
     description:
-      "Design-build OS for premium residential renovation. Client portal, crew app, and AR plan overlay for design-build GCs. AR/LiDAR-native, built and dogfooded on Oahu.",
+      "Honolulu design-build practice — also Tenant 1 of BlueWave Projects. Currently running a $139,165 Puuikena Drive renovation through the BlueWave portal end-to-end: scope, blueprints, change orders, GET tax handling.",
     tech: ["Next.js", "iOS", "ARKit", "LiDAR"],
     color: "from-slate-700 to-cyan-500",
     link: "https://ikenagroup.com",
-    stat: "In Development",
+    stat: "$139K project running",
     icon: (
       <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M2.25 21h19.5M3 21V8.25l9-6 9 6V21M9 21V12h6v9M9 7.5h.008v.008H9V7.5zm3 0h.008v.008H12V7.5zm3 0h.008v.008H15V7.5z" />
@@ -80,14 +130,14 @@ const projects = [
     ),
   },
   {
-    name: "Address API",
-    tag: "Developer API",
+    name: "Hawaii Property Lookup",
+    tag: "Public Tool + API",
     description:
-      "Fast, reliable address validation and geocoding API for developers. Clean RESTful endpoints, high uptime, and built for integration.",
-    tech: ["Node.js", "REST API", "Geocoding", "Vultr"],
+      "Address autocomplete + parcel card (TMK, island, county, acres, zone) backed by statewide ArcGIS, county REST endpoints, and OSM Overpass. Memos, /stats dashboard, adjacent parcels, geofencing, print/PDF letterhead, lead capture.",
+    tech: ["TypeScript", "Postgres", "Hawaii GIS", "Vultr"],
     color: "from-violet-500 to-purple-400",
     link: "https://addressapi.portofcams.com",
-    stat: "99.9% Uptime",
+    stat: "4-island coverage",
     icon: (
       <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -229,22 +279,21 @@ export default function Portfolio() {
   const { ref, inView } = useReveal();
 
   return (
-    <section id="portfolio" className="py-32 px-6">
+    <section id="apps" className="py-24 px-6 scroll-mt-20">
       <div className="max-w-7xl mx-auto">
         <div
           ref={ref}
           className={`reveal-up ${inView ? "in" : ""} text-center mb-20`}
         >
           <span className="text-sm font-medium text-ocean-400 uppercase tracking-widest mb-4 block">
-            Our Work
+            The apps
           </span>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
             <span className="text-white">Built. Shipped.</span>{" "}
             <span className="text-gradient">Running.</span>
           </h2>
-          <p className="text-lg text-white/40 max-w-2xl mx-auto">
-            Live products generating real traffic. Every project in our portfolio
-            is built, deployed, and actively maintained by our team.
+          <p className="text-lg text-white/45 max-w-2xl mx-auto">
+            Live products under active maintenance — web, iOS, AI, infra. Each card links to the live site.
           </p>
         </div>
 
