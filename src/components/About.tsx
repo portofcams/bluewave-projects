@@ -11,14 +11,14 @@ const consultants = [
     skills: [
       { name: "Hawaii GC-B path", icon: "" },
       { name: "RoomPlan / LiDAR", icon: "" },
-      { name: "Hawaii GET tax", icon: "" },
+      { name: "Hawaii contractor tax", icon: "" },
       { name: "Renovation scoping", icon: "" },
       { name: "Multi-tenant SaaS", icon: "" },
       { name: "Honolulu permits + zoning", icon: "" },
     ],
     bio: [
       "I run an active design-build practice in Honolulu \u2014 and I built BlueWave Projects because I needed it.",
-      "Before software I spent a decade as a 100-ton USCG Captain with 1,000+ sea days; the contractor work came after I came ashore. Everything in BlueWave Projects exists because I needed it on a real job site \u2014 scoping, blueprints, change orders, Hawaii \u00a7237-13(3)(B) GET deduction tracking \u2014 and couldn\u2019t find software that worked the way contractors actually work.",
+      "Before software I spent a decade as a 100-ton USCG Captain with 1,000+ sea days; the contractor work came after I came ashore. Everything in BlueWave Projects exists because I needed it on a real job site \u2014 scoping, blueprints, change orders, Hawaii sub-deduction tracking \u2014 and couldn\u2019t find software that worked the way contractors actually work.",
       "If you\u2019re a design-build shop, custom home builder, or active renovation GC, this tool was built by someone with sawdust on their boots \u2014 not a SaaS bro chasing a vertical.",
     ],
     stats: [

@@ -16,7 +16,7 @@ const plans = [
       "RoomPlan blueprint editor",
       "Client-shareable timeline",
       "Daily logs + invoices",
-      "Hawaii GET handling",
+      "Hawaii tax accounting",
     ],
     cta: "Book a demo to start",
     planKey: "solo",

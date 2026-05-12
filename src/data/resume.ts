@@ -69,7 +69,7 @@ export const resume = {
       label: "In the code",
       title: "Founder",
       detail:
-        "Multi-tenant SaaS for contractors. AI scope generator, RoomPlan blueprints, client portals, Hawaii GET accounting.",
+        "Multi-tenant SaaS for contractors. AI scope generator, RoomPlan blueprints, client portals, Hawaii tax accounting.",
       track: "saas",
     },
   ],
@@ -85,7 +85,7 @@ export const resume = {
       bullets: [
         "Built and shipped a multi-tenant project management SaaS for design-build contractors — sole engineer, designer, and operator.",
         "Native stack: Next.js 16, FastAPI, Postgres, Swift/SwiftUI iOS, Cloudflare Pages, Vultr.",
-        "AI scope generator, RoomPlan LiDAR blueprints, client share portals, change orders, Hawaii GET tax accounting, supplier ledgers.",
+        "AI scope generator, RoomPlan LiDAR blueprints, client share portals, change orders, Hawaii tax accounting, supplier ledgers.",
         "Tenant 1 (Ikena Design & Build) actively running real construction jobs through the system.",
       ],
     },
@@ -112,7 +112,7 @@ export const resume = {
       bullets: [
         "Manage fleet remodel crews on high-end floor installations, hardwood refinish, and full home remodels.",
         "50/50 partnership with Chris on Hawaii Flooring quotes — labor and project execution lead.",
-        "Subs, materials, scheduling, GET tax, and client communications across multiple concurrent jobs.",
+        "Subs, materials, scheduling, tax accounting, and client communications across multiple concurrent jobs.",
       ],
     },
     {
@@ -442,7 +442,7 @@ export const resume = {
       domain: "bluewaveprojects.com",
       stage: "saas-shipping",
       summary:
-        "Multi-tenant project management SaaS for design-build contractors. End-to-end auth, multi-tenant DB (15+ tables), AI scope generator, RoomPlan blueprints, client portals, change orders, Hawaii GET tax accounting, invoice + PDF generation, e-sign.",
+        "Multi-tenant project management SaaS for design-build contractors. End-to-end auth, multi-tenant DB (15+ tables), AI scope generator, RoomPlan blueprints, client portals, change orders, Hawaii tax accounting, invoice + PDF generation, e-sign.",
       stack: "Next.js 16, FastAPI, Postgres, Cloudflare Pages, Claude API",
       role: "Sole engineer + designer + operator",
     },
@@ -549,7 +549,7 @@ export const resume = {
 
   ai_evidence: [
     "Claude Sonnet 4.6 integrated into iOS ProBuildCalc scan → AI design suggestions endpoint, returning rationale + 6–10 prioritized scope items + inspiration keywords with location context baked in.",
-    "Claude in the loop for Ikena scope generator (portal /ops) — RoomPlan scan + photos + address + style → phase-by-phase scope, line-item ranges, contingency, Hawaii GET §237-13(3)(B) sub-deduction computed.",
+    "Claude in the loop for Ikena scope generator (portal /ops) — RoomPlan scan + photos + address + style → phase-by-phase scope, line-item ranges, contingency, Hawaii sub-deduction computed.",
     "Multi-tenant prompt isolation: every Claude call is scoped to tenant_id with row-level data access — no cross-tenant leakage even when one model serves all customers.",
     "Token-budget aware: production endpoints use prompt caching to keep p99 latency and cost in check.",
     "Built and maintain bespoke Claude Code agents (skills, hooks, MCP servers) that automate code review, deployment, security audits, and customer-zero testing across the project suite.",

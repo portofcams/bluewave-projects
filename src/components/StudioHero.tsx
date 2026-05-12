@@ -31,8 +31,11 @@ export default function StudioHero() {
           From a contractor SaaS running a real $139K renovation to a webcam network
           streaming hundreds of Pacific cameras.
         </p>
-        <p className="text-sm text-white/35 italic max-w-2xl mx-auto mb-12">
-          Built solo with Claude Code. ~600K lines of production code, 580+ commits, 60 days.
+        <p className="text-sm text-white/40 max-w-2xl mx-auto mb-2 font-mono">
+          15B+ Claude tokens · 580+ commits · ~600K lines · 60 days · solo with Claude Code.
+        </p>
+        <p className="text-xs text-white/30 max-w-3xl mx-auto mb-12 font-mono leading-relaxed">
+          token breakdown · 11.6B cache reads (hot context replayed) · 378M cache writes · 38M output tokens (model-generated code) · 34 logged sessions on the primary Mac alone
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -62,7 +65,7 @@ export default function StudioHero() {
             <Stat value="12+" label="Apps live" />
             <Stat value="13" label="Domains running" />
             <Stat value="~600K" label="Lines shipped" />
-            <Stat value="60d" label="Sprint window" />
+            <Stat value="15B+" label="Claude tokens" />
           </div>
         </div>
       </div>

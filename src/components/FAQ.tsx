@@ -12,7 +12,7 @@ const faqs = [
   {
     question: "Is this built for Hawaii contractors specifically?",
     answer:
-      "It was built BY a Hawaii contractor — so Hawaii GET (General Excise Tax), §237-13(3)(B) sub deductions, and Honolulu DPP permit lookups all work out of the box. But there's nothing Hawaii-specific in the project management itself. Contractors in CA, TX, FL are using it; we just don't auto-compute their state's tax rules (yet).",
+      "It was built BY a Hawaii contractor — so Hawaii contractor tax rules, sub deductions, and Honolulu DPP permit lookups all work out of the box. But there's nothing Hawaii-specific in the project management itself. Contractors in CA, TX, FL are using it; we just don't auto-compute their state's tax rules (yet).",
   },
   {
     question: "How does the free Solo tier work?",

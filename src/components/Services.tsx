@@ -16,7 +16,7 @@ const services: Service[] = [
   {
     title: "AI Scope Generator",
     description:
-      "Photos and an address in. Phase-by-phase scope of work, line-item ranges, and Hawaii GET gross-up out — in 60 seconds. Send it as a real lead with one click.",
+      "Photos and an address in. Phase-by-phase scope of work, line-item ranges, and Hawaii contractor tax gross-up out — in 60 seconds. Send it as a real lead with one click.",
     href: "/scope",
     cta: "See how scoping works",
     icon: (
@@ -30,7 +30,7 @@ const services: Service[] = [
   {
     title: "Project Room (Tenant)",
     description:
-      "One tenant per company, every project inside. RoomPlan blueprints, client-shareable timelines, daily logs, invoices with GET handling, change orders with public approve links.",
+      "One tenant per company, every project inside. RoomPlan blueprints, client-shareable timelines, daily logs, invoices with tax handling, change orders with public approve links.",
     href: "/booking",
     cta: "Book a demo",
     icon: (

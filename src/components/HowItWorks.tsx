@@ -19,7 +19,7 @@ const steps = [
     number: "02",
     title: "Turn it into a project",
     description:
-      "Approved scope becomes a real project room: blueprint editor, daily logs, time clock, invoices with Hawaii GET, change orders. One tenant, every project, your whole crew can see it.",
+      "Approved scope becomes a real project room: blueprint editor, daily logs, time clock, invoices with Hawaii tax accounting, change orders. One tenant, every project, your whole crew can see it.",
     icon: (
       <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M4 19V5a2 2 0 012-2h12a2 2 0 012 2v14l-7-3-7 3z" />

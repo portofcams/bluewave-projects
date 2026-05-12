@@ -47,29 +47,30 @@ export default function Home() {
       <Nav />
       <StudioHero />
 
-      {/* Maritime credibility flourish — radar scope between hero and services */}
+      {/* Operator section — copy on top, full-width radar below */}
       <section className="px-6 pt-4 pb-20">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-[1fr_420px] gap-10 lg:gap-16 items-center">
-          <div>
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-300/90 text-xs uppercase tracking-[0.16em] mb-5 font-mono">
-              From the bridge to the cloud
+              Industry-aware operator
             </div>
             <h2 className="text-3xl sm:text-5xl font-bold tracking-tight leading-tight mb-5">
-              Built by a 100-ton captain
+              Business trained. Code first.
               <br />
-              <span className="text-gradient">who codes the same way he runs a watch.</span>
+              <span className="text-gradient">AI fluent. Sea tested.</span>
             </h2>
-            <p className="text-lg text-white/60 leading-relaxed max-w-xl mb-6">
-              Before the studio there was 1,000+ days at sea, 10+ vessels captained, and a USCG Master credential.
-              Software here ships the way a good watch is stood — calm, attentive, and ready for weather. Maritime
-              and contractor verticals are first-class citizens because they&apos;re what the captain actually knows.
+            <p className="text-lg text-white/65 leading-relaxed max-w-3xl mx-auto mb-6">
+              Marketing degree, decade of full-stack engineering, deep Anthropic SDK time, snowcat fleet manager,
+              design-build founder, and yes — a 100-ton USCG Master credential. The breadth shows up in the work:
+              code that reads like someone who has actually run a P&amp;L, navigated a regulated industry, and
+              shipped on time when the weather wouldn&apos;t wait.
             </p>
-            <div className="flex flex-wrap gap-4 text-xs uppercase tracking-[0.18em] text-white/40 font-mono">
-              <span>USCG Master · 100T</span>
-              <span aria-hidden>·</span>
-              <span>1,000+ Sea days</span>
-              <span aria-hidden>·</span>
-              <span>10+ Vessels</span>
+            <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs uppercase tracking-[0.18em] text-white/45 font-mono">
+              <span>BS Marketing</span><span aria-hidden>·</span>
+              <span>10+ yrs Code</span><span aria-hidden>·</span>
+              <span>Anthropic SDK</span><span aria-hidden>·</span>
+              <span>USCG Master 100T</span><span aria-hidden>·</span>
+              <span>Founder · 12+ Apps</span>
             </div>
           </div>
           <RadarScope />

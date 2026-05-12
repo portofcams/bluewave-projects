@@ -5,13 +5,13 @@ import Footer from "@/components/Footer";
 export const metadata: Metadata = {
   title: "AI Scope Generator — Scope a renovation in 60 seconds | BlueWave Projects",
   description:
-    "Drop the photos and the address, get a phase-by-phase scope of work + budget range in under a minute. Built on RoomPlan + Claude + Hawaii GET rules. Free during beta.",
+    "Drop the photos and the address, get a phase-by-phase scope of work + budget range in under a minute. Built on RoomPlan + Claude + Hawaii-specific tax accounting. Free during beta.",
   keywords: [
     "AI scope of work",
     "construction scope generator",
     "renovation scope",
     "AI renovation estimate",
-    "Hawaii GET tax",
+    "Hawaii contractor tax",
     "RoomPlan scope",
     "contractor scoping tool",
   ],
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Scope a renovation in 60 seconds — BlueWave Projects",
     description:
-      "Photos in. Phase-by-phase scope + budget out. Built on RoomPlan + Claude + Hawaii GET rules.",
+      "Photos in. Phase-by-phase scope + budget out. Built on RoomPlan + Claude + Hawaii-specific tax accounting.",
     url: "https://bluewaveprojects.com/scope",
     siteName: "BlueWave Projects",
     type: "website",
@@ -52,8 +52,8 @@ export default function ScopePage() {
 
         <p className="text-lg sm:text-xl text-white/60 max-w-2xl mb-10 leading-relaxed">
           Drop in photos, the address, and a couple of notes. Get back a
-          phase-by-phase scope of work, line-item ranges, and Hawaii GET
-          gross-up. Then turn it into a real lead with one click.
+          phase-by-phase scope of work, line-item ranges, and a tax gross-up.
+          Then turn it into a real lead with one click.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 mb-16">
@@ -72,7 +72,7 @@ export default function ScopePage() {
           />
           <Card
             title="Claude does the writing"
-            body="Phase breakdown (demo, framing, electrical, finish), labor and material ranges, contingency, GET gross-up."
+            body="Phase breakdown (demo, framing, electrical, finish), labor and material ranges, contingency, tax gross-up."
           />
           <Card
             title="Send as a lead"
@@ -84,7 +84,7 @@ export default function ScopePage() {
           <h2 className="text-2xl font-bold mb-4">Why this beats a spreadsheet</h2>
           <ul className="space-y-3 text-white/70 leading-relaxed">
             <li>It reads the photos. RoomPlan scans drop straight in.</li>
-            <li>It knows Hawaii GET (§237-13(3)(B)). The sub-deduction is computed for you.</li>
+            <li>It handles Hawaii contractor tax rules — sub deductions computed for you.</li>
             <li>It learns your pricing. Each scope you accept tunes the model toward your shop.</li>
             <li>It hands off to BlueWave Projects. Approved scope → live project room → client portal.</li>
           </ul>

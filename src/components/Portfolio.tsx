@@ -24,7 +24,7 @@ const projects: Project[] = [
     name: "BlueWave Projects",
     tag: "Multi-Tenant SaaS",
     description:
-      "Project room for design-build contractors. AI scope generator, RoomPlan blueprints, client-shareable timelines, Hawaii GET tax handling. Multi-tenant — Tenant 1 (Ikena) is actively running a $139K renovation through the system.",
+      "Project room for design-build contractors. AI scope generator, RoomPlan blueprints, client-shareable timelines, Hawaii tax handling. Multi-tenant — Tenant 1 (Ikena) is actively running a $139K renovation through the system.",
     tech: ["Next.js 16", "FastAPI", "Postgres", "Claude API"],
     color: "from-wave-400 to-ocean-500",
     link: "/contractors",
@@ -40,7 +40,7 @@ const projects: Project[] = [
     name: "Ikena Design & Build",
     tag: "Active GC Practice",
     description:
-      "Honolulu design-build practice — Tenant 1 of BlueWave Projects. Currently running a $139,165 Puuikena Drive renovation through the BlueWave portal end-to-end: scope, blueprints, change orders, GET tax handling, daily logs.",
+      "Honolulu design-build practice — Tenant 1 of BlueWave Projects. Currently running a $139,165 Puuikena Drive renovation through the BlueWave portal end-to-end: scope, blueprints, change orders, tax handling, daily logs.",
     tech: ["Design-build", "RoomPlan", "ARKit", "BlueWave Projects"],
     color: "from-slate-700 to-cyan-500",
     link: "https://ikenagroup.com",
