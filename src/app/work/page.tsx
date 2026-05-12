@@ -271,13 +271,103 @@ export default function WorkPage() {
         </div>
       </section>
 
+      {/* Targeted companies — names the specific employers I'd take a call from today */}
+      <section className="max-w-6xl mx-auto px-6 py-16">
+        <div className="mb-10">
+          <p className="text-sm uppercase tracking-[0.2em] text-white/40 mb-3">Top of my list</p>
+          <h2 className="text-3xl sm:text-4xl font-bold">
+            Specifically targeting these teams.{" "}
+            <span className="text-gradient">I&apos;d take a 20-min call from any of them today.</span>
+          </h2>
+          <p className="text-white/55 mt-3 max-w-3xl">
+            All AI-native, all vertical SaaS into regulated or operations-heavy industries — the asymmetric fit for an operator who&apos;s also an engineer. Other warm leads welcome, but these are the named ones.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-5">
+          {[
+            {
+              name: "Hamilton AI",
+              vertical: "Private aviation operations",
+              role: "Founding AI Engineer / Staff Fullstack",
+              fit: "I've been the fleet operator (12-vessel manager at Ohana Boats Sales). I know what an ops platform has to do because I lived inside one of the cheap-enough-to-survive-without-it kind. Plus the LLM-in-loop multi-tenant SaaS playbook is exactly the BlueWave Projects playbook.",
+              url: "https://www.hamilton.ai/careers",
+            },
+            {
+              name: "Trunk Tools",
+              vertical: "AI for construction",
+              role: "Senior ML / Staff Engineer",
+              fit: "Their customer profile is my day job. Active GC running a $139K renovation through software I built, in the only category — Hawaii — that no national construction-tech vendor handles well.",
+              url: "https://jobs.ashbyhq.com/trunk%20tools",
+            },
+            {
+              name: "Adaptional (YC)",
+              vertical: "AI for insurance teams",
+              role: "Founding Engineer",
+              fit: "&ldquo;Claude-code-for-vertical-X&rdquo; is literally my 9-week playbook in a different vertical. Insurance is the same shape problem as construction: regulated, document-heavy, mid-market operators starved for software that respects their workflow.",
+              url: "https://www.ycombinator.com/companies/adaptional",
+            },
+            {
+              name: "Revenue Vessel",
+              vertical: "Logistics / freight-forwarder AI",
+              role: "Founding Senior Engineer (Eng #4)",
+              fit: "Ex-Flexport founders selling into freight. USCG Master + 1,000+ sea days is the differentiator they don't already have on the team — combined with the same multi-tenant LLM-in-loop chops.",
+              url: "https://jobs.ashbyhq.com/RevenueVessel",
+            },
+            {
+              name: "Anthropic",
+              vertical: "AI labs",
+              role: "Applied AI Engineer (Beneficial Deployments) · Staff+ Developer Productivity",
+              fit: "15B Claude tokens through Claude Code in 60 days. I am exactly the customer they should be hiring from — power-user with production scars and a vertical-SaaS shipping pattern they can amplify.",
+              url: "https://job-boards.greenhouse.io/anthropic",
+            },
+            {
+              name: "Wolfia (YC S22)",
+              vertical: "AI for security questionnaires / RFPs",
+              role: "Full-Stack AI-native Engineer",
+              fit: "Stack match is 1:1 (Next.js + Tailwind + FastAPI + Postgres). Confirmed US-remote. Smaller-cap comp than the others on this list, but the cleanest founding-team fit on stack alone.",
+              url: "https://www.ycombinator.com/companies/wolfia",
+            },
+          ].map((co) => (
+            <div key={co.name} className="glass rounded-2xl p-6">
+              <div className="flex items-start justify-between gap-3 mb-2">
+                <div>
+                  <h3 className="text-xl font-bold">{co.name}</h3>
+                  <p className="text-xs text-wave-400 mt-0.5">{co.vertical}</p>
+                </div>
+                <a
+                  href={co.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-white/40 hover:text-white/80 transition-colors inline-flex items-center gap-1 shrink-0"
+                >
+                  Careers
+                  <svg viewBox="0 0 24 24" className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M4.5 19.5l15-15M9 4.5h11v11" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </a>
+              </div>
+              <p className="text-xs uppercase tracking-[0.16em] text-white/40 mb-3">{co.role}</p>
+              <p
+                className="text-sm text-white/70 leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: co.fit }}
+              />
+            </div>
+          ))}
+        </div>
+
+        <p className="mt-8 text-sm text-white/40 max-w-3xl">
+          Adjacent and welcome: anywhere shipping LLM-in-loop multi-tenant SaaS into a regulated industry — climate, energy, healthcare, finance, public safety, agriculture. If you&apos;re hiring for that and I&apos;m not on your list, write me anyway.
+        </p>
+      </section>
+
       {/* CTA */}
       <section className="max-w-4xl mx-auto px-6 py-20 text-center">
         <h2 className="text-3xl sm:text-4xl font-bold mb-4">
           Bring me in. <span className="text-gradient">I&apos;ll ship.</span>
         </h2>
         <p className="text-white/60 max-w-2xl mx-auto mb-8">
-          Best fit: founding / staff engineer at an AI-native vertical SaaS — especially regulated industries (aviation, marine, construction, healthcare, finance). Remote, async-friendly, fast iteration.
+          Best fit: founding / staff engineer at an AI-native vertical SaaS — especially regulated industries (aviation, marine, construction, healthcare, finance). Remote, async-friendly, fast iteration. Targeting <span className="text-white/80">founding / staff comp range, equity preferred.</span>
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           <a
