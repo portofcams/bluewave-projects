@@ -112,16 +112,16 @@ Onboarding a new product to the data layer is now an \`import\` statement rather
   },
   {
     slug: "portofcams",
-    title: "Scaling a Live Camera Network to 24,500+ Pages with AI",
+    title: "Scaling a Live Camera Network to 14,400+ Cameras with AI",
     client: "Port of Cams",
     tag: "Live Streaming Platform",
     tagColor: "bg-ocean-500/20 text-ocean-400",
     gradient: "from-ocean-500 to-wave-400",
     excerpt:
-      "How we used Claude to build scrapers, generate SEO content, and scale a webcam streaming platform from 30 cameras to 24,500+ pages in under two weeks.",
+      "How we used Claude to build scrapers, generate SEO content, and scale a webcam streaming platform from 30 cameras to 14,400+ live cameras (24,500+ unique pages) in under two weeks.",
     url: "https://portofcams.com",
     stats: [
-      { label: "Live Cameras", value: "24,500+" },
+      { label: "Live Cameras", value: "14,400+" },
       { label: "Pages Generated", value: "24,500+" },
       { label: "Data Sources", value: "10+" },
       { label: "Time to Scale", value: "2 Weeks" },
@@ -148,8 +148,8 @@ For each camera, Claude generated a complete Astro page with:
 - Multi-view grid layouts for DOT sites with multiple angles
 
 **Infrastructure Optimization**
-Claude diagnosed and fixed HLS streaming issues: tuned MediaMTX to 4-second segments with 4x queue depth, forced TCP transport to eliminate packet loss over VPN, and implemented HLS.js error recovery that automatically handles frozen feeds across all 24,500+ player instances.`,
-    results: `The platform went from 413 cameras and 617 pages to over 24,500 cameras and 24,500+ pages in under two weeks. Key outcomes:
+Claude diagnosed and fixed HLS streaming issues: tuned MediaMTX to 4-second segments with 4x queue depth, forced TCP transport to eliminate packet loss over VPN, and implemented HLS.js error recovery that automatically handles frozen feeds across all 14,400+ player instances.`,
+    results: `The platform went from 413 cameras and 617 pages to over 14,400 live cameras and 24,500+ pages in under two weeks. Key outcomes:
 
 - **10 scrapers** covering FAA, WSDOT, Oregon DOT, 12 state 511 systems, Caltrans, Windy API, Alaska DOT, and ski resorts
 - **24,500+ SEO-optimized pages** with structured data, each ranking for location-specific camera queries

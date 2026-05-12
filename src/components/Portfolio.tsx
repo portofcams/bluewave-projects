@@ -123,11 +123,11 @@ const projects: Project[] = [
     name: "Port of Cams",
     tag: "Live Platform",
     description:
-      "Real-time webcam streaming from Hawaii, Alaska, and the Pacific Northwest. Hundreds of live cameras with HD/Lite toggle, interactive maps, and multi-view grids.",
+      "Real-time webcam streaming from Hawaii, Alaska, and the Pacific Northwest plus DOT traffic feeds across 50 states. 14,400+ live cameras with HD/Lite toggle, interactive maps, and multi-view grids.",
     tech: ["Astro", "React", "HLS.js", "Cloudflare"],
     color: "from-ocean-500 to-wave-400",
     link: "https://portofcams.com",
-    stat: "400+ Live Cameras",
+    stat: "14,400+ Live Cameras",
     logo: "/logos/portofcams.svg",
   },
   {
