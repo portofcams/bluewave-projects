@@ -157,6 +157,21 @@ const projects: Project[] = [
     logo: "/logos/lastfrontier.png",
   },
   {
+    name: "claude-prompt-cache",
+    tag: "Open Source · MIT",
+    description:
+      "Drop-in prompt-caching helpers for the Anthropic Python SDK. cache_system() auto-applies cache_control markers respecting the 1024-token minimum + 4-block per-request cap. CacheMetrics tracks hit-rate and surfaces dollar cost. Extracted from BlueWave Projects' production LLM pipelines.",
+    tech: ["Python", "Anthropic SDK", "pytest", "MIT"],
+    color: "from-amber-400 to-orange-500",
+    link: "https://github.com/portofcams/claude-prompt-cache",
+    stat: "Public · 15/15 tests pass",
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
+  {
     name: "ProtestTracker",
     tag: "Civic Data · Live",
     description:

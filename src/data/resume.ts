@@ -415,7 +415,7 @@ export const resume = {
       items: [
         "Claude Sonnet / Opus / Haiku (4.5–4.7)",
         "Anthropic SDK (Python + TS)",
-        "Prompt caching",
+        "Prompt caching (open-source: claude-prompt-cache)",
         "Structured outputs + JSON-mode",
         "Multi-turn agent workflows",
         "Claude Code (advanced — agents, hooks, MCP, skills)",
