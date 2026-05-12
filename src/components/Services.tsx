@@ -76,7 +76,7 @@ const services: Service[] = [
 ];
 
 function ServiceCard({ service, index }: { service: Service; index: number }) {
-  const { ref, inView } = useReveal();
+  const { ref, inView } = useReveal<HTMLAnchorElement>();
   const delayClass = index >= 1 && index <= 8 ? `reveal-d-${index}` : "";
 
   return (

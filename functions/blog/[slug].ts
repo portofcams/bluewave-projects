@@ -1,3 +1,11 @@
+// PagesFunction type — minimal local declaration so `next build` typechecks
+// without pulling in @cloudflare/workers-types. The Cloudflare runtime
+// doesn't read this annotation; it only matters for the local build.
+type PagesFunction = (context: {
+  params: Record<string, string | string[]>;
+  next: () => Promise<Response>;
+}) => Promise<Response> | Response;
+
 // Cloudflare Pages Function — return 410 Gone for legacy AI-agency blog
 // posts. These slugs existed when the site was positioned as an AI
 // consulting + custom-app shop; the company has since pivoted to a
