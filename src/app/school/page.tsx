@@ -5,12 +5,12 @@ import SchoolLanding from "@/components/SchoolLanding";
 export const metadata: Metadata = {
   title: "BlueWave AI School — Learn AI like an operator | from $39/mo or $199 lifetime",
   description:
-    "Eight waves, sixty-one lessons, a live sandbox. AI training built by an operator who ships six AI products on Claude. $39/mo, $199 one-time lifetime, or $249/mo with 1-on-1 coaching.",
+    "Nine waves, 60+ lessons, a live sandbox. AI training built by an operator who ships six AI products on Claude. $39/mo, $199 one-time lifetime, or $249/mo with 1-on-1 coaching.",
   alternates: { canonical: "https://bluewaveprojects.com/school" },
   openGraph: {
     title: "BlueWave AI School — Learn AI like an operator",
     description:
-      "Eight waves, a live sandbox. AI training built by an operator who ships AI products on Claude. From $39/mo or $199 lifetime.",
+      "Nine waves, a live sandbox. AI training built by an operator who ships AI products on Claude. From $39/mo or $199 lifetime.",
     url: "https://bluewaveprojects.com/school",
     siteName: "BlueWave Projects",
     type: "website",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "BlueWave AI School — Learn AI like an operator",
-    description: "Eight waves, a live sandbox. $39/mo or $199 lifetime.",
+    description: "Nine waves, a live sandbox. $39/mo or $199 lifetime.",
     images: ["/og-school.png"],
   },
 };

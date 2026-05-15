@@ -532,7 +532,7 @@ export const resume = {
       domain: "bluewaveprojects.com/school",
       stage: "shipped-portfolio",
       summary:
-        "8-wave AI curriculum, 61 lessons, hundreds of exercises. Built as a separate product, currently de-emphasized on main funnel.",
+        "9-wave AI curriculum, 61 lessons, hundreds of exercises. Built as a separate product, currently de-emphasized on main funnel.",
       stack: "Next.js, MDX",
       role: "Curriculum + build solo",
     },

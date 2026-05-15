@@ -224,7 +224,7 @@ const email3Html = (name: string) => emailWrapper(`
       BlueWave School Pro
     </p>
     <p style="color: rgba(255,255,255,0.5); font-size: 14px; margin: 8px 0 4px 0;">
-      All 8 waves &middot; 60+ lessons &middot; Certificates &middot; Priority support
+      All 9 waves &middot; 60+ lessons &middot; Certificates &middot; Priority support
     </p>
     <p style="color: #0ea5e9; font-size: 28px; font-weight: 700; margin: 12px 0;">
       $19/mo
@@ -250,7 +250,7 @@ Wave 4-5: AI agents, function calling, and building tools that think
 Wave 6-8: Production AI systems, fine-tuning, RAG, and deploying AI at scale
 
 BlueWave School Pro
-All 8 waves | 60+ lessons | Certificates | Priority support
+All 9 waves | 60+ lessons | Certificates | Priority support
 $19/mo - Cancel anytime. 7-day free trial.
 
 Upgrade: https://bluewaveprojects.com/school#pricing
@@ -278,7 +278,7 @@ export const welcomeEmails: WelcomeEmailTemplate[] = [
   },
   {
     id: 'welcome-3',
-    subject: 'Unlock all 8 waves of AI mastery',
+    subject: 'Unlock all 9 waves of AI mastery',
     delayDays: 7,
     html: email3Html,
     plainText: email3Plain,

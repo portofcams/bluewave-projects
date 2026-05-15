@@ -18,9 +18,9 @@ const PLANS = [
     name: "Solo",
     price: "$39",
     period: "/ month",
-    description: "Eight waves. Live sandbox. XP, streaks, and certificates.",
+    description: "Nine waves. Live sandbox. XP, streaks, and certificates.",
     features: [
-      "All 8 waves of the curriculum",
+      "All 9 waves of the curriculum",
       `${totalLessons}+ lessons with hands-on exercises`,
       "Live AI sandbox built into every lesson",
       "Wave certificates as you complete each track",
@@ -107,7 +107,7 @@ export default function SchoolLanding() {
             <span className="text-gradient">the way operators actually use it.</span>
           </h1>
           <p className="text-lg sm:text-xl text-white/60 leading-relaxed max-w-3xl mx-auto mb-10">
-            Eight progressive waves. {totalLessons}+ lessons with hands-on exercises in a
+            Nine progressive waves. {totalLessons}+ lessons with hands-on exercises in a
             live AI sandbox. Built by an operator shipping six products on Claude — not a
             content shop, not a 12-hour webinar. Earn certificates as you go.
           </p>
@@ -160,7 +160,7 @@ export default function SchoolLanding() {
               Curriculum
             </span>
             <h2 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4">
-              Eight waves,{" "}
+              Nine waves,{" "}
               <span className="text-gradient">{totalLessons} lessons,</span> one live sandbox.
             </h2>
             <p className="text-white/55 max-w-2xl mx-auto leading-relaxed">
@@ -171,7 +171,7 @@ export default function SchoolLanding() {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {allWaves.slice(0, 8).map((wave, i) => {
+            {allWaves.map((wave, i) => {
               const lessonCount = wave.units.reduce(
                 (n, u) => n + u.lessons.length,
                 0,
@@ -219,12 +219,12 @@ export default function SchoolLanding() {
               Pricing
             </span>
             <h2 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4">
-              Two plans.{" "}
-              <span className="text-gradient">Both honest.</span>
+              Three plans.{" "}
+              <span className="text-gradient">All honest.</span>
             </h2>
             <p className="text-white/55 max-w-2xl mx-auto leading-relaxed">
-              Start free for seven days. Cancel from your account page anytime. No
-              per-seat fee, no setup, no contract.
+              Try monthly free for seven days. Or pay once for lifetime access.
+              Either way: no per-seat fee, no setup, no contract.
             </p>
           </div>
 
