@@ -24,13 +24,13 @@ export const caseStudies: CaseStudy[] = [
     tagColor: "bg-lava-500/20 text-lava-500",
     gradient: "from-slate-700 to-cyan-500",
     excerpt:
-      "Ikena uses BlueWave Projects as Tenant 1 to run a live Honolulu design-build practice — over $1M of construction work flowing through the system, including the active $139,165 Puuikena Drive renovation.",
+      "Ikena tenant zero — the platform used in continuous production on real Hawaii residential renovation work. Tenant one is also the toughest QA we have.",
     url: "https://ikenagroup.com",
     stats: [
-      { label: "Construction managed", value: "$1M+" },
-      { label: "Active project (live)", value: "$139K" },
-      { label: "Ops tools in the portal", value: "9" },
-      { label: "Tax jurisdictions handled", value: "Hawaii" },
+      { label: "Ops modules in production", value: "16" },
+      { label: "API routers behind the platform", value: "13+" },
+      { label: "Multi-tenancy state", value: "Phase 1.5" },
+      { label: "Tax jurisdictions handled", value: "Hawaii GET" },
     ],
     challenge: `Most construction project management software is built for general contractors at scale — multi-region GCs running hundreds of jobs concurrently. The category leaders (Procore, Buildertrend, CoConstruct) charge per user, hide everything behind enterprise gates, and don't know what to do with a Hawaii §237-13(3)(B) sub deduction.
 
@@ -48,9 +48,9 @@ Every project has a public timeline + selection + change-order link the client c
 
 **Hawaii tax accounting baked in**
 Sub-deduction tracking is set up automatically. The system computes the gross-up on the quote, files the deduction at invoice time, and keeps a running ledger so the books match the state filing.`,
-    results: `Ikena is the proof that the system runs a real construction business, not a demo. The active $139,165 Puuikena Drive renovation lives entirely inside the BlueWave portal — scope, blueprints, daily logs, change orders, client portal docs — without exporting to spreadsheets or a separate accounting tool.
+    results: `Ikena tenant zero is the proof that the platform runs a real Hawaii operator's business, not a demo. A real residential renovation lived entirely inside the portal — scope, blueprints, daily logs, change orders, client portal docs — without exporting to spreadsheets or a separate accounting tool.
 
-Over $1M of construction work has flowed through the system since launch. Every feature we ship on BlueWave Projects gets dogfooded on a real job site before it goes out to other tenants.`,
+Every feature shipped on the platform gets dogfooded on a real job site before it goes out to paying tenants.`,
     techStack: [
       "Next.js 16",
       "FastAPI",

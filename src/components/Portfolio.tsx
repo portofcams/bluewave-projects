@@ -21,31 +21,20 @@ type Project = {
 
 const projects: Project[] = [
   {
-    name: "BlueWave Projects",
-    tag: "Multi-Tenant SaaS",
+    name: "Ikena",
+    tag: "Flagship App · Premium",
     description:
-      "Project room for design-build contractors. AI scope generator, RoomPlan blueprints, client-shareable timelines, Hawaii tax handling. Multi-tenant — Tenant 1 (Ikena) is actively running a $139K renovation through the system.",
+      "The complete operator suite for property, contracting, and real estate. Sixteen ops modules on the web — projects, invoices with Hawaii GET handled, subs, time, change orders, blueprint + 3D editor, leads, employees, handbook. Plus the iOS scanner. Built by an operator running real Hawaii jobs.",
     tech: ["Next.js 16", "FastAPI", "Postgres", "Claude API"],
     color: "from-wave-400 to-ocean-500",
-    link: "/contractors",
-    stat: "Live · Tenant 1 running real jobs",
+    link: "/ikena",
+    stat: "Web $79 · Suite $99 · Enterprise from $499",
     icon: (
       <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M3 9.75l9-7 9 7v11.25a1.5 1.5 0 01-1.5 1.5H4.5A1.5 1.5 0 013 21V9.75z" />
         <path d="M9 22V12h6v10" />
       </svg>
     ),
-  },
-  {
-    name: "Ikena Design & Build",
-    tag: "Active GC Practice",
-    description:
-      "Honolulu design-build practice — Tenant 1 of BlueWave Projects. Currently running a $139,165 Puuikena Drive renovation through the BlueWave portal end-to-end: scope, blueprints, change orders, tax handling, daily logs.",
-    tech: ["Design-build", "RoomPlan", "ARKit", "BlueWave Projects"],
-    color: "from-slate-700 to-cyan-500",
-    link: "https://ikenagroup.com",
-    stat: "$139K project running",
-    logo: "/logos/ikena.png",
   },
   {
     name: "Binnacle.ai",
@@ -59,14 +48,14 @@ const projects: Project[] = [
     logo: "/logos/binnacle.png",
   },
   {
-    name: "Ikena Portal",
-    tag: "Live Preview · Demo Mode",
+    name: "Ikena Portal — tenant zero",
+    tag: "Production reference",
     description:
-      "The Ikena-branded contractor portal — 9 ops tools (invoices, subs & GET, time, daily logs, documents, selections, change orders, blueprint, 3D editor) plus public client-share pages. Demo role picker on the homepage, no signup required.",
+      "The live tenant-zero instance of Ikena, in continuous production use. Every module — invoices, subs & GET, time, daily logs, documents, selections, change orders, blueprint, 3D editor — exercised on real work. The proof that the platform handles a real Hawaii residential job end-to-end.",
     tech: ["Next.js", "FastAPI", "DocuSeal", "Postgres"],
     color: "from-slate-700 to-cyan-500",
     link: "https://portal.ikenagroup.com",
-    stat: "Try the demo · 9 ops tools",
+    stat: "Live · in production",
     logo: "/logos/ikena.png",
   },
   {
@@ -206,13 +195,13 @@ const projects: Project[] = [
   },
   {
     name: "ProBuildCalc",
-    tag: "Contractor Estimator",
+    tag: "iOS · Entry tier",
     description:
-      "Smart calculator for contractors to estimate jobs, track costs, and manage projects. iOS-native (RoomPlan + Object Capture) + web. AI-assisted estimation and mobile-first design.",
-    tech: ["Next.js", "Swift", "RoomPlan", "Claude AI"],
+      "The lighter sibling of Ikena. iOS-only — Apple RoomPlan + Object Capture, multi-room stitching, AI ballpark, send-as-lead. For operators who just need a measure-and-quote tool in their pocket. Upgrade path to Ikena Suite when you need the web admin too.",
+    tech: ["Swift", "RoomPlan", "Object Capture", "Claude API"],
     color: "from-lava-500 to-amber-400",
     link: "https://probuildcalc.com",
-    stat: "AI-Powered Estimates",
+    stat: "$19 / mo · iOS",
     logo: "/logos/probuildcalc.png",
   },
   {

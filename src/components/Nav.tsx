@@ -8,14 +8,15 @@ import { WaveLogo } from "./Logo";
 // surfaces; sub-products and personal pages live in the mobile drawer +
 // footer.
 const navLinks = [
-  { label: "Apps", href: "/#apps" },
-  { label: "Contractors", href: "/contractors" },
-  { label: "Case Studies", href: "/case-studies" },
+  { label: "Ikena", href: "/ikena" },
+  { label: "ProBuildCalc", href: "https://probuildcalc.com" },
+  { label: "Pricing", href: "/pricing" },
   { label: "Blog", href: "/blog" },
 ];
 
 // Secondary links — only surface in the mobile drawer (and footer).
 const secondaryLinks = [
+  { label: "Case Studies", href: "/case-studies" },
   { label: "AI Scope Tool", href: "/scope" },
   { label: "Property Brief", href: "/property-brief" },
   { label: "Aloha Network", href: "/aloha" },

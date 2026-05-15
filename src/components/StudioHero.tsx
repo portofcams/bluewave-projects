@@ -28,7 +28,7 @@ export default function StudioHero() {
 
         <p className="text-lg sm:text-2xl text-white/65 max-w-3xl mx-auto leading-relaxed mb-4">
           Web, iOS, AI — a small studio shipping a dozen production apps from Waikiki.
-          From a contractor SaaS running a real $139K renovation to a webcam network
+          From an operator SaaS running a real Hawaii residential renovation to a webcam network
           streaming hundreds of Pacific cameras.
         </p>
         <p className="text-sm text-white/40 max-w-2xl mx-auto mb-2 font-mono">
@@ -46,10 +46,10 @@ export default function StudioHero() {
             See the apps
           </a>
           <a
-            href="/contractors"
+            href="/ikena"
             className="px-8 py-4 rounded-full text-white/70 hover:text-white border border-white/15 hover:border-white/30 transition-all duration-300 font-medium text-lg"
           >
-            For contractors + realtors →
+            See Ikena (flagship) →
           </a>
           <a
             href="/work"

@@ -60,9 +60,9 @@ export const resume = {
     },
     {
       label: "On the ground",
-      title: "Builder",
+      title: "Operator",
       detail:
-        "Honolulu design-build practice. Hardwood, full remodels, GC-B license track. $139K Puuikena renovation active.",
+        "Tenant zero of Ikena — ran a Hawaii residential renovation end-to-end through the platform I built. Hardwood, full remodels, change-order workflows under real load.",
       track: "build",
     },
     {
@@ -97,9 +97,9 @@ export const resume = {
       end: "Current",
       track: "build",
       bullets: [
-        "Active Honolulu design-build practice pursuing Hawaii GC-B contractor license.",
-        "$139,165 Puuikena Drive renovation in flight — three-phase quote structure, mahogany veneer + termite remediation + interior refinish.",
-        "Source-of-truth client for BlueWave Projects: every feature ships first on a real job site.",
+        "Ran the tenant-zero deployment of Ikena — using the platform to manage a real Hawaii residential renovation end-to-end.",
+        "Three-phase quote structure, change-order workflow, daily logs, sub coordination, client-facing portal — all exercised on a real job under real money.",
+        "Source-of-truth client for the platform: every feature ships first on a real job site before reaching paying tenants.",
       ],
     },
     {
@@ -344,7 +344,7 @@ export const resume = {
     { value: "1,000+", label: "Sea days logged" },
     { value: "10+", label: "Vessels captained" },
     { value: "100T", label: "USCG Master" },
-    { value: "$139K", label: "Project in flight" },
+    { value: "Tenant 0", label: "Ikena, in production" },
   ],
 
   download: {
@@ -360,7 +360,7 @@ export const resume = {
     tagline:
       "Ships agent-augmented production code. Lives in Honolulu (UTC-10) — overlaps US morning, async-friendly with Europe.",
     pitch:
-      "I build AI-native SaaS end-to-end, alone — frontend, iOS, backend, infra, billing, ops. In 9 weeks of focused build I shipped 12+ products across the stack with Claude Code as primary collaborator, including a multi-tenant SaaS running a live $139K construction job for tenant one. Looking for a remote founding-engineer or staff role at an AI / vertical-SaaS company where shipping speed and depth of stack actually matter.",
+      "I build AI-native SaaS end-to-end, alone — frontend, iOS, backend, infra, billing, ops. In 9 weeks of focused build I shipped 12+ products across the stack with Claude Code as primary collaborator, including a multi-tenant SaaS running a real Hawaii residential renovation end-to-end for tenant one. Looking for a remote founding-engineer or staff role at an AI / vertical-SaaS company where shipping speed and depth of stack actually matter.",
     location: "Honolulu, Hawaii · UTC-10 · Remote",
     availability: "Available now · Open to founding / staff / senior eng roles",
   },
@@ -451,7 +451,7 @@ export const resume = {
       domain: "portal.ikenagroup.com",
       stage: "live-production",
       summary:
-        "Production project room running a real $139,165 renovation. 9 ops tools (invoices, subs+GET, time, daily logs, documents, selections, change orders, blueprint, 3D editor). Auto-flows: invoice → PDF → client docs. Time clock-out (iOS) → /ops/time. CO approved → draft invoice line.",
+        "Tenant-zero production deployment exercising the full operator suite on a real Hawaii residential renovation. Sixteen ops modules (invoices, subs+GET, time, daily logs, documents, selections, change orders, blueprint, 3D editor, and more). Auto-flows: invoice → PDF → client docs. Time clock-out (iOS) → /ops/time. CO approved → draft invoice line.",
       stack: "Next.js + FastAPI + Postgres + DocuSeal",
       role: "Built solo; tenant one of BlueWave Projects",
     },

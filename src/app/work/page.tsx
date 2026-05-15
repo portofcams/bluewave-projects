@@ -297,7 +297,7 @@ export default function WorkPage() {
               name: "Trunk Tools",
               vertical: "AI for construction",
               role: "Senior ML / Staff Engineer",
-              fit: "Their customer profile is my day job. Active GC running a $139K renovation through software I built, in the only category — Hawaii — that no national construction-tech vendor handles well.",
+              fit: "Their customer profile is the one I built for. I shipped a multi-tenant operator SaaS that ran a real Hawaii residential renovation end-to-end — in the only category (Hawaii) that no national construction-tech vendor handles well.",
               url: "https://jobs.ashbyhq.com/trunk%20tools",
             },
             {

@@ -294,7 +294,7 @@ The first one will feel weird. By the third one, you won't go back to hand-writi
     slug: "multi-tenant-saas-9-weeks-claude-code",
     title: "Shipping a multi-tenant SaaS in 9 weeks with Claude Code: 3 decisions I'd make again, and 1 I wouldn't",
     excerpt:
-      "BlueWave Projects went from empty repo to a multi-tenant production SaaS running a real $139K construction job in 9 weeks of solo work. Here are the four architecture decisions that mattered, told honestly.",
+      "BlueWave Projects went from empty repo to a multi-tenant production SaaS running a real Hawaii residential renovation in 9 weeks of solo work. Here are the four architecture decisions that mattered, told honestly.",
     date: "2026-05-11",
     readTime: "9 min",
     category: "Engineering",
@@ -304,7 +304,7 @@ The first one will feel weird. By the third one, you won't go back to hand-writi
       name: "John C. Thomas",
       role: "Founder, BlueWave Projects",
     },
-    content: `BlueWave Projects went from an empty repo to a multi-tenant SaaS running a real $139,165 Honolulu renovation in 9 weeks. Solo. One backend, one Next.js frontend, one iOS app, ~600K lines of code, 580 commits, around 15 billion Claude tokens through Claude Code.
+    content: `BlueWave Projects went from an empty repo to a multi-tenant SaaS running a real Hawaii residential renovation in 9 weeks. Solo. One backend, one Next.js frontend, one iOS app, ~600K lines of code, 580 commits, around 15 billion Claude tokens through Claude Code.
 
 I'm going to skip the cheerleading and just describe the four architecture decisions that mattered — three I'd make again, and one I'm already paying for.
 
@@ -362,9 +362,9 @@ A boring chronology:
 - **Week 6:** Multi-tenant migration (every router rescoped, signup flow, sample-lead seed). Phase 1.5.
 - **Week 7:** Property Brief + Aloha Network subscription products.
 - **Week 8:** Security audit (CORS hardening, secret rotation, public PII endpoints locked).
-- **Week 9:** First real construction job ($139K Puuikena Drive) moved from spreadsheets to the portal end-to-end.
+- **Week 9:** First real construction job (a Hawaii residential renovation) moved from spreadsheets to the portal end-to-end.
 
-Tenant 1 (Ikena) is currently running a live design-build practice on top of it. The system has moved $1M+ of construction work since launch. Every feature I ship goes through a real job site before it ships to other tenants.
+Tenant 1 (Ikena) is the source-of-truth dogfood — every feature I ship goes through a real job site before it ships to other tenants.
 
 That's the whole story. Solo, agent-augmented, regulated industry, deterministic plumbing with AI in the loop where it earns its cost. The next 9 weeks are about cohort N and that RLS migration I owe future-me.`,
   },
@@ -545,7 +545,7 @@ I'm a Max plan subscriber — most of this is covered by a flat monthly fee. But
 Concrete deliverables shipped in the same sprint:
 
 - **BlueWave Projects** — multi-tenant SaaS, 15+ tables, full auth, signup, billing scaffolding, ~9 ops tools
-- **Ikena Portal** — production tenant running a real $139K renovation end-to-end
+- **Ikena Portal** — tenant zero, exercised in production on a real Hawaii residential renovation end-to-end
 - **Hawaii 3D Map / hawaii-as-code** — 384K parcels, 239K buildings, 204K addresses, encoded as TypeScript and rendered as a 3D map
 - **Property Brief** — subscription product, signup flow, weekly cron, transactional email
 - **Aloha Off-Market Network** — three-tier subscription product, signup
