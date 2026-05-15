@@ -71,22 +71,22 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5">
               <li>
-                <a href="#services" className="text-sm text-white/30 hover:text-white/70 transition-colors">
+                <a href="/booking" className="text-sm text-white/30 hover:text-white/70 transition-colors">
                   AI Consulting
                 </a>
               </li>
               <li>
-                <a href="#services" className="text-sm text-white/30 hover:text-white/70 transition-colors">
+                <a href="/work" className="text-sm text-white/30 hover:text-white/70 transition-colors">
                   App Development
                 </a>
               </li>
               <li>
-                <a href="#services" className="text-sm text-white/30 hover:text-white/70 transition-colors">
-                  APIs & Infra
+                <a href="/contractors#pricing" className="text-sm text-white/30 hover:text-white/70 transition-colors">
+                  BlueWave Projects
                 </a>
               </li>
               <li>
-                <a href="#school" className="text-sm text-white/30 hover:text-white/70 transition-colors">
+                <a href="/school" className="text-sm text-white/30 hover:text-white/70 transition-colors">
                   AI School
                 </a>
               </li>
