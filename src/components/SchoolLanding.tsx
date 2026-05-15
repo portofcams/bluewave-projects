@@ -16,7 +16,7 @@ const totalLessons = allWaves.reduce(
 const PLANS = [
   {
     name: "Solo",
-    price: "$79",
+    price: "$39",
     period: "/ month",
     description: "Eight waves. Live sandbox. XP, streaks, and certificates.",
     features: [
@@ -31,13 +31,33 @@ const PLANS = [
     href: "/signup?plan=school-solo&redirect=/school/learn",
     featured: false,
     tone: "wave",
+    footnote: "7-day free trial · no card required",
+  },
+  {
+    name: "Lifetime",
+    price: "$199",
+    period: "one-time",
+    description: "Pay once. Every wave, every future update, no subscription.",
+    badge: "Founding student",
+    features: [
+      "Everything in Solo, forever",
+      "All future wave releases included",
+      "No monthly fee, no expiry",
+      "Sandbox access for the life of the platform",
+      "Lifetime certificate on your name",
+      "Founding-student community channel",
+    ],
+    cta: "Get lifetime access",
+    href: "/signup?plan=school-lifetime&redirect=/school/learn",
+    featured: true,
+    tone: "ocean",
+    footnote: "Limited founding-student pricing · 100 spots",
   },
   {
     name: "Coaching",
     price: "$249",
     period: "/ month",
-    description: "Everything in Solo plus monthly 1-on-1 coaching with the operator.",
-    badge: "Most builders pick this",
+    description: "Solo plus monthly 1-on-1 coaching with the operator.",
     features: [
       "Everything in Solo",
       "One 60-minute 1-on-1 coaching call per month",
@@ -48,8 +68,9 @@ const PLANS = [
     ],
     cta: "Start free trial",
     href: "/signup?plan=school-coaching&redirect=/school/learn",
-    featured: true,
-    tone: "ocean",
+    featured: false,
+    tone: "lava",
+    footnote: "Limited to a small cohort at a time",
   },
 ];
 
@@ -207,13 +228,13 @@ export default function SchoolLanding() {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div className="grid sm:grid-cols-3 gap-6 max-w-5xl mx-auto items-start">
             {PLANS.map((plan) => (
               <div
                 key={plan.name}
-                className={`relative glass rounded-2xl p-10 transition-all duration-500 ${
+                className={`relative glass rounded-2xl p-8 transition-all duration-500 ${
                   plan.featured
-                    ? "border-ocean-500/30 shadow-lg shadow-ocean-500/10"
+                    ? "border-ocean-500/30 shadow-lg shadow-ocean-500/10 sm:scale-105"
                     : "border-white/5 glass-hover"
                 }`}
               >
@@ -225,24 +246,26 @@ export default function SchoolLanding() {
                   </div>
                 )}
 
-                <div className="mb-8">
+                <div className="mb-6">
                   <h3 className="text-xl font-bold text-white mb-2">{plan.name}</h3>
-                  <p className="text-sm text-white/55">{plan.description}</p>
+                  <p className="text-sm text-white/55 leading-relaxed">{plan.description}</p>
                 </div>
 
-                <div className="mb-8">
+                <div className="mb-7">
                   <div className="flex items-baseline gap-1">
                     <span
-                      className={`text-5xl font-bold ${plan.featured ? "text-gradient" : "text-white"}`}
+                      className={`text-4xl font-bold ${plan.featured ? "text-gradient" : "text-white"}`}
                     >
                       {plan.price}
                     </span>
-                    <span className="text-white/40 text-lg">{plan.period}</span>
+                    <span className="text-white/40 text-base">{plan.period}</span>
                   </div>
-                  <p className="text-xs text-white/40 mt-2">7-day free trial</p>
+                  {plan.footnote && (
+                    <p className="text-[11px] text-white/40 mt-2 leading-relaxed">{plan.footnote}</p>
+                  )}
                 </div>
 
-                <ul className="space-y-3 mb-10">
+                <ul className="space-y-3 mb-8">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-start gap-3">
                       <svg
@@ -261,7 +284,7 @@ export default function SchoolLanding() {
 
                 <Link
                   href={plan.href}
-                  className={`block w-full text-center py-4 rounded-full font-medium text-lg transition-all duration-300 ${
+                  className={`block w-full text-center py-3.5 rounded-full font-medium text-base transition-all duration-300 ${
                     plan.featured
                       ? "btn-primary text-white"
                       : "bg-white/5 text-white border border-white/10 hover:bg-white/10 hover:border-white/20"
@@ -274,7 +297,7 @@ export default function SchoolLanding() {
           </div>
 
           <p className="text-center text-xs text-white/40 mt-8 tracking-widest uppercase">
-            Founding-member rate · locked in for life if you stay subscribed
+            All plans include the full curriculum · founding pricing held for life on monthly tiers
           </p>
         </section>
 
