@@ -100,7 +100,7 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5">
               <li>
-                <a href="#contact" className="text-sm text-white/30 hover:text-white/70 transition-colors">
+                <a href="/booking" className="text-sm text-white/30 hover:text-white/70 transition-colors">
                   Contact Us
                 </a>
               </li>

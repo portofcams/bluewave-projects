@@ -397,7 +397,7 @@ export default function SchoolPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link
-                href="/#pricing"
+                href="/school#pricing"
                 className="btn-primary px-6 py-3 rounded-full text-sm font-semibold text-white"
               >
                 View Plans

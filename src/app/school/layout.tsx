@@ -214,7 +214,7 @@ export default function SchoolLayout({ children }: { children: React.ReactNode }
                 {user.plan ? (
                   <span className="text-[9px] font-bold uppercase tracking-wider text-wave-400">{user.plan} plan</span>
                 ) : (
-                  <Link href="/#pricing" className="text-[9px] font-bold uppercase tracking-wider text-lava-500 hover:text-lava-400">
+                  <Link href="/school#pricing" className="text-[9px] font-bold uppercase tracking-wider text-lava-500 hover:text-lava-400">
                     Upgrade
                   </Link>
                 )}
