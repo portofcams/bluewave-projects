@@ -89,7 +89,7 @@ export default function FAQ() {
             <span className="text-gradient">questions?</span>
           </h2>
           <p className="text-lg text-white/40 max-w-2xl mx-auto">
-            The ones working contractors ask before they sign up. If yours isn&apos;t here, start a free trial and try the workflow on a real walk-through — you&apos;ll know within a week.
+            The ones operators ask before they sign up. If yours isn&apos;t here, start a free trial and try the workflow on a real walk-through — you&apos;ll know within a week.
           </p>
         </div>
 

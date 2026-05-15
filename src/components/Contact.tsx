@@ -123,7 +123,7 @@ export default function Contact() {
           </span>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
             <span className="text-white">Talk to</span>{" "}
-            <span className="text-gradient">a working contractor.</span>
+            <span className="text-gradient">the operator.</span>
           </h2>
           <p className="text-lg text-white/40 max-w-xl mx-auto mb-12">
             Free trial is the fastest path, but if you want to talk it through first — drop a note and we&apos;ll get back same day.

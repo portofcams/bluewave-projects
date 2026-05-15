@@ -142,8 +142,8 @@ export default function About() {
             Who We Are
           </span>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-            <span className="text-white">Built by</span>{" "}
-            <span className="text-gradient">a working contractor.</span>
+            <span className="text-white">Built on real jobsites by</span>{" "}
+            <span className="text-gradient">an operator.</span>
           </h2>
           <p className="text-white/40 max-w-2xl mx-auto text-lg">
             Not a SaaS startup chasing a vertical. A Honolulu design-build practice

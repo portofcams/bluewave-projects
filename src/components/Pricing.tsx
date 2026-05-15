@@ -178,7 +178,7 @@ export default function Pricing() {
           </span>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
             <span className="text-white">Priced for</span>{" "}
-            <span className="text-gradient">working contractors.</span>
+            <span className="text-gradient">real operators.</span>
           </h2>
           <p className="text-lg text-white/40 max-w-2xl mx-auto">
             Start free. Upgrade when the workflow earns you back its first month. No per-seat
