@@ -105,7 +105,7 @@ export default function LessonPageClient() {
           <div className="text-4xl mb-4">🌊</div>
           <h1 className="text-xl font-bold text-white mb-2">Lesson Not Found</h1>
           <p className="text-white/50 text-sm mb-6">This lesson doesn&apos;t exist in our curriculum.</p>
-          <Link href="/school" className="btn-primary px-6 py-2.5 rounded-lg text-sm font-medium text-white">
+          <Link href="/school/learn" className="btn-primary px-6 py-2.5 rounded-lg text-sm font-medium text-white">
             Back to School
           </Link>
         </div>
@@ -136,7 +136,7 @@ export default function LessonPageClient() {
         <div className="max-w-3xl mx-auto px-6 py-3">
           {/* Breadcrumbs */}
           <div className="flex items-center gap-1.5 text-[10px] text-white/30 mb-2">
-            <Link href="/school" className="hover:text-white/60 transition-colors">School</Link>
+            <Link href="/school/learn" className="hover:text-white/60 transition-colors">School</Link>
             <span>/</span>
             <span style={{ color: wave.color }}>{wave.title}</span>
             <span>/</span>
@@ -364,7 +364,7 @@ export default function LessonPageClient() {
             </Link>
           ) : (
             <Link
-              href="/school"
+              href="/school/learn"
               className="flex-1 glass glass-hover rounded-xl p-4 group text-right"
             >
               <div className="text-[10px] text-white/30 mb-1 flex items-center gap-1 justify-end">

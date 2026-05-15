@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import { allWaves } from "@/lib/curriculum";
-import SchoolPageClient from "./SchoolPageClient";
+import SchoolLanding from "@/components/SchoolLanding";
 
 export const metadata: Metadata = {
-  title: "AI School — Learn AI Like a Game | BlueWave Projects",
+  title: "BlueWave AI School — Learn AI like an operator | $79/mo",
   description:
-    "Learn AI like a game. 9 waves, 66 lessons, hands-on exercises. Master prompt engineering, AI workflows, automation, and more through progressive, gamified training.",
+    "Eight waves, sixty-one lessons, a live sandbox. AI training built by an operator who ships six AI products on Claude. $79/mo solo, $249/mo with 1-on-1 coaching.",
   alternates: { canonical: "https://bluewaveprojects.com/school" },
   openGraph: {
-    title: "BlueWave AI School — 9 Waves, 66 Lessons",
+    title: "BlueWave AI School — Learn AI like an operator",
     description:
-      "Learn AI like a game. 9 waves, 66 lessons, hands-on exercises. Master AI skills through progressive, gamified training.",
+      "Eight waves, sixty-one lessons, a live sandbox. AI training built by an operator who ships AI products on Claude.",
     url: "https://bluewaveprojects.com/school",
     siteName: "BlueWave Projects",
     type: "website",
@@ -18,14 +18,13 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "BlueWave AI School — 9 Waves, 66 Lessons",
-    description:
-      "Learn AI like a game. Master AI skills through progressive, gamified training.",
+    title: "BlueWave AI School — Learn AI like an operator",
+    description: "Eight waves, sixty-one lessons, a live sandbox. $79/mo.",
     images: ["/og-school.png"],
   },
 };
 
-export default function SchoolPage() {
+export default function SchoolLandingPage() {
   const courseInstances = allWaves.map((wave) => ({
     "@type": "Course",
     name: wave.title,
@@ -46,7 +45,7 @@ export default function SchoolPage() {
 
   return (
     <>
-      <SchoolPageClient />
+      <SchoolLanding />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -54,7 +53,8 @@ export default function SchoolPage() {
             "@context": "https://schema.org",
             "@type": "ItemList",
             name: "BlueWave AI School Curriculum",
-            description: "9 progressive waves covering AI foundations through advanced automation and a hands-on RAG build track.",
+            description:
+              "Progressive waves covering AI foundations through advanced automation and a hands-on RAG build track.",
             numberOfItems: allWaves.length,
             itemListElement: courseInstances.map((course, i) => ({
               "@type": "ListItem",
@@ -71,8 +71,18 @@ export default function SchoolPage() {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: "https://bluewaveprojects.com" },
-              { "@type": "ListItem", position: 2, name: "AI School", item: "https://bluewaveprojects.com/school" },
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://bluewaveprojects.com",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "AI School",
+                item: "https://bluewaveprojects.com/school",
+              },
             ],
           }),
         }}

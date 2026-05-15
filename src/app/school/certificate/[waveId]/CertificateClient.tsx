@@ -85,7 +85,7 @@ export default function CertificateClient({ wave, nextWaveId }: CertificateClien
             Complete all lessons in <span className="text-white font-medium">Wave {wave.number}: {wave.title}</span> to earn your certificate.
           </p>
           <Link
-            href="/school"
+            href="/school/learn"
             className="btn-primary inline-block px-6 py-2.5 rounded-lg text-sm font-semibold text-white"
           >
             Back to School
@@ -249,7 +249,7 @@ export default function CertificateClient({ wave, nextWaveId }: CertificateClien
         )}
 
         <Link
-          href="/school"
+          href="/school/learn"
           className="text-sm text-white/40 hover:text-white/70 transition-colors underline underline-offset-4"
         >
           Back to School

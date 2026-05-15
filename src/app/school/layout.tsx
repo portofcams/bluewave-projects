@@ -28,6 +28,12 @@ export default function SchoolLayout({ children }: { children: React.ReactNode }
     setUser(getStoredUser());
   }, [pathname]);
 
+  // The /school root is the public marketing + pricing landing — no LMS chrome.
+  // The landing component renders the regular site Nav + Footer itself.
+  if (pathname === '/school') {
+    return <>{children}</>;
+  }
+
   const toggleWave = (waveId: string) => {
     setExpandedWaves(prev =>
       prev.includes(waveId) ? prev.filter(id => id !== waveId) : [...prev, waveId]
@@ -71,7 +77,7 @@ export default function SchoolLayout({ children }: { children: React.ReactNode }
       >
         {/* Sidebar header */}
         <div className="p-4 border-b border-white/5">
-          <Link href="/school" className="flex items-center gap-3 group" onClick={() => setSidebarOpen(false)}>
+          <Link href="/school/learn" className="flex items-center gap-3 group" onClick={() => setSidebarOpen(false)}>
             <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-wave-400 to-ocean-600 flex items-center justify-center text-lg">
               🌊
             </div>
