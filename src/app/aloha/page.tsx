@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { TrackedCTA } from "@/components/TrackedCTA";
 
 export const metadata: Metadata = {
   title: "Aloha Off-Market Network — Hawaii deal flow for builders | BlueWave Projects",
@@ -123,12 +124,15 @@ export default function AlohaPage() {
                   </li>
                 ))}
               </ul>
-              <a
+              <TrackedCTA
                 href={`/signup?plan=aloha-${tier.name.toLowerCase().replace(/\s+/g, "-")}`}
+                location="pricing_card"
+                tier={`Aloha ${tier.name}`}
+                cta_text_override={`Start with ${tier.name}`}
                 className="block text-center btn-primary px-6 py-3 rounded-full text-white font-medium"
               >
                 Start with {tier.name}
-              </a>
+              </TrackedCTA>
             </div>
           ))}
         </div>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { TrackedCTA } from "@/components/TrackedCTA";
 
 export const metadata: Metadata = {
   title: "Property Brief — Weekly Hawaii parcel intel for homeowners | BlueWave Projects",
@@ -58,15 +59,30 @@ export default function PropertyBriefPage() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 mb-4">
-          <a href="/signup?plan=property-brief" className="btn-primary px-8 py-4 rounded-full text-white font-medium text-lg">
+          <TrackedCTA
+            href="/signup?plan=property-brief"
+            location="hero"
+            tier="Property Brief"
+            className="btn-primary px-8 py-4 rounded-full text-white font-medium text-lg"
+          >
             Start — $15 / month
-          </a>
-          <a href="/property-brief-sample.html" target="_blank" rel="noopener" className="px-8 py-4 rounded-full text-white/80 hover:text-white border border-white/20 hover:border-white/40 transition-all duration-300 font-medium text-lg">
+          </TrackedCTA>
+          <TrackedCTA
+            href="/property-brief-sample.html"
+            external
+            location="sample_pdf"
+            className="px-8 py-4 rounded-full text-white/80 hover:text-white border border-white/20 hover:border-white/40 transition-all duration-300 font-medium text-lg"
+          >
             See a sample brief
-          </a>
-          <a href="https://ai.ikenagroup.com/lookup" target="_blank" rel="noopener noreferrer" className="px-8 py-4 rounded-full text-white/60 hover:text-white border border-white/10 hover:border-white/25 transition-all duration-300 font-medium text-lg">
+          </TrackedCTA>
+          <TrackedCTA
+            href="https://ai.ikenagroup.com/lookup"
+            external
+            location="hero"
+            className="px-8 py-4 rounded-full text-white/60 hover:text-white border border-white/10 hover:border-white/25 transition-all duration-300 font-medium text-lg"
+          >
             Free preview — look up an address
-          </a>
+          </TrackedCTA>
         </div>
         <p className="text-xs text-white/40 tracking-widest uppercase mb-16">
           Sample uses the Aloha Tower District · No signup · Real Wednesday format
