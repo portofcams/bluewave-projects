@@ -37,18 +37,23 @@ function SignupClientInner() {
 
   const redirect = searchParams.get('redirect') || '/school';
   const plan = searchParams.get('plan') || 'unknown';
+  const prefillEmail = searchParams.get('email');
 
   useEffect(() => {
     if (isLoggedIn()) {
       router.replace(redirect);
       return;
     }
+    if (prefillEmail) {
+      setEmail(prefillEmail);
+    }
     capture('signup_started', {
       plan,
       redirect_target: redirect,
       referrer: document.referrer || 'direct',
+      had_email_prefill: !!prefillEmail,
     });
-  }, [router, redirect, plan]);
+  }, [router, redirect, plan, prefillEmail]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

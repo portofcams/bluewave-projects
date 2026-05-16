@@ -10,6 +10,7 @@ import StudioHero from "@/components/StudioHero";
 const StudioServices = dynamic(() => import("@/components/StudioServices"));
 const RadarScope = dynamic(() => import("@/components/RadarScope"), { ssr: true });
 const Portfolio = dynamic(() => import("@/components/Portfolio"));
+const InlinePropertyBrief = dynamic(() => import("@/components/InlinePropertyBrief").then(m => ({ default: m.InlinePropertyBrief })));
 const About = dynamic(() => import("@/components/About"));
 const Contact = dynamic(() => import("@/components/Contact"));
 const Footer = dynamic(() => import("@/components/Footer"));
@@ -79,6 +80,11 @@ export default function Home() {
 
       <StudioServices />
       <Portfolio />
+
+      {/* Passive lead magnet — inline Property Brief signup */}
+      <section className="px-6 py-16">
+        <InlinePropertyBrief variant="card" />
+      </section>
 
       {/* For pros callout — bridge to /contractors */}
       <section className="px-6 py-16">
