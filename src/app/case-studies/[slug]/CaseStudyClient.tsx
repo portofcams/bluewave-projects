@@ -4,6 +4,17 @@ import { motion } from "framer-motion";
 import { caseStudies } from "@/data/case-studies";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { InlinePropertyBrief } from "@/components/InlinePropertyBrief";
+
+// Case studies tied to Hawaii property data get the inline Property
+// Brief banner — high-intent prospects researching these specific
+// products are exactly the audience for the PB subscription.
+const PB_BANNER_SLUGS = new Set([
+  "aloha-network",
+  "hawaii-as-code",
+  "address-api",
+  "ikena-contractor",
+]);
 
 function Section({
   title,
@@ -163,6 +174,12 @@ export default function CaseStudyClient({ slug }: { slug: string }) {
           <div className="border-t border-white/5" />
 
           <Section title="The Results" content={cs.results} delay={0.1} />
+
+          {PB_BANNER_SLUGS.has(cs.slug) && (
+            <div className="pt-4">
+              <InlinePropertyBrief variant="banner" />
+            </div>
+          )}
 
           {/* Claude's Role */}
           <motion.div
