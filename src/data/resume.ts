@@ -34,9 +34,9 @@ export const resume = {
     full_name: "John Campbell Thomas",
     display_name: "John C. Thomas",
     headline: "USCG Master Captain · Operations Manager · Founder",
-    tagline: "From the bridge to the build site — and now the cloud.",
+    tagline: "From the bridge to the cloud — with the build site as my proving ground.",
     summary:
-      "Maritime captain turned design-build founder. 100-ton USCG Master with 1,000+ sea days across Alaska and Hawaii waters, now running an active Honolulu remodel practice and building the software that runs the jobs. Operations, leadership, and code — with sawdust on the boots and salt in the rigging.",
+      "Maritime captain turned SaaS studio founder. 100-ton USCG Master with 1,000+ sea days across Alaska and Hawaii — now running BlueWave Projects, a Honolulu studio shipping a portfolio of production software products. The Ikena platform runs a real Hawaii residential remodel as tenant-zero, so every feature is exercised on a live job before it reaches paying tenants. Operations, leadership, and code — with sawdust on the boots and salt in the rigging.",
     photo: "/captain.webp",
     email: "FjordsAdventures@gmail.com",
     phone: "(907) 769-1165",
@@ -564,7 +564,7 @@ export const resume = {
     {
       title: "Ships into regulated industries",
       detail:
-        "USCG-licensed Captain (100-ton Master, STCW, advanced firefighting, FCC). Hawaii GC-B contractor track in flight. I know how to ship software that touches money, safety, and compliance.",
+        "USCG-licensed Captain (100-ton Master, STCW, advanced firefighting, FCC). Operate a Hawaii LLC running real construction jobs as tenant-zero of my own SaaS — so every feature ships against money, safety, and compliance constraints before reaching customers.",
     },
     {
       title: "Operates without supervision",
