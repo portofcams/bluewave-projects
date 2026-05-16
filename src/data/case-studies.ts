@@ -464,4 +464,52 @@ The platform was built, deployed, and made fully autonomous by a solo developer 
     claudeRole:
       "Claude cloned the AlohaCalendar codebase, adapted all 13 scrapers for Alaska-specific sources, built the ticketing system with QR scanning, created the business portal with CRM and team management, implemented the affiliate tracking system, and deployed everything to production. It served as the sole engineering resource for the entire platform.",
   },
+  {
+    slug: "aloha-network",
+    title: "Aloha Off-Market Network — turning two years of Hawaii parcel data into a closed-loop agent exchange",
+    client: "Aloha Off-Market Network (under BlueWave Projects)",
+    tag: "Hawaii Real Estate · Founding members open",
+    tagColor: "bg-lava-500/20 text-lava-500",
+    gradient: "from-lava-500 to-amber-400",
+    excerpt:
+      "Hawaii's off-market real-estate flow is asymmetric — a small circle of agents see deals the other hundreds don't. We mirrored every parcel in the state, then built the inside group's infrastructure into a closed agent-only network.",
+    url: "https://bluewaveprojects.com/aloha",
+    stats: [
+      { label: "Statewide TMK parcels indexed", value: "384,262" },
+      { label: "Honolulu building footprints", value: "239,458" },
+      { label: "Founding-member seats", value: "10 (locked for life)" },
+      { label: "Adjacent-parcel lookups", value: "Real-time" },
+    ],
+    challenge: `Hawaii's real-estate market runs on relationships, not MLS. The same six high-quality agents in Kahala, Diamond Head, Hawaii Loa Ridge, Black Point, and Hawaii Kai see the off-market flow that the other 400 agents on Oahu don't. Same in the Maui cruise-and-vacation belt. Same on the Big Island for cattle-ranch and ag-zone deals.
+
+The asymmetry is fine for the inside group. It's expensive for everyone else — slower deal flow, less off-market access, more dependence on MLS, slower client outcomes.
+
+Existing PropTech doesn't solve this. Compass tried with their proprietary pre-launch listings, but those are inside-Compass-only. The big PropTech platforms don't even know how to query a Hawaii TMK — they treat the four counties as one generic jurisdiction and miss the local context entirely.`,
+    solution: `We treated the problem in three stacked layers.
+
+**Layer one — the data foundation.** Over the last two years we mirrored every parcel in Hawaii. All four counties, statewide TMK schema, 384,262 parcels total. Plus 239,458 Honolulu building footprints with real heights, 204,775 address points across all four islands. Every parcel has its TMK, owner of record, last sale, lot size, zoning, lava zone, flood zone, building footprint, and adjacent-owner data indexed. The data layer drives every tool in the network and is shared with our other products (Property Brief, Hawaii Property Lookup, the 3D map at maps.ikenagroup.com).
+
+**Layer two — the closed pocket-listing feed.** Founding members post pocket listings into a feed visible only to other members. Each listing shows what an agent would normally share with their closest 6 colleagues: address or neighborhood, approximate price, property type, buyer fit, why it's off-market. Members choose whether other agents can DM directly or whether we relay leads anonymously.
+
+**Layer three — territory-aware permit + ownership alerts.** Each member flags neighborhoods or zones they care about. The network watches county permit feeds + recording filings + adjacent-parcel ownership in real-time and surfaces anomalies — new permits in your zone, sudden teardowns, ownership changes that telegraph an upcoming sale within 6-18 months.
+
+**Founding-member tier** opened 2026-05-15. Ten seats, free for life, in exchange for one off-market pocket listing per quarter. After 10 fill, the tier closes permanently and new members join Watcher ($99/mo) or Builder ($499/mo) paid tiers.`,
+    results: `The Aloha Network launched with the foundation already mature — two years of parcel data, weekly refresh cycle, and shared infrastructure with the other BlueWave products. The founding-member tier opened with the announcement post + outreach script (see bluewaveprojects.com/blog/aloha-network-founding-members-open) and is filling on a first-come basis.
+
+The bigger architectural win is that the data layer is reusable across products. Property Brief uses it for weekly subscriber digests. Aloha Network uses it for member territory monitoring. The Hawaii Property Lookup uses it for free public address-card responses. Same TypeScript modules, same Git-as-source-of-truth pattern, no duplicate ETL pipelines.
+
+The closed-loop nature is the moat. As founding members start exchanging real listings, the network's value compounds for them and becomes exclusive vs the public market. The agents inside benefit asymmetrically — and now there's a structured way to be inside.`,
+    techStack: [
+      "TypeScript",
+      "Next.js 16",
+      "FastAPI",
+      "Postgres",
+      "Hawaii GIS (statewide ArcGIS + 4 county REST endpoints)",
+      "OSM Overpass",
+      "Claude API",
+      "Resend (transactional)",
+    ],
+    claudeRole:
+      "Claude designed the multi-tenant schema for the pocket-listing feed (member identity, listing privacy levels, lead-routing modes), wrote the permit-anomaly detection logic against county DPP feeds, and generated the founding-member onboarding email sequence. The parcel-mirror data layer was hand-built over two years; Claude wrote the API surface and tenant-scoping logic on top of it.",
+  },
 ];
