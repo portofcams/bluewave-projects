@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { TrackedCTA } from "@/components/TrackedCTA";
 
 export const metadata: Metadata = {
   title: "AI Scope Generator — Scope a renovation in 60 seconds | BlueWave Projects",
@@ -57,12 +58,20 @@ export default function ScopePage() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 mb-16">
-          <a href="/booking" className="btn-primary px-8 py-4 rounded-full text-white font-medium text-lg">
+          <TrackedCTA
+            href="/booking?topic=scope-generator"
+            location="hero"
+            className="btn-primary px-8 py-4 rounded-full text-white font-medium text-lg"
+          >
             Book a demo to try it
-          </a>
-          <a href="/contractors" className="px-8 py-4 rounded-full text-white/60 hover:text-white border border-white/10 hover:border-white/25 transition-all duration-300 font-medium text-lg">
-            See the full contractor stack
-          </a>
+          </TrackedCTA>
+          <TrackedCTA
+            href="/ikena"
+            location="hero"
+            className="px-8 py-4 rounded-full text-white/60 hover:text-white border border-white/10 hover:border-white/25 transition-all duration-300 font-medium text-lg"
+          >
+            See the full operator stack
+          </TrackedCTA>
         </div>
 
         <div className="grid sm:grid-cols-3 gap-6 mt-20">
