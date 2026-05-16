@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Property Brief — Sample · Kahala · BlueWave Projects</title>
+<meta name="description" content="Sample Property Brief for the Kahala neighborhood, Honolulu. Hawaii parcel data, permits, comps, ownership. Delivered every Wednesday. $15/mo.">
+<style>
+  @page { size: letter portrait; margin: 0.5in 0.5in 0.5in 0.5in; }
+  :root {
+    --ink: #0a0a0a;
+    --paper: #fefefe;
+    --mist: #6b7280;
+    --rule: #d1d5db;
+    --accent: #0a84ff;
+    --soft: #f3f4f6;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 32px 40px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    font-size: 11pt;
+    line-height: 1.45;
+    max-width: 7.5in;
+  }
+  header {
+    border-bottom: 1.5px solid var(--ink);
+    padding-bottom: 14px;
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .wordmark { font-size: 18pt; font-weight: 700; letter-spacing: -0.5px; }
+  .wordmark span { color: var(--accent); }
+  .meta { font-size: 9pt; color: var(--mist); text-align: right; line-height: 1.5; }
+  .meta strong { color: var(--ink); }
+  h1 { font-size: 16pt; font-weight: 600; margin: 0 0 4px 0; letter-spacing: -0.3px; }
+  .subhead { font-size: 10pt; color: var(--mist); margin-bottom: 18px; }
+  .facts {
+    background: var(--soft);
+    padding: 14px 18px;
+    border-radius: 6px;
+    margin-bottom: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px 22px;
+    font-size: 10pt;
+  }
+  .facts .label { color: var(--mist); font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 1px; }
+  .facts .value { color: var(--ink); font-weight: 600; }
+  section { margin-bottom: 20px; }
+  section h2 {
+    font-size: 11pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink);
+    margin: 0 0 8px 0;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--rule);
+  }
+  ul.tight { margin: 6px 0; padding-left: 18px; }
+  ul.tight li { margin-bottom: 2px; }
+  ul.tight li strong { font-weight: 600; }
+  table { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin-top: 4px; }
+  th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--rule); }
+  th { background: var(--soft); font-weight: 600; font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.04em; color: var(--mist); }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .callout {
+    background: rgba(10, 132, 255, 0.06);
+    border-left: 3px solid var(--accent);
+    padding: 10px 14px;
+    border-radius: 0 4px 4px 0;
+    font-size: 10pt;
+    margin: 10px 0;
+  }
+  footer { margin-top: 28px; padding-top: 14px; border-top: 1.5px solid var(--ink); font-size: 9pt; color: var(--mist); }
+  footer .cta {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 10pt;
+  }
+  footer .cta strong { color: var(--accent); }
+  .nowrap { white-space: nowrap; }
+  @media print {
+    body { padding: 0; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div><div class="wordmark">Property<span>Brief</span></div></div>
+    <div class="meta">
+      <strong>SAMPLE</strong> — Delivered every Wednesday<br>
+      Powered by hawaii-as-code · BlueWave Projects
+    </div>
+  </header>
+
+  <h1>Kahala neighborhood · Honolulu, HI 96816</h1>
+  <p class="subhead">East Honolulu · Diamond Head adjacent · High-end residential single-family district</p>
+
+  <div class="facts">
+    <div><div class="label">Parcels in watch area</div><div class="value">1,247</div></div>
+    <div><div class="label">Zoning prevalence</div><div class="value">R-7.5 (94%)</div></div>
+    <div><div class="label">Lava zone</div><div class="value">Zone 9 (lowest)</div></div>
+    <div><div class="label">Median lot size</div><div class="value">8,400 sqft</div></div>
+    <div><div class="label">Flood zone (most parcels)</div><div class="value">Zone X (minimal)</div></div>
+    <div><div class="label">Year-built median</div><div class="value">1962 (restored 1990s+)</div></div>
+    <div><div class="label">Adjacent areas tracked</div><div class="value">Hawaii Loa Ridge · Black Point · Wailupe</div></div>
+    <div><div class="label">Wed delivery window</div><div class="value">Wednesday 6:30am HST</div></div>
+    <div><div class="label">Subscriber depth</div><div class="value">Full neighborhood (single-family only)</div></div>
+  </div>
+
+  <section>
+    <h2>This week, in Kahala</h2>
+    <ul class="tight">
+      <li><strong>5 new permits filed</strong> within the watch area
+        <ul class="tight">
+          <li>4XXX Kahala Ave — full home renovation, $2.4M (filed May 13)</li>
+          <li>1XXX Hunakai St — pool + lanai addition, $475K (filed May 12)</li>
+          <li>4XXX Maunaloa Ave — interior remodel + kitchen, $295K (filed May 11)</li>
+          <li>4XXX Pueo St — solar + roof, $185K (filed May 10)</li>
+          <li>5XXX Kalanianaole Hwy — accessory dwelling unit, $310K (filed May 9)</li>
+        </ul>
+      </li>
+      <li><strong>4 sales closed</strong> within the watch area
+        <ul class="tight">
+          <li>4XXX Aukai Ave — $5.85M · 5BR/4BA · 4,200 sqft (closed May 13)</li>
+          <li>1XXX Kahuilani St — $3.20M · 4BR/3BA · 2,900 sqft (closed May 12)</li>
+          <li>4XXX Kaikoo Pl — $7.10M · 6BR/5BA · 5,800 sqft (closed May 11)</li>
+          <li>4XXX Hunakai St — $2.45M · 3BR/2.5BA · 2,100 sqft (closed May 10)</li>
+        </ul>
+      </li>
+      <li><strong>Median $/sqft for Kahala single-family:</strong> <span class="nowrap">$1,225/sqft</span> (last 30 days, up 1.8% MoM)</li>
+      <li><strong>Adjacent-territory shifts:</strong> Hawaii Loa Ridge median +0.6% MoM · Black Point median flat · Diamond Head proper +2.4% MoM</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Comparable sales — single-family, last 90 days</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Block</th>
+          <th>Sale date</th>
+          <th class="num">Price</th>
+          <th class="num">$/sqft</th>
+          <th>Bed/Bath</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>4XXX Aukai Ave</td><td>2026-05-13</td><td class="num">$5,850,000</td><td class="num">$1,393</td><td>5/4</td></tr>
+        <tr><td>4XXX Kaikoo Pl</td><td>2026-05-11</td><td class="num">$7,100,000</td><td class="num">$1,224</td><td>6/5</td></tr>
+        <tr><td>4XXX Hunakai St</td><td>2026-05-10</td><td class="num">$2,450,000</td><td class="num">$1,167</td><td>3/2.5</td></tr>
+        <tr><td>4XXX Maunaloa Ave</td><td>2026-04-28</td><td class="num">$4,375,000</td><td class="num">$1,094</td><td>4/3</td></tr>
+        <tr><td>1XXX Kahala Ave</td><td>2026-04-22</td><td class="num">$8,950,000</td><td class="num">$1,432</td><td>5/4.5</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size: 9pt; color: var(--mist); margin-top: 8px;">
+      Median for Kahala single-family over the trailing 90 days: <strong style="color: var(--ink);">$1,225/sqft</strong>. Range: $1,094–$1,432. New construction trends ~$200/sqft above renovation comps.
+    </p>
+  </section>
+
+  <section>
+    <h2>Permit-activity pattern</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th class="num">This week</th>
+          <th class="num">Avg / week (12-mo)</th>
+          <th>Pattern</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Full renovation</td><td class="num">1</td><td class="num">0.8</td><td>On pace</td></tr>
+        <tr><td>Kitchen / interior</td><td class="num">1</td><td class="num">1.4</td><td>Below avg</td></tr>
+        <tr><td>Pool + lanai</td><td class="num">1</td><td class="num">0.3</td><td>Above avg (seasonal)</td></tr>
+        <tr><td>Solar / roof</td><td class="num">1</td><td class="num">0.6</td><td>On pace</td></tr>
+        <tr><td>ADU / accessory</td><td class="num">1</td><td class="num">0.2</td><td>Notable (3rd in 30 days)</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Market shift indicator</h2>
+    <div class="callout">
+      Kahala is in a <strong>steady-rise phase</strong> — median $/sqft is up 1.8% month-over-month and 7.2% year-over-year, with sales velocity flat at ~4 closings/month in the watch area. ADU activity is the leading indicator to watch: three ADU permits in the trailing 30 days versus the 12-month average of 0.8 suggests rezoning interest or generational-wealth restructuring (parents adding units for adult children, or vice versa). Adjacent Hawaii Loa Ridge is similarly trending up but at a slower pace, which keeps Kahala the premium-price-per-sqft pocket of East Honolulu.
+    </div>
+  </section>
+
+  <footer>
+    <div class="cta">
+      <strong>Want a brief like this for your address?</strong><br>
+      $15/month · cancel anytime · first one's on us · Hawaii-built<br>
+      Subscribe at <strong>bluewaveprojects.com/property-brief</strong>
+    </div>
+    <div>
+      Sample brief generated for the Kahala neighborhood watch area as a demonstration of the Property Brief format for residents tracking their immediate territory. Block-level addresses anonymized in this sample (e.g., "4XXX Aukai Ave"); real subscriber briefs show full house numbers, owner of record, and per-parcel detail. Data sourced from public Hawaii state and Honolulu County GIS endpoints via hawaii-as-code.
+    </div>
+  </footer>
+</body>
+</html>
