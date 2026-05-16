@@ -295,7 +295,7 @@ Built with Capacitor for iOS deployment alongside the web app. The UI is optimiz
     results: `ProBuildCalc went from concept to a fully deployed platform with 47 API routes and 20 database tables:
 
 - **4 AI-powered features**: photo estimation, receipt scanning, multi-photo analysis, and smart material recommendations
-- **Real contractor adoption**: built in direct collaboration with a Hawaii flooring contractor who uses it daily
+- **Tenant-zero exercised**: every feature shipped first on real Hawaii residential renovation work before being published to the App Store roadmap
 - **Complete job lifecycle**: from initial estimate through invoicing and profitability reporting
 - **Mobile deployment**: runs on iOS via Capacitor and web via any browser
 - **Marketplace feature**: contractors can list services and find subcontractors
