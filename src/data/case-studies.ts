@@ -18,14 +18,14 @@ export interface CaseStudy {
 export const caseStudies: CaseStudy[] = [
   {
     slug: "ikena-contractor",
-    title: "Running a Hawaii Design-Build Practice on a Tenant of Our Own SaaS",
-    client: "Ikena Design & Build",
-    tag: "Active Construction",
-    tagColor: "bg-lava-500/20 text-lava-500",
+    title: "Ikena tenant zero — running the platform on a real Hawaii residential renovation",
+    client: "Ikena (the flagship · tenant zero)",
+    tag: "Tenant-zero production reference",
+    tagColor: "bg-wave-400/20 text-wave-400",
     gradient: "from-slate-700 to-cyan-500",
     excerpt:
-      "Ikena tenant zero — the platform used in continuous production on real Hawaii residential renovation work. Tenant one is also the toughest QA we have.",
-    url: "https://ikenagroup.com",
+      "Ikena tenant zero — the platform used in continuous production on a real Hawaii residential renovation. Tenant one is also the toughest QA we have.",
+    url: "https://bluewaveprojects.com/ikena",
     stats: [
       { label: "Ops modules in production", value: "16" },
       { label: "API routers behind the platform", value: "13+" },
@@ -34,11 +34,11 @@ export const caseStudies: CaseStudy[] = [
     ],
     challenge: `Most construction project management software is built for general contractors at scale — multi-region GCs running hundreds of jobs concurrently. The category leaders (Procore, Buildertrend, CoConstruct) charge per user, hide everything behind enterprise gates, and don't know what to do with a Hawaii §237-13(3)(B) sub deduction.
 
-For a Honolulu design-build practice doing high-end residential renovation, the fit was wrong on every axis: too expensive for a small crew, too generic for the regulatory layer, and too closed for the AI-augmented workflows that small operators actually run on day-to-day.`,
-    solution: `We built BlueWave Projects to solve our own problem first, then opened it up. Ikena is Tenant 1.
+For a Hawaii operator running residential renovation work, the fit was wrong on every axis: too expensive for a small crew, too generic for the regulatory layer, and too closed for the AI-augmented workflows that small operators actually run on day-to-day. So we built the platform we needed and exercised it on a real Hawaii job end-to-end.`,
+    solution: `We built Ikena (under the BlueWave Projects parent) to solve our own problem first, then opened it up. Tenant zero is the operator who built it.
 
-**9 ops tools wired together end to end**
-Invoices, subs ledger with tax accounting, time clock (iOS + web), daily logs, client document center, finish-selection sign-offs, change orders with public approve links, blueprint editor, and a 3D editor — all in one tenant with row-level isolation.
+**16 ops modules wired together end to end**
+Invoices, subs ledger with tax accounting, time clock (iOS + web), daily logs, client document center, finish-selection sign-offs, change orders with public approve links, blueprint editor, 3D editor, leads inbox, employees + handbook, timeline, and settings — all in one tenant with row-level isolation.
 
 **AI scope generator on every job**
 Drop a RoomPlan scan + a couple of photos, get a phase-by-phase scope of work with line-item ranges and a tax gross-up in 60 seconds. The output becomes the basis of the client quote and seeds the change-order ledger.
@@ -50,7 +50,7 @@ Every project has a public timeline + selection + change-order link the client c
 Sub-deduction tracking is set up automatically. The system computes the gross-up on the quote, files the deduction at invoice time, and keeps a running ledger so the books match the state filing.`,
     results: `Ikena tenant zero is the proof that the platform runs a real Hawaii operator's business, not a demo. A real residential renovation lived entirely inside the portal — scope, blueprints, daily logs, change orders, client portal docs — without exporting to spreadsheets or a separate accounting tool.
 
-Every feature shipped on the platform gets dogfooded on a real job site before it goes out to paying tenants.`,
+Every feature shipped on the platform gets dogfooded on a real job site before it goes out to paying tenants. That's the difference between Ikena and the national construction-tech platforms that have never run a Hawaii job.`,
     techStack: [
       "Next.js 16",
       "FastAPI",
