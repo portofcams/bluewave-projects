@@ -119,6 +119,11 @@ export default function Footer() {
                   Sample Property Brief
                 </a>
               </li>
+              <li>
+                <a href="/press" className="text-sm text-white/30 hover:text-white/70 transition-colors">
+                  Press
+                </a>
+              </li>
             </ul>
           </div>
 
