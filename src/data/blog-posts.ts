@@ -976,6 +976,103 @@ We built Ikena because the workaround pile got too tall on our own jobs. We use 
 
 If you're building in Hawaii and you've felt the same friction, the door's open.`,
   },
+  {
+    id: "10",
+    slug: "aloha-network-founding-members-open",
+    title: "The Aloha Off-Market Network — founding-member seats open for Hawaii real-estate operators",
+    excerpt:
+      "We just opened the founding-member tier of the Aloha Off-Market Network — a closed-loop pocket-listing exchange for Hawaii agents and investors, backed by a mirror of every parcel in the state. Ten seats, free for life, in exchange for one off-market listing per quarter.",
+    date: "2026-05-15",
+    readTime: "5 min",
+    category: "Hawaii Real Estate",
+    categoryColor: "text-wave-400",
+    gradient: "from-lava-500 to-amber-400",
+    author: {
+      name: "John C. Thomas",
+      role: "Founder, BlueWave Projects",
+    },
+    content: `We're opening the founding-member tier of the Aloha Off-Market Network today.
+
+If you're a Hawaii real-estate agent, investor, or builder who works with off-market deals — pocket listings, estate situations, pre-MLS introductions, the quiet half of the market — this is built for you. Ten founding seats, no fee, locked in for life, in exchange for one pocket listing per quarter.
+
+This post lays out what the network actually is, why we built it, who it's for, and how to join.
+
+## What the network actually is
+
+The Aloha Off-Market Network is three things stacked on top of each other:
+
+**One — a parcel-data foundation.** Over the last two years we've mirrored every parcel in Hawaii. All four counties, statewide TMK schema, 384,262 parcels total. Plus 239,458 Honolulu building footprints with real heights, 204,775 address points across all four islands. Every parcel has its TMK, owner of record, last sale, lot size, zoning, lava zone, flood zone, building footprint, and adjacent-owner data indexed. That data layer powers everything we build on top.
+
+**Two — a private pocket-listing feed.** Founding members post pocket listings into a closed feed visible only to other members. Each listing shows what you'd want to share with your six closest colleagues: address or neighborhood, approximate price, property type, the buyer fit you're looking for, why it's off-market. You choose whether other agents can DM you directly or whether we relay leads anonymously.
+
+**Three — territory-aware permit + ownership alerts.** Each member flags the neighborhoods or zones they care about. The network watches county permit feeds + recording filings + adjacent-parcel ownership in real-time and surfaces anomalies — new permits in your zone, sudden teardowns, ownership changes that telegraph an upcoming sale. Builder tier ($499/month) gets the full alert engine; founding members get it included.
+
+## Why we built it
+
+The honest version: we built the data layer for our own software studio (Property Brief, hawaii-as-code, the lookup tool at addressapi.portofcams.com — all run on the same parcel mirror). And we watched what the Hawaii real-estate community already does informally: small groups of agents share pocket listings amongst each other via text message, email, casual happy hours, the inside-the-rolodex circuit.
+
+That circuit works, but it's small. The agents who are in it benefit from asymmetric information. The agents outside it pay the cost — slower deal flow, less off-market access, more dependence on MLS.
+
+We thought: what if you formalized the rolodex without ruining what makes it work? Smaller than MLS. Larger than six people. Curated, not crawled. Permission-based, not aggregated.
+
+That's the founding-member tier. Ten people who all share + all see. Closed loop. No public posting, no scraping, no algorithm.
+
+## Who it's for (and who it's not)
+
+**It's for:**
+- Hawaii real-estate agents who handle 8+ transactions per year and routinely see off-market opportunities
+- Investor-builders who want territory-specific permit + ownership intel
+- Brokers running small shops who can't afford enterprise PropTech but want better data than zillow.com
+- Pacific-region agents servicing Hawaii from a base elsewhere (LA, Bay Area, Seattle) who need the local data layer
+
+**It's not for:**
+- High-volume cold-call wholesalers (the network's value depends on relationship density; volume-first operators dilute it)
+- Out-of-state investors who don't have an in-Hawaii agent partner (Hawaii rules + the actual logistics of viewing properties make pure-remote investing tough)
+- Anyone looking for full MLS access at a discount (this isn't that — MLS membership is its own thing and we don't replace it)
+
+## What founding members get
+
+The founding-member tier is the entry that pays itself back fastest. Locked in for life of the network, no fee:
+
+- Full access to the closed pocket-listing feed
+- Adjacent-owner lookups on any Hawaii parcel
+- Permit anomaly alerts on territories you flag
+- Free [Property Brief](https://bluewaveprojects.com/property-brief) subscription on the address of your choice (weekly digest)
+- First access to every new feature we ship
+- Direct line to the operator (me — John) for feedback + feature requests
+
+The one ask in return: bring one pocket listing per quarter. Could be a referral, a tip, a "my client is quietly thinking about selling, here's the situation" — anything you'd normally share with a colleague. Three a year. That's it.
+
+## What the paid tiers look like
+
+For agents and operators who don't fit the founding-member profile, two paid tiers:
+
+- **Watcher — $99/month.** Read-only access to the network. Parcel browser, adjacent-owner tool, saved-parcel watchlist. No pocket-listing posting, no permit alerts.
+- **Builder — $499/month.** All of Watcher plus the permit anomaly alerts, distressed-property signals, and a weekly market brief. For active investors and builders who use territory-level data to make decisions.
+
+The founding-member tier won't reopen. Once the ten seats fill, that's it — the tier closes permanently. New members can join Watcher or Builder, but the founding-pricing-for-life isn't available anymore.
+
+## How to apply
+
+Two options:
+
+1. **If you're already in our network:** reply to whoever forwarded you this post or DM @lastfrontierevents on Twitter — we'll get you set up the same week.
+2. **If you found us cold:** email fjordsadventures@gmail.com with a 2-3 sentence note about your work, your territory, and a recent transaction you closed. Founding seats are hand-picked; we're looking for ten people whose listings will benefit the rest of the network.
+
+The application doesn't need to be polished — just real. We're trying to assemble a working group, not run a startup pitch competition.
+
+## The bigger picture
+
+Hawaii's real-estate market is asymmetric. The same six high-quality agents in Kahala, Diamond Head, Hawaii Loa Ridge, Black Point, and Hawaii Kai see the off-market flow that the other 400 agents on Oahu don't. Same in the cruise-and-vacation rental belt across Maui. Same on the Big Island for cattle-ranch and agricultural-zone deals.
+
+The asymmetry is fine for the inside group. It's expensive for everyone else.
+
+We built the network because the data layer was sitting there — we already had every parcel mirrored — and the closing piece was just a closed, trustworthy feed where small groups of operators could share without burning their seller relationships.
+
+If you've felt the asymmetry and want to be on the inside of the next version of it, the ten seats are first-come-first-served.
+
+[Apply at bluewaveprojects.com/aloha](https://bluewaveprojects.com/aloha) or just reply to this post.`,
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
