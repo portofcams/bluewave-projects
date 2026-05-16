@@ -1,5 +1,7 @@
 "use client";
 
+import { TrackedCTA } from "./TrackedCTA";
+
 // Studio landing hero — used on the homepage to position BlueWave as a
 // multi-product Pacific studio. The contractor-specific hero lives in
 // Hero.tsx and is rendered on /contractors.
@@ -39,24 +41,27 @@ export default function StudioHero() {
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a
+          <TrackedCTA
             href="#apps"
+            location="hero"
             className="btn-primary px-8 py-4 rounded-full text-white font-medium text-lg"
           >
             See the apps
-          </a>
-          <a
+          </TrackedCTA>
+          <TrackedCTA
             href="/ikena"
+            location="hero"
             className="px-8 py-4 rounded-full text-white/70 hover:text-white border border-white/15 hover:border-white/30 transition-all duration-300 font-medium text-lg"
           >
             See Ikena (flagship) →
-          </a>
-          <a
+          </TrackedCTA>
+          <TrackedCTA
             href="/work"
+            location="hero"
             className="px-8 py-4 rounded-full text-white/60 hover:text-white border border-white/10 hover:border-white/25 transition-all duration-300 font-medium text-lg"
           >
             Hire the studio
-          </a>
+          </TrackedCTA>
         </div>
 
         {/* Stats bar */}

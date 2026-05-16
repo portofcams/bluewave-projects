@@ -4,9 +4,17 @@ import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
+import posthog from 'posthog-js';
 import { register, isLoggedIn, getToken } from '@/lib/auth';
 import { triggerWelcomeSequence } from '@/lib/welcome-emails';
 import { WaveLogo } from '@/components/Logo';
+
+// PostHog capture helper — silent if no key set
+function capture(event: string, props: Record<string, unknown> = {}) {
+  if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_POSTHOG_KEY) {
+    posthog.capture(event, props);
+  }
+}
 
 export default function SignupClient() {
   return (
@@ -28,24 +36,35 @@ function SignupClientInner() {
   const [showPassword, setShowPassword] = useState(false);
 
   const redirect = searchParams.get('redirect') || '/school';
+  const plan = searchParams.get('plan') || 'unknown';
 
   useEffect(() => {
     if (isLoggedIn()) {
       router.replace(redirect);
+      return;
     }
-  }, [router, redirect]);
+    capture('signup_started', {
+      plan,
+      redirect_target: redirect,
+      referrer: document.referrer || 'direct',
+    });
+  }, [router, redirect, plan]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
+    capture('signup_form_submitted', { plan, has_name: !!name.trim() });
+
     if (password.length < 6) {
       setError('Password must be at least 6 characters.');
+      capture('signup_validation_failed', { reason: 'password_too_short', plan });
       return;
     }
 
     if (password !== confirmPassword) {
       setError('Passwords do not match.');
+      capture('signup_validation_failed', { reason: 'password_mismatch', plan });
       return;
     }
 
@@ -54,6 +73,22 @@ function SignupClientInner() {
     const result = await register(email.trim().toLowerCase(), password, name.trim());
 
     if (result.success) {
+      capture('signup_completed', {
+        plan,
+        email_domain: email.split('@')[1] || 'unknown',
+      });
+
+      if (process.env.NEXT_PUBLIC_POSTHOG_KEY && result.user) {
+        const u = result.user as { id?: string | number; email?: string };
+        if (u.id) {
+          posthog.identify(String(u.id), {
+            email_domain: u.email?.split('@')[1] || 'unknown',
+            plan,
+            signup_date: new Date().toISOString(),
+          });
+        }
+      }
+
       // Trigger welcome email drip sequence (fire-and-forget, don't block navigation)
       triggerWelcomeSequence(
         email.trim().toLowerCase(),
@@ -69,6 +104,7 @@ function SignupClientInner() {
       }
     } else {
       setError(result.error || 'Registration failed. Please try again.');
+      capture('signup_failed', { plan, error_message: result.error || 'unknown' });
       setLoading(false);
     }
   };
