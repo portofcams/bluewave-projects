@@ -847,6 +847,135 @@ If you've ever lost track of what's happening on your block, or wanted to know w
 
 The TMK system isn't elegant, but it's complete. Every parcel in the state has one, and once you can read the digits the rest of the Hawaii property data world opens up. The work we do at BlueWave Projects — Property Brief, Aloha Network, the lookup tool, the 3D map at maps.ikenagroup.com — all rests on the TMK foundation. Knowing how to read one is the first move.`,
   },
+  {
+    id: "9",
+    slug: "buildertrend-procore-vs-hawaii-operators",
+    title: "Why Buildertrend, Procore, and CoConstruct miss the mark for Hawaii operators (and what we built instead)",
+    excerpt:
+      "The big-name construction-management platforms were built for multi-region GCs running hundreds of jobs. Hawaii operators run different math — Hawaii GET, sub deductions at the 0.5% wholesale rate, TMK-aware permits, single-county jurisdictions. Here's the honest gap analysis.",
+    date: "2026-05-15",
+    readTime: "8 min",
+    category: "Hawaii Operators",
+    categoryColor: "text-wave-400",
+    gradient: "from-wave-400 to-ocean-500",
+    author: {
+      name: "John C. Thomas",
+      role: "Founder, BlueWave Projects",
+    },
+    content: `If you run a residential renovation or design-build practice in Hawaii and you've ever tried to use Buildertrend, Procore, or CoConstruct, you've already hit the same wall most Hawaii operators hit: the tools were built for someone else.
+
+This isn't a takedown. All three are well-engineered products with billions in funding behind them. They work great for what they were built for — multi-region GCs running hundreds of concurrent jobs at scale, with national subcontractor networks and standardized contract structures. That's not the Hawaii operator's job.
+
+This post lays out the specific gaps between national construction-tech and Hawaii reality, with concrete examples. Then explains what BlueWave Projects (specifically the Ikena platform under our umbrella) does differently.
+
+If you're a Hawaii operator currently paying $400-$800/month for Buildertrend or Procore and finding yourself routing around half the features, this post is for you.
+
+## Gap 1 — Hawaii GET (and the 0.5% wholesale rate)
+
+Hawaii's General Excise Tax (GET) is the single biggest plumbing difference between Hawaii contracting and the Lower 48. It's not a sales tax. It's a gross-receipts tax. And it cascades up the contracting chain in a specific way that requires tax-aware invoicing.
+
+Quick version: on Oahu, contractors collect GET at 4.712% on every invoice they send (4.5% effective rate grossed up to 4.712% on the face). That 4.712% gets baked into every line item or shown as a separate fee. When a licensed prime contractor pays a licensed subcontractor, the prime can claim a **0.5% wholesale rate** on the sub-invoice portion (HRS §237-13(3)(B)). The sub still pays full GET on what they received from the prime; the prime just doesn't have to gross-up that portion of the project value again.
+
+What this means in software terms:
+- Every invoice needs to know whether its line items are subject to gross-up
+- Every change order needs to inherit the project's GET configuration
+- Every sub-payment needs to be tagged with the sub's GET number and whether the wholesale rate applies
+- Reporting needs to roll up GET-payable separately from gross revenue
+
+**What national tools do with this:** Nothing. Buildertrend treats GET as a generic line item you add manually. Procore lets you configure custom tax rates but doesn't model the cascade or the wholesale-rate logic. CoConstruct has no Hawaii-specific tax handling at all.
+
+**What we built:** Every Ikena tenant has GET configuration baked into project setup. Invoice lines auto-gross-up. Sub deductions auto-claim the wholesale rate when the sub is licensed and the project qualifies. Year-end reporting rolls up GET-payable cleanly. None of this requires the operator to remember any of it.
+
+## Gap 2 — Single-county permits + TMK awareness
+
+Hawaii has four counties — Honolulu, Maui, Hawaii Island, Kauai — and each runs its own permit system, its own GIS, its own building code amendments on top of the state code, and its own filing portal.
+
+A Hawaii operator generally works in one county. A national tool assumes you work in many, and most of its multi-jurisdictional plumbing is irrelevant overhead. Worse: none of the national tools index Hawaii's TMK system, so you can't search by parcel, can't see adjacent permits, can't tie permit filings to specific lots in the way Hawaii's actual data system works.
+
+**What this means in software terms:**
+- Project records keyed by TMK, not just street address
+- Permit search wired into the county-specific permit feed (Honolulu DPP, Maui MIPS, Hawaii County, Kauai)
+- Adjacent-parcel data surfaced when relevant (e.g., "your neighbor just pulled a $400K renovation permit — heads-up for noise complaints when you start your job")
+- Zoning code awareness (R-5 vs R-7.5 vs A-1 vs P-1 vs the conservation district rules) so quotes can flag constraints upfront
+
+**What national tools do with this:** Generic permit tracking. You enter the permit number manually. The platform doesn't know what jurisdiction you're in, doesn't index adjacent activity, doesn't help you remember which DPP form goes with which job.
+
+**What we built:** Every project in Ikena Portal is keyed by TMK. The parcel browser (built on hawaii-as-code, our statewide parcel mirror) is one click away from any project page. Adjacent permit and ownership data surfaces automatically. We don't have a "national-jurisdiction" mode because we don't need one.
+
+## Gap 3 — Hawaii sub network reality
+
+National tools assume you have a network of vetted subs you've worked with for years. Buildertrend has a "Connected Subs" feature that's essentially their version of a Slack roster.
+
+Hawaii's sub network is different in three ways:
+1. It's smaller — fewer subs per trade, often family-run, often the same handful across multiple GCs
+2. Pricing is more relational — "what we charged you last year + 4%" rather than "submit a bid for this specific scope"
+3. The 0.5% wholesale GET cascade means the sub's licensing status materially affects YOUR tax math, not just your liability profile
+
+What this means in software terms:
+- Sub profiles need a Hawaii GET number field (not just a generic Tax ID)
+- Sub licensing verification against DCCA records, periodic re-check
+- Pricing history that surfaces the relational pattern (sub X has done 3 prior jobs for you at $45/hr; the new one quotes $48/hr; is that fair?)
+- Approval workflow that doesn't pretend you need 3 competitive bids on a $5K bathroom waterproofing job
+
+**What national tools do with this:** Generic sub directory. You can attach files. You can rate them 1-5 stars. There's no Hawaii GET handling, no DCCA integration, no pricing-history overlay.
+
+**What we built:** Sub directory with Hawaii GET fields built in. Each sub has a current-licensing check against DCCA's public lookup. Each invoice from a sub auto-routes the wholesale-rate logic. Pricing history is visible on every new quote so you can quickly sanity-check.
+
+## Gap 4 — Client portal expectations
+
+Hawaii homeowners (especially the high-end Kahala / Diamond Head / Hawaii Loa Ridge clientele) are sophisticated buyers. They expect a polished portal. They've seen your competitors' portals. The Buildertrend default theme — bright orange CTAs, generic stock photos, "Welcome to YourCompany!" — clashes with the aesthetic of someone spending $2M on a custom home.
+
+This is partly a Buildertrend problem and partly a customization-cost problem. National tools let you customize the portal, but it costs extra. You're paying $400/mo for the platform AND $200/mo for the white-label add-on AND another $100/mo for the customer-facing app.
+
+**What we built:** White-label client portal included in Ikena Web ($79/mo, all tiers). Custom subdomain (e.g., progress.your-firm.com), your branding, your typography, your photography. No platform-watermark anywhere. The client never sees BlueWave or Ikena branding — only yours.
+
+## Gap 5 — Pricing structure (the elephant)
+
+Let's just put it in a table:
+
+| Platform | Starting price | Per-seat fee | White-label | iOS scanner | Hawaii tax handling |
+|---|---|---|---|---|---|
+| Buildertrend | $399/mo (Core) | Yes, per user | $200/mo add-on | No native | No |
+| Procore | $375/mo + per-active-user | Yes, $375/user/mo for some seats | Custom | No native | No |
+| CoConstruct | $349/mo + per-user | Yes | Included higher tier | No native | No |
+| **Ikena Web** | **$79/mo** | **No per-seat fee** | **Included** | n/a | **Yes** |
+| **Ikena Suite** | **$99/mo** | **No per-seat fee** | **Included** | **Yes (ProBuildCalc)** | **Yes** |
+
+If you're a small Hawaii operator doing 4-8 active projects, the national tools cost 4-5x what Ikena does AND require workarounds for the GET / sub / TMK issues above.
+
+If you're a 20+ project shop doing $5M+ in annual volume, your math is closer to break-even on raw monthly fees — but you're still paying the cost in workarounds and in time spent re-entering data that the national tools don't index correctly.
+
+## What we don't do well (the honest other side)
+
+Ikena isn't perfect for every Hawaii operator. Specifically:
+- We don't have the deep accounting integrations (QuickBooks Pro / Sage 50) that Procore has. Our invoicing exports clean CSVs that import into QuickBooks; that's the limit today.
+- We don't have a full bid-management workflow with competitive sub-bidding. We have sub directory + invoicing, not a formal bid-solicitation engine.
+- We don't have the deep BIM / Revit integrations of Procore. If you work with architects who deliver Revit models and you need full coordination, Procore is still the right tool.
+- We're a small team. Support is fast (you'll get me, John, on most replies) but we don't have a 24/7 enterprise support desk.
+
+If those three things are make-or-break for your operation, Procore is probably the right pick.
+
+If you're a Hawaii operator doing $500K-$10M/year with 4-30 concurrent projects, and you want a tool that speaks your local context fluently, Ikena is the right pick.
+
+## How to try it
+
+Two paths:
+
+1. **Free trial:** [Start a 14-day free trial of Ikena Suite](https://bluewaveprojects.com/pricing) — full platform, no credit card required.
+2. **20-minute walkthrough:** [Book a Zoom](https://bluewaveprojects.com/booking?topic=ikena-walkthrough) where I'll show you the platform with your specific use case in mind (your typical project type, your sub network, your invoicing pattern).
+
+Either way, the founding-Hawaii pricing locks in at the rate you sign up at, for the life of your subscription. The national tools price-bump 8-12% annually; ours doesn't.
+
+## The bigger picture
+
+Construction software was built in the boom of 2017-2022 by founders who were mostly in Texas, California, or East Coast metros. Their assumptions baked in: multi-state operations, national sub networks, generic tax handling, large team sizes.
+
+Hawaii operators — the ones doing the actual hard work of building in a state that's its own micro-market — got served the same software as everyone else, with workarounds piled on top.
+
+We built Ikena because the workaround pile got too tall on our own jobs. We use it as tenant zero. Every feature ships on a real Hawaii job before it reaches paying tenants. That's the only way a product like this stays calibrated to the actual work.
+
+If you're building in Hawaii and you've felt the same friction, the door's open.`,
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
