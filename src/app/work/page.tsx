@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { TrackedCTA } from "@/components/TrackedCTA";
 import { resume } from "@/data/resume";
 
 export const metadata: Metadata = {
@@ -103,15 +104,29 @@ export default function WorkPage() {
             <p className="text-sm text-white/40 italic max-w-3xl mb-8">{engineer.tagline}</p>
 
             <div className="flex flex-wrap gap-3 mb-10">
-              <a href={`mailto:${identity.email}?subject=Hiring%20%E2%80%94%20Remote%20engineer%20role`} className="btn-primary px-6 py-3 rounded-full text-white font-medium">
+              <TrackedCTA
+                href={`mailto:${identity.email}?subject=Hiring%20%E2%80%94%20Remote%20engineer%20role`}
+                external
+                location="hero"
+                cta_text_override="Email John (hiring)"
+                className="btn-primary px-6 py-3 rounded-full text-white font-medium"
+              >
                 Email John
-              </a>
-              <a href="/work/print" className="px-6 py-3 rounded-full text-white/70 hover:text-white border border-white/15 hover:border-white/30 transition-all duration-300 font-medium">
+              </TrackedCTA>
+              <TrackedCTA
+                href="/work/print"
+                location="hero"
+                className="px-6 py-3 rounded-full text-white/70 hover:text-white border border-white/15 hover:border-white/30 transition-all duration-300 font-medium"
+              >
                 Print / save PDF
-              </a>
-              <a href="/captain" className="px-6 py-3 rounded-full text-white/70 hover:text-white border border-white/15 hover:border-white/30 transition-all duration-300 font-medium">
+              </TrackedCTA>
+              <TrackedCTA
+                href="/captain"
+                location="hero"
+                className="px-6 py-3 rounded-full text-white/70 hover:text-white border border-white/15 hover:border-white/30 transition-all duration-300 font-medium"
+              >
                 Operator résumé
-              </a>
+              </TrackedCTA>
             </div>
           </div>
         </div>
