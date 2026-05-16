@@ -686,6 +686,167 @@ For Hawaii — finite, slow-changing, multi-source, multi-product — this archi
 
 But if your dataset *does* fit, treating geospatial data like source code instead of like database rows is one of the cleanest architectural moves I've made in 12+ shipped products. The whole "data ops" team is a Saturday cron job and a PR review.`,
   },
+  {
+    id: "8",
+    slug: "hawaii-tmk-system-decoded",
+    title: "The Hawaii TMK system, decoded — how to read a Tax Map Key and find any parcel in the state",
+    excerpt:
+      "Every property in Hawaii has a TMK — a Tax Map Key that uniquely identifies the parcel across all four counties. It looks like a phone number but reads like a coordinate. Here's what every digit means and how to use it.",
+    date: "2026-05-15",
+    readTime: "6 min",
+    category: "Hawaii Real Estate",
+    categoryColor: "text-wave-400",
+    gradient: "from-wave-400 to-ocean-500",
+    author: {
+      name: "John C. Thomas",
+      role: "Founder, BlueWave Projects",
+    },
+    content: `Every property in Hawaii has a TMK — a Tax Map Key — that uniquely identifies the parcel across all four counties. If you've been searching for a home in Honolulu, watching permit activity on Maui, or trying to look up an off-market lot on the Big Island, you've seen TMKs written in a dozen formats and probably wondered what the digits actually mean.
+
+This post decodes the system. After 6 minutes you'll be able to:
+
+- Read any Hawaii TMK and know which island, zone, section, plat, and parcel it points to
+- Convert between the three common formats you'll see on title work, permit filings, and public records
+- Find any parcel's TMK from just an address, using the right tool for each county
+- Use a TMK to look up zoning, lava zone, ownership history, lot size, and adjacent owners
+
+If you're doing any property work in Hawaii — buying, selling, building, investing, watching permits, planning a remodel — the TMK is the single most important identifier you'll touch. The MLS number is temporary. The TMK is permanent.
+
+## What a TMK actually is
+
+A Tax Map Key is a hierarchical identifier assigned by the county to every taxable parcel in Hawaii. It works like a coordinate system: each number narrows down where in the state the parcel sits.
+
+The full format is **Z-S-S-PPP-PPP-CCCC**, where:
+
+- **Z** — the island (1 character, 1 digit)
+- **S** — the zone within the island (1 character, 1 digit)
+- **S** — the section within the zone (1 character, 1 digit)
+- **PPP** — the plat (3 digits, often the subdivision)
+- **PPP** — the parcel within the plat (3 digits)
+- **CCCC** — the CPR (Condominium Property Regime) suffix (4 digits, only if the parcel is a condo unit)
+
+A typical TMK on Oahu looks like this:
+
+> **1-3-9-051-068**
+
+That decodes to:
+
+- \`1\` — Oahu
+- \`3\` — Zone 3 (Diamond Head / Kapahulu area)
+- \`9\` — Section 9
+- \`051\` — Plat 51 (a specific neighborhood subdivision)
+- \`068\` — Parcel 68 within that plat
+
+A condo unit at the same plat-parcel would add a CPR suffix:
+
+> **1-3-9-051-068-0042**
+
+Where \`0042\` is the specific unit within the condominium.
+
+## The four counties and their first digits
+
+Hawaii has four counties, and each gets a single-digit code at the start of every TMK in their jurisdiction:
+
+| First digit | County | Islands covered |
+|---|---|---|
+| **1** | Honolulu | Oahu (plus Northwestern Hawaiian Islands) |
+| **2** | Maui | Maui, Molokai, Lanai, Kahoolawe |
+| **3** | Hawaii | Hawaii Island (the Big Island) |
+| **4** | Kauai | Kauai, Niihau |
+
+So a TMK starting with **3** is on the Big Island. A TMK starting with **2** could be on Maui, Molokai, or Lanai — the zone digit tells you which.
+
+## Common formats you'll see (and how to translate between them)
+
+The same TMK gets written different ways depending on the source. Title work uses one format, the state ArcGIS uses another, permit filings use a third. They're all the same number with different separators.
+
+**Format 1 — dashes:**
+> 1-3-9-051-068
+
+Used by: title companies, real estate listings, most casual references.
+
+**Format 2 — no separators (10 or 14 digits):**
+> 1390510680000
+
+Used by: state and county ArcGIS systems, automated property data exports. The first 9 digits are island/zone/section/plat/parcel; the trailing 4 digits are the CPR (zeros if no condo unit).
+
+**Format 3 — with CPR explicit:**
+> 1-3-9-051-068-0000
+
+Used by: county tax assessor records, formal recorded documents. Always includes the CPR suffix even when zero.
+
+**Conversion is mechanical** — just strip or add the separators. The underlying number doesn't change.
+
+## How to find a TMK from just an address
+
+The fastest tool depends on which county the property is in. Each county has its own ArcGIS portal and tax-assessment search:
+
+- **Oahu (Honolulu County):** the qPublic search on the City and County of Honolulu Real Property Assessment Division site, or the Hawaii statewide ArcGIS at geodata.hawaii.gov which covers all four islands.
+- **Maui County:** the Maui Property Tax search and the Maui County GIS portal.
+- **Hawaii Island (Big Island):** the Hawaii County Real Property Tax search and the Hawaii County GIS portal.
+- **Kauai:** the Kauai Real Property Tax search and the Kauai County GIS portal.
+
+If you want one tool that covers all four islands without bouncing between four county websites, the [BlueWave Projects address lookup](https://addressapi.portofcams.com) does statewide parcel lookups from a single address bar. Free to use, no signup, no credit card. Built on the same parcel-mirror we use for [Property Brief](https://bluewaveprojects.com/property-brief) and [the Aloha Off-Market Network](https://bluewaveprojects.com/aloha).
+
+## What a TMK unlocks once you have it
+
+A TMK is the key to every public dataset on a parcel:
+
+- **Ownership history** — current owner, prior owners, date and price of every recorded sale
+- **Zoning** — what can be built on the lot (R-5, R-7.5, A-1, AG-1, A-2, P-1, MX-T, WD, etc.)
+- **Lava zone** (Big Island only — 1 is highest risk, 9 is lowest)
+- **Flood zone** (FEMA designations A, AE, X, etc.)
+- **Lot size** — in square feet and acres
+- **Building footprint** — in square feet, for Honolulu County specifically
+- **Permit history** — every building permit filed on the parcel, going back about 20 years on Oahu
+- **Adjacent parcels** — the TMKs of the lots that share a property line
+- **Tax assessment** — current assessed value, and the historical assessment trail
+
+If you're doing investor research, every one of those data points sits behind the TMK. If you don't have the TMK, you can't query for any of it. The TMK is the literal primary key.
+
+## A practical example
+
+Type any Honolulu address into [the lookup tool](https://addressapi.portofcams.com) and within a second you get the parcel card:
+
+- TMK (e.g., 1-3-9-051-068 — Oahu, Zone 3, Section 9, Plat 51, Parcel 68)
+- Owner of record
+- Last sale date and price
+- Lot size in square feet
+- Zoning code
+- Lava zone (Zone 9 if Oahu — Oahu is structurally outside the active flow paths)
+- Adjacent parcel TMKs
+- Recent permit activity
+
+That parcel card is what every other tool in the Hawaii property data stack builds on. The MLS listing is the marketing veneer; the TMK card is the ground truth.
+
+## Why this matters if you're investing, building, or buying
+
+If you're an out-of-state buyer or investor, the TMK is what protects you from surprises. The MLS listing tells you what the seller's agent wants you to know. The TMK lookup tells you everything the public record knows — including things sellers might not volunteer (zoning that limits future buildout, permit work that was started but never finalized, easements that show on the survey but not the listing).
+
+If you're a contractor or developer, the TMK is the work-product identifier you'll use for every permit filing, every change order, every dispute. Get comfortable reading them at a glance.
+
+If you're a homeowner considering improvements, knowing your own TMK and what it tells you about your zoning and lot constraints saves you the cost of pulling a useless permit.
+
+## The Property Brief connection
+
+[Property Brief](https://bluewaveprojects.com/property-brief) is our weekly subscription that turns your TMK into a recurring report — every Wednesday morning, you get permits filed near your parcel, sales that closed nearby, comps for your block, ownership changes, market shifts.
+
+If you've ever lost track of what's happening on your block, or wanted to know what your home would actually sell for this week without calling an agent, that's what Property Brief is for. $15/month, first one free, cancel anytime.
+
+[See a sample brief](https://bluewaveprojects.com/property-brief-sample.html) — we use the Aloha Tower District as the demo address. A real public Hawaii landmark, no client data.
+
+## Quick reference card
+
+| What | Answer |
+|---|---|
+| First digit = county | 1=Honolulu (Oahu) · 2=Maui · 3=Hawaii Island · 4=Kauai |
+| Format used on title work | Z-S-S-PPP-PPP (with dashes) |
+| Format used in databases | ZSSSPPPPPP0000 (10 digits + 4-digit CPR) |
+| Where to look up TMK from address | County ArcGIS portal, or addressapi.portofcams.com (all four counties, one search bar) |
+| What unlocks once you have the TMK | Ownership, zoning, permits, comps, lava zone, flood zone, lot size, adjacent parcels |
+
+The TMK system isn't elegant, but it's complete. Every parcel in the state has one, and once you can read the digits the rest of the Hawaii property data world opens up. The work we do at BlueWave Projects — Property Brief, Aloha Network, the lookup tool, the 3D map at maps.ikenagroup.com — all rests on the TMK foundation. Knowing how to read one is the first move.`,
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {

@@ -114,6 +114,11 @@ export default function Footer() {
                   AI School
                 </a>
               </li>
+              <li>
+                <a href="/property-brief-sample.html" target="_blank" rel="noopener" className="text-sm text-white/30 hover:text-white/70 transition-colors">
+                  Sample Property Brief
+                </a>
+              </li>
             </ul>
           </div>
 

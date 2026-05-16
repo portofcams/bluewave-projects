@@ -4,8 +4,15 @@ import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
+import posthog from 'posthog-js';
 import { login, isLoggedIn } from '@/lib/auth';
 import { WaveLogo } from '@/components/Logo';
+
+function capture(event: string, props: Record<string, unknown> = {}) {
+  if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_POSTHOG_KEY) {
+    posthog.capture(event, props);
+  }
+}
 
 export default function LoginClient() {
   return (
@@ -29,8 +36,14 @@ function LoginClientInner() {
   useEffect(() => {
     if (isLoggedIn()) {
       router.replace(redirect);
+      return;
     }
-  }, [router, redirect]);
+    capture('login_started', {
+      redirect_target: redirect,
+      referrer: document.referrer || 'direct',
+      came_from_signup: searchParams.get('registered') === 'true',
+    });
+  }, [router, redirect, searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,9 +53,21 @@ function LoginClientInner() {
     const result = await login(email.trim().toLowerCase(), password);
 
     if (result.success) {
+      capture('login_completed', {
+        email_domain: email.split('@')[1] || 'unknown',
+      });
+      if (process.env.NEXT_PUBLIC_POSTHOG_KEY) {
+        const u = result.user as { id?: string | number; email?: string } | undefined;
+        if (u?.id) {
+          posthog.identify(String(u.id), {
+            email_domain: u.email?.split('@')[1] || 'unknown',
+          });
+        }
+      }
       router.push(redirect);
     } else {
       setError(result.error || 'Invalid email or password.');
+      capture('login_failed', { error_message: result.error || 'unknown' });
       setLoading(false);
     }
   };
