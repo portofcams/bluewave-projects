@@ -14,6 +14,7 @@ const PB_BANNER_SLUGS = new Set([
   "hawaii-as-code",
   "address-api",
   "ikena-contractor",
+  "property-brief",
 ]);
 
 function Section({

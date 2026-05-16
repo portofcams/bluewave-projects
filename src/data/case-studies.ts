@@ -512,4 +512,49 @@ The closed-loop nature is the moat. As founding members start exchanging real li
     claudeRole:
       "Claude designed the multi-tenant schema for the pocket-listing feed (member identity, listing privacy levels, lead-routing modes), wrote the permit-anomaly detection logic against county DPP feeds, and generated the founding-member onboarding email sequence. The parcel-mirror data layer was hand-built over two years; Claude wrote the API surface and tenant-scoping logic on top of it.",
   },
+  {
+    slug: "property-brief",
+    title: "Property Brief — a weekly subscription that watches your Hawaii address",
+    client: "Property Brief (under BlueWave Projects)",
+    tag: "Hawaii Real Estate · Consumer subscription",
+    tagColor: "bg-ocean-500/20 text-ocean-300",
+    gradient: "from-ocean-500 to-wave-400",
+    excerpt:
+      "$15/month subscription that turns the parcel-mirror data layer into a personalized Wednesday-morning brief — permits, sales, comps, ownership changes, market shifts. Built on the same data foundation as Aloha Network and the Hawaii Property Lookup.",
+    url: "https://bluewaveprojects.com/property-brief",
+    stats: [
+      { label: "Delivery cadence", value: "Wed 6:30am HST" },
+      { label: "Adjacent-parcel radius", value: "0.5 miles" },
+      { label: "Data freshness", value: "Weekly Git-diffed" },
+      { label: "Per-subscriber addresses", value: "Unlimited" },
+    ],
+    challenge: `Hawaii homeowners rarely know what's actually happening in their immediate neighborhood. The MLS shows what's been listed publicly. The county tax assessment shows what was assessed last year. Neither tells you that the property four houses down filed a $400K renovation permit last week, or that your block's median $/sqft moved 2.4% in the last 30 days.
+
+The data exists — it's all public — but the friction to assemble it weekly into a useful per-parcel report is too high for any one homeowner. And the existing PropTech consumer products (Zillow, Redfin, Realtor.com) are optimized for listings and search, not for the recurring "what just changed on my block" question.
+
+We had the parcel-mirror data layer already (built for our other products). The missing piece was the consumer-facing subscription surface that turns that data into something a homeowner would happily pay $15/month for.`,
+    solution: `Three pieces stacked on the data foundation.
+
+**Weekly digest engine.** Every Wednesday at 6:30am HST, a cron job iterates active subscribers, queries the parcel mirror for each subscriber's saved addresses, pulls the last 7 days of permits + sales + ownership changes within a 0.5-mile radius of each address, computes comps + market signals, and renders a per-subscriber HTML email via Resend. Claude generates the 1-sentence "market signal" summary per address.
+
+**Per-subscriber address watchlist.** Subscribers add multiple addresses (their home, properties they're considering buying, family member homes, investor watchlists). Each address gets its own block in the digest. No per-address pricing — flat $15/mo, unlimited addresses.
+
+**Sample brief lead magnets.** Free downloadable PDFs of sample briefs (Aloha Tower District + Kahala neighborhood) on the landing page. Lets prospects see exactly what they'd get before they pay. Anonymized to public landmarks so no client data leaks.
+
+**Inline-capture lead magnet across the marketing site.** Homepage, Hawaii-tagged blog posts, /aloha, and 4 case studies all carry an inline email-capture form that pre-fills /signup with the email and plan=property-brief. Captures intent at the moment of peak topical relevance.`,
+    results: `Property Brief launched as the consumer-facing layer of the broader BlueWave data infrastructure. Two sample-brief PDFs are live (Aloha Tower + Kahala) — the bounce-rate-reducing lead magnet that the rest of PropTech doesn't bother to produce. The Wednesday-digest cron is wired but waiting on first paying-subscriber load to optimize.
+
+The architectural win is the shared data layer. Property Brief uses the same parcel mirror as Aloha Network, the Hawaii Property Lookup, and the maps.ikenagroup.com 3D map. One source of truth, four monetization surfaces, zero duplicate ETL.`,
+    techStack: [
+      "Next.js 16",
+      "FastAPI",
+      "Postgres",
+      "Resend (transactional)",
+      "Hawaii GIS (statewide + 4 county REST)",
+      "Claude API (market-signal generation)",
+      "TypeScript modules (parcel data)",
+    ],
+    claudeRole:
+      "Claude wrote the per-subscriber digest renderer (HTML template + variable substitution + per-address block iteration), the market-signal prompt (1 sentence summarizing 7 days of activity on a parcel), the welcome-email + first-Wednesday email sequence, and the sample-brief HTML pages. The parcel-mirror data layer is hand-built; Claude wired the consumer-facing surface on top.",
+  },
 ];
