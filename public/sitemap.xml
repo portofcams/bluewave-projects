@@ -8,12 +8,32 @@
     <priority>1.0</priority>
   </url>
 
-  <!-- Vertical pitch: contractors + realtors (the SaaS funnel) -->
+  <!-- Flagship product (new architecture pivot 2026-05-15) -->
+  <url>
+    <loc>https://bluewaveprojects.com/ikena</loc>
+    <lastmod>2026-05-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://bluewaveprojects.com/pricing</loc>
+    <lastmod>2026-05-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://bluewaveprojects.com/press</loc>
+    <lastmod>2026-05-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Vertical pitch: contractors + realtors (legacy GC funnel) -->
   <url>
     <loc>https://bluewaveprojects.com/contractors</loc>
     <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.7</priority>
   </url>
 
   <!-- Product landings -->
@@ -149,6 +169,38 @@
     <lastmod>2026-05-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bluewaveprojects.com/blog/hawaii-tmk-system-decoded</loc>
+    <lastmod>2026-05-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://bluewaveprojects.com/blog/buildertrend-procore-vs-hawaii-operators</loc>
+    <lastmod>2026-05-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://bluewaveprojects.com/blog/aloha-network-founding-members-open</loc>
+    <lastmod>2026-05-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Sample lead magnets -->
+  <url>
+    <loc>https://bluewaveprojects.com/property-brief-sample.html</loc>
+    <lastmod>2026-05-15</lastmod>
+    <changefreq>quarterly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bluewaveprojects.com/property-brief-sample-kahala.html</loc>
+    <lastmod>2026-05-15</lastmod>
+    <changefreq>quarterly</changefreq>
+    <priority>0.6</priority>
   </url>
 
   <!-- Funnel -->
