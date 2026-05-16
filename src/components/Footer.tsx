@@ -124,11 +124,6 @@ export default function Footer() {
                   Press
                 </a>
               </li>
-              <li>
-                <a href="/roadmap" className="text-sm text-white/30 hover:text-white/70 transition-colors">
-                  Roadmap
-                </a>
-              </li>
             </ul>
           </div>
 

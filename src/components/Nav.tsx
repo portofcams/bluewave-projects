@@ -20,7 +20,6 @@ const secondaryLinks = [
   { label: "AI Scope Tool", href: "/scope" },
   { label: "Property Brief", href: "/property-brief" },
   { label: "Aloha Network", href: "/aloha" },
-  { label: "Roadmap", href: "/roadmap" },
   { label: "Press", href: "/press" },
   { label: "Hire me", href: "/work" },
   { label: "Captain résumé", href: "/captain" },
