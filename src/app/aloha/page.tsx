@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { TrackedCTA } from "@/components/TrackedCTA";
+import { InlinePropertyBrief } from "@/components/InlinePropertyBrief";
 
 export const metadata: Metadata = {
   title: "Aloha Off-Market Network — Hawaii deal flow for builders | BlueWave Projects",
@@ -151,6 +152,11 @@ export default function AlohaPage() {
             like before locking in.
           </p>
         </div>
+      </section>
+
+      {/* Cross-product upsell — Property Brief subscription */}
+      <section className="px-6 py-16 max-w-5xl mx-auto">
+        <InlinePropertyBrief variant="banner" />
       </section>
 
       <Footer />
