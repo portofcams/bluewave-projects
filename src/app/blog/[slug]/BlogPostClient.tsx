@@ -5,6 +5,16 @@ import Link from "next/link";
 import { getPostBySlug, getRelatedPosts } from "@/data/blog-posts";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { InlinePropertyBrief } from "@/components/InlinePropertyBrief";
+
+// Posts in the "Hawaii Real Estate" or "Hawaii Operators" category get
+// an inline Property Brief banner right after the article content —
+// the audience signal is already calibrated (they're reading about
+// Hawaii property data) so conversion-to-PB-subscriber is highest here.
+const PB_BANNER_CATEGORIES = new Set([
+  "Hawaii Real Estate",
+  "Hawaii Operators",
+]);
 
 function renderMarkdownContent(content: string) {
   const lines = content.split("\n");
@@ -230,6 +240,18 @@ export default function BlogPostClient({ slug }: { slug: string }) {
           >
             {renderMarkdownContent(post.content)}
           </motion.div>
+
+          {/* Inline Property Brief banner for Hawaii-property-relevant posts */}
+          {PB_BANNER_CATEGORIES.has(post.category) && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="my-12"
+            >
+              <InlinePropertyBrief variant="banner" />
+            </motion.div>
+          )}
 
           {/* Divider */}
           <div className="my-16 border-t border-white/10" />
