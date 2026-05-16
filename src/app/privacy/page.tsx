@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { PrivacyOptOut } from "@/components/PrivacyOptOut";
 
 const sections = [
   {
@@ -150,6 +151,25 @@ export default function PrivacyPage() {
             </motion.div>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.6 }}
+          className="glass rounded-2xl p-8 mt-6"
+        >
+          <h2 className="text-xl font-semibold text-white mb-4">
+            Analytics opt-out
+          </h2>
+          <p className="text-white/50 leading-relaxed mb-4">
+            We use first-party product analytics (PostHog) to understand
+            which pages get the most use and which CTAs work — no third-party
+            ad networks, no cross-site tracking. If you'd rather not be
+            counted, opt out below. Your choice persists across visits on
+            this device.
+          </p>
+          <PrivacyOptOut />
+        </motion.div>
       </div>
     </div>
   );
