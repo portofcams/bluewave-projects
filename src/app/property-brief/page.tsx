@@ -57,14 +57,20 @@ export default function PropertyBriefPage() {
           adjacent parcels file permits.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 mb-16">
+        <div className="flex flex-col sm:flex-row gap-4 mb-4">
           <a href="/signup?plan=property-brief" className="btn-primary px-8 py-4 rounded-full text-white font-medium text-lg">
             Start — $15 / month
+          </a>
+          <a href="/property-brief-sample.html" target="_blank" rel="noopener" className="px-8 py-4 rounded-full text-white/80 hover:text-white border border-white/20 hover:border-white/40 transition-all duration-300 font-medium text-lg">
+            See a sample brief
           </a>
           <a href="https://ai.ikenagroup.com/lookup" target="_blank" rel="noopener noreferrer" className="px-8 py-4 rounded-full text-white/60 hover:text-white border border-white/10 hover:border-white/25 transition-all duration-300 font-medium text-lg">
             Free preview — look up an address
           </a>
         </div>
+        <p className="text-xs text-white/40 tracking-widest uppercase mb-16">
+          Sample uses the Aloha Tower District · No signup · Real Wednesday format
+        </p>
 
         <div className="grid sm:grid-cols-2 gap-6 mt-20">
           <Bullet

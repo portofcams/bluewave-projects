@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { TrackedCTA } from "@/components/TrackedCTA";
 
 export const metadata: Metadata = {
   title: "Ikena — the operator suite for property, contracting & real estate",
@@ -66,18 +67,20 @@ export default function IkenaPage() {
         </p>
 
         <div className="flex flex-wrap justify-center gap-4 items-center">
-          <Link
+          <TrackedCTA
             href="/pricing"
+            location="hero"
             className="btn-primary px-8 py-4 rounded-full text-white font-medium text-lg"
           >
             See pricing
-          </Link>
-          <Link
+          </TrackedCTA>
+          <TrackedCTA
             href="/booking?plan=ikena-suite"
+            location="hero"
             className="px-8 py-4 rounded-full border border-white/15 text-white/80 hover:text-white hover:border-white/40 transition-colors text-lg"
           >
             Book a 20-min walkthrough
-          </Link>
+          </TrackedCTA>
         </div>
 
         <p className="mt-6 text-xs text-white/40 tracking-widest uppercase">
@@ -181,20 +184,21 @@ export default function IkenaPage() {
             who just need a measure-and-quote tool in their pocket.
           </p>
           <div className="flex flex-wrap gap-4">
-            <a
+            <TrackedCTA
               href="https://probuildcalc.com"
-              target="_blank"
-              rel="noopener noreferrer"
+              external
+              location="inline"
               className="px-6 py-3 rounded-full bg-white/5 text-white border border-white/15 hover:bg-white/10 transition-all text-sm"
             >
               probuildcalc.com &rarr;
-            </a>
-            <Link
+            </TrackedCTA>
+            <TrackedCTA
               href="/pricing"
+              location="inline"
               className="px-6 py-3 rounded-full btn-primary text-white text-sm"
             >
               Compare all tiers
-            </Link>
+            </TrackedCTA>
           </div>
         </div>
       </section>
@@ -205,12 +209,13 @@ export default function IkenaPage() {
           <span className="text-white">Run real jobs.</span>{" "}
           <span className="text-gradient">In a tool built by someone who has.</span>
         </h2>
-        <Link
+        <TrackedCTA
           href="/pricing"
+          location="final_cta"
           className="btn-primary inline-block px-10 py-4 rounded-full text-white font-medium text-lg"
         >
           See pricing
-        </Link>
+        </TrackedCTA>
         <p className="mt-4 text-xs text-white/40 tracking-widest uppercase">
           Free 14-day trial · cancel anytime · founding pricing locked for life
         </p>

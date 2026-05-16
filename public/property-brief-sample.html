@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Property Brief — Sample · Aloha Tower District · BlueWave Projects</title>
+<meta name="description" content="Sample Property Brief for the Aloha Tower District. Hawaii parcel data, permits, comps, ownership. Delivered every Wednesday. $15/mo.">
+<style>
+  @page { size: letter portrait; margin: 0.5in 0.5in 0.5in 0.5in; }
+
+  :root {
+    --ink: #0a0a0a;
+    --paper: #fefefe;
+    --mist: #6b7280;
+    --rule: #d1d5db;
+    --accent: #0a84ff;
+    --soft: #f3f4f6;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 32px 40px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    font-size: 11pt;
+    line-height: 1.45;
+    max-width: 7.5in;
+  }
+
+  header {
+    border-bottom: 1.5px solid var(--ink);
+    padding-bottom: 14px;
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .wordmark {
+    font-size: 18pt;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  .wordmark span { color: var(--accent); }
+
+  .meta {
+    font-size: 9pt;
+    color: var(--mist);
+    text-align: right;
+    line-height: 1.5;
+  }
+  .meta strong { color: var(--ink); }
+
+  h1 {
+    font-size: 16pt;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.3px;
+  }
+  .subhead {
+    font-size: 10pt;
+    color: var(--mist);
+    margin-bottom: 18px;
+  }
+
+  .facts {
+    background: var(--soft);
+    padding: 14px 18px;
+    border-radius: 6px;
+    margin-bottom: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px 22px;
+    font-size: 10pt;
+  }
+  .facts .label {
+    color: var(--mist);
+    font-size: 8.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 1px;
+  }
+  .facts .value {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  section { margin-bottom: 20px; }
+  section h2 {
+    font-size: 11pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink);
+    margin: 0 0 8px 0;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  ul.tight {
+    margin: 6px 0;
+    padding-left: 18px;
+  }
+  ul.tight li { margin-bottom: 2px; }
+  ul.tight li strong { font-weight: 600; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.5pt;
+    margin-top: 4px;
+  }
+  th, td {
+    text-align: left;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--rule);
+  }
+  th {
+    background: var(--soft);
+    font-weight: 600;
+    font-size: 8.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--mist);
+  }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+  .callout {
+    background: rgba(10, 132, 255, 0.06);
+    border-left: 3px solid var(--accent);
+    padding: 10px 14px;
+    border-radius: 0 4px 4px 0;
+    font-size: 10pt;
+    margin: 10px 0;
+  }
+
+  footer {
+    margin-top: 28px;
+    padding-top: 14px;
+    border-top: 1.5px solid var(--ink);
+    font-size: 9pt;
+    color: var(--mist);
+  }
+  footer .cta {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 10pt;
+  }
+  footer .cta strong { color: var(--accent); }
+
+  .nowrap { white-space: nowrap; }
+
+  /* Print-specific: hide nothing, ensure colors print */
+  @media print {
+    body { padding: 0; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div>
+      <div class="wordmark">Property<span>Brief</span></div>
+    </div>
+    <div class="meta">
+      <strong>SAMPLE</strong> — Delivered every Wednesday<br>
+      Powered by hawaii-as-code · BlueWave Projects
+    </div>
+  </header>
+
+  <h1>1 Aloha Tower Drive · Honolulu, HI 96813</h1>
+  <p class="subhead">TMK 2-1-005-001 · Aloha Tower District · Downtown Honolulu</p>
+
+  <div class="facts">
+    <div>
+      <div class="label">Owner of record</div>
+      <div class="value">State of Hawaii ATDC</div>
+    </div>
+    <div>
+      <div class="label">Last sale</div>
+      <div class="value">1989-04-12 · $1 (transfer)</div>
+    </div>
+    <div>
+      <div class="label">Lot size</div>
+      <div class="value">13.5 acres</div>
+    </div>
+    <div>
+      <div class="label">Building footprint</div>
+      <div class="value">142,800 sqft</div>
+    </div>
+    <div>
+      <div class="label">Zoning</div>
+      <div class="value">WD (Waterfront)</div>
+    </div>
+    <div>
+      <div class="label">Lava zone</div>
+      <div class="value">Zone 9 · Lowest risk</div>
+    </div>
+    <div>
+      <div class="label">Flood zone</div>
+      <div class="value">Zone X · Minimal</div>
+    </div>
+    <div>
+      <div class="label">Year built</div>
+      <div class="value">1926 (restored 1994)</div>
+    </div>
+    <div>
+      <div class="label">Adjacent parcels</div>
+      <div class="value">4 watched</div>
+    </div>
+  </div>
+
+  <section>
+    <h2>This week, in your saved area</h2>
+    <ul class="tight">
+      <li><strong>3 new permits filed</strong> within 0.5 miles
+        <ul class="tight">
+          <li>100 Pacific Street — interior renovation, $1.2M (filed May 12)</li>
+          <li>500 Ala Moana Blvd — facade restoration, $480K (filed May 11)</li>
+          <li>660 Halekauwila — tenant improvement, $315K (filed May 9)</li>
+        </ul>
+      </li>
+      <li><strong>2 sales closed</strong> within 0.5 miles
+        <ul class="tight">
+          <li>909 Kapiolani Blvd #2204 — $1.875M · 2BR/2BA · 1,123 sqft (closed May 13)</li>
+          <li>600 Queen Street #2802 — $2.450M · 3BR/2.5BA · 1,612 sqft (closed May 10)</li>
+        </ul>
+      </li>
+      <li><strong>Median listing price:</strong> <span class="nowrap">$1,043/sqft</span> for downtown Honolulu, last 30 days (down 2.1% MoM)</li>
+      <li><strong>Adjacent parcel updates:</strong> 0 changes this week</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Comparable sales — downtown mixed-use, last 90 days</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Address</th>
+          <th>Sale date</th>
+          <th class="num">Price</th>
+          <th class="num">$/sqft</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1100 Alakea Street</td>
+          <td>2026-04-22</td>
+          <td class="num">$42,500,000</td>
+          <td class="num">$682</td>
+          <td>9-floor office tower</td>
+        </tr>
+        <tr>
+          <td>745 Fort Street Mall</td>
+          <td>2026-03-30</td>
+          <td class="num">$18,700,000</td>
+          <td class="num">$590</td>
+          <td>Mixed-use, retail base</td>
+        </tr>
+        <tr>
+          <td>1132 Bishop Street</td>
+          <td>2026-02-14</td>
+          <td class="num">$63,000,000</td>
+          <td class="num">$748</td>
+          <td>Class A office</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size: 9pt; color: var(--mist); margin-top: 8px;">
+      Median: <strong style="color: var(--ink);">$682/sqft</strong> for downtown mixed-use over 50K sqft, last 90 days.
+    </p>
+  </section>
+
+  <section>
+    <h2>Adjacent ownership snapshot</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Adjacent TMK</th>
+          <th>Owner</th>
+          <th>Last sale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>2-1-005-002</td><td>Honolulu Harbor District</td><td>1976</td></tr>
+        <tr><td>2-1-005-003</td><td>DOT Harbors Division</td><td>1947</td></tr>
+        <tr><td>2-1-006-001</td><td>State of Hawaii Land Use</td><td>n/a (state)</td></tr>
+        <tr><td>2-1-006-005</td><td>Honolulu Harbor District</td><td>1968</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Market shift indicator</h2>
+    <div class="callout">
+      Downtown Honolulu mixed-use is in a <strong>slow-decline phase</strong> over the last 90 days
+      — median $/sqft is down 2.1% month-over-month and 4.7% year-over-year. Permit activity is
+      stable but skewed toward <em>tenant improvement</em> rather than new construction, suggesting
+      active occupancy management rather than speculative development. Watchlist neighborhoods to
+      compare against next month: Kakaʻako (+1.4% MoM) and Ala Moana (+0.7% MoM) — both still in
+      modest-rise phases.
+    </div>
+  </section>
+
+  <footer>
+    <div class="cta">
+      <strong>Want a brief like this for your address?</strong><br>
+      $15/month · cancel anytime · first one's on us · Hawaii-built<br>
+      Subscribe at <strong>bluewaveprojects.com/property-brief</strong>
+    </div>
+    <div>
+      Sample brief generated for the Aloha Tower District (a public landmark) as a demonstration of
+      the Property Brief format. Real subscriber briefs cover your specific saved addresses with
+      live parcel data, permit feeds, comps, and weekly market shifts. Data sourced from public
+      Hawaii state and county GIS endpoints via hawaii-as-code.
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { PostHogProvider } from "@/components/PostHogProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -46,7 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="antialiased">
       <body className="font-sans">
-        {children}
+        <PostHogProvider>{children}</PostHogProvider>
         {/* Two structured-data blocks: the product (SoftwareApplication)
             and the company behind it (LocalBusiness, Honolulu). Google
             uses LocalBusiness for the Hawaii local pack + maps; the

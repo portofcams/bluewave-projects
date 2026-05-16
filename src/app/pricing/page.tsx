@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { TrackedCTA } from "@/components/TrackedCTA";
 
 export const metadata: Metadata = {
   title: "Pricing — ProBuildCalc, Ikena Web, Ikena Suite",
@@ -196,31 +197,20 @@ export default function PricingPage() {
                 ))}
               </ul>
 
-              {t.cta.href.startsWith("http") ? (
-                <a
-                  href={t.cta.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`block w-full text-center py-3.5 rounded-full font-medium text-base transition-all duration-300 ${
-                    t.featured
-                      ? "btn-primary text-white"
-                      : "bg-white/5 text-white border border-white/10 hover:bg-white/10 hover:border-white/20"
-                  }`}
-                >
-                  {t.cta.label}
-                </a>
-              ) : (
-                <Link
-                  href={t.cta.href}
-                  className={`block w-full text-center py-3.5 rounded-full font-medium text-base transition-all duration-300 ${
-                    t.featured
-                      ? "btn-primary text-white"
-                      : "bg-white/5 text-white border border-white/10 hover:bg-white/10 hover:border-white/20"
-                  }`}
-                >
-                  {t.cta.label}
-                </Link>
-              )}
+              <TrackedCTA
+                href={t.cta.href}
+                external={t.cta.href.startsWith("http")}
+                location="pricing_card"
+                tier={t.name}
+                cta_text_override={t.cta.label}
+                className={`block w-full text-center py-3.5 rounded-full font-medium text-base transition-all duration-300 ${
+                  t.featured
+                    ? "btn-primary text-white"
+                    : "bg-white/5 text-white border border-white/10 hover:bg-white/10 hover:border-white/20"
+                }`}
+              >
+                {t.cta.label}
+              </TrackedCTA>
             </div>
           ))}
         </div>
@@ -278,12 +268,14 @@ export default function PricingPage() {
             other tenants. Custom pricing — typically $499–$1,500/mo depending on scale + on-call
             needs.
           </p>
-          <Link
+          <TrackedCTA
             href="/booking?plan=ikena-enterprise"
+            location="pricing_card"
+            tier="Enterprise"
             className="inline-block px-6 py-3 rounded-full btn-primary text-white text-sm"
           >
             Talk to us
-          </Link>
+          </TrackedCTA>
         </div>
       </section>
 
@@ -333,12 +325,14 @@ export default function PricingPage() {
           <span className="text-white">Pick your tier.</span>{" "}
           <span className="text-gradient">Start running real jobs.</span>
         </h2>
-        <Link
+        <TrackedCTA
           href="/signup?plan=ikena-suite&redirect=/ops"
+          location="final_cta"
+          tier="Ikena Suite"
           className="btn-primary inline-block px-10 py-4 rounded-full text-white font-medium text-lg"
         >
           Start free trial
-        </Link>
+        </TrackedCTA>
         <p className="mt-4 text-xs text-white/40 tracking-widest uppercase">
           14 days · cancel anytime · no card required
         </p>
