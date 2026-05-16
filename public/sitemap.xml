@@ -28,13 +28,7 @@
     <priority>0.6</priority>
   </url>
 
-  <!-- Vertical pitch: contractors + realtors (legacy GC funnel) -->
-  <url>
-    <loc>https://bluewaveprojects.com/contractors</loc>
-    <lastmod>2026-05-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
+  <!-- /contractors deleted 2026-05-15 — redirects to /ikena via _redirects -->
 
   <!-- Product landings -->
   <url>

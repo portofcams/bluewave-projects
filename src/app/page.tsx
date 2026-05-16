@@ -102,10 +102,10 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="/contractors"
+              href="/ikena"
               className="btn-primary px-7 py-3.5 rounded-full text-white font-medium"
             >
-              See contractor + realtor tools →
+              See Ikena (the flagship) →
             </a>
             <a
               href="/booking"
