@@ -143,11 +143,69 @@ export default function PricingPage() {
     })),
   };
 
+  // Schema.org FAQPage JSON-LD — eligible for Google FAQ rich result.
+  // Mirrors the FAQ section content; must match what's rendered on the page.
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How is Ikena different from ProBuildCalc?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text":
+            "ProBuildCalc is the iOS scanner alone — measure, ballpark, send. Ikena is the full operator suite on the web — projects, invoices, subs, change orders, the works. Ikena Suite gives you both, wired together so a scan in the field becomes a lead in the same tenant.",
+        },
+      },
+      {
+        "@type": "Question",
+        "name": "What does BlueWave Projects mean if Ikena is the product?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text":
+            "BlueWave is the parent studio. We ship multiple products under it — Ikena is the flagship operator app, ProBuildCalc is the iOS-first sibling. Binnacle AI, Property Brief, Aloha Network and a few others all live under the same roof. One company, multiple products.",
+        },
+      },
+      {
+        "@type": "Question",
+        "name": "Is the founding pricing actually locked for life?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text":
+            "Yes. If you sign up at $79 or $99 today, that price doesn't change as long as your subscription stays active. The pricing on the public page may rise; yours doesn't.",
+        },
+      },
+      {
+        "@type": "Question",
+        "name": "What if I outgrow ProBuildCalc?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text":
+            "Upgrade to Ikena Suite directly from the app — your scan history, leads, and project context migrate cleanly. No data lost, no re-onboarding.",
+        },
+      },
+      {
+        "@type": "Question",
+        "name": "Hawaii-specific features?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text":
+            "Hawaii GET gross-ups on every invoice line, sub deductions handled at the 0.5% wholesale rate, county TMK parcel lookup, Hawaii-compliant employee handbook ready to issue. Built for Hawaii first. Works elsewhere — just won't have the tax math handled for you if you're not in HI.",
+        },
+      },
+    ],
+  };
+
   return (
     <main className="ocean-gradient min-h-screen">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
       />
       <Nav />
 
