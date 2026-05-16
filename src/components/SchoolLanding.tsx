@@ -2,11 +2,31 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import posthog from "posthog-js";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { allWaves } from "@/lib/curriculum";
 import { useReveal } from "@/hooks/useReveal";
 import { isLoggedIn, checkSubscription } from "@/lib/auth";
+
+// Event delegation: capture clicks on any anchor inside the school
+// landing as cta_clicked with cta_location=school_landing. Saves
+// wrapping each of the 15 Link/href references individually.
+function handleSchoolClick(e: React.MouseEvent<HTMLElement>) {
+  if (typeof window === "undefined" || !process.env.NEXT_PUBLIC_POSTHOG_KEY) return;
+  const target = e.target as HTMLElement;
+  const anchor = target.closest("a");
+  if (!anchor) return;
+  const href = anchor.getAttribute("href") || "";
+  const text = anchor.textContent?.trim().slice(0, 80) || "";
+  posthog.capture("cta_clicked", {
+    cta_location: "school_landing",
+    cta_text: text,
+    destination_path: href,
+    source_page: window.location.pathname,
+    is_pricing_tier: href.includes("plan=school-"),
+  });
+}
 
 const totalLessons = allWaves.reduce(
   (n, w) => n + w.units.reduce((m, u) => m + u.lessons.length, 0),
@@ -93,7 +113,7 @@ export default function SchoolLanding() {
   return (
     <>
       <Nav />
-      <main className="min-h-screen bg-deep-900 text-white">
+      <main className="min-h-screen bg-deep-900 text-white" onClick={handleSchoolClick}>
         {/* ── HERO ─────────────────────────────────────────────────── */}
         <section
           ref={heroRef}
