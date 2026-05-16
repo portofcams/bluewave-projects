@@ -25,3 +25,7 @@
 # permanently migrate yet — we may revisit if /contractors holds search
 # value that's worth keeping.
 /contractors         /ikena                            302
+
+# Aloha Network one-pager (printable PDF for outreach attachments)
+/aloha-onepager      /aloha-network-onepager.html      301
+/aloha-pdf           /aloha-network-onepager.html      301
