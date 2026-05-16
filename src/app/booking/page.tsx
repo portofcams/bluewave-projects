@@ -2,8 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import posthog from "posthog-js";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+
+function capture(event: string, props: Record<string, unknown> = {}) {
+  if (typeof window !== "undefined" && process.env.NEXT_PUBLIC_POSTHOG_KEY) {
+    posthog.capture(event, props);
+  }
+}
 
 const API_BASE = "https://ai.portofcams.com/api/bluewave/booking";
 
@@ -123,6 +130,15 @@ export default function BookingPage() {
     setSubmitting(true);
     setError("");
 
+    capture("booking_form_submitted", {
+      project_type: projectType,
+      budget,
+      has_company: !!company,
+      has_description: !!description,
+      date_chosen: formatDateISO(selectedDate),
+      time_chosen: selectedTime,
+    });
+
     const bookingData = {
       name,
       email,
@@ -149,8 +165,14 @@ export default function BookingPage() {
       }
 
       const data = await resp.json();
+      capture("booking_completed", {
+        project_type: projectType,
+        budget,
+        email_domain: email.split("@")[1] || "unknown",
+      });
       setConfirmation(data);
     } catch (err: unknown) {
+      capture("booking_api_failed", { project_type: projectType, will_retry_local: true });
       // Save locally as fallback
       try {
         const existing = JSON.parse(localStorage.getItem("bluewave_pending_bookings") || "[]");
@@ -163,8 +185,10 @@ export default function BookingPage() {
           time: selectedTime,
           topic: projectType,
         });
+        capture("booking_saved_locally", { project_type: projectType });
       } catch {
         setError(err instanceof Error ? err.message : "Something went wrong.");
+        capture("booking_failed", { project_type: projectType, error_message: err instanceof Error ? err.message : "unknown" });
       }
     } finally {
       setSubmitting(false);
