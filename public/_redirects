@@ -19,3 +19,9 @@
 # Studio inquiry
 /inquiry             /begin                            302
 /hire                /work                             301
+
+# Architecture pivot — /contractors was the legacy GC funnel; /ikena is
+# the canonical product page now. 302 (not 301) so SEO juice doesn't
+# permanently migrate yet — we may revisit if /contractors holds search
+# value that's worth keeping.
+/contractors         /ikena                            302
