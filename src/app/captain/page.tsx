@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { TrackedCTA } from "@/components/TrackedCTA";
 import { resume } from "@/data/resume";
 
 export const metadata: Metadata = {
@@ -109,26 +110,31 @@ export default function CaptainPage() {
             </p>
 
             <div className="flex flex-wrap gap-4 mb-12">
-              <a
+              <TrackedCTA
                 href="/captain/print"
+                location="hero"
                 className="btn-primary px-6 py-3 rounded-full text-white font-medium"
               >
                 Download printable PDF
-              </a>
-              <a
+              </TrackedCTA>
+              <TrackedCTA
                 href={download.pdf_url}
-                target="_blank"
-                rel="noopener"
+                external
+                location="hero"
+                cta_text_override={download.pdf_label}
                 className="px-6 py-3 rounded-full text-white/70 hover:text-white border border-white/15 hover:border-white/30 transition-all duration-300 font-medium"
               >
                 {download.pdf_label}
-              </a>
-              <a
+              </TrackedCTA>
+              <TrackedCTA
                 href={`mailto:${identity.email}`}
+                external
+                location="hero"
+                cta_text_override="Get in touch (captain résumé)"
                 className="px-6 py-3 rounded-full text-white/70 hover:text-white border border-white/15 hover:border-white/30 transition-all duration-300 font-medium"
               >
                 Get in touch
-              </a>
+              </TrackedCTA>
             </div>
 
             {/* Highlights */}
