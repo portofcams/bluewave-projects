@@ -119,6 +119,12 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
+  <url>
+    <loc>https://bluewaveprojects.com/case-studies/aloha-network</loc>
+    <lastmod>2026-05-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
   <!-- Blog index + 3 contractor posts + 4 engineering writeups.
        Old AI-agency slugs are 410'd at the edge via functions/blog/[slug].ts -->
