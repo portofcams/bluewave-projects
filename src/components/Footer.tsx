@@ -1,11 +1,35 @@
 "use client";
 
 import Link from "next/link";
+import posthog from "posthog-js";
 import { WaveLogo } from "./Logo";
+
+// Event delegation: a single click handler on the footer root captures
+// every anchor click and fires a single cta_clicked event with
+// cta_location=footer. Saves wrapping 25 individual links.
+function handleFooterClick(e: React.MouseEvent<HTMLElement>) {
+  if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) return;
+  const target = e.target as HTMLElement;
+  const anchor = target.closest("a");
+  if (!anchor) return;
+  const href = anchor.getAttribute("href") || "";
+  const text = anchor.textContent?.trim().slice(0, 60) || "";
+  posthog.capture("cta_clicked", {
+    cta_location: "footer",
+    cta_text: text,
+    destination_path: href,
+    source_page:
+      typeof window !== "undefined" ? window.location.pathname : "",
+    external: href.startsWith("http"),
+  });
+}
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/5 py-16 px-6">
+    <footer
+      className="border-t border-white/5 py-16 px-6"
+      onClick={handleFooterClick}
+    >
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-12 mb-16">
           {/* Brand */}
