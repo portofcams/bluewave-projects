@@ -122,8 +122,33 @@ function Cell({ value }: { value: string | boolean }) {
 }
 
 export default function PricingPage() {
+  // Schema.org Product + Offer JSON-LD — qualifies for rich-result
+  // eligibility in Google search (price snippet, comparison cards).
+  const pricingLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Ikena Suite (and family)",
+    "description":
+      "Operator software for property, contracting, and real estate — three tiers across the BlueWave Projects family.",
+    "brand": { "@type": "Brand", "name": "BlueWave Projects" },
+    "offers": tiers.map((t) => ({
+      "@type": "Offer",
+      "name": t.name,
+      "description": t.tagline,
+      "price": t.price.replace(/[^0-9]/g, ""),
+      "priceCurrency": "USD",
+      "url": `https://bluewaveprojects.com${t.cta.href.startsWith("/") ? t.cta.href : ""}`,
+      "availability": "https://schema.org/InStock",
+      "category": t.parent,
+    })),
+  };
+
   return (
     <main className="ocean-gradient min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingLd) }}
+      />
       <Nav />
 
       {/* HERO */}

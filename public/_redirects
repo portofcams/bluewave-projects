@@ -1,0 +1,21 @@
+# Cloudflare Pages redirects — one-line short URLs for easier sharing.
+# Format: SOURCE  TARGET  STATUS
+
+# Sample property brief — easier-to-share short URL
+/sample              /property-brief-sample.html       301
+/sample-brief        /property-brief-sample.html       301
+
+# Pricing aliases
+/plans               /pricing                          301
+
+# Aloha network — direct deep links
+/aloha-network       /aloha                            301
+/off-market          /aloha                            301
+
+# Property brief subscription
+/brief               /property-brief                   301
+/pb                  /property-brief                   301
+
+# Studio inquiry
+/inquiry             /begin                            302
+/hire                /work                             301

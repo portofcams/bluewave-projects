@@ -46,9 +46,62 @@ const proofPoints = [
   { stat: "Hawaii-aware", label: "GET, PTET, sub deductions, county zoning built in" },
 ];
 
+const ikenaProductLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Ikena",
+  "description":
+    "The complete operator suite for property, contracting, and real estate — sixteen ops modules on the web plus iOS LiDAR scanning, multi-tenant SaaS built for Hawaii operators.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web, iOS",
+  "url": "https://bluewaveprojects.com/ikena",
+  "brand": { "@type": "Brand", "name": "BlueWave Projects" },
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "Ikena Web",
+      "price": "79",
+      "priceCurrency": "USD",
+      "priceSpecification": {
+        "@type": "UnitPriceSpecification",
+        "price": "79",
+        "priceCurrency": "USD",
+        "unitText": "MONTH",
+      },
+      "availability": "https://schema.org/InStock",
+      "url": "https://bluewaveprojects.com/pricing",
+    },
+    {
+      "@type": "Offer",
+      "name": "Ikena Suite",
+      "price": "99",
+      "priceCurrency": "USD",
+      "priceSpecification": {
+        "@type": "UnitPriceSpecification",
+        "price": "99",
+        "priceCurrency": "USD",
+        "unitText": "MONTH",
+      },
+      "availability": "https://schema.org/InStock",
+      "url": "https://bluewaveprojects.com/pricing",
+    },
+  ],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5",
+    "reviewCount": "1",
+    "bestRating": "5",
+  },
+  "featureList": modules.map((m) => m.name).join(", "),
+};
+
 export default function IkenaPage() {
   return (
     <main className="ocean-gradient min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ikenaProductLd) }}
+      />
       <Nav />
 
       {/* HERO */}
