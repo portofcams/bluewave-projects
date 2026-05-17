@@ -35,7 +35,7 @@ const products = [
   { name: "Ikena", desc: "Flagship operator suite for property, contracting, and real estate. 16 ops modules.", url: "/ikena" },
   { name: "ProBuildCalc", desc: "iOS LiDAR scanner + AI estimating for the trades.", url: "https://probuildcalc.com" },
   { name: "Binnacle AI", desc: "USCG compliance + ops platform for commercial mariners.", url: "https://binnacleai.com" },
-  { name: "MauiSTR", desc: "Hawaiʻi short-term rental compliance — all 4 counties. Permit renewals, GE/TAT/county-TAT filings, AI document classifier.", url: "https://mauistr.ikenagroup.com" },
+  { name: "HawaiiSTR", desc: "Hawaiʻi short-term rental compliance — all 4 counties. Permit renewals, GE/TAT/county-TAT filings, AI document classifier.", url: "https://hawaiistr.ikenagroup.com" },
   { name: "Property Brief", desc: "Weekly Hawaii parcel intel for homeowners. $15/mo.", url: "/property-brief" },
   { name: "Aloha Off-Market Network", desc: "Closed-loop pocket-listing exchange for Hawaii real estate operators.", url: "/aloha" },
   { name: "hawaii-as-code", desc: "Every parcel, building, and address in Hawaii — as TypeScript, served as 3D map.", url: "https://maps.ikenagroup.com" },
