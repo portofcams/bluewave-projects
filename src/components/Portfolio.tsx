@@ -48,6 +48,24 @@ const projects: Project[] = [
     logo: "/logos/binnacle.png",
   },
   {
+    name: "BinnacleHarbor",
+    tag: "Harbor SaaS · Concierge setup",
+    description:
+      "Harbor and marina management built for harbormasters, not accountants. Live SVG slip map, 30-second vessel check-in, automated nightly billing, NOAA storm alerts, owner PWA. We pre-set every harbor up for the operator before first login — no computer experience needed.",
+    tech: ["Next.js 16", "Prisma", "Stripe Connect", "PWA"],
+    color: "from-sky-500 to-blue-600",
+    link: "https://binnacleharbor.com",
+    stat: "$79 / $179 / $349 · 30-day free trial",
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M12 2v6M9 5h6" strokeLinecap="round" />
+        <circle cx="12" cy="13" r="3" />
+        <path d="M3 21c2.5-2 4-2 6 0s4 2 6 0 4-2 6 0" strokeLinecap="round" />
+        <path d="M5 17l1-4h12l1 4" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
+  {
     name: "Ikena Portal — tenant zero",
     tag: "Production reference",
     description:
