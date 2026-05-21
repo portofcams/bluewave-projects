@@ -37,6 +37,11 @@ export default function LeadMagnet() {
         body: JSON.stringify({ email }),
       });
       if (!res.ok) throw new Error("Something went wrong. Please try again.");
+      // GA4 conversion event — fires on successful POST.
+      type Gtag = (command: string, eventName: string, params?: Record<string, unknown>) => void;
+      (window as unknown as { gtag?: Gtag }).gtag?.("event", "waitlist_join", {
+        product: "main",
+      });
       localStorage.setItem("bluewave_lead_email", email);
       setSubmitted(true);
       setEmail("");

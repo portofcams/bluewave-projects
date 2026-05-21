@@ -31,6 +31,13 @@ export function InlinePropertyBrief({
       });
     }
 
+    // GA4 conversion event — mirrors the PostHog capture so both surfaces have it.
+    type Gtag = (command: string, eventName: string, params?: Record<string, unknown>) => void;
+    (window as unknown as { gtag?: Gtag }).gtag?.("event", "waitlist_join", {
+      product: "property_brief",
+      variant,
+    });
+
     const params = new URLSearchParams({
       plan: "property-brief",
       email: email.trim().toLowerCase(),

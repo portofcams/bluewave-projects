@@ -38,18 +38,43 @@ export function TrackedCTA({
   cta_text_override,
 }: TrackedCTAProps) {
   const handleClick = () => {
-    if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) return;
     const text =
       cta_text_override ||
       (typeof children === "string" ? children : "[non-text-child]");
-    posthog.capture("cta_clicked", {
-      cta_location: location,
-      cta_text: text,
-      destination_path: href,
-      source_page:
-        typeof window !== "undefined" ? window.location.pathname : "",
-      ...(tier ? { tier } : {}),
-    });
+
+    // PostHog — only fires when configured
+    if (process.env.NEXT_PUBLIC_POSTHOG_KEY) {
+      posthog.capture("cta_clicked", {
+        cta_location: location,
+        cta_text: text,
+        destination_path: href,
+        source_page:
+          typeof window !== "undefined" ? window.location.pathname : "",
+        ...(tier ? { tier } : {}),
+      });
+    }
+
+    // GA4 — runs in parallel. Two events fire when applicable:
+    //   1. cta_clicked: every CTA, so PostHog and GA stay in sync
+    //   2. waitlist_join: only when the CTA is an Aloha tier card (matches
+    //      the canonical waitlist_join event used by LeadMagnet (main) and
+    //      InlinePropertyBrief (property_brief))
+    type Gtag = (command: string, eventName: string, params?: Record<string, unknown>) => void;
+    const gtag = (window as unknown as { gtag?: Gtag }).gtag;
+    if (gtag) {
+      gtag("event", "cta_clicked", {
+        cta_location: location,
+        cta_text: text,
+        destination_path: href,
+        ...(tier ? { tier } : {}),
+      });
+      if (tier && /aloha/i.test(tier)) {
+        gtag("event", "waitlist_join", {
+          product: "aloha",
+          tier,
+        });
+      }
+    }
   };
 
   if (external) {
