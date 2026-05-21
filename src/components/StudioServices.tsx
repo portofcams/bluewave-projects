@@ -69,12 +69,12 @@ const services = [
   {
     title: "BlueWave AI School",
     blurb:
-      "Learn AI the way operators actually use it. Eight skill waves, 61 lessons, hundreds of hands-on exercises. From foundations to multi-agent workflows — practiced inside a live sandbox.",
+      "Learn AI the way operators actually use it. Nine skill waves, 66 lessons, hundreds of hands-on exercises. From foundations to multi-agent workflows — practiced inside a live sandbox.",
     bullets: [
-      "9 waves · 61 lessons · live sandbox",
+      "9 waves · 66 lessons · live sandbox",
       "XP, streaks, certificates per wave",
       "Operator-grade (no slide decks)",
-      "$79/mo solo · $249/mo + coaching",
+      "$39/mo solo · $249/mo + coaching",
     ],
     cta: { label: "See the curriculum", href: "/school" },
     tone: "glacier",

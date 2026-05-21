@@ -99,7 +99,7 @@ export default function Paywall({ waveNumber, waveTitle, waveColor, lessonTitle,
                 }}
                 className="btn-primary px-6 py-3 rounded-full text-sm font-semibold text-white cursor-pointer"
               >
-                AI School — $79/mo
+                AI School — $39/mo
               </button>
               <button
                 onClick={async () => {

@@ -1057,7 +1057,7 @@ The founding-member tier won't reopen. Once the ten seats fill, that's it — th
 Two options:
 
 1. **If you're already in our network:** reply to whoever forwarded you this post or DM @lastfrontierevents on Twitter — we'll get you set up the same week.
-2. **If you found us cold:** email fjordsadventures@gmail.com with a 2-3 sentence note about your work, your territory, and a recent transaction you closed. Founding seats are hand-picked; we're looking for ten people whose listings will benefit the rest of the network.
+2. **If you found us cold:** email portofcams@gmail.com with a 2-3 sentence note about your work, your territory, and a recent transaction you closed. Founding seats are hand-picked; we're looking for ten people whose listings will benefit the rest of the network.
 
 The application doesn't need to be polished — just real. We're trying to assemble a working group, not run a startup pitch competition.
 

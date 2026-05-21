@@ -42,7 +42,7 @@ export default function Nav() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="#" className="flex items-center group">
+        <a href="/" className="flex items-center group" aria-label="BlueWave Projects — home">
           <WaveLogo size={40} className="group-hover:opacity-90 transition-opacity" />
         </a>
 

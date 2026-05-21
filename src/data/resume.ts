@@ -38,11 +38,11 @@ export const resume = {
     summary:
       "Maritime captain turned SaaS studio founder. 100-ton USCG Master with 1,000+ sea days across Alaska and Hawaii — now running BlueWave Projects, a Honolulu studio shipping a portfolio of production software products. The Ikena platform runs a real Hawaii residential remodel as tenant-zero, so every feature is exercised on a live job before it reaches paying tenants. Operations, leadership, and code — with sawdust on the boots and salt in the rigging.",
     photo: "/captain.webp",
-    email: "FjordsAdventures@gmail.com",
+    email: "portofcams@gmail.com",
     phone: "(907) 769-1165",
     addresses: [
-      { label: "Honolulu", line: "440 Lewers Street, Unit 603, Honolulu, HI 96815" },
-      { label: "Hope, Alaska", line: "16 Main Street, Hope, AK 99605" },
+      { label: "Honolulu", line: "Honolulu, HI" },
+      { label: "Hope, Alaska", line: "Hope, AK" },
     ],
     links: [
       { label: "BlueWave Projects", url: "https://bluewaveprojects.com" },

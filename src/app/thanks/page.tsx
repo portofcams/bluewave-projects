@@ -92,7 +92,7 @@ export default function ThanksPage() {
       <section className="px-6 py-20 max-w-3xl mx-auto text-center">
         <p className="text-white/40 text-sm">
           Any issues with your signup? Reply to your welcome email or hit{" "}
-          <a href="mailto:fjordsadventures@gmail.com" className="text-wave-400 underline">fjordsadventures@gmail.com</a> — same-day reply.
+          <a href="mailto:portofcams@gmail.com" className="text-wave-400 underline">portofcams@gmail.com</a> — same-day reply.
         </p>
       </section>
 

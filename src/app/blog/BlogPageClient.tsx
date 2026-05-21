@@ -41,9 +41,10 @@ function BlogCard({
 
         <Link
           href={`/blog/${post.slug}`}
+          aria-label={`Read: ${post.title}`}
           className="inline-flex items-center gap-2 text-ocean-400 text-sm font-medium group-hover:gap-3 transition-all duration-300"
         >
-          Read More
+          Read: {post.title}
           <svg
             viewBox="0 0 24 24"
             className="w-4 h-4"

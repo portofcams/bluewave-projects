@@ -179,8 +179,12 @@ export default function Contact() {
                 <option value="solo-trial">Try the Solo free trial</option>
                 <option value="pro-demo">See a live Pro demo</option>
                 <option value="founding-builder">Founding Builder ($499/mo)</option>
+                <option value="ai-school">AI School (curriculum / coaching)</option>
+                <option value="binnacle">Binnacle AI (charter ops)</option>
+                <option value="port-of-cams">Port of Cams</option>
                 <option value="property-brief">Property Brief ($15/mo)</option>
                 <option value="aloha">Aloha Off-Market Network</option>
+                <option value="consulting">AI consulting / custom build</option>
                 <option value="partnership">Partnership / integration</option>
                 <option value="other">Something else</option>
               </select>

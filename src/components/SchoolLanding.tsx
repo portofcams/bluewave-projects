@@ -328,7 +328,7 @@ export default function SchoolLanding() {
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-6">
             Built by an operator shipping{" "}
-            <span className="text-gradient">six AI products on Claude.</span>
+            <span className="text-gradient">12+ AI products on Claude.</span>
           </h2>
           <p className="text-white/55 leading-relaxed max-w-2xl mx-auto mb-8">
             Not a content shop. Not an aggregator. The same studio operating BlueWave

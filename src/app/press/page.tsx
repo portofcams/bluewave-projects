@@ -94,7 +94,7 @@ export default function PressPage() {
           everything you need is here.
         </p>
         <TrackedCTA
-          href="mailto:fjordsadventures@gmail.com?subject=Press%20inquiry%20%E2%80%94%20BlueWave%20Projects"
+          href="mailto:portofcams@gmail.com?subject=Press%20inquiry%20%E2%80%94%20BlueWave%20Projects"
           external
           location="hero"
           cta_text_override="Email John (press inquiry)"
@@ -190,7 +190,7 @@ export default function PressPage() {
           </p>
           <p className="text-sm text-white/50">
             Need a different format, logo SVG, or specific asset? Email
-            fjordsadventures@gmail.com and you'll get a reply within 24 hours.
+            portofcams@gmail.com and you'll get a reply within 24 hours.
           </p>
         </div>
       </section>
@@ -206,7 +206,7 @@ export default function PressPage() {
           rep, no PR firm, no agency layer.
         </p>
         <TrackedCTA
-          href="mailto:fjordsadventures@gmail.com?subject=Press%20inquiry%20%E2%80%94%20BlueWave%20Projects"
+          href="mailto:portofcams@gmail.com?subject=Press%20inquiry%20%E2%80%94%20BlueWave%20Projects"
           external
           location="final_cta"
           cta_text_override="Email John (press final)"

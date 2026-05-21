@@ -265,10 +265,14 @@ function ProjectCard({
   const { ref, inView } = useReveal();
   const delayClass = index >= 1 && index <= 8 ? `reveal-d-${index}` : "";
 
+  const inDev = project.link === "#";
+
   return (
     <div
       ref={ref}
-      className={`reveal-up ${delayClass} ${inView ? "in" : ""} group glass glass-hover rounded-2xl p-8 flex flex-col h-full transition-all duration-500`}
+      className={`reveal-up ${delayClass} ${inView ? "in" : ""} group glass glass-hover rounded-2xl p-8 flex flex-col h-full transition-all duration-500 ${
+        inDev ? "opacity-60 hover:opacity-90" : ""
+      }`}
     >
       <div className="flex items-start justify-between mb-6">
         {project.logo ? (
@@ -287,9 +291,16 @@ function ProjectCard({
             {project.icon}
           </div>
         )}
-        <span className="text-xs font-medium text-white/30 uppercase tracking-widest text-right max-w-[55%]">
-          {project.tag}
-        </span>
+        <div className="flex flex-col items-end gap-1 max-w-[55%]">
+          {inDev && (
+            <span className="text-[10px] font-semibold text-amber-300/90 uppercase tracking-widest px-2 py-0.5 rounded-full border border-amber-300/30 bg-amber-300/5">
+              Coming Soon
+            </span>
+          )}
+          <span className="text-xs font-medium text-white/30 uppercase tracking-widest text-right">
+            {project.tag}
+          </span>
+        </div>
       </div>
 
       <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-gradient transition-all duration-300">

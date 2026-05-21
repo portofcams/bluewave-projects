@@ -62,7 +62,7 @@ export default function RootLayout({
               "@id": "https://bluewaveprojects.com/#business",
               name: "BlueWave Projects",
               description:
-                "Construction project management software built by a Honolulu design-build practice.",
+                "Honolulu-based AI software studio. AI consulting, custom applications, APIs, and the BlueWave AI School — built on Anthropic Claude.",
               url: "https://bluewaveprojects.com",
               address: {
                 "@type": "PostalAddress",

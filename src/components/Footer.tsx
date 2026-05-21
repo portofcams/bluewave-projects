@@ -34,9 +34,9 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-12 mb-16">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
-            <div className="mb-4">
+            <Link href="/" aria-label="BlueWave Projects — home" className="inline-block mb-4">
               <WaveLogo size={36} />
-            </div>
+            </Link>
             <p className="text-sm text-white/30 leading-relaxed">
               AI consulting, custom apps, and R&amp;D.
               <br />
@@ -68,11 +68,6 @@ export default function Footer() {
               <li>
                 <a href="https://binnacleai.com" target="_blank" rel="noopener noreferrer" className="text-sm text-white/30 hover:text-white/70 transition-colors">
                   Binnacle.ai
-                </a>
-              </li>
-              <li>
-                <a href="https://hawaiistr.ikenagroup.com" target="_blank" rel="noopener noreferrer" className="text-sm text-white/30 hover:text-white/70 transition-colors">
-                  HawaiiSTR
                 </a>
               </li>
               <li>
