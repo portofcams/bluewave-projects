@@ -48,6 +48,24 @@ const projects: Project[] = [
     logo: "/logos/binnacle.png",
   },
   {
+    name: "PermitPaddler",
+    tag: "Hawaiʻi STR Compliance SaaS",
+    description:
+      "Hawaiʻi short-term rental compliance — all 4 counties. TVR / STRH / NUC / STVR permit tracking, GET + TAT + county-TAT filings, AI document classifier, and 30/14/7/3/1-day reminders. Free TMK lookup and printable 2026 tax calendar.",
+    tech: ["Next.js 16", "Prisma", "Postgres", "Claude API", "Stripe"],
+    color: "from-cyan-500 to-teal-500",
+    link: "https://permitpaddler.ikenagroup.com",
+    stat: "$79 / $199 / $499 · 4 counties",
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M3 12c3-3 6-3 9 0s6 3 9 0" strokeLinecap="round" />
+        <path d="M3 17c3-3 6-3 9 0s6 3 9 0" strokeLinecap="round" />
+        <path d="M12 4v4M10 6h4" strokeLinecap="round" />
+        <circle cx="12" cy="10" r="1.2" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
     name: "BinnacleHarbor",
     tag: "Harbor SaaS · Concierge setup",
     description:
