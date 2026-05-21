@@ -144,3 +144,14 @@ Cards in `src/components/Portfolio.tsx`, top → bottom:
 - iOS progress syncs via /api/bluewave/progress
 - Admin auth in localStorage (lib/admin-auth.ts)
 - Server disk cleanup cron at /root/camdrop-cleanup.sh (runs every 4h, keeps 24h of frames)
+
+## 2026-05-21 — site audit cleanup (commit 5aa5ba0)
+Swept 14 issues from external SEO/UX audit. Highlights worth remembering:
+- **Contact email**: standardized to `portofcams@gmail.com` everywhere (was a mix of FjordsAdventures@gmail.com and portofcams@gmail.com). If a dedicated `hello@bluewaveprojects.com` ever gets set up via Cloudflare Email Routing, this is the place to swap it.
+- **AI School pricing**: $39/mo solo is now the canonical entry-tier price across homepage, Paywall, and /school. The old $79 number was lingering on the homepage `StudioServices` card and inside `school/Paywall.tsx`.
+- **School curriculum**: 9 waves / 66 lessons is the canonical count. `lib/curriculum.ts` is the source of truth — copy in `StudioServices.tsx` and `/school` page metadata now match it.
+- **/captain**: replaced street addresses with "Honolulu, HI" / "Hope, AK". Resume PDF generator reads `src/data/resume.ts`, so this also flows into any printable résumé.
+- **Schema**: `LocalBusiness` now describes BlueWave as "Honolulu-based AI software studio" (was "construction project management software"). `SoftwareApplication` schema still describes the Ikena product specifically — left alone.
+- **HawaiiSTR**: removed from footer (had no on-site presence). It was added 2026-05 in commit 785d06b; if the product gets a proper landing later, add the footer link back AND a Portfolio card at the same time.
+- **Booking page**: audit claimed Steps 2/3 were missing — false positive, progressive reveal works (date → time → details). API at `/api/bluewave/booking/slots` returns 200 with 16 slots/day.
+- **Open follow-ups (not addressed):** /scope is non-interactive (decide: build the tool or reframe page), nav inconsistency between desktop & mobile menus, "Hire the studio" vs "Hire me" positioning conflict.
