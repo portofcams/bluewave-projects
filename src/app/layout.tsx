@@ -151,6 +151,16 @@ export default function RootLayout({
         data-site="bluewaveprojects"
         strategy="afterInteractive"
       />
+      {/* Google Analytics 4 — property "BlueWave Projects" in Ikena Group account.
+          Anonymized IP, no advertising features. Complements PostHog (product
+          analytics) and the first-party /tracker.js. */}
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-KSXSSCF8YP"
+        strategy="afterInteractive"
+      />
+      <Script id="ga4-init" strategy="afterInteractive">
+        {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-KSXSSCF8YP',{anonymize_ip:true});`}
+      </Script>
     </html>
   );
 }
