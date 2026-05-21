@@ -71,8 +71,8 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="https://hawaiistr.ikenagroup.com" target="_blank" rel="noopener noreferrer" className="text-sm text-white/30 hover:text-white/70 transition-colors">
-                  HawaiiSTR
+                <a href="https://permitpaddler.ikenagroup.com" target="_blank" rel="noopener noreferrer" className="text-sm text-white/30 hover:text-white/70 transition-colors">
+                  PermitPaddler
                 </a>
               </li>
               <li>
