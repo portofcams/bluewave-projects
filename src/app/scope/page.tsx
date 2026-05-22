@@ -181,7 +181,7 @@ export default function ScopePage() {
           </p>
           <TrackedCTA
             href="/booking?topic=scope-generator"
-            location="footer-cta"
+            location="final_cta"
             className="btn-primary px-8 py-4 rounded-full text-white font-medium text-lg inline-block"
           >
             Book a 15-min walkthrough
