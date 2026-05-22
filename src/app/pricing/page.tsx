@@ -16,6 +16,13 @@ export const metadata: Metadata = {
     url: "https://bluewaveprojects.com/pricing",
     siteName: "BlueWave Projects",
     type: "website",
+    images: [{ url: "/og-default.png", width: 1200, height: 630, type: "image/png" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Pricing — three tiers across the BlueWave family",
+    description: "ProBuildCalc $19 · Ikena Web $79 · Ikena Suite $99.",
+    images: ["/og-default.png"],
   },
 };
 
