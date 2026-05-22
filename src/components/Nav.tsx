@@ -15,13 +15,16 @@ const navLinks = [
 ];
 
 // Secondary links — only surface in the mobile drawer (and footer).
+// Note: /work + /captain are personal résumés (job-hunt framing) labeled
+// distinctly from the studio's "Hire the studio" CTA so visitors don't
+// hit mixed signals on any single page.
 const secondaryLinks = [
   { label: "Case Studies", href: "/case-studies" },
   { label: "AI Scope Tool", href: "/scope" },
   { label: "Property Brief", href: "/property-brief" },
   { label: "Aloha Network", href: "/aloha" },
   { label: "Press", href: "/press" },
-  { label: "Hire me", href: "/work" },
+  { label: "John's résumé", href: "/work" },
   { label: "Captain résumé", href: "/captain" },
 ];
 

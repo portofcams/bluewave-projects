@@ -105,8 +105,8 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="/work" className="text-sm text-white/30 hover:text-white/70 transition-colors">
-                  App Development
+                <a href="/booking" className="text-sm text-white/30 hover:text-white/70 transition-colors">
+                  Custom App Builds
                 </a>
               </li>
               <li>
@@ -149,8 +149,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/work" className="text-sm text-white/30 hover:text-white/70 transition-colors">
-                  Hire John
+                <Link href="/work" className="text-sm text-white/30 hover:text-white/70 transition-colors" title="Personal résumé — looking for a remote SaaS/AI role">
+                  Hire John (full-time)
                 </Link>
               </li>
               <li>
