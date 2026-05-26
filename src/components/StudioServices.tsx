@@ -162,15 +162,15 @@ export default function StudioServices() {
           className={`reveal-up ${inView ? "in" : ""} text-center mb-16`}
         >
           <span className="text-sm font-medium text-ocean-400 uppercase tracking-widest mb-4 block">
-            What the studio does
+            Four doors in
           </span>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-            AI consulting,
+            Consulting, custom builds,
             <br className="sm:hidden" />
-            <span className="text-gradient"> custom apps, and a school.</span>
+            <span className="text-gradient"> SaaS, and a school.</span>
           </h2>
           <p className="text-lg text-white/55 max-w-2xl mx-auto leading-relaxed">
-            Four ways to work with BlueWave — from a one-off consult to a full multi-tenant SaaS build to learning to ship your own apps in the AI School.
+            Pick the engagement that fits — a one-off AI consult, a custom app build, a full multi-tenant SaaS, or the AI School where Hawai'i operators learn to ship their own.
           </p>
         </div>
 

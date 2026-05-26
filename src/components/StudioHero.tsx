@@ -19,25 +19,19 @@ export default function StudioHero() {
       <div className="relative z-10 max-w-5xl mx-auto text-center">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm text-white/60 mb-8">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          Independent software studio · Honolulu, Hawaii
+          Honolulu software studio · 20 apps live for Hawai'i operators
         </div>
 
         <h1 className="text-5xl sm:text-7xl lg:text-[5.5rem] font-bold tracking-tight leading-[0.95] mb-6">
-          Pacific-built software,
+          Hawai'i runs on paperwork.
           <br />
-          <span className="text-gradient">end to end.</span>
+          <span className="text-gradient">We turn it into software.</span>
         </h1>
 
-        <p className="text-lg sm:text-2xl text-white/65 max-w-3xl mx-auto leading-relaxed mb-4">
-          Web, iOS, AI — a small studio shipping a dozen production apps from Waikiki.
-          From an operator SaaS running a real Hawaii residential renovation to a webcam network
-          streaming hundreds of Pacific cameras.
-        </p>
-        <p className="text-sm text-white/40 max-w-2xl mx-auto mb-2 font-mono">
-          15B+ Claude tokens · 580+ commits · ~600K lines · solo with Claude Code.
-        </p>
-        <p className="text-xs text-white/30 max-w-3xl mx-auto mb-12 font-mono leading-relaxed">
-          token breakdown · 11.6B cache reads (hot context replayed) · 378M cache writes · 38M output tokens (model-generated code) · across the home Apple server (multi-Mac development fleet)
+        <p className="text-lg sm:text-2xl text-white/65 max-w-3xl mx-auto leading-relaxed mb-10">
+          STR compliance, USCG credentials, harbor billing, building permits, residential scope —
+          twenty production apps shipped for Hawai'i operators. <span className="text-white/85">Subscribe to one
+          we already built, hire us to build yours,</span> or learn the playbook in the AI School.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -46,21 +40,21 @@ export default function StudioHero() {
             location="hero"
             className="btn-primary px-8 py-4 rounded-full text-white font-medium text-lg"
           >
-            See the apps
-          </TrackedCTA>
-          <TrackedCTA
-            href="/ikena"
-            location="hero"
-            className="px-8 py-4 rounded-full text-white/70 hover:text-white border border-white/15 hover:border-white/30 transition-all duration-300 font-medium text-lg"
-          >
-            See Ikena (flagship) →
+            Browse the apps
           </TrackedCTA>
           <TrackedCTA
             href="/work"
             location="hero"
+            className="px-8 py-4 rounded-full text-white/70 hover:text-white border border-white/15 hover:border-white/30 transition-all duration-300 font-medium text-lg"
+          >
+            Hire the studio →
+          </TrackedCTA>
+          <TrackedCTA
+            href="/school"
+            location="hero"
             className="px-8 py-4 rounded-full text-white/60 hover:text-white border border-white/10 hover:border-white/25 transition-all duration-300 font-medium text-lg"
           >
-            Hire the studio
+            AI School
           </TrackedCTA>
         </div>
 
