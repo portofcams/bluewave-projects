@@ -3,9 +3,17 @@
   <!-- Studio homepage -->
   <url>
     <loc>https://bluewaveprojects.com/</loc>
-    <lastmod>2026-05-11</lastmod>
+    <lastmod>2026-05-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+  </url>
+
+  <!-- Studio hire page — primary convert page for studio clients (added 2026-05-26) -->
+  <url>
+    <loc>https://bluewaveprojects.com/hire</loc>
+    <lastmod>2026-05-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
   </url>
 
   <!-- Flagship product (new architecture pivot 2026-05-15) -->
