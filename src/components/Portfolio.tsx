@@ -55,12 +55,30 @@ const projects: Project[] = [
     name: "Binnacle.ai",
     tag: "Maritime SaaS",
     description:
-      "AI-powered USCG compliance platform for commercial mariners and operators. Credential tracking, inspection prep, regulation lookup, and rotation planning for the maritime industry.",
+      "Bridge-intelligence platform for commercial mariners and fleet operators. IEC 62388 ARPA radar with target trails and guard zones, voice bridge interface, port-captain prompt drafting, class-society audit log, crew credential tracking, inspection prep, and USCG regulation lookup. Built by a 100-ton USCG Master who has actually run the inspections.",
     tech: ["Next.js", "PostgreSQL", "Claude AI", "Stripe"],
     color: "from-blue-600 to-indigo-500",
     link: "https://binnacleai.com",
-    stat: "USCG compliance · live",
+    stat: "Sub-M operators · live",
     logo: "/logos/binnacle.png",
+  },
+  {
+    name: "Binnacle Radar",
+    tag: "Maritime · IEC 62388",
+    description:
+      "Full IEC 62388 ARPA bridge radar in the browser — no hardware required. AIS symbol set (triangle/cross/box), target trails, guard zones with breach alarms, auto-acquisition, ROT indicator, relative-motion vectors, and a real-time simulation clock. Ships as a tab inside Binnacle AI and at radar.binnacleai.com.",
+    tech: ["React", "Canvas API", "AIS / ARPA", "Next.js"],
+    color: "from-blue-900 to-sky-600",
+    link: "https://radar.binnacleai.com",
+    stat: "Features 1-12 live",
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <circle cx="12" cy="12" r="9" />
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 3v3M12 18v3M3 12h3M18 12h3" strokeLinecap="round" />
+        <path d="M12 12l5-5" strokeLinecap="round" />
+      </svg>
+    ),
   },
   {
     name: "PermitPaddler",
@@ -182,6 +200,55 @@ const projects: Project[] = [
     icon: (
       <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+      </svg>
+    ),
+  },
+  {
+    name: "Da Plate Lunch",
+    tag: "Hawaii Directory · Live",
+    description:
+      "Locals-first Hawaii plate lunch directory — the anti-Yelp. Every local spot, pidgin descriptions, real vibes. Restaurant profiles, verified reviews, photo uploads, Sign in with Apple, and a $29/mo featured-listing subscription for operators. Built for the kind of place that doesn't have a marketing budget.",
+    tech: ["Next.js", "Prisma", "Postgres", "Stripe"],
+    color: "from-orange-500 to-red-500",
+    link: "https://daplatelunchindex.com",
+    stat: "$29 / mo featured · live",
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
+        <path d="M8 12h8M12 8v8" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    name: "Aina Atlas",
+    tag: "iOS + Web · Hawaii",
+    description:
+      "Hawaii land stewardship app — TMK-anchored property intelligence meets cultural context. iOS native (TestFlight), web SIWA, and backend API. Three IAPs, parcel detail, and a 3D geospatial layer built on the same GIS data stack as the Hawaii Property Lookup.",
+    tech: ["Swift", "SwiftUI", "Next.js", "FastAPI"],
+    color: "from-green-700 to-emerald-500",
+    link: "https://ainaatlas.com",
+    stat: "iOS · web · 3 IAPs",
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z" />
+        <circle cx="12" cy="9" r="2.5" />
+      </svg>
+    ),
+  },
+  {
+    name: "pocTickets",
+    tag: "Ticketing · Stripe Connect",
+    description:
+      "Full-stack event ticketing platform with Stripe Connect organizer payouts, QR-code check-in, destination charges, and a public event storefront. Built to serve Pacific Harbor events without the 20% take that the big ticketing platforms skim.",
+    tech: ["Next.js", "Stripe Connect", "Prisma", "QR"],
+    color: "from-violet-600 to-purple-500",
+    link: "https://poctickets.com",
+    stat: "Live · sk_live",
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M3 9v6a1 1 0 001 1h16a1 1 0 001-1V9a2 2 0 01-2-2H5a2 2 0 01-2 2z" />
+        <path d="M9 16v2M12 16v2M15 16v2" strokeLinecap="round" />
+        <circle cx="12" cy="11" r="2" />
       </svg>
     ),
   },
@@ -395,7 +462,7 @@ export default function Portfolio() {
             <span className="text-gradient">Running.</span>
           </h2>
           <p className="text-lg text-white/45 max-w-2xl mx-auto">
-            Live products under active maintenance — web, iOS, AI, infra. Each card links to the live site.
+            Twenty live products under active maintenance — web, iOS, AI, infra. Each card links to the live site.
           </p>
         </div>
 

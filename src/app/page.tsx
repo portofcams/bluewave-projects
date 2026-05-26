@@ -18,7 +18,7 @@ const Footer = dynamic(() => import("@/components/Footer"));
 export const metadata: Metadata = {
   title: "BlueWave Projects — AI consulting, custom apps & AI school · Honolulu",
   description:
-    "Independent software studio in Honolulu. AI consulting, custom AI apps (web + iOS), multi-tenant SaaS builds, and the BlueWave AI School. Twelve products live to prove it.",
+    "Independent software studio in Honolulu. AI consulting, custom AI apps (web + iOS), multi-tenant SaaS builds, and the BlueWave AI School. Twenty products live to prove it.",
   keywords: [
     "AI consulting Hawaii",
     "AI app developer Honolulu",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "BlueWave Projects — AI consulting, custom apps & AI school",
     description:
-      "Independent AI studio in Honolulu. Consulting · custom apps · multi-tenant SaaS · AI school.",
+      "Independent AI studio in Honolulu. Consulting · custom apps · multi-tenant SaaS · AI school. Twenty products live.",
     url: "https://bluewaveprojects.com",
     siteName: "BlueWave Projects",
     type: "website",
