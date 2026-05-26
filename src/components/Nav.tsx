@@ -8,9 +8,9 @@ import { WaveLogo } from "./Logo";
 // surfaces; sub-products and personal pages live in the mobile drawer +
 // footer.
 const navLinks = [
+  { label: "Hire the studio", href: "/hire" },
   { label: "Ikena", href: "/ikena" },
-  { label: "ProBuildCalc", href: "https://probuildcalc.com" },
-  { label: "Pricing", href: "/pricing" },
+  { label: "Apps", href: "/#apps" },
   { label: "Blog", href: "/blog" },
 ];
 
@@ -64,7 +64,7 @@ export default function Nav() {
             href="/booking"
             className="btn-primary text-sm font-medium px-5 py-2.5 rounded-full text-white whitespace-nowrap"
           >
-            Book a demo
+            Book a call
           </a>
         </div>
 
@@ -115,7 +115,7 @@ export default function Nav() {
               onClick={() => setMobileOpen(false)}
               className="btn-primary text-center font-medium px-5 py-3 rounded-full text-white mt-2"
             >
-              Book a demo
+              Book a call
             </a>
           </div>
         </div>

@@ -43,7 +43,7 @@ export default function StudioHero() {
             Browse the apps
           </TrackedCTA>
           <TrackedCTA
-            href="/work"
+            href="/hire"
             location="hero"
             className="px-8 py-4 rounded-full text-white/70 hover:text-white border border-white/15 hover:border-white/30 transition-all duration-300 font-medium text-lg"
           >

@@ -12,7 +12,13 @@ type CTALocation =
   | "comparison_table"
   | "faq"
   | "final_cta"
-  | "sample_pdf";
+  | "sample_pdf"
+  | "hire-hero"
+  | "hire-ai-consulting"
+  | "hire-custom-app-build"
+  | "hire-engineering-retainer"
+  | "hire-footer-cta"
+  | "hire-footer-email";
 
 interface TrackedCTAProps {
   href: string;
