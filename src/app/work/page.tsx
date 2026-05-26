@@ -92,9 +92,11 @@ export default function WorkPage() {
           </div>
 
           <div>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/15 border border-amber-400/40 text-sm text-amber-200 mb-3" title="This page is John's personal résumé. For studio engagements see bluewaveprojects.com or /booking.">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/15 border border-amber-400/40 text-sm text-amber-200 mb-3">
               <span className="text-xs uppercase tracking-wider font-bold">For recruiters</span>
-              <span className="text-amber-100/70">— personal résumé, not the studio's services page</span>
+              <span className="text-amber-100/70">— personal résumé, not the studio&apos;s services page.{" "}
+                <a href="/hire" className="underline underline-offset-2 hover:text-white transition-colors">Hire the studio →</a>
+              </span>
             </div>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm text-white/60 mb-6 ml-2">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
