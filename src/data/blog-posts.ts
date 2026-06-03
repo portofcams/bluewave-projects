@@ -1073,6 +1073,131 @@ If you've felt the asymmetry and want to be on the inside of the next version of
 
 [Apply at bluewaveprojects.com/aloha](https://bluewaveprojects.com/aloha) or just reply to this post.`,
   },
+  {
+    id: "11",
+    slug: "transactional-email-said-sent-delivered-nothing",
+    title: "Our transactional email said it sent for weeks — and delivered nothing",
+    excerpt:
+      "Every welcome email, billing receipt, and form notification reported success while silently bouncing. The cause: sending from an unverified apex domain instead of a verified subdomain — plus an API that returns the rejection as a value you have to check. A post-mortem.",
+    date: "2026-06-02",
+    readTime: "7 min",
+    category: "Engineering",
+    categoryColor: "text-wave-400",
+    gradient: "from-lava-500 to-amber-400",
+    author: {
+      name: "John C. Thomas",
+      role: "Founder, BlueWave Projects",
+    },
+    content: `Here is a failure mode that is almost worse than an outage: software that reports success while doing nothing.
+
+For a few weeks, one of our products sent transactional email that never arrived. Welcome emails, billing receipts, form notifications — the API returned success every single time, the logs were clean, and not one message reached an inbox. We only caught it because someone asked, "hey, did that test email come through?" It had not. None of them had.
+
+This is the post-mortem, because the root cause is a trap any team on a modern email API can fall into.
+
+## The symptom
+
+The endpoint that sends a notification returned HTTP 200. The send helper wrapped the provider call in a try/catch, did not throw, and returned an ok response. Everything downstream saw success — the dashboard logged the event, the user got a friendly "message received" screen, and the email went nowhere.
+
+A silent failure is worse than a loud one. A 500 gets investigated within the hour. A cheerful 200 that does nothing can run for weeks.
+
+## The root cause: an unverified sender domain
+
+We send through Resend, but the lesson generalizes to SES, Postmark, SendGrid — any provider that verifies sending domains. To send from an address, the provider has to have verified that you own its domain. We had verified a subdomain dedicated to sending, mail.ourdomain.com. But an environment variable pointed the from address at the bare apex, crew@ourdomain.com.
+
+The provider had no verification record for the apex, so it rejected every send with a 403: the ourdomain.com domain is not verified.
+
+Here is the part that turned a one-line config typo into a weeks-long silent outage: the provider returned the rejection as a value, not an exception. Modern SDKs increasingly hand back an object shaped like data-or-error instead of throwing. Our code awaited the send and returned success without ever inspecting the error field. A thrown error would have hit our catch and shown up in the logs. A returned error sailed straight through.
+
+So: unverified domain, provider returns an error object, code ignores the error object, success response, silent failure across every email path in the product.
+
+## Why "it worked in dev" did not save us
+
+In development, sends are a no-op — no API key, or a dry-run flag. Nobody ever saw a real rejection locally. The first real send happened in production, where the failure was invisible by construction. The gap between "the code ran" and "the mail arrived" was exactly the gap we had no test for.
+
+## The fix, in two parts
+
+First, point the sender at the verified domain. One environment change moved from to crew@mail.ourdomain.com. We proved it with a direct API call before trusting anything: sending from the apex returned a 403, sending from the verified subdomain returned a real message id. That five-minute check is the entire difference between "I think it works" and "it works."
+
+Second, stop ignoring the provider's error value. The send helper now inspects the returned error and treats it the same as a thrown one — it logs, surfaces, and on the paths that matter, fails loudly instead of returning a cheerful 200. We also hardened the code's default from address, which used to point at a domain we did not even control; now the fallback is the verified sending domain, so a missing variable degrades to "still works" instead of "silently 403s."
+
+## Send from a subdomain on purpose
+
+There is a second lesson hiding in the first. People reach for the clean apex address because it looks nicer in a from-line. For sending, a dedicated subdomain like mail.brand.com is the better practice, not a downgrade:
+
+- It isolates your sending reputation from your root domain. If a campaign ever gets you flagged, it does not poison the domain your customers type into a browser.
+- The provider's required DNS records — the DKIM key and a return-path — live on dedicated subdomains and do not collide with your apex's existing SPF or inbound mail routing.
+- DMARC still aligns. The DKIM signature is signed as your root domain under relaxed alignment, so mail from the subdomain passes.
+
+The apex is not a spam-filter win. Alignment, sender reputation, and engagement are what land you in the inbox. Send from the subdomain and keep the apex clean.
+
+## What I would tell another team
+
+1. A 200 is not a delivery. Verify the outcome, not the call. For email, that means at least one real send to a real inbox through the verified domain after every change to the sender or its domain.
+2. Check the value, not just the exception. If your SDK returns an error field instead of throwing, an unchecked error is a silent failure waiting to happen. Give returned errors the same weight as thrown ones.
+3. Make the fallback safe. Hardcoded defaults should point at infrastructure you actually control. A default that 403s is a landmine for the day someone forgets the variable.
+4. Test the gap your dev environment hides. If sends are mocked locally, your only real test is in production — so build that test deliberately instead of discovering it by accident.
+
+The bug was a one-line config mistake. The damage was multiplied by an API shape that fails by returning instead of throwing, and a code path that trusted the call instead of the outcome. We run a lot of small products on a small team, and the discipline that came out of this — verify the outcome, never the 200 — is now wired into every send path we ship.
+
+If you want the kind of team that finds the silent failures before your customers do, [come say hello](https://bluewaveprojects.com/booking).`,
+  },
+  {
+    id: "12",
+    slug: "next-public-env-vars-docker-build-time-trap",
+    title: "Why your NEXT_PUBLIC_ env var is undefined in production — the Docker build-time trap",
+    excerpt:
+      "You added a value to your env file, rebuilt the container, and it is still undefined in the browser. NEXT_PUBLIC_ variables are inlined at build time, but docker-compose env_file is runtime-only. Here is the fix, and how to confirm it took.",
+    date: "2026-06-02",
+    readTime: "6 min",
+    category: "Engineering",
+    categoryColor: "text-wave-400",
+    gradient: "from-wave-400 to-ocean-500",
+    author: {
+      name: "John C. Thomas",
+      role: "Founder, BlueWave Projects",
+    },
+    content: `You added an analytics ID to your production environment, rebuilt the container, deployed, and opened the site. The analytics script is not loading. You check the env file on the server — the value is right there. You check the browser — the variable is undefined. You rebuild again. Still undefined.
+
+This one cost us an afternoon, so here is the explanation and the fix.
+
+## The two kinds of environment variable
+
+Next.js has two completely different lifecycles for environment variables, and the trap is not knowing which one you are dealing with.
+
+Server-only variables — database URLs, API secrets, anything without the NEXT_PUBLIC_ prefix — are read at runtime. The running server process looks them up when a request comes in. Change the value, restart the process, done.
+
+Public variables — anything prefixed NEXT_PUBLIC_ — are different. Next.js inlines them into the JavaScript bundle at build time. During the build, the compiler finds every reference to a NEXT_PUBLIC_ variable and replaces it with the string value as it existed at build time. By the time the code reaches the browser there is no variable lookup left — just a baked-in literal. If the value was not present when the build ran, the literal that got baked in is undefined, and it stays undefined until the next build.
+
+## Why Docker makes this bite
+
+Here is the exact sequence that burned us. Our production app runs in Docker, and docker-compose injects environment through env_file. That works perfectly for server-only variables, because env_file is a runtime mechanism — the values are present in the container's environment when the server process starts.
+
+But env_file does nothing at build time. When the image was built, the Next.js build ran inside the Docker builder stage, where the env_file values were not present. So every NEXT_PUBLIC_ reference got inlined as undefined. Adding the value to the env file and restarting the container could never fix it, because the variable had already been frozen into the bundle during the build — and the build had not seen it.
+
+We added the ID, rebuilt, and it baked in undefined again. The rebuild reran the build inside the same builder stage, which still could not see a runtime-only env_file. The fix had to reach the build stage, not the run stage.
+
+## The fix: pass public vars as build args
+
+A public variable has to be present during the build. In Docker that means a build argument, not a runtime env file. Three small changes:
+
+1. In the Dockerfile builder stage, before the build step, declare a build ARG for the variable and promote it to an ENV so the build can read it.
+2. In docker-compose, under the service build section, pass the value through as a build arg, substituting it from the host environment.
+3. Provide that value to compose's substitution. Compose reads substitution values from a file named .env in the same directory — note this is compose's own .env, not your app's .env.production. Put the variable there. If your deploy excludes .env from its file sync, the value survives across deploys, which is what you want.
+
+Now the build runs with the variable present, inlines the real value, and the browser gets the correct string.
+
+## How to confirm it actually took
+
+Because the value is baked into the bundle, you can verify the fix without opening browser devtools: fetch the deployed page and search the served HTML or the referenced script chunk for the value. If your ID appears in the bundle, the build saw it. If you find undefined where the ID should be, the build still did not get it. This is the same "grep the bundle, not the health check" habit that catches a lot of deploy lies.
+
+## The one-sentence version
+
+Server variables are read at runtime; NEXT_PUBLIC_ variables are frozen into the bundle at build time — so in Docker they must arrive as build args, and adding them to a runtime env file and rebuilding will silently bake in undefined.
+
+We hit this wiring an analytics property into a production marketing build. It is a five-minute fix once you understand the lifecycle, and an afternoon of rebuilding in circles if you do not.
+
+If your team is shipping Next.js on Docker and these are the edges you would rather someone had already hit for you, [we are around](https://bluewaveprojects.com/booking).`,
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
