@@ -1547,6 +1547,118 @@ None of this is glamorous. It is the operational discipline that separates a sma
 
 If you want a team that keeps its records honest enough to move fast safely, [come talk to us](https://bluewaveprojects.com/booking).`,
   },
+  {
+    id: "19",
+    slug: "ai-that-reads-a-sea-service-letter",
+    title: "AI that reads a sea-service letter — turning a messy PDF into structured vessel time",
+    excerpt:
+      "A sea-service letter is one of the messiest documents in the maritime world — and the gate to every USCG license upgrade. How we built layout-aware document AI that turns an unstructured PDF into structured, validated sea time, with the human kept on the judgment.",
+    date: "2026-06-02",
+    readTime: "6 min",
+    category: "Engineering",
+    categoryColor: "text-wave-400",
+    gradient: "from-emerald-500 to-teal-400",
+    author: {
+      name: "John C. Thomas",
+      role: "Founder, BlueWave Projects",
+    },
+    content: `A sea-service letter is one of the messiest documents in the maritime world. It is how a mariner proves the time they have spent aboard a vessel — and it is the gate to every USCG license and endorsement upgrade. It is also, almost always, an unstructured mess: a PDF or a phone photo of a letter on a company's letterhead, every operator formatting it differently, the vessel name buried in a paragraph, the tonnage written three ways, the dates in whatever style the office manager preferred.
+
+Mariners hate entering this by hand. We built AI that reads it for them. Here is how, and why it is harder than it looks.
+
+## Why this is not a solved problem
+
+"Extract fields from a document" sounds like solved territory — and for a structured form, it is. A sea-service letter is the opposite of a form. There is no fixed layout. One operator writes "M/V Pacific Hunter, 1,600 GRT, served as Master from 03/2022 to 11/2023, coastwise." The next writes a three-paragraph narrative with the vessel, tonnage, route, and days scattered through it. The next sends a slightly rotated scan where the tonnage is inside a header logo.
+
+The fields a mariner actually needs out of it are specific and consequential:
+- Vessel name and official number
+- Gross tonnage, and which measurement system
+- Propulsion and horsepower
+- Capacity served — Master, Mate, AB, OS, and so on
+- Route and waters — inland, near-coastal, oceans
+- Start and end dates, and the number of days that count toward sea time
+
+Get the tonnage or the days wrong and you can misadvise someone about an endorsement they are not actually eligible for yet. The cost of a confident wrong answer here is real.
+
+## The approach: vision in, structured data out
+
+The pipeline is short, but every stage earns its place. The document is normalized — a photo de-skewed and made legible, a PDF rendered. Then a vision-capable model reads the whole document with layout awareness, so the tonnage in a header and the dates in a paragraph are both in play — not as flat OCR text.
+
+The model is not asked to summarize the letter. It is given a strict schema — vessel, tonnage, capacity, route, start date, end date, computed days — and required to return data conforming to it, with a field left explicitly empty when the letter genuinely does not state it. That last part matters: the system has to be willing to say "the letter does not specify horsepower" instead of inventing a plausible number. An invented field is worse than a missing one.
+
+Finally, the extracted values are validated against what is mechanically checkable — dates in order, days consistent with the range, tonnage within plausible bounds — and anything that fails is flagged for the human rather than silently accepted.
+
+## The human stays in the loop, on purpose
+
+We do not auto-submit anything. The extraction is a draft the mariner reviews. The win is not "the AI did it"; the win is that the mariner goes from a blank form and a drawer full of letters to a pre-filled draft they correct in a minute instead of transcribing for twenty. The model does the tedious reading; the human does the judgment.
+
+This is the same philosophy we apply everywhere we put a model in production: the AI shows up where a human is otherwise stuck doing transcription, and a deterministic layer checks its work. The model is fast and tireless and occasionally wrong; the validation and the human review are what make it trustworthy.
+
+## What I would tell another team building document AI
+
+1. If the documents are unstructured and operator-specific, layout-aware vision beats raw OCR plus regex. The information is in the layout as much as the text.
+2. Force a schema and allow explicit empties. A model that can say "not stated" is worth far more than one that always fills every field.
+3. Validate what is mechanically checkable. Dates, ranges, and bounds catch the confident-but-wrong extractions before a human sees them.
+4. Keep the human on the judgment, not the typing. The value is in deleting transcription, not decisions.
+
+If you have a pile of messy real-world documents you wish were structured data, [we have built this before](https://bluewaveprojects.com/booking).`,
+  },
+  {
+    id: "20",
+    slug: "a-browser-webgl-radar-arpa-trainer",
+    title: "We built a full radar/ARPA trainer in the browser — WebGL, no install",
+    excerpt:
+      "Every mariner working toward a radar endorsement has to learn to read a scope. We built a full WebGL radar and ARPA training simulator that runs in a browser tab — no install — with real relative-motion geometry, CPA/TCPA, trial maneuvers, and the IMO instruments.",
+    date: "2026-06-02",
+    readTime: "7 min",
+    category: "Engineering",
+    categoryColor: "text-wave-400",
+    gradient: "from-wave-400 to-ocean-500",
+    author: {
+      name: "John C. Thomas",
+      role: "Founder, BlueWave Projects",
+    },
+    content: `Every mariner working toward a radar endorsement has to learn to read a radar display — to take the blips on a Plan Position Indicator, plot their motion, and work out whether the ship three miles off the bow is going to pass safely or put you on a collision course. Traditionally you learn this in a classroom simulator or on a real bridge. We built one that runs in a browser tab.
+
+No install, no license dongle, no scheduled lab time. Open a URL and you are looking at a live radar scope. Here is what went into it and why the browser was the right call.
+
+## What it actually is
+
+It is a WebGL radar and ARPA (Automatic Radar Plotting Aid) training simulator. On screen: a Plan Position Indicator with a rotating sweep, your own ship at center, and traffic moving around you in real time. You can place targets, set their course and speed, and then practice the actual skills the exam tests:
+
+- Reading relative motion versus true motion
+- Working out CPA and TCPA — the closest point of approach and the time until it
+- Running a trial maneuver — "if I turn 20 degrees right, does that target clear?" — before committing
+- Using the bridge instruments — electronic bearing lines, variable range markers, guard zones
+- Applying the Rules of the Road to what the scope is telling you
+
+It is not a toy animation of a radar. The geometry is real: the relative-motion vectors, the CPA math, the way a target's trail behaves under true versus relative motion are all computed the way an actual ARPA computes them.
+
+## Why the browser
+
+The obvious objection is that serious simulators are native applications. For training, the browser wins for one specific reason: access. A mariner studying for an endorsement does not want to install software, manage a license, or book lab time. They want to practice on a phone on a crew-change flight, or on a laptop at the galley table. The lowest-friction path to "practice the skill ten more times" is a URL.
+
+The browser also means every update is instant — no app-store review, no version anyone has to update. We ship an improvement and the next person to open the scope has it.
+
+## The hard part: a radar scope in WebGL
+
+A radar PPI is a genuinely demanding thing to render. The sweep rotates and paints returns that then fade; sea clutter and rain have to look and behave plausibly; targets leave trails whose shape encodes their motion; and all of it has to stay smooth while the simulation computes target geometry every frame.
+
+We render the scope in WebGL with custom shaders — the sweep, the afterglow, the clutter are GPU work, not DOM elements. The simulation layer — target motion, CPA/TCPA solutions, the ARPA tracking, the collision-rules logic — runs alongside and drives what the shaders draw. Keeping the graphics on the GPU is what lets the whole thing hold a smooth frame rate on a phone, which is exactly where a studying mariner often is.
+
+## Depth is the moat
+
+The easy 80 percent of a radar sim is a rotating line and some dots. The 20 percent that makes it a training tool is the domain depth: the IMO-spec instruments behaving correctly, the collision-rules logic giving the right guidance for a given encounter, the trial maneuver actually solving the geometry, the guard zones alarming when they should. That depth is where most "radar simulators" stop and where a real trainer has to keep going. It is also the part you cannot fake — a mariner will spot a wrong CPA instantly.
+
+## What I would tell another team
+
+1. For training tools, access beats fidelity. A slightly simpler simulator everyone can open beats a perfect one nobody installs.
+2. Put the heavy visuals on the GPU. Custom shaders are what let a demanding real-time display run smoothly on the device the user actually has — often a phone.
+3. The domain depth is the product. Anyone can render a sweep; the value is in the instruments and the rules being correct.
+4. Ship to a URL so every improvement reaches every user immediately.
+
+If you have a hard skill that people currently learn from a textbook and you suspect they would learn it faster by doing it, [that is the kind of thing we build](https://bluewaveprojects.com/booking).`,
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
