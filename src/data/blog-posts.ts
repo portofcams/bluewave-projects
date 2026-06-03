@@ -1198,6 +1198,355 @@ We hit this wiring an analytics property into a production marketing build. It i
 
 If your team is shipping Next.js on Docker and these are the edges you would rather someone had already hit for you, [we are around](https://bluewaveprojects.com/booking).`,
   },
+  {
+    id: "13",
+    slug: "a-green-health-check-is-not-a-deploy",
+    title: "A green health check is not a deploy — grep the bundle",
+    excerpt:
+      "A deploy can report success and ship nothing — green pipeline, healthy container, missing feature. The ten-second habit that catches it: grep the live production bundle for a string you just shipped (a literal, not a function name).",
+    date: "2026-06-02",
+    readTime: "5 min",
+    category: "Engineering",
+    categoryColor: "text-wave-400",
+    gradient: "from-emerald-500 to-teal-400",
+    author: {
+      name: "John C. Thomas",
+      role: "Founder, BlueWave Projects",
+    },
+    content: `A deploy reported success. The health check was green. The feature was not there.
+
+This has happened to us more than once across a dozen products, and it is one of the most disorienting bugs to chase, because every signal you normally trust is lying to you. The pipeline says deployed. The container is healthy. The site loads. And the change you just shipped is simply absent.
+
+Here is why it happens and the one habit that catches it every time.
+
+## Why a green deploy can ship nothing
+
+A deploy is a chain: build the artifact, move it to the server, restart the thing that serves it. A successful deploy only means the chain did not error — not that the new code is now serving traffic. The gap shows up in a few predictable ways:
+
+- The build cache served you stale output. An incremental build decided nothing changed and reused an old artifact, so your edit never made it into the bundle.
+- The wrong directory got shipped. The build wrote to one path; the deploy copied from another. Both succeed; they just disagree about which files matter.
+- The container did not actually restart. Compose found a running container it considered current and left it alone, so the old image kept serving.
+- A CDN or edge cache is in front. The origin updated; the edge is still handing out yesterday's copy.
+
+In every one of these, the health check passes because it only asks "are you up?" — not "are you the version I just built?"
+
+## The habit: grep the live bundle for a string you just shipped
+
+After every deploy, fetch the actual production asset and search it for a string that only exists in the change you just made. A new button label. A new route. A new constant. If the string is there, the new code is live. If it is not, the deploy lied, and you know it in ten seconds instead of after a confused customer email.
+
+The discipline sounds trivial. It is the single highest-leverage ten seconds in our deploy process.
+
+## The minified-name gotcha
+
+One refinement we learned the expensive way: grep for string literals, not function or variable names.
+
+Production bundlers minify. A function named handleCheckoutSubmit becomes a single letter. A component named AlarmPanel becomes something unrecognizable. If you grep the production bundle for the function name, you will not find it — and you will wrongly conclude the deploy failed when it actually succeeded.
+
+But string literals survive minification. A user-facing label, a color hex, an object key that gets serialized, a URL path — those are still in the bundle verbatim. So pick your grep target deliberately: the new UI text you added, not the function that renders it. We once burned real time "confirming" a deploy had failed because we grepped for a function name that had been minified away. The feature was live the whole time.
+
+## What this looks like in practice
+
+For a static site, fetch the page and its referenced script chunks and grep across them. For an API, hit the new endpoint and assert the new shape. For a server-rendered app, request the page and grep the HTML for the new literal. The mechanism varies; the principle does not — assert the new thing exists in what production is actually serving, using a token that survives the build.
+
+## What I would tell another team
+
+1. A green pipeline means "no errors," not "new code is live." Those are different claims. Verify the second one.
+2. Grep production for a string literal you just added — UI text, a path, a hex color. Not a function name; those get minified.
+3. Make it the last step of every deploy, automated if you can. The cost is ten seconds; the alternative is finding out from a customer.
+4. When the grep fails, suspect the boring causes first: build cache, wrong output directory, container not recreated, edge cache.
+
+We ship from a small team across a lot of surfaces. "Verify the artifact, not the pipeline" is one of the handful of habits that lets us move fast without shipping ghosts.
+
+If you want a team that treats "it deployed" as a hypothesis to test rather than a fact to trust, [say hello](https://bluewaveprojects.com/booking).`,
+  },
+  {
+    id: "14",
+    slug: "shipping-from-many-hands-into-one-repo-git-worktrees",
+    title: "Shipping from many hands (and AI agents) into one repo without collisions",
+    excerpt:
+      "Two people — or two AI agents — building against the same main branch is a recipe for collisions. Isolated git worktrees, fast-forward-only merges, and commit-by-name make parallel work safe instead of destructive.",
+    date: "2026-06-02",
+    readTime: "7 min",
+    category: "Engineering",
+    categoryColor: "text-wave-400",
+    gradient: "from-wave-400 to-ocean-500",
+    author: {
+      name: "John C. Thomas",
+      role: "Founder, BlueWave Projects",
+    },
+    content: `We routinely have more than one worker shipping into the same repository at the same time — sometimes two people, increasingly two or more AI coding agents running in parallel, each building a different feature against the same main branch. That is a recipe for collisions: two workers editing near each other, half-finished work landing on main, force-pushes clobbering commits. Here is the workflow that keeps it clean.
+
+## The problem with everyone sharing one working copy
+
+The naive setup is one checkout of the repo, and whoever is working switches branches in it. The moment two workers share that single working directory you get chaos: switching branches stomps on uncommitted work, one agent's edit lands in another's commit, and "who changed this file" becomes unanswerable.
+
+The fix is isolation at the filesystem level, not just the branch level.
+
+## Git worktrees: one repo, many isolated working copies
+
+Git worktrees let a single repository have multiple working directories checked out at once, each on its own branch, sharing one object store. Each worker — human or agent — gets a worktree created off the latest origin/main. They edit, build, and commit entirely inside their own directory. Nobody is switching branches under anybody else. Nobody's uncommitted work is at risk from someone else's checkout.
+
+Created fresh off origin/main, a worktree is a clean room: the worker sees exactly main plus their own changes, nothing else in flight.
+
+## Fast-forward-only integration
+
+The second half of the discipline is how work gets back to main. We push each worktree's branch to main as a fast-forward only. If main has moved since the worktree was created, the push is rejected, and the worker rebases onto the new main and tries again. No merge commits papering over divergence, no force-pushes overwriting someone else's work. Main only ever moves forward, one clean commit chain.
+
+This matters most with parallel agents. An agent that blindly merges or force-pushes can silently erase a commit another agent just landed. Fast-forward-only makes that impossible: the push simply fails, and the agent has to reconcile with reality first.
+
+## Commit by name, never "add everything"
+
+The third rule: commit specific files by name, never a blanket "stage everything." When multiple workers share a repo's history — and especially when an environment has unrelated uncommitted changes lying around (a half-done config, a generated file, another worker's experiment) — staging everything sweeps up things that should not be in your commit. Naming the files you actually changed keeps each commit tight and attributable, and keeps you from accidentally shipping someone else's work-in-progress.
+
+## Why this works for AI agents specifically
+
+The same properties that help a human team are the ones that make parallel AI agents safe:
+
+- Isolation means an agent cannot see or trip over another agent's half-written files.
+- Fast-forward-only means an agent physically cannot clobber a landed commit; it must reconcile first.
+- Commit-by-name means an agent's commit contains only what it intended, even in a messy working environment.
+
+An agent does not get tired, but it also does not have a human's instinct for "wait, that file is not mine." The workflow has to enforce what instinct would. Worktrees plus fast-forward-only plus commit-by-name encode that instinct as rules the tooling enforces.
+
+## The one cost
+
+Worktrees are not free: each is a full working directory on disk, and for some toolchains each needs its own dependency install. For a heavy dependency tree that is real disk and setup time. We treat worktrees as disposable — create off main, do the work, push, remove. The cleanup matters; orphaned worktrees pile up fast when you create one per feature.
+
+## What I would tell another team
+
+1. Give every parallel worker its own worktree off the latest main. Isolation beats coordination.
+2. Integrate fast-forward-only. If the push is rejected, that is the system protecting a commit you would otherwise have erased.
+3. Commit named files, not everything. Tight commits survive a messy shared environment.
+4. Treat worktrees as disposable and clean them up.
+
+We run this every day with a mix of human and agent contributors against shared main branches. It is the difference between parallelism that compounds and parallelism that corrupts.
+
+If you are figuring out how to let AI agents ship real code into a real repo without stepping on each other, [we have opinions](https://bluewaveprojects.com/booking).`,
+  },
+  {
+    id: "15",
+    slug: "pruning-thin-pages-for-seo-without-losing-content",
+    title: "Pruning 13,000 pages for SEO without losing content",
+    excerpt:
+      "A directory that auto-generates a page per tag quietly accumulates hundreds of thin pages that tax your crawl budget. How we pulled about 900 pages out of the index with noindex and sitemap pruning — without deleting any real content.",
+    date: "2026-06-02",
+    readTime: "7 min",
+    category: "Engineering",
+    categoryColor: "text-wave-400",
+    gradient: "from-emerald-500 to-sky-400",
+    author: {
+      name: "John C. Thomas",
+      role: "Founder, BlueWave Projects",
+    },
+    content: `One of our products is a webcam directory with roughly 13,000 pages. Google was crawling it, but a large slice of those pages were doing nothing for us — thin tag pages with one camera on them, auto-generated code pages, near-empty aggregations. They were not ranking, and worse, they were spending crawl budget that should have gone to the pages that could rank. Here is how we pulled about 900 pages out of the index without deleting a single piece of real content.
+
+## Thin pages are a tax, not just dead weight
+
+Search engines allocate a finite crawl budget per site. Every low-value URL a crawler spends time on is a high-value URL it visits less often. A directory that auto-generates a page for every tag, every category, every cross-section quickly accumulates hundreds of pages that each have almost nothing on them — a single listing, a heading, a footer. Individually harmless. In aggregate, they dilute the site's perceived quality and waste the crawler's time.
+
+In our case the offenders were specific and identifiable:
+- Tag pages with exactly one item (a tag that only ever applied to one thing)
+- Auto-generated pages keyed off junk codes that no human would ever search
+- Category aggregations that duplicated content already on better pages
+
+About 474 of them. None worth indexing. All worth keeping accessible — some users do land on them — just not worth a slot in the index.
+
+## noindex, not delete
+
+The instinct is to delete thin pages. That is usually wrong. Deleting breaks any inbound links, loses pages that occasionally serve a user, and throws away content you might consolidate later. The right tool is almost always noindex.
+
+A noindex directive tells search engines "you may crawl this, but do not put it in the index." The page still works for the human who lands on it from a direct link; it just stops competing for and diluting your search presence. We added noindex to the thin pages programmatically — the same template that generated them learned to mark the low-value ones.
+
+The rule we encoded: a tag page with fewer than a threshold of real items, or matching a junk-code pattern, gets noindex. Everything above the threshold stays indexable. The logic lives in one place so it stays consistent as the directory grows.
+
+## Drop the noindexed pages from the sitemap too
+
+A sitemap is a list of pages you are explicitly asking the search engine to index. Listing a noindexed page in your sitemap sends two contradictory signals: please index this, and do not index this. Pick one. We pruned the sitemap to match the noindex logic — if a page is noindexed, it is not in the sitemap. The sitemap went from 13,974 URLs to 13,108, and every remaining URL is one we actually want ranked.
+
+A subtle implementation note: your sitemap generator and your noindex logic have to agree, or you reintroduce the contradiction. We made the sitemap compute the same "is this indexable" check the pages use, so the two can never drift apart.
+
+## What we did NOT touch
+
+The content pages themselves — the actual thing people search for — were healthy and stayed fully indexable. This was not a content cull. It was removing the auto-generated chaff around good content so the good content gets the crawler's attention. The distinction matters: prune the aggregations and junk, never the pages that answer a real query.
+
+## Reading the results in Search Console
+
+After a prune like this, expect the noindex bucket in Search Console's coverage report to RISE — that is the intended outcome, not a regression. The number you want to watch fall over the following weeks is "Crawled — currently not indexed," which is the engine's way of saying "I spent budget here and decided it was not worth indexing." Move those pages to an explicit noindex and out of the sitemap, and the crawler stops wasting visits on them and reallocates to the pages that earn their place.
+
+## What I would tell another team
+
+1. Thin auto-generated pages are a crawl-budget tax. Audit how many your templates silently produce.
+2. noindex, do not delete. Keep the page working for direct visitors; just pull it from the index race.
+3. Make your sitemap and your noindex logic compute the same indexability check, so they can never contradict each other.
+4. Expect the noindex count to rise and "crawled not indexed" to fall. That is the prune working.
+
+The whole change was a few lines of template logic plus a sitemap that respects them. No content lost, about 900 low-value pages out of the index, and the crawler pointed at what matters.
+
+If your site auto-generates more pages than you can name, [we can help you find the chaff](https://bluewaveprojects.com/booking).`,
+  },
+  {
+    id: "16",
+    slug: "recurring-events-wreck-your-sitemap",
+    title: "Recurring events wreck your sitemap — the canonical-date dedup fix",
+    excerpt:
+      "A single weekly event, modeled naively, becomes dozens of near-identical URLs that Google flags as duplicates. How we collapsed 532 recurring-event URLs to 98 with canonical dates — losing no events.",
+    date: "2026-06-02",
+    readTime: "6 min",
+    category: "Engineering",
+    categoryColor: "text-wave-400",
+    gradient: "from-lava-500 to-amber-400",
+    author: {
+      name: "John C. Thomas",
+      role: "Founder, BlueWave Projects",
+    },
+    content: `If you run an events site, recurring events are a quiet SEO landmine. A single weekly trivia night, encoded naively, can become dozens of near-identical URLs that Google flags as duplicate or low-value — and they drag the rest of your site down with them. We had 532 of these on one product. Here is how the cleanup worked.
+
+## How recurring events explode your URL space
+
+An event has a date. A recurring event has many dates. The naive model generates one URL per occurrence: the same trivia night, the same description, the same venue, at a different dated URL every single week, forever into the future and the past.
+
+To a search crawler these look like dozens of pages that are 95 percent identical — same title, same body, same everything except a date. That is the textbook definition of duplicate content. Multiply across every recurring event on the site and you have hundreds of near-dupes competing with each other and diluting the authority of your genuinely unique pages.
+
+On the product in question, this produced 532 occurrence URLs where a few dozen distinct events would have been the honest count.
+
+## The symptom in Search Console
+
+The tell was a spike in "Excluded by noindex" and duplicate-content signals in Google Search Console. Google was finding all these occurrence pages, recognizing they were substantially the same, and declining to index most of them — while still spending crawl budget discovering them. The site looked, to Google, like it was padding its page count with reruns.
+
+## The fix: a canonical page per event, dated views deduped
+
+The model we moved to: each distinct event has ONE canonical page. Individual dated occurrences either do not get their own indexable URL at all, or they point a canonical link back to the single event page. The recurring schedule lives on the canonical page (every Tuesday, 7pm) instead of being exploded into one page per Tuesday.
+
+We kept a canonical dated view where it genuinely helps a user — someone linking to a specific night — but those views declare the main event page as their canonical, so search engines consolidate all the signal onto one URL instead of splitting it across fifty.
+
+The sitemap result: the recurring-event URLs collapsed from 532 to 98 — the actual number of distinct, indexable events plus the handful of dated views worth surfacing. Every remaining URL is something a person would actually search for.
+
+## Where the dedup has to live
+
+An important detail: the dedup belongs in the sitemap-generation and canonical logic, and ideally upstream in how occurrences are stored, not bolted on as an afterthought. If your scraper or importer creates a row per occurrence, the explosion starts at the data layer and every downstream surface inherits it. Collapsing recurring events to one event plus a recurrence rule at ingest is the cleanest fix; canonical tags are the safety net when you cannot change ingest.
+
+## What I would tell another team
+
+1. Model recurring events as one event plus a recurrence rule, not one row per occurrence. The data shape drives the URL shape.
+2. If you must expose dated occurrence URLs, point their canonical at the single event page so search engines consolidate the signal.
+3. Keep occurrence URLs out of the sitemap unless they are individually worth ranking. The sitemap is a request to index, not a dump of every row.
+4. Watch "Excluded by noindex" and duplicate flags in Search Console — a recurring-event explosion shows up there first.
+
+The change took an events site from looking like a duplicate-content farm to looking like what it is: a few dozen real events, each with one clean page. 532 to 98, no events lost.
+
+If your events calendar is quietly generating reruns Google hates, [we have done this cleanup before](https://bluewaveprojects.com/booking).`,
+  },
+  {
+    id: "17",
+    slug: "why-your-4242-test-card-fails-in-production-stripe",
+    title: "Why your 4242 test card 'fails' in production — the Stripe live-key QA trap",
+    excerpt:
+      "You push checkout to production, run the 4242 test card to confirm it works, and it declines. Nothing is broken — test cards only work with test keys. How to actually QA a live payment funnel.",
+    date: "2026-06-02",
+    readTime: "5 min",
+    category: "Engineering",
+    categoryColor: "text-wave-400",
+    gradient: "from-wave-400 to-glacier-300",
+    author: {
+      name: "John C. Thomas",
+      role: "Founder, BlueWave Projects",
+    },
+    content: `Here is a five-minute lesson that has confused more than one capable engineer on our projects: you push your payment integration to production, run the famous 4242 4242 4242 4242 test card to make sure checkout works, and it gets declined. Nothing is broken. You are just holding the wrong key.
+
+## Test cards only work with test keys
+
+Stripe, and most payment processors, run two completely separate environments: test mode and live mode. They have different API keys — a test secret key and a live secret key — and the two environments do not talk to each other. Test mode has fake money, fake payouts, and a set of magic card numbers like 4242 4242 4242 4242 that always succeed, 4000 0000 0000 0002 that always declines, and so on.
+
+Those magic numbers only work against a test-mode key. The moment your production environment is configured with a live secret key — which it must be, to take real money — the 4242 card is just an invalid card number to the live network. It declines, correctly. Your integration is fine; you asked the real payment network to charge a card that does not exist.
+
+## Why this trips people up
+
+The confusion comes from the fact that everything else looks identical. Same checkout page, same API calls, same code path. The only difference is which key the environment loaded, and keys are invisible — they live in environment variables you do not look at while clicking through a checkout. So you test the way you always tested in development, with 4242, and in production it fails, and the natural conclusion is "my deploy broke checkout." It did not. A test card met a live key.
+
+## How to actually QA a live payment funnel
+
+You have a few honest options, in rough order of preference:
+
+1. Verify everything up to the charge. Confirm the live integration creates a valid checkout session with the right amount and currency, the correct success and cancel URLs, a registered and reachable webhook endpoint, and that an unsigned webhook is rejected. All of that can be checked on live keys without charging anything. This catches the overwhelming majority of integration bugs.
+
+2. Make one real charge with a real card, then refund it. The only way to truly exercise the live charge-to-webhook-to-fulfillment path is a real card. Charge the smallest real amount, confirm the webhook fires and your system grants what it should, then refund. It costs a few cents in fees and buys total confidence.
+
+3. Run test keys in a staging copy. If you have a staging environment, point it at test keys and run the full 4242 flow there, so the only thing different in production is the key, not the code.
+
+What you should not do is conclude that a 4242 decline on live keys means your checkout is broken. It means your QA method assumed test mode.
+
+## The webhook half nobody tests
+
+While we are here: the charge is only half the funnel. The half that actually grants the customer what they paid for is the webhook — the processor calling your server to say this payment completed. A checkout that creates a session but whose webhook handler is misconfigured will take the money and deliver nothing. Test the webhook explicitly: confirm it is registered for the right events, that a properly signed event grants access, and that an unsigned or tampered event is rejected. On live keys you can verify the registration and the signature-rejection without a real charge.
+
+## What I would tell another team
+
+1. 4242 is a test-mode card. On live keys it declines, and that is correct, not a bug.
+2. Verify the whole live funnel except the charge itself with no money moving: session creation, amounts, URLs, webhook registration, signature rejection.
+3. For full confidence, make one real minimal charge and refund it. A few cents buys certainty the test card can never give you on live keys.
+4. Test the webhook, not just the checkout. The webhook is what delivers the thing; a silent webhook failure takes money and ships nothing.
+
+Payments are the one place where "looks like it works" is most expensive to get wrong. Knowing exactly why the test card declines in production is the difference between a five-minute shrug and an afternoon chasing a bug that was never there.
+
+If you want a team that has wired real payment funnels and knows where the traps are, [reach out](https://bluewaveprojects.com/booking).`,
+  },
+  {
+    id: "18",
+    slug: "keep-memory-dashboard-and-reality-in-sync",
+    title: "Keep your task tracker, your notes, and reality in sync — or pay for it twice",
+    excerpt:
+      "On a small team the most expensive bug is the work you do twice because your notes, your task tracker, and reality disagreed. The three-way sync discipline — and why it gets load-bearing once AI agents are in the loop.",
+    date: "2026-06-02",
+    readTime: "6 min",
+    category: "Engineering",
+    categoryColor: "text-wave-400",
+    gradient: "from-ocean-500 to-wave-400",
+    author: {
+      name: "John C. Thomas",
+      role: "Founder, BlueWave Projects",
+    },
+    content: `On a small team shipping a lot of products, the most expensive bug is not in the code. It is the work you do twice because three different sources disagreed about whether it was already done.
+
+We track work in three places, and so does almost everyone:
+- Notes — the running context of what is being worked on, what is blocked, what is next. For us this is a set of memory files; for you it might be a doc, a wiki, the descriptions in an issue tracker.
+- A task tracker — the dashboard or board with the explicit list of to-dos and their statuses.
+- Reality — what is actually built, deployed, and live right now.
+
+When those three drift apart, you pay for it. Repeatedly.
+
+## How the drift happens
+
+Drift is the default, not the exception. You finish a feature and ship it (reality moves) but forget to close the ticket (tracker stale) and never update your notes (notes stale). Now two of your three sources say the work is undone. The next time you — or a teammate, or an AI agent — sit down and read the tracker or the notes, you re-suggest work that is already live. Best case you waste ten minutes verifying. Worst case you redo it, or you tell a customer something false because a note claimed a thing shipped that never did.
+
+We have been burned in both directions: a note that said a feature was deployed when it was not, so we nearly sent someone to a dead link; and a tracker full of pending items that were all long since done, so a fresh session kept proposing finished work.
+
+## The discipline: log as you go, and trust reality over notes
+
+Three rules keep the sources honest.
+
+1. Log at completion, not at the end of the day. The moment a task is genuinely done — deployed, verified — close the ticket, update the notes, and record what changed. Batching it for later is how drift creeps in, because later you have forgotten the details and you skip half of them. Update all three sources in the same breath as finishing the work.
+
+2. Reality is the tiebreaker. When a note and the tracker and your memory disagree, do not guess — go look. Is the endpoint live? Is the commit on the main branch? Is the string in the production bundle? Reality is the only source that cannot lie to you, and checking it is cheap. Our rule: never tell someone to do something without first checking whether it is already done.
+
+3. Distrust stale optimism. A note that says done, written by a past self or a past session, is a claim, not a fact — especially if it is the only source that says so. The most dangerous artifact in any system is a confident status update that nobody verified. Treat unverified done markers as hypotheses until reality confirms them.
+
+## Why this gets worse with AI agents
+
+When the people doing the work include AI agents running across sessions, the drift problem sharpens. An agent starts fresh each session with no memory except what is written down. If the notes are stale, the agent confidently acts on stale information — re-suggesting done work, or worse, "fixing" something that was deliberately the way it was. The three-way sync stops being good hygiene and becomes load-bearing: the written record IS the agent's reality, so the written record has to match the actual reality or the agent operates on fiction.
+
+The fix is the same, just enforced harder: log at completion, make reality the tiebreaker, and verify before you trust any done.
+
+## What I would tell another team
+
+1. Update notes, tracker, and reality in the same motion you finish the work. Drift is a batching problem.
+2. When sources disagree, check reality. It is the only one that cannot be wrong.
+3. Treat any unverified done as a hypothesis, no matter how confident it sounds.
+4. If AI agents are in your loop, your written record is their reality — keep it true or they will act on the lie.
+
+None of this is glamorous. It is the operational discipline that separates a small team that moves fast from a small team that keeps stepping on its own footprints. The cost of keeping the three in sync is a few seconds per task. The cost of letting them drift is doing the work twice and occasionally being confidently wrong.
+
+If you want a team that keeps its records honest enough to move fast safely, [come talk to us](https://bluewaveprojects.com/booking).`,
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
