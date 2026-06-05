@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>John Campbell Thomas — Software Studio Founder · AI Engineer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!--
+  SINGLE EDITABLE SOURCE for the "Software" resume.
+  Edit this file, then regenerate the PDF with headless Chrome:
+
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+      --headless=new --disable-gpu --no-pdf-header-footer \
+      --print-to-pdf="John-Thomas-Resume-Software-YYYY-MM-DD.pdf" \
+      "file://$(pwd)/john-thomas-software.html"
+
+  Last content refresh: 2026-06-04
+-->
+<style>
+  :root {
+    --ink:       #0e2436;   /* deep navy — headings/name */
+    --body:      #243845;   /* body text */
+    --muted:     #5e7180;   /* secondary text */
+    --brass:     #b3812f;   /* accent (kickers, numbers, rules) */
+    --line:      #c9d3da;   /* hairlines */
+    --tile-bg:   #f4f6f8;   /* stat tile / stack background */
+    --tile-edge: #d8e0e6;
+  }
+
+  * { box-sizing: border-box; }
+
+  @page {
+    size: letter;
+    margin: 0.45in 0.5in;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    color: var(--body);
+    background: #fff;
+    font-family: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+    font-size: 9.6pt;
+    line-height: 1.3;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Screen-only page frame so the HTML reads like the printed sheet */
+  @media screen {
+    body {
+      max-width: 7.5in;
+      margin: 24px auto;
+      padding: 0.45in 0.5in;
+      box-shadow: 0 2px 24px rgba(14,36,54,.14);
+    }
+  }
+
+  h1, h2, h3, .kicker, .secrule { font-family: Georgia, "Times New Roman", serif; }
+
+  /* ---------- header ---------- */
+  .name {
+    font-size: 25pt;
+    line-height: 1.02;
+    letter-spacing: .2px;
+    color: var(--ink);
+    margin: 0;
+    font-weight: 700;
+  }
+  .role {
+    margin: 4px 0 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 10.5pt;
+    font-weight: 600;
+    color: var(--brass);
+    letter-spacing: .3px;
+  }
+  .tagline {
+    margin: 7px 0 0;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 9.6pt;
+    max-width: 92%;
+  }
+  .contact {
+    margin: 9px 0 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 8.4pt;
+    color: var(--body);
+    letter-spacing: .1px;
+  }
+  .contact span { white-space: nowrap; }
+  .contact .sep { color: var(--line); margin: 0 6px; }
+
+  /* ---------- stat tiles ---------- */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 11px 0 4px;
+  }
+  .tile {
+    background: var(--tile-bg);
+    border: 1px solid var(--tile-edge);
+    border-radius: 5px;
+    padding: 9px 10px 8px;
+    text-align: center;
+    break-inside: avoid;
+  }
+  .tile .num {
+    font-family: Georgia, serif;
+    font-size: 16pt;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .tile .lbl {
+    margin-top: 4px;
+    font-size: 6.6pt;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  .tile .lbl b { color: var(--brass); font-weight: 700; }
+
+  /* ---------- section headings ---------- */
+  h2.sec {
+    font-size: 10.5pt;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin: 12px 0 6px;
+    padding-bottom: 3px;
+    border-bottom: 1.6px solid var(--brass);
+    break-after: avoid;
+  }
+  h2.sec .tag {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 7.2pt;
+    letter-spacing: 1px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+
+  p.summary { margin: 0; }
+
+  /* ---------- three callings ---------- */
+  .callings {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 12px 0 2px;
+  }
+  .calling { break-inside: avoid; }
+  .calling .kicker {
+    font-size: 7pt;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--brass);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 700;
+  }
+  .calling .ct {
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 10pt;
+    margin: 2px 0 3px;
+  }
+  .calling .cd { color: var(--body); font-size: 8.6pt; line-height: 1.3; }
+
+  /* ---------- experience ---------- */
+  .job { break-inside: avoid; margin: 0 0 7px; }
+  .job-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .job-title { color: var(--ink); font-weight: 700; font-size: 10pt; }
+  .job-date {
+    color: var(--muted);
+    font-size: 8pt;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    letter-spacing: .3px;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+  .job-sub {
+    font-style: italic;
+    color: var(--brass);
+    font-size: 8.8pt;
+    margin: 1px 0 4px;
+  }
+  .job-lede { margin: 0 0 4px; color: var(--body); }
+  ul.bul { margin: 2px 0 0; padding-left: 15px; }
+  ul.bul li { margin: 0 0 2.5px; padding-left: 1px; }
+
+  /* product list inside the software role */
+  .prod { margin: 1px 0 5px; padding-left: 0; list-style: none; }
+  .prod li { margin: 0 0 4px; }
+  .prod b { color: var(--ink); }
+
+  .note {
+    margin: 8px 0 2px;
+    font-size: 8.8pt;
+    color: var(--body);
+  }
+  .stackline {
+    margin: 4px 0 0;
+    font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 7.4pt;
+    color: var(--muted);
+    line-height: 1.5;
+    word-spacing: 1px;
+  }
+
+  /* ---------- technical stack grid ---------- */
+  .stack {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 22px;
+    row-gap: 5px;
+    margin-top: 6px;
+  }
+  .srow { display: grid; grid-template-columns: 78px 1fr; gap: 8px; break-inside: avoid; }
+  .srow .sk {
+    font-size: 7pt;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+    color: var(--brass);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    padding-top: 1px;
+  }
+  .srow .sv { color: var(--body); font-size: 8.6pt; }
+
+  /* ---------- certifications ---------- */
+  .cert-block { margin-bottom: 7px; break-inside: avoid; }
+  .cert-k {
+    font-size: 7pt;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--brass);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .cert-v { color: var(--body); font-size: 8.7pt; line-height: 1.4; }
+
+  /* ---------- education ---------- */
+  .edu-line { color: var(--ink); font-weight: 700; }
+  .edu-sub { color: var(--body); }
+  .edu-act { color: var(--muted); font-size: 8.4pt; margin-top: 2px; }
+
+  /* ---------- footer ---------- */
+  .foot {
+    margin-top: 16px;
+    padding-top: 7px;
+    border-top: 1px solid var(--line);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 7pt;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+  <!-- ============ HEADER ============ -->
+  <header>
+    <h1 class="name">John Campbell Thomas</h1>
+    <div class="role">Software Studio Founder · AI Engineer · USCG Master Captain</div>
+    <p class="tagline">“Production AI on Anthropic Claude. Six products live. Built in Honolulu, shipped worldwide.”</p>
+    <div class="contact">
+      <span>fjordsadventures@gmail.com</span><span class="sep">·</span>
+      <span>(907) 769-1165</span><span class="sep">·</span>
+      <span>440 Lewers Street, Unit 603, Honolulu, HI 96815</span><span class="sep">·</span>
+      <span>ikenagroup.com</span><span class="sep">·</span>
+      <span>github.com/portofcams</span>
+    </div>
+  </header>
+
+  <!-- ============ STAT TILES ============ -->
+  <div class="stats">
+    <div class="tile"><div class="num">6</div><div class="lbl">AI Products Live</div></div>
+    <div class="tile"><div class="num">56M+</div><div class="lbl">Lines TypeScript</div></div>
+    <div class="tile"><div class="num">8K<span style="font-size:9pt">/mo</span></div><div class="lbl">Claude Calls</div></div>
+    <div class="tile"><div class="num">1,000+</div><div class="lbl">Sea Days · 100T <b>USCG</b></div></div>
+  </div>
+
+  <!-- ============ SUMMARY ============ -->
+  <h2 class="sec">Summary</h2>
+  <p class="summary">Operator-engineer running a one-person software studio in Honolulu that ships AI-native web
+  products on the Anthropic Claude API. Six surfaces live or in private beta — multi-tenant SaaS, iOS LiDAR,
+  Hawaii data platform, subscription product, gated AI demo. Ten years operating real businesses before writing
+  first production code: 100-ton USCG Master with 1,000+ sea days, Alaskan timber-frame and Honolulu finish
+  carpentry, commercial dive ops, alpine fleet management. Trades-fluent founder shipping production AI is a rare
+  profile. Looking for forward-deployed, founding-engineer, or developer-advocate roles where that overlap is the
+  moat.</p>
+
+  <!-- ============ THREE CALLINGS ============ -->
+  <div class="callings">
+    <div class="calling">
+      <div class="kicker">In the code</div>
+      <div class="ct">AI-Native Studio</div>
+      <div class="cd">Ikena Design &amp; Build, LLC. Six products on Claude. Next.js, FastAPI, Postgres, Swift,
+      Cloudflare, Vultr.</div>
+    </div>
+    <div class="calling">
+      <div class="kicker">On the water</div>
+      <div class="ct">USCG Master 100T</div>
+      <div class="cd">1,000+ sea days, Alaska to Hawaii. Towing, salvage, charter, commercial dive, sail.</div>
+    </div>
+    <div class="calling">
+      <div class="kicker">On the ground</div>
+      <div class="ct">Operator-Founder</div>
+      <div class="cd">Multi-company P&amp;L. Crews of 10+ in maritime and alpine ops. Built and ran an LLC
+      end-to-end.</div>
+    </div>
+  </div>
+
+  <!-- ============ EXPERIENCE · SOFTWARE ============ -->
+  <h2 class="sec">Professional Experience <span class="tag">· Software</span></h2>
+  <div class="job">
+    <div class="job-head">
+      <span class="job-title">Founder &amp; Engineer — Ikena Design &amp; Build, LLC</span>
+      <span class="job-date">2024 — Current</span>
+    </div>
+    <div class="job-sub">Honolulu, Hawaii · ikenagroup.com</div>
+    <p class="job-lede">One-person software studio shipping AI-native web products on Anthropic Claude. Six
+    surfaces live or in private beta as of June 2026.</p>
+    <ul class="prod">
+      <li><b>BlueWave Projects</b> — Multi-tenant SaaS for general contractors. AI scope generation, client
+      portal, e-sign (DocuSeal), Stripe billing, change orders, supplier ledgers. Sole engineer + designer +
+      operator. Stack: Next.js 16, FastAPI, PostgreSQL, Anthropic Claude.</li>
+      <li><b>Binnacle AI</b> — Multi-tenant maritime crew-compliance SaaS. binnacleai.com. Credential tracking
+      (MMC / TWIC / medical / STCW), expiration flagging, sea-service parsing, and CFR Part 10/11 eligibility,
+      with Claude Vision document classification. Live gated demo: NDA-veiled surfaces, admin queue, token-gated
+      tenants, watermarked sessions.</li>
+      <li><b>hawaii-as-code</b> — Statewide property data platform. 384,262 TMK parcels, 239,458 Honolulu
+      building footprints with real heights, 204,775 address points — encoded as TypeScript, 56M+ lines of
+      generated code. MapLibre GL frontend, zero-dependency Node backend. Live at maps.ikenagroup.com.</li>
+      <li><b>Property Brief</b> — Weekly homeowner subscription product, $15/mo, automated email pipeline,
+      Stripe billing. Live.</li>
+      <li><b>Aloha Network</b> — Off-market real estate signals for Hawaii investors. $99 / $499 / $1,500
+      founding-member tiers. Waitlist + Stripe pre-launch.</li>
+      <li><b>ProBuildCalc</b> — Native iOS LiDAR scanner with Claude-powered estimating. Apple RoomPlan +
+      Object Capture. Private TestFlight.</li>
+    </ul>
+    <p class="note">Production AI footprint: roughly 8,000 Claude API calls/month across the portfolio with
+    documented patterns for inline-generative, async-generative, classification, and tool-using-agent loops.
+    Aggressive prompt caching driving ~80% input-token cost reduction.</p>
+    <p class="stackline">next.js · react · astro · fastapi · postgres · anthropic-claude (haiku/sonnet/opus) ·
+    swift · swiftui · roomplan · cloudflare (pages/workers/email) · vultr · stripe · docuseal · resend</p>
+  </div>
+
+  <!-- ============ TECHNICAL STACK ============ -->
+  <h2 class="sec">Technical Stack</h2>
+  <div class="stack">
+    <div class="srow"><div class="sk">Languages</div><div class="sv">TypeScript · Python · Swift · SQL · Bash</div></div>
+    <div class="srow"><div class="sk">Frontend</div><div class="sv">Next.js · React · Astro · Tailwind · MapLibre GL</div></div>
+    <div class="srow"><div class="sk">Backend</div><div class="sv">FastAPI · Node · PostgreSQL · Redis</div></div>
+    <div class="srow"><div class="sk">AI</div><div class="sv">Anthropic Claude (direct SDK) · Prompt caching · Tool-use · Streaming</div></div>
+    <div class="srow"><div class="sk">iOS</div><div class="sv">Swift · SwiftUI · RoomPlan · Object Capture · ARKit</div></div>
+    <div class="srow"><div class="sk">Infra</div><div class="sv">Cloudflare Pages/Workers · Vultr · Docker · Nginx Proxy Manager</div></div>
+    <div class="srow"><div class="sk">Payments</div><div class="sv">Stripe (billing, subs, multi-tier) · DocuSeal · Resend</div></div>
+    <div class="srow"><div class="sk">DevOps</div><div class="sv">GitHub · Cursor · CI auto-deploy · Cloudflare Pages git auto-build</div></div>
+    <div class="srow"><div class="sk">Data</div><div class="sv">ArcGIS REST · OSM Overpass · NOAA NDBC · USPS · TMK/parcel data</div></div>
+    <div class="srow"><div class="sk">Patterns</div><div class="sv">Multi-tenant SaaS · Token-gated demos · RAG · Webhooks · Cron pipelines</div></div>
+  </div>
+
+  <!-- ============ EXPERIENCE · OPS & MARITIME ============ -->
+  <h2 class="sec">Professional Experience <span class="tag">· Operations &amp; Maritime</span></h2>
+
+  <div class="job">
+    <div class="job-head">
+      <span class="job-title">USCG Master Captain · Sales Manager</span>
+      <span class="job-date">Apr 2025 — Nov 2025</span>
+    </div>
+    <div class="job-sub">Ohana Boats Sales &amp; Hawaii Boat Club · Honolulu, HI</div>
+    <ul class="bul">
+      <li>Managed fleet of 12+ private and club vessels at 100% USCG and local regulatory compliance.</li>
+      <li>Coordinated maintenance, repairs, and charter scheduling; cut downtime 15% via proactive inspection cadence.</li>
+      <li>Trained and supervised deck crews; standardized safety procedures and emergency response drills.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-head">
+      <span class="job-title">Senior Tow &amp; Salvage Master Captain</span>
+      <span class="job-date">Aug 2021 — Jun 2023</span>
+    </div>
+    <div class="job-sub">Sea Tow International · Seward, AK &amp; San Diego, CA</div>
+    <ul class="bul">
+      <li>Navigated complex Alaskan coastal waters in every season; expert use of local charts, currents, and maritime regulations.</li>
+      <li>Vessel tows, salvage, marine emergency rescue across Alaskan and Californian waters.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-head">
+      <span class="job-title">Founder · Charter Operations · Captain</span>
+      <span class="job-date">Apr 2020 — May 2024</span>
+    </div>
+    <div class="job-sub">Fjords Adventures, LLC · Seward, AK</div>
+    <ul class="bul">
+      <li>Built and ran the LLC end-to-end — bookings, marketing, regulatory paperwork, captain ops.</li>
+      <li>Impeccable USCG and federal/national park maritime compliance; exemplary safety record across all charters and inspections.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-head">
+      <span class="job-title">Operations Manager · Captain · Lead Mechanic · Dive Supervisor</span>
+      <span class="job-date">Jun 2021 — Aug 2023</span>
+    </div>
+    <div class="job-sub">Storm Chasers Shipyard · Seward, AK</div>
+    <ul class="bul">
+      <li>Directed commercial dive operations in demanding environments — underwater construction, hydro-sync lifts, pipelines, offshore structures.</li>
+      <li>Led crew of shipyard laborers through a variety of vessel projects on time and safely.</li>
+    </ul>
+  </div>
+
+  <h2 class="sec">Mountain Operations</h2>
+  <div class="job">
+    <div class="job-head">
+      <span class="job-title">Snowcat Operations Manager · Fuel Distribution Manager</span>
+      <span class="job-date">Dec 2018 — Apr 2025</span>
+    </div>
+    <div class="job-sub">Chugach Powder Guides · Girdwood, AK</div>
+    <ul class="bul">
+      <li>Led 10+ skilled operators and maintenance crew; built a culture of safety, efficiency, and teamwork.</li>
+      <li>Implemented control measures that reduced helicopter charter cancellations from human and mechanical factors.</li>
+      <li>Strict compliance with Alaska State regulations governing heli-cat operations and environmental protection.</li>
+    </ul>
+  </div>
+
+  <!-- ============ CERTIFICATIONS ============ -->
+  <h2 class="sec">Certifications &amp; Identification</h2>
+  <div class="cert-block">
+    <div class="cert-k">USCG Licenses &amp; Ratings</div>
+    <div class="cert-v">USCG Master 100-Ton Near Coastal (sail/auxiliary) · Radar Observer · Unlimited Able Seafarer ·
+    Unlimited ARPA · Assistance Towing · FCC Marine Radio Operator · Lifeboat Operator · Wiper · Steward's
+    Department (F.H.) · USCG Medical Certification</div>
+  </div>
+  <div class="cert-block">
+    <div class="cert-k">STCW</div>
+    <div class="cert-v">STCW II/4 — RFPNW · STCW VI/1 — Basic Training · STCW VI/2 — Survival Craft &amp; Rescue Boats
+    (PSC) · STCW VI/3 — Advanced Firefighting</div>
+  </div>
+  <div class="cert-block">
+    <div class="cert-k">Safety, Rescue, ID</div>
+    <div class="cert-v">PADI Rescue Diver · First Aid &amp; CPR · OSHA Hazmat · FEMA Rescue Technician · Various NIMS ·
+    UFSAC Firefighter · TWIC · US Passport · Global Entry · 200-Ton Oceans Master / Mate (filed, awaiting return) ·
+    VPDSD (filed, awaiting return)</div>
+  </div>
+
+  <!-- ============ EDUCATION ============ -->
+  <h2 class="sec">Education</h2>
+  <div class="cert-block">
+    <div class="edu-line">Miami University — Oxford, OH</div>
+    <div class="edu-sub">May 2014 · B.S. Business Marketing · Minor in Naval Science</div>
+    <div class="edu-act">Activities: Delta Sigma Pi Business Fraternity · Full-time Firefighter / EMT · Airport
+    Manager · Rock Climbing Course Instructor</div>
+  </div>
+
+  <div class="foot">ikenagroup.com · journal at ikenagroup.com/journal · github.com/portofcams · single editable source</div>
+
+</body>
+</html>
