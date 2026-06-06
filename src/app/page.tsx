@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import Nav from "@/components/Nav";
 import StudioHero from "@/components/StudioHero";
 
@@ -52,6 +53,34 @@ export default function Home() {
           Services come first so a new visitor sees WHAT they can get before WHO ships it. */}
       <StudioServices />
       <Portfolio />
+
+      {/* AI School — the "learn" pillar made concrete: free AI Journey → paid Ship the Stack RAG course */}
+      <section className="px-6 py-16">
+        <div className="max-w-5xl mx-auto">
+          <div className="relative overflow-hidden rounded-3xl border border-wave-500/25 bg-gradient-to-br from-ocean-900/50 via-black/40 to-black p-8 sm:p-12">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-wave-500/10 border border-wave-500/25 text-wave-300/90 text-xs uppercase tracking-[0.16em] mb-5 font-mono">
+              BlueWave AI School
+            </div>
+            <h2 className="text-3xl sm:text-5xl font-bold tracking-tight leading-tight mb-4 max-w-2xl">
+              Don&apos;t just subscribe — <span className="text-gradient">learn to build it.</span>
+            </h2>
+            <p className="text-lg text-white/65 leading-relaxed max-w-2xl mb-7">
+              Start free with the gamified AI Journey. When you&apos;re ready for the real thing,{" "}
+              <span className="text-white font-medium">Ship the Stack</span> is the hands-on course: build a
+              working RAG system over your own corpus — six modules, six ship gates. Measured, not
+              self-attested. You ship code, run the gate, and it scores you against a baseline.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link href="/school" className="btn-primary px-7 py-3 rounded-full text-sm font-semibold text-white text-center">
+                Start free →
+              </Link>
+              <Link href="/signup" className="px-7 py-3 rounded-full text-sm font-semibold text-white/80 border border-white/15 hover:border-white/30 transition-colors text-center">
+                See Ship the Stack
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Who's behind the work — demoted from the top so it doesn't compete with the offer.
           The bio + radar live here as a trust + texture beat between proof and contact. */}
