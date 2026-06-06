@@ -256,6 +256,28 @@ export default function IkenaPage() {
         </div>
       </section>
 
+      {/* Cross-promo: Ikena is built with the AI engineering we teach at the School */}
+      <section className="px-6 py-16 max-w-4xl mx-auto">
+        <div className="rounded-3xl border border-wave-500/20 bg-wave-500/[0.04] p-8 sm:p-10 text-center">
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-wave-300/80 mb-3 font-mono">Built with AI you can learn</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">
+            The AI engineering behind Ikena? We teach it.
+          </h2>
+          <p className="text-base text-white/60 max-w-xl mx-auto mb-6">
+            The RAG, retrieval, and evals that turn a walkthrough into a draft estimate &mdash; that&apos;s the
+            same craft you build at BlueWave AI School. Start free, then ship a real RAG system in the
+            hands-on course.
+          </p>
+          <TrackedCTA
+            href="/school"
+            location="ikena_school_crosspromo"
+            className="inline-block px-7 py-3 rounded-full text-sm font-semibold text-white/85 border border-wave-500/30 hover:border-wave-400/50 transition-colors"
+          >
+            Explore the AI School &rarr;
+          </TrackedCTA>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="px-6 py-32 max-w-4xl mx-auto text-center">
         <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-6">
