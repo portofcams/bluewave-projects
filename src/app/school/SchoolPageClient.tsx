@@ -377,6 +377,34 @@ export default function SchoolPage() {
         })}
       </div>
 
+      {/* ── Ship the Stack — funnel from the free journey to the paid RAG course (iOS) ── */}
+      {mounted && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="max-w-3xl mx-auto px-4 py-12"
+        >
+          <div className="relative overflow-hidden glass rounded-3xl border border-wave-500/30 p-8 sm:p-10 text-center">
+            <p className="text-xs font-bold uppercase tracking-[0.3em] text-wave-400 mb-3">The real course</p>
+            <h2 className="text-3xl sm:text-4xl font-black text-white mb-3 leading-tight">Ship the Stack</h2>
+            <p className="text-base text-white/60 mb-2 max-w-xl mx-auto">
+              The journey above is your warm-up. <span className="text-white font-medium">Ship the Stack</span> is the hands-on build: a working RAG system over your own corpus &mdash; six modules, six ship gates.
+            </p>
+            <p className="text-sm text-white/40 mb-7 max-w-xl mx-auto">
+              Measured, not self-attested. You don&apos;t click &ldquo;complete&rdquo; &mdash; you ship code, run the gate, and it scores you against a baseline. Beat it or it doesn&apos;t pass.
+            </p>
+            <Link
+              href="/signup"
+              className="btn-primary inline-block px-8 py-3 rounded-full text-sm font-semibold text-white"
+            >
+              Start the course
+            </Link>
+            <p className="text-[11px] text-white/30 mt-5">Six modules &middot; build over your own corpus &middot; iOS app + CLI ship-gates</p>
+          </div>
+        </motion.div>
+      )}
+
       {/* Upgrade CTA for free users */}
       {mounted && userPlan !== 'school' && userPlan !== 'pro' && (
         <motion.div
