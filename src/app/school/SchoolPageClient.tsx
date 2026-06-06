@@ -394,12 +394,12 @@ export default function SchoolPage() {
             <p className="text-sm text-white/40 mb-7 max-w-xl mx-auto">
               Measured, not self-attested. You don&apos;t click &ldquo;complete&rdquo; &mdash; you ship code, run the gate, and it scores you against a baseline. Beat it or it doesn&apos;t pass.
             </p>
-            <Link
-              href="/signup"
+            <a
+              href="https://school.bluewaveprojects.com"
               className="btn-primary inline-block px-8 py-3 rounded-full text-sm font-semibold text-white"
             >
               Start the course
-            </Link>
+            </a>
             <p className="text-[11px] text-white/30 mt-5">Six modules &middot; build over your own corpus &middot; iOS app + CLI ship-gates</p>
           </div>
         </motion.div>

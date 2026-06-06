@@ -74,9 +74,9 @@ export default function Home() {
               <Link href="/school" className="btn-primary px-7 py-3 rounded-full text-sm font-semibold text-white text-center">
                 Start free →
               </Link>
-              <Link href="/signup" className="px-7 py-3 rounded-full text-sm font-semibold text-white/80 border border-white/15 hover:border-white/30 transition-colors text-center">
+              <a href="https://school.bluewaveprojects.com" className="px-7 py-3 rounded-full text-sm font-semibold text-white/80 border border-white/15 hover:border-white/30 transition-colors text-center">
                 See Ship the Stack
-              </Link>
+              </a>
             </div>
           </div>
         </div>
