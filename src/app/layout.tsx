@@ -5,26 +5,28 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://bluewaveprojects.com"),
-  title: "BlueWave Projects — Project room for design-build contractors",
+  title: "BlueWave Projects — AI consulting & software for Hawai'i operators · Honolulu",
   description:
-    "One tenant, every project. AI scope generator, RoomPlan blueprints, client-shareable timelines, and Hawaii off-market deal flow — built for design-build contractors.",
+    "Honolulu AI consulting studio. We build software for Hawai'i operators — STR compliance, harbor management, USCG, permits, and custom apps. Twenty production apps live. Subscribe, hire, or learn.",
   keywords: [
-    "contractor project management",
-    "construction software",
-    "AI scope generator",
-    "RoomPlan blueprint",
-    "design build SaaS",
-    "Hawaii contractor software",
-    "client portal construction",
+    "AI consulting Hawaii",
+    "AI consulting Honolulu",
+    "Hawaii software studio",
+    "AI software Hawaii",
+    "Hawaii operator software",
+    "STR compliance software Hawaii",
+    "harbor management software Hawaii",
+    "Hawaii permit software",
+    "custom AI apps Honolulu",
     "BlueWave Projects",
   ],
   alternates: {
     canonical: "https://bluewaveprojects.com",
   },
   openGraph: {
-    title: "BlueWave Projects — Project room for design-build contractors",
+    title: "BlueWave Projects — AI consulting & software for Hawai'i operators",
     description:
-      "One tenant, every project. AI scope generator, RoomPlan blueprints, client-shareable timelines, and Hawaii off-market deal flow.",
+      "Honolulu AI consulting studio. Twenty production apps for Hawai'i operators — STR, harbors, USCG, permits. Subscribe, hire, or learn.",
     url: "https://bluewaveprojects.com",
     siteName: "BlueWave Projects",
     type: "website",
@@ -32,9 +34,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "BlueWave Projects — Project room for design-build contractors",
+    title: "BlueWave Projects — AI consulting & software for Hawai'i operators",
     description:
-      "One tenant, every project. Scope, blueprint, client share — built for design-build contractors.",
+      "Honolulu AI consulting studio. Twenty apps for Hawaii operators — STR, harbors, USCG, permits.",
     images: ["/og-default.png"],
   },
 };
@@ -66,10 +68,14 @@ export default function RootLayout({
               url: "https://bluewaveprojects.com",
               address: {
                 "@type": "PostalAddress",
+                streetAddress: "440 Lewers St, Suite 603",
                 addressLocality: "Honolulu",
                 addressRegion: "HI",
+                postalCode: "96815",
                 addressCountry: "US",
               },
+              telephone: "+1-808-000-0000",
+              email: "hello@bluewaveprojects.com",
               geo: {
                 "@type": "GeoCoordinates",
                 latitude: 21.3099,

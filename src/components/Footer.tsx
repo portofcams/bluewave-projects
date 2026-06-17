@@ -32,16 +32,24 @@ export default function Footer() {
     >
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-12 mb-16">
-          {/* Brand */}
+          {/* Brand + NAP */}
           <div className="col-span-2 md:col-span-1">
             <Link href="/" aria-label="BlueWave Projects — home" className="inline-block mb-4">
               <WaveLogo size={36} />
             </Link>
-            <p className="text-sm text-white/30 leading-relaxed">
+            <p className="text-sm text-white/30 leading-relaxed mb-3">
               AI consulting, custom apps, and R&amp;D.
               <br />
               Born in the Pacific.
             </p>
+            <address className="not-italic text-xs text-white/20 leading-relaxed">
+              BlueWave Projects<br />
+              440 Lewers St, Suite 603<br />
+              Honolulu, HI 96815<br />
+              <a href="mailto:hello@bluewaveprojects.com" className="hover:text-white/40 transition-colors">
+                hello@bluewaveprojects.com
+              </a>
+            </address>
           </div>
 
           {/* Products */}

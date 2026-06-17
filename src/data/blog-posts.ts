@@ -1659,6 +1659,225 @@ The easy 80 percent of a radar sim is a rotating line and some dots. The 20 perc
 
 If you have a hard skill that people currently learn from a textbook and you suspect they would learn it faster by doing it, [that is the kind of thing we build](https://bluewaveprojects.com/booking).`,
   },
+  {
+    id: "23",
+    slug: "ai-tools-for-hawaii-str-hosts",
+    title: "AI tools every Hawaii short-term rental host should be using in 2026",
+    excerpt:
+      "STR compliance in Hawaii is a moving target — county rules, TAT/GET deadlines, inspection checklists. Here's how Hawaii hosts are using AI to stay compliant and cut the paperwork in half.",
+    date: "2026-06-16",
+    readTime: "7 min",
+    category: "Hawaii Operators",
+    categoryColor: "text-wave-400",
+    gradient: "from-wave-400 to-ocean-500",
+    author: {
+      name: "John C. Thomas",
+      role: "Founder, BlueWave Projects",
+    },
+    content: `Running a short-term rental in Hawaii is not like running one anywhere else. You are navigating a patchwork of county ordinances (Oahu's Bill 41, Maui's strict hosted/unhosted split, the Big Island's zoning overlays), state TAT and GET obligations, and the ever-present risk of a complaint-driven inspection shutting you down before your peak season. The paperwork alone is a part-time job.
+
+This is exactly the kind of problem AI is good at. Not the AI that writes you a generic email — the kind that knows your county's rules, tracks your deadlines, and turns a 45-minute compliance checklist into a 5-minute confirmation.
+
+Here is what Hawaii hosts are actually using in 2026, and where the real gains are.
+
+## 1. Automated compliance checklists tied to your county
+
+Every county has different requirements. Oahu's Residential A zoning has hosted-only rules. Maui's STR permit requires annual renewal with a county inspector sign-off. Kauai has hard caps on non-hosted units in certain zones.
+
+An AI tool connected to your permit data and county ordinance database can generate a compliance checklist for *your specific property* — not a generic national template. It knows your zoning classification, flags what's expiring, and surfaces the county-specific documentation you need before an inspection.
+
+The difference between a generic checklist and a property-specific one is the difference between "check your permits are current" and "your Maui STR permit (STR-XXXX) expires in 34 days — here is the renewal link and the 7 documents the county requires."
+
+## 2. TAT and GET deadline tracking
+
+Hawaii's Transient Accommodations Tax and General Excise Tax filings are monthly or quarterly depending on your revenue. Missing a filing costs 5% per month in penalties plus 8% annual interest. Most STR hosts on the continent don't deal with anything equivalent — they file once a year and forget it.
+
+AI-driven calendar tools can pull your booking revenue from Airbnb or VRBO, calculate your expected TAT and GET liability, and send you a reminder 10 days before the filing deadline with the exact numbers. No spreadsheet. No "I think it's due sometime this month."
+
+## 3. Guest communication that actually handles Hawaii-specific questions
+
+Guests booking a Hawaii STR have questions that a Phoenix host never gets: ocean entry conditions, lava zone disclosures (mandatory in certain Big Island areas), hurricane season considerations, reef-safe sunscreen requirements on county beaches. Generic AI chat tools give generic answers.
+
+A tool trained on your property's specifics — your ocean entry, your nearest beach access, your local rules — can handle these automatically and correctly. The lava zone disclosure question gets the right zone designation, not a hallucinated one.
+
+## 4. Scope and pricing for turnovers
+
+The Hawaii rental market has a tight labor pool for cleaning and turnover crews. AI scope tools let you define a standard turnover checklist, adjust it by guest count and stay length, and send it to your cleaner with the right level of detail every time — no phone tag, no "same as last time" miscommunications.
+
+For hosts with multiple units, this is where AI saves the most time: generating per-unit turnover briefs automatically after each checkout, pre-loaded with the details your crew needs (number of guests, check-in time for the next party, any owner notes from the booking).
+
+## 5. Review response — at scale, in the right tone for your property
+
+Hawaii's hospitality culture has a specific register. A canned "Thanks for your review!" response reads as mainland corporate to a guest who just spent a week in Kailua. AI tools that understand your property's voice — the story of the house, the neighborhood, the aloha spirit of the stay — can generate first drafts of review responses that sound like they came from a host who cares, not a software company.
+
+The real unlock is speed: a host managing 3+ units who responds to every review within 24 hours sees measurably better search placement on both Airbnb and VRBO. AI makes that achievable without it becoming a daily 45-minute task.
+
+## Where we fit
+
+We built Ikena specifically for Hawaii operators who are drowning in compliance paperwork and vendor coordination. It's not a national STR tool with a Hawaii checkbox — it's built around Hawaii's actual regulatory structure, the DCCA permit workflows, county-specific deadlines, and the unique operational realities of running a property in a place where the rules, the labor market, and the guests are all distinctly local.
+
+If your STR compliance workflow still runs on a spreadsheet and calendar reminders, [talk to us](https://bluewaveprojects.com/booking). The software should handle the paperwork so you can focus on the part of hosting that actually matters.`,
+  },
+  {
+    id: "24",
+    slug: "automating-dcca-permit-tracking-hawaii",
+    title: "Automating DCCA permit tracking in Hawaii: what's possible in 2026",
+    excerpt:
+      "Hawaii's DCCA permit process is notoriously manual. Here's how contractors and property managers are using AI to track applications, catch expiration dates, and stop losing jobs to permit delays.",
+    date: "2026-06-16",
+    readTime: "6 min",
+    category: "Hawaii Operators",
+    categoryColor: "text-ocean-400",
+    gradient: "from-ocean-500 to-wave-400",
+    author: {
+      name: "John C. Thomas",
+      role: "Founder, BlueWave Projects",
+    },
+    content: `Hawaii's Department of Commerce and Consumer Affairs handles licensing, permits, and professional registrations for contractors, electricians, plumbers, engineers, and dozens of other trades working in the state. If you work in construction or property management in Hawaii, you deal with DCCA constantly — and if you've dealt with it for more than a year, you know it is not fast.
+
+The DCCA online portal exists. It works. But it does not send you reminders when a permit is about to expire, it does not aggregate your active applications across projects, and it does not tell you what documentation gap is holding up an approval. For a solo contractor managing 6 active jobs, that's a lot of manual checking.
+
+Here is what's actually possible now with AI-assisted permit tracking.
+
+## The core problem: expiration dates across multiple permits and licenses
+
+A licensed Hawaii general contractor typically holds: a C license from DCCA, a liability insurance certificate on file with the county, a bond, and a workers' comp policy — each with its own renewal date. Add in project-specific building permits (from the county DPP, not DCCA), electrical permits, plumbing permits, and grading permits, and a 3-job pipeline has 20+ documents with 20+ expiration dates.
+
+Missing a single one can stop a job. If your C license lapses during a project, you cannot legally bill for the work you did. If your building permit expires before the county inspection, you need a new permit and a new fee.
+
+AI tools built around your permit portfolio can:
+- Pull renewal dates from uploaded documents and set rolling reminders at 90/60/30 days
+- Flag permit chains where a downstream permit depends on an upstream one (you can't get your electrical final until the building inspection clears)
+- Generate the renewal document checklist for each license type automatically
+
+## Status tracking without manual portal checks
+
+The DCCA portal updates in real time when application status changes, but it won't notify you. An AI-assisted scraper layer (within DCCA's terms, checking your own applications) can surface status changes to a dashboard you actually check — your phone or your project management tool — rather than requiring a daily portal visit.
+
+For a multi-project contractor, the difference is meaningful: instead of checking 6 project portals every morning, you get a single summary of what changed overnight and what needs action today.
+
+## Document package generation for submissions
+
+The DCCA and county DPP have standard document requirements for each permit type. An AI tool that knows those requirements can generate a checklist tailored to your project type — new construction versus renovation versus addition, residential versus commercial — and flag missing documents before you submit, not after the counter rejects your package.
+
+Rejection-and-resubmission is the most expensive part of the Hawaii permit process. Every rejection adds 2-6 weeks. A pre-submission check that catches 80% of common errors pays for itself on the first project.
+
+## The contractor-specific angle: license verification for subs
+
+If you're a GC managing subcontractors, you're on the hook if a sub's DCCA license lapses mid-project. An AI tool can run a verification check on every sub's license at project start and flag expirations before the work starts — not after the county inspector shows up and asks to see credentials.
+
+## What we built
+
+PermitPaddler is our Hawaii permit tracking tool. It handles the document intake, the expiration reminders, the county-specific checklists, and the sub-verification workflow for Hawaii contractors and property managers. It's not a generic permit tracker — it knows Hawaii's specific license types, the DPP permit categories, and the DCCA renewal requirements for the trades that work here.
+
+If permit tracking is still happening in a shared Google Sheet, [that conversation is worth having](https://bluewaveprojects.com/booking).`,
+  },
+  {
+    id: "25",
+    slug: "ai-for-hawaii-harbor-managers",
+    title: "How AI helps Hawaii harbor managers cut through the paperwork",
+    excerpt:
+      "Hawaii's small boat harbors are some of the most active in the Pacific — and some of the most understaffed. Here's how AI tools are helping harbor managers handle slip assignments, vessel compliance, and tenant communications without growing headcount.",
+    date: "2026-06-16",
+    readTime: "6 min",
+    category: "Hawaii Operators",
+    categoryColor: "text-wave-400",
+    gradient: "from-wave-400 to-ocean-600",
+    author: {
+      name: "John C. Thomas",
+      role: "Founder, BlueWave Projects",
+    },
+    content: `Hawaii's small boat harbors — Ala Wai, Keehi, Ko Olina, Kaneohe, Haleiwa, Nawiliwili, Maalaea, Lahaina, Hilo, Honokohau — are managed by DLNR's Division of Boating and Ocean Recreation (DOBOR). The state manages the slips; individual harbor offices handle the day-to-day: tenant check-ins, vessel documentation, transient assignments, maintenance requests, compliance tracking.
+
+Most harbor offices run with a staff of 2-4 people managing hundreds of slips, thousands of annual transient calls, and a documentation load that hasn't changed much in decades. The mismatch between that headcount and that workload is where AI can actually help — not by replacing the harbor staff, but by handling the repetitive documentation work so they can focus on the operational decisions only a human can make.
+
+Here's where the real gains are.
+
+## Slip assignment and waitlist management
+
+Hawaii's state harbors have long waitlists. Ala Wai has a multi-year wait for certain slip sizes. Managing that waitlist — tracking positions, notifying applicants when a slip opens, matching vessel beam and LOA to available berths — is a manual process that ties up hours every week.
+
+An AI tool can maintain the waitlist database, automatically score incoming slips against waiting vessels by size match, and draft the notification letters for harbor staff to review and send. The decision of who gets the slip stays with the harbor manager. The paperwork generating that decision doesn't have to.
+
+## Vessel documentation compliance
+
+Every vessel in a state slip needs a current DLNR registration (or USCG documentation for federal vessels), current insurance, and current safety equipment certification. For a 200-slip harbor, tracking 200 vessels' document expiration dates is a spreadsheet job that falls behind constantly.
+
+AI-assisted compliance tracking pulls the document inventory into a single dashboard, flags what's expiring in the next 30/60/90 days, and generates the compliance notice letters automatically. Harbor staff review the flagged list and confirm which letters to send — the system handles the generation and the tracking.
+
+## Transient vessel check-in
+
+Transient slips are a significant revenue source and a constant operational demand. Boats call ahead, boats show up without calling, boats arrive at 0200 from a passage. Processing a transient check-in — slip assignment, fee collection, safety briefing acknowledgment, registration verification — takes time that compounds when multiple boats arrive together.
+
+A digital check-in flow with AI-assisted document capture (photograph the registration, extract the vessel name and numbers, pre-fill the slip assignment form) cuts the processing time per vessel significantly. It also creates a searchable record of every transient that came through — useful when DLNR asks for occupancy reports.
+
+## Maintenance request routing and prioritization
+
+Tenant maintenance requests come by phone, by email, by someone walking into the office. Tracking them, routing them to the right crew, and following up when they're not resolved is a coordination job. An AI dispatch layer can categorize incoming requests (structural, electrical, water, access), assign priority based on safety impact, and create work orders that track from submission to completion — without harbor staff having to manually update a whiteboard.
+
+## What we built
+
+Binnacle Harbor is our harbor management platform for exactly this context: Hawaii and Alaska small boat harbors with the specific operational realities of DLNR/DOBOR compliance, Pacific weather windows, and fishing fleet schedules that don't follow a 9-5 calendar.
+
+If your harbor office is still running on spreadsheets and phone logs, [let's talk about what the alternative looks like](https://bluewaveprojects.com/booking).`,
+  },
+  {
+    id: "26",
+    slug: "ai-for-hawaii-maritime-charter-operators",
+    title: "AI tools for Hawaii fishing charter and tour operators: the practical guide",
+    excerpt:
+      "Running a charter out of Hawaii means USCG compliance, DLNR licensing, booking management, and guest communications all at once. Here's how AI is cutting the admin load for Hawaii's maritime operators.",
+    date: "2026-06-16",
+    readTime: "7 min",
+    category: "Hawaii Operators",
+    categoryColor: "text-ocean-400",
+    gradient: "from-ocean-400 to-wave-500",
+    author: {
+      name: "John C. Thomas",
+      role: "Founder, BlueWave Projects",
+    },
+    content: `Running a charter operation out of a Hawaii harbor is one of the more operationally complex small businesses in the state. You're holding a USCG Certificate of Inspection for your vessel, a DLNR commercial use permit for state waters, a State of Hawaii business license, county business registration, and — if you're fishing — federal HMS permits from NOAA and a Hawaii commercial marine license. That's before you've booked a single trip.
+
+The booking side adds another layer: guest communications, waivers, payment processing, weather-dependent rescheduling, crew scheduling, and the operational calls that happen every morning before a trip goes out. Most operators I know are running this off a combination of phone calls, text threads, and whatever booking platform they found first.
+
+AI doesn't eliminate any of those compliance obligations. But it can handle the documentation and communication work that surrounds them, so the captain can focus on actually running the operation.
+
+Here's where it makes the most difference.
+
+## USCG COI compliance tracking
+
+Your Certificate of Inspection specifies exactly what your vessel is certified to do: passenger count, operating area, route restrictions, safety equipment requirements. It expires. The annual USCG inspection requires documentation that your required equipment is current — EPIRBs in test date, flares not expired, life raft repacked on schedule.
+
+An AI compliance tracker loaded with your COI terms knows your inspection cadence, tracks equipment expiration dates, and surfaces what needs to be renewed or replaced before an inspection — not after. For a 6-pack charter with a tight margin, a failed inspection is a cancelled week of trips. The cost of tracking is low; the cost of missing it is not.
+
+## Pre-trip documentation and waiver management
+
+Every commercial passenger vessel trip should have a float plan logged, a passenger manifest, and signed liability waivers. For a busy summer operator running 5 trips a week, that's 20+ manifest/waiver sets a month. Managing them manually means paper, a scanner, and a folder nobody looks at until there's a problem.
+
+A digital pre-trip flow — guests complete their waiver online before arrival, the manifest auto-generates from the reservation, the float plan gets filed to a set recipient automatically — cuts the dock-side paperwork to near zero and creates a searchable record if USCG asks.
+
+## Weather-dependent rescheduling communications
+
+Hawaii's weather patterns are specific: trades stacking swells on the north shores in winter, summer Kona winds creating flat water on the west side, channel crossings between islands that have a narrow workable window. A captain knows these patterns; communicating them to mainland guests who booked 3 months ago and are showing up tomorrow is a constant communication job.
+
+AI-assisted messaging can handle the rescheduling flow: pull tomorrow's marine forecast from NOAA, evaluate it against your operating parameters, draft the reschedule or proceed communication to affected guests, and push it for captain review before sending. The captain decides whether to go; the system handles telling the guests.
+
+## Booking and crew scheduling integration
+
+Crew scheduling for charter operations has its own complexity: captains with specific vessel certifications, mates with first aid requirements, guides with species-specific knowledge. When a trip books, the right crew needs to be available and notified — not texted individually from the captain's personal phone.
+
+An AI scheduling layer can match trip bookings against crew availability, send automated crew assignments, and flag conflicts (two trips same morning, captain scheduled on the wrong vessel) before they become day-of problems.
+
+## The compliance record that NOAA and DLNR want to see
+
+Federal HMS permit holders are required to keep logbooks of their catch — species, weight, disposition. DLNR wants commercial marine license holders to maintain trip logs. Most operators keep these accurately in the moment and then struggle to produce organized records when an audit comes.
+
+A simple AI-assisted trip log — captain enters species and weights after each trip, system maintains the structured record, annual reports generate automatically — turns a compliance burden into a 2-minute post-trip entry.
+
+## What we built
+
+Binnacle.ai is our maritime operations platform for exactly this type of operator: USCG-compliant vessel operations, Hawaii and Alaska waters, with the specific regulatory stack that commercial charter operators deal with. If your compliance workflow is still a filing cabinet and a phone, [let's talk](https://bluewaveprojects.com/booking).`,
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
