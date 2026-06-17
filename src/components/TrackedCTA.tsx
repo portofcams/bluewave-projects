@@ -18,7 +18,8 @@ type CTALocation =
   | "hire-custom-app-build"
   | "hire-engineering-retainer"
   | "hire-footer-cta"
-  | "hire-footer-email";
+  | "hire-footer-email"
+  | "ikena_school_crosspromo";
 
 interface TrackedCTAProps {
   href: string;
