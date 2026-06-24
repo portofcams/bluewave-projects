@@ -4,7 +4,7 @@ import CaseStudiesIndex from "./CaseStudiesIndex";
 export const metadata: Metadata = {
   title: "Case Studies — BlueWave Projects",
   description:
-    "Real projects built with Claude AI. See how we scaled platforms, automated workflows, and shipped production apps as a solo developer.",
+    "Real projects built with Claude AI. See how we scaled platforms, automated workflows, and shipped production apps with Claude as the engineering partner.",
   alternates: { canonical: "https://bluewaveprojects.com/case-studies" },
   openGraph: {
     title: "Case Studies — BlueWave Projects",

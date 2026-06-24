@@ -5,12 +5,12 @@ import { TrackedCTA } from "@/components/TrackedCTA";
 import { resume } from "@/data/resume";
 
 export const metadata: Metadata = {
-  title: "John C. Thomas — Solo AI engineer · SaaS founder · Remote",
+  title: "John C. Thomas — AI engineer · SaaS founder · Remote",
   description:
-    "Solo full-stack AI engineer shipping production multi-tenant SaaS. ~15B Claude tokens, 580 commits, 600K LoC in 9 weeks. Available for remote founding / staff engineer roles at AI-native SaaS companies.",
+    "Full-stack AI engineer shipping production multi-tenant SaaS. ~15B Claude tokens, 580 commits, 600K LoC in 9 weeks. Available for remote founding / staff engineer roles at AI-native SaaS companies.",
   alternates: { canonical: "https://bluewaveprojects.com/work" },
   openGraph: {
-    title: "John C. Thomas — Solo AI engineer · SaaS founder",
+    title: "John C. Thomas — AI engineer · SaaS founder",
     description:
       "12+ products shipped in 9 weeks. Multi-tenant SaaS, LLM-in-loop pipelines, iOS + web + backend. Available for remote roles.",
     url: "https://bluewaveprojects.com/work",
@@ -162,7 +162,7 @@ export default function WorkPage() {
         <div className="mb-10">
           <p className="text-sm uppercase tracking-[0.2em] text-white/40 mb-3">What I ship</p>
           <h2 className="text-3xl sm:text-4xl font-bold">
-            12+ products. <span className="text-gradient">One operator.</span>
+            12+ products. <span className="text-gradient">All in production.</span>
           </h2>
           <p className="text-white/55 mt-3 max-w-3xl">
             Real systems running real workloads, not demos. Every product below is something I designed, built, deployed, and continue to operate.

@@ -17,7 +17,7 @@ const consultants = [
       { name: "Full-stack TypeScript", icon: "" },
     ],
     bio: [
-      "I run a one-person AI software studio in Honolulu (Ikena Design & Build) shipping production AI products on Anthropic Claude \u2014 12+ surfaces live or in private beta.",
+      "I run an AI software studio in Honolulu (Ikena Design & Build) shipping production AI products on Anthropic Claude \u2014 12+ surfaces live or in private beta.",
       "Before software I spent a decade in the trades and at sea: 100-ton USCG Master Captain with 1,000+ sea days, Alaskan timber-frame builder, Honolulu finish carpenter. That decade taught me what it costs to ship work right \u2014 the same standard now lands in TypeScript and Python instead of mortise-and-tenon.",
       "BlueWave Projects, Binnacle AI, Property Brief, Aloha Network, ProBuildCalc, hawaii-as-code \u2014 all built by an operator who's been the customer. Not a SaaS founder chasing a vertical.",
     ],

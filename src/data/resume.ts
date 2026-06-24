@@ -356,7 +356,7 @@ export const resume = {
   // Engineer / SaaS-hire framing — used by /work page + print view
   // ───────────────────────────────────────────────────────────
   engineer: {
-    headline: "Solo full-stack AI engineer · Multi-product SaaS founder",
+    headline: "Full-stack AI engineer · Multi-product SaaS founder",
     tagline:
       "Ships agent-augmented production code. Lives in Honolulu (UTC-10) — overlaps US morning, async-friendly with Europe.",
     pitch:
@@ -453,7 +453,7 @@ export const resume = {
       summary:
         "Tenant-zero production deployment exercising the full operator suite on a real Hawaii residential renovation. Sixteen ops modules (invoices, subs+GET, time, daily logs, documents, selections, change orders, blueprint, 3D editor, and more). Auto-flows: invoice → PDF → client docs. Time clock-out (iOS) → /ops/time. CO approved → draft invoice line.",
       stack: "Next.js + FastAPI + Postgres + DocuSeal",
-      role: "Built solo; tenant one of BlueWave Projects",
+      role: "Built with Claude Code; tenant one of BlueWave Projects",
     },
     {
       name: "ProBuildCalc iOS",
@@ -569,7 +569,7 @@ export const resume = {
     {
       title: "Operates without supervision",
       detail:
-        "Ran charter LLCs, dive operations, snowcat fleet, vessel salvage. Solo founder building 12+ products in parallel. I make decisions, document them, and ship — without needing a manager in the loop.",
+        "Ran charter LLCs, dive operations, snowcat fleet, vessel salvage. Founder building 12+ products in parallel. I make decisions, document them, and ship — fast, documented, and accountable.",
     },
     {
       title: "Knows what 'AI in production' really takes",

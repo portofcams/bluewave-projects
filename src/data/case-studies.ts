@@ -61,7 +61,7 @@ Every feature shipped on the platform gets dogfooded on a real job site before i
       "Claude API",
     ],
     claudeRole:
-      "Claude wrote ~half the tenant-scoped routers, generated the invoice + change-order PDFs, handled the public-client view JSON shaping, and powers the live scope generator. Every commit to the multi-tenant schema gets a Claude-reviewed migration. The system was designed and built solo with Claude Code over a 9-week sprint.",
+      "Claude wrote ~half the tenant-scoped routers, generated the invoice + change-order PDFs, handled the public-client view JSON shaping, and powers the live scope generator. Every commit to the multi-tenant schema gets a Claude-reviewed migration. The system was designed and built with Claude Code over a 9-week sprint.",
   },
   {
     slug: "hawaii-as-code",
@@ -157,7 +157,7 @@ Claude diagnosed and fixed HLS streaming issues: tuned MediaMTX to 4-second segm
 - **Monetization ready** — every page includes Google AdSense, Amazon Associates affiliate links, and Meta Pixel tracking
 - **11K+ additional cameras researched** in the pipeline for future expansion
 
-The entire scaling effort was done by a solo developer working with Claude. No additional engineers, no outsourcing, no content writers.`,
+The entire scaling effort was done with Claude Code as the engineering team. No outsourcing, no content writers.`,
     techStack: [
       "Astro",
       "React",
@@ -450,7 +450,7 @@ Event organizers get a complete management dashboard:
 - **Blog roundup** auto-generated weekly (Monday 5pm UTC)
 - **Cloned from AlohaCalendar** in a single session — proving the architecture is a repeatable template for any regional events market
 
-The platform was built, deployed, and made fully autonomous by a solo developer working with Claude. The entire clone-and-customize process from AlohaCalendar to LFE took one development session.`,
+The platform was built, deployed, and made fully autonomous with Claude Code as the engineering team. The entire clone-and-customize process from AlohaCalendar to LFE took one development session.`,
     techStack: [
       "Next.js",
       "Prisma",

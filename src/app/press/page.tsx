@@ -24,7 +24,7 @@ const facts = [
   { label: "Studio", value: "BlueWave Projects" },
   { label: "Parent entity", value: "Ikena Design & Build, LLC (S-Corp pending)" },
   { label: "Founded", value: "2026 · Honolulu, Hawaii" },
-  { label: "Team size", value: "1 (solo operator)" },
+  { label: "Team size", value: "1 + Claude agents" },
   { label: "Founder", value: "John C. Thomas" },
   { label: "Headquarters", value: "Honolulu, Hawaii (HST · UTC-10)" },
   { label: "Products live", value: "12+ across web, iOS, and infra" },
@@ -47,9 +47,9 @@ const products = [
 
 const storyAngles = [
   {
-    title: "Solo operator + AI-native software",
+    title: "AI-augmented operator + software",
     body:
-      "John Thomas built and ships 12+ products as a solo operator using Anthropic Claude as primary collaborator. ~600K lines of code, ~15 billion Claude tokens through Claude Code in 9 weeks. Demonstrates a working model for the small-team future of vertical SaaS.",
+      "John Thomas built and ships 12+ products as an AI-augmented operator with Anthropic Claude as primary collaborator. ~600K lines of code, ~15 billion Claude tokens through Claude Code in 9 weeks. Demonstrates a working model for the small-team future of vertical SaaS.",
   },
   {
     title: "USCG Master Captain → SaaS founder",
@@ -90,7 +90,7 @@ export default function PressPage() {
         <p className="text-lg sm:text-xl text-white/65 leading-relaxed max-w-3xl mx-auto mb-10">
           Fact sheet, story angles, founder bio, product portfolio. If you're
           covering Honolulu-built AI software, Hawaii real-estate data, the
-          operator-in-public movement, or a solo-founder shipping at scale —
+          operator-in-public movement, or an AI-native operator shipping at scale —
           everything you need is here.
         </p>
         <TrackedCTA

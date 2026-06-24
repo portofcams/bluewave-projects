@@ -109,7 +109,7 @@ export default function CaseStudiesIndex() {
             </h1>
             <p className="text-lg text-white/40 max-w-2xl mx-auto">
               Real projects. Real results. Every platform below was architected,
-              coded, and deployed by a solo developer working with Claude as the
+              coded, and deployed working with Claude Code as the
               full engineering team.
             </p>
           </motion.div>
