@@ -103,16 +103,16 @@ export const resume = {
       ],
     },
     {
-      title: "Project Manager",
+      title: "Project Manager · Estimating · Finish Carpentry",
       company: "Hawaii Flooring Specialists",
-      location: "Oahu, HI",
-      start: "Dec 2025",
-      end: "Current",
+      location: "Oʻahu, HI",
+      start: "Nov 2025",
+      end: "May 2026",
       track: "build",
       bullets: [
-        "Manage fleet remodel crews on high-end floor installations, hardwood refinish, and full home remodels.",
-        "50/50 partnership with Chris on Hawaii Flooring quotes — labor and project execution lead.",
-        "Subs, materials, scheduling, tax accounting, and client communications across multiple concurrent jobs.",
+        "Managed scope, schedule, and budget on a custom residential build; coordinated subcontractors and trades against project milestones.",
+        "Carried estimating and documentation for the office side — takeoffs, labor costing, and budget tracking.",
+        "Performed finish carpentry on site; background includes timber-frame carpentry in Alaska.",
       ],
     },
     {
