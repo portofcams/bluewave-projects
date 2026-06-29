@@ -116,6 +116,7 @@ export default async function EventPage({
         <PhotoPlaceholder
           accent={e.accent}
           tall
+          imageKey={e.slug}
           label={`${e.shortName} — ${e.city}, AK`}
           className="mb-8"
         />

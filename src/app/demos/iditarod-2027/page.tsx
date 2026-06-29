@@ -6,6 +6,7 @@ import { events, HUB_PATH, SITE } from "./events";
 import {
   PhotoPlaceholder,
   SampleNote,
+  IditarodMotion,
   ticketBadge,
   accentText,
 } from "./_shared";
@@ -58,6 +59,11 @@ export default function IditarodHubPage() {
           />
         </svg>
 
+        {/* Subtle "alive" layer: falling snow, aurora shimmer, and a sled-dog
+            team running across the band. CSS/SVG only, scoped, and disabled for
+            prefers-reduced-motion. Sits above texture, below content. */}
+        <IditarodMotion />
+
         <div className="relative mx-auto max-w-6xl px-6 pb-16 pt-32">
           <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
@@ -96,7 +102,8 @@ export default function IditarodHubPage() {
             <PhotoPlaceholder
               accent="aurora"
               tall
-              label="Iditarod hero — start chute, aurora over the trail"
+              imageKey="hero"
+              label="Iditarod start line — Anchorage"
             />
           </div>
         </div>
@@ -154,6 +161,7 @@ export default function IditarodHubPage() {
               >
                 <PhotoPlaceholder
                   accent={e.accent}
+                  imageKey={e.slug}
                   label={e.shortName}
                   className="rounded-none rounded-t-2xl border-0"
                 />

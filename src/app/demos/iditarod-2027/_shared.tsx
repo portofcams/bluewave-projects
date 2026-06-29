@@ -12,6 +12,7 @@
 // All applied below as page-local Tailwind arbitrary values so the rest of
 // bluewaveprojects.com is visually unchanged.
 
+import type { CSSProperties } from "react";
 import type { IditarodEvent } from "./events";
 import { SITE } from "./events";
 
@@ -29,6 +30,86 @@ export const IDITAROD = {
   text: "#1F2D3A",
   muted: "#5B6B7A",
 } as const;
+
+// ---------------------------------------------------------------------------
+// REAL, LICENSE-VERIFIED PHOTOGRAPHY
+// ---------------------------------------------------------------------------
+// Every image below was verified on Wikimedia Commons before use. Source URL +
+// exact license recorded per image. Public-domain (US Gov) images need no
+// credit; CC-BY / CC-BY-SA images carry an on-image credit chip AND a line in
+// the SampleNote. If a license could not be confidently verified, NO image was
+// added and the designed SVG placeholder is kept instead.
+//
+// Files live in /public/demos/iditarod/ (scoped to this demo only).
+export type IditarodImage = {
+  /** /public path */
+  src: string;
+  /** short credit shown on-image when attribution is required (CC) */
+  credit?: string;
+  /** full credit + license + source for the SampleNote */
+  attribution?: string;
+  /** how it should be framed in the placeholder box */
+  position?: string;
+  /** true for US-Government public-domain works (no attribution required) */
+  publicDomain?: boolean;
+};
+
+export const eventImages: Record<string, IditarodImage> = {
+  // Iditarod start line 2020 — Quintin Soloviev, CC BY-SA 4.0
+  // https://commons.wikimedia.org/wiki/File:Iditarod_start_line_2020_(Quintin_Soloviev).jpg
+  hero: {
+    src: "/demos/iditarod/hero-start-line.webp",
+    credit: "Photo: Quintin Soloviev (CC BY-SA 4.0)",
+    attribution:
+      "Hero — Iditarod start line, 2020. Photo by Quintin Soloviev, CC BY-SA 4.0, via Wikimedia Commons.",
+    position: "center 38%",
+  },
+  // Ceremonial start 2022 — Paxson Woelber / The Alaska Landmine, CC BY 2.0
+  // https://commons.wikimedia.org/wiki/File:Iditarod_ceremonial_start_2022_(51929466131).jpg
+  "ceremonial-start": {
+    src: "/demos/iditarod/event-ceremonial-start.webp",
+    credit: "Photo: Paxson Woelber / The Alaska Landmine (CC BY 2.0)",
+    attribution:
+      "Ceremonial Start — 2022 Iditarod ceremonial start, Anchorage. Photo used via Creative Commons license courtesy Paxson Woelber, The Alaska Landmine (CC BY 2.0), via Wikimedia Commons.",
+    position: "center 42%",
+  },
+  // Brent Sass departing Rainy Pass, Iditarod 2020 — Quintin Soloviev, CC BY-SA 4.0
+  // https://commons.wikimedia.org/wiki/File:Brent_Sass_departing_Rainy_Pass_checkpoint_during_Iditarod_2020_(Quintin_Soloviev).jpg
+  "restart-willow": {
+    src: "/demos/iditarod/event-rainy-pass.webp",
+    credit: "Photo: Quintin Soloviev (CC BY-SA 4.0)",
+    attribution:
+      "Official Restart — Brent Sass departing Rainy Pass, Iditarod 2020. Photo by Quintin Soloviev, CC BY-SA 4.0, via Wikimedia Commons.",
+    position: "center 30%",
+  },
+  // 2005 Iditarod start in Willow — Tech. Sgt. Keith Brown, US Air Force, Public Domain
+  // https://commons.wikimedia.org/wiki/File:Iditarod_2005_-_Knolmayer_start_in_Willow.JPG
+  "finishers-banquet-nome": {
+    src: "/demos/iditarod/event-dog-team.webp",
+    credit: "Photo: Frank Kovalchek (CC BY 2.0)",
+    attribution:
+      "Finisher's Banquet — Iditarod sled-dog team on the trail (Jen Seavey's team, 2009 ceremonial start). Photo by Frank Kovalchek, CC BY 2.0, via Wikimedia Commons.",
+    position: "center 35%",
+  },
+  // Jen Seavey's team comin' round the bend, 2009 ceremonial start — Frank Kovalchek, CC BY 2.0
+  // https://commons.wikimedia.org/wiki/File:Jen_Seavy's_Iditarod_sled_dog_team_comin'_round_the_bend_(3420562034).jpg
+  "mushers-banquet": {
+    src: "/demos/iditarod/event-willow-start.webp",
+    publicDomain: true,
+    attribution:
+      "Musher's Banquet — 2005 Iditarod start in Willow, Alaska. U.S. Air Force photo by Tech. Sgt. Keith Brown (public domain), via Wikimedia Commons.",
+    position: "center 22%",
+  },
+  // Aurora borealis over Eielson AFB — USAF / Senior Airman Joshua Strang, Public Domain
+  // https://commons.wikimedia.org/wiki/File:Aurora_borealis_over_Eielson_Air_Force_Base,_Alaska.jpg
+  "documentary-premiere": {
+    src: "/demos/iditarod/event-aurora.webp",
+    publicDomain: true,
+    attribution:
+      "Documentary Premiere — Aurora borealis over Eielson Air Force Base, Alaska. U.S. Air Force photo by Senior Airman Joshua Strang (public domain), via Wikimedia Commons.",
+    position: "center 45%",
+  },
+};
 
 // Accent gradients per event — branded snow-on-blue treatment for the photo
 // placeholders. Keyed to the Iditarod's own blue/teal/sky palette.
@@ -68,34 +149,68 @@ export const ticketBadge: Record<
 };
 
 /**
- * Designed placeholder image block. This is intentional branded art — a snow-
- * on-blue Iditarod gradient with a subtle aurora + sled-team-on-the-trail SVG
- * motif — not an empty hole. It still clearly signals the final build drops in
- * ITC's own official photography.
+ * Photo block. When an `imageKey` resolves to a license-verified photo (see
+ * `eventImages`), the real image is shown behind a brand-blue overlay so text
+ * stays readable. When no verified image exists for a slot, this gracefully
+ * falls back to the original designed snow-on-blue SVG art — never an empty
+ * hole, never an unverified image.
  */
 export function PhotoPlaceholder({
   accent,
   label,
   className = "",
   tall = false,
+  imageKey,
 }: {
   accent: IditarodEvent["accent"];
   label: string;
   className?: string;
   tall?: boolean;
+  /** key into eventImages — usually an event slug, or "hero" */
+  imageKey?: string;
 }) {
+  const img = imageKey ? eventImages[imageKey] : undefined;
+
   return (
     <div
       className={`group/ph relative overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br ${accentGradient[accent]} ${
         tall ? "min-h-[300px] sm:min-h-[380px]" : "min-h-[190px]"
       } ${className}`}
       role="img"
-      aria-label={`Iditarod photography placeholder — ${label}`}
+      aria-label={
+        img
+          ? `Iditarod photograph — ${label}`
+          : `Iditarod photography placeholder — ${label}`
+      }
     >
-      {/* Aurora wash + snow drift + a sled team on the trail. All inline SVG so
-          nothing is hotlinked and no copyrighted image is used. */}
+      {/* Real, license-verified photo (when available) behind a brand-blue
+          overlay. The overlay keeps the snow-white caption fully legible and
+          ties every photo back to the Iditarod blue palette. */}
+      {img && (
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={img.src}
+            alt={label}
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover/ph:scale-[1.04]"
+            style={{ objectPosition: img.position ?? "center" }}
+          />
+          {/* brand-blue wash for legibility + on-brand color grade */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#23557D]/55 via-[#1B4565]/35 to-[#0F2E47]/65 mix-blend-multiply" />
+          <div className="absolute inset-0 bg-[#0F2E47]/20" />
+        </>
+      )}
+
+      {/* Aurora wash + snow drift + a sled team on the trail. Always rendered:
+          it is the fallback art when no verified photo exists, and a subtle
+          texture layer (dimmed) when a real photo sits behind it. All inline
+          SVG — nothing hotlinked. */}
       <svg
-        className="absolute inset-0 h-full w-full"
+        className={`absolute inset-0 h-full w-full transition-opacity ${
+          img ? "opacity-25" : "opacity-100"
+        }`}
         viewBox="0 0 400 300"
         preserveAspectRatio="xMidYMid slice"
         aria-hidden="true"
@@ -202,28 +317,194 @@ export function PhotoPlaceholder({
       {/* Soft vignette for caption legibility */}
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#0F2E47]/55 to-transparent" />
 
-      {/* Classy, small caption — reads as deliberate design, signals the final
-          build uses ITC's own image. */}
+      {/* Classy, small caption. With a real photo it carries the required
+          license credit; without one it signals the final build uses ITC's own
+          official image. */}
       <div className="absolute inset-0 flex items-end p-4 sm:p-5">
-        <div className="flex w-full items-center justify-between gap-3">
+        <div className="flex w-full items-end justify-between gap-3">
           <span className="text-[13px] font-semibold leading-tight text-white drop-shadow-sm">
             {label}
           </span>
-          <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.14em] text-white/85 backdrop-blur-sm">
-            <svg
-              viewBox="0 0 16 16"
-              className="h-2.5 w-2.5"
-              fill="none"
-              aria-hidden="true"
-            >
-              <rect x="1.5" y="3.5" width="13" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
-              <circle cx="5.5" cy="6.5" r="1.2" fill="currentColor" />
-              <path d="M2 11 L6 7.5 L9 10 L11 8.5 L14 11" stroke="currentColor" strokeWidth="1.3" fill="none" />
-            </svg>
-            ITC photo
-          </span>
+          {img?.credit ? (
+            // CC images: on-image attribution chip (required by license).
+            <span className="inline-flex shrink-0 items-center rounded-full border border-white/25 bg-black/30 px-2.5 py-1 text-[9px] font-medium leading-tight text-white/85 backdrop-blur-sm">
+              {img.credit}
+            </span>
+          ) : (
+            // PD images + SVG fallback: signal the live build swaps in ITC art.
+            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.14em] text-white/85 backdrop-blur-sm">
+              <svg
+                viewBox="0 0 16 16"
+                className="h-2.5 w-2.5"
+                fill="none"
+                aria-hidden="true"
+              >
+                <rect x="1.5" y="3.5" width="13" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
+                <circle cx="5.5" cy="6.5" r="1.2" fill="currentColor" />
+                <path d="M2 11 L6 7.5 L9 10 L11 8.5 L14 11" stroke="currentColor" strokeWidth="1.3" fill="none" />
+              </svg>
+              {img ? "Public domain" : "ITC photo"}
+            </span>
+          )}
         </div>
       </div>
+    </div>
+  );
+}
+
+/**
+ * Page-local hero background motion: gentle falling snow, a soft aurora
+ * shimmer, and a sled-dog team + musher running across on a slow seamless loop.
+ *
+ * Everything here is CSS/SVG only — no JS, no canvas, no new deps. All
+ * keyframes/classes are namespaced `idit-*` and defined in a scoped <style>
+ * block so nothing leaks to the rest of bluewaveprojects.com.
+ *
+ * ACCESSIBILITY: every animation is wrapped in
+ * `@media (prefers-reduced-motion: no-preference)`. Users who ask for reduced
+ * motion get a still scene (the dog team is parked off-frame / static, no snow
+ * drift, no aurora shimmer). Pointer events are disabled and the whole layer is
+ * aria-hidden so it never interferes with text or screen readers.
+ */
+export function IditarodMotion() {
+  // A handful of snowflakes with varied size / speed / start offset. Kept small
+  // and low-opacity so hero text stays fully readable over the motion.
+  const flakes = [
+    { l: "6%", s: 2.2, d: 13, delay: 0, o: 0.5 },
+    { l: "15%", s: 1.4, d: 18, delay: 4, o: 0.4 },
+    { l: "24%", s: 2.8, d: 11, delay: 1.5, o: 0.55 },
+    { l: "33%", s: 1.6, d: 16, delay: 6, o: 0.38 },
+    { l: "42%", s: 2.0, d: 14, delay: 2.5, o: 0.5 },
+    { l: "51%", s: 1.3, d: 20, delay: 8, o: 0.35 },
+    { l: "60%", s: 2.6, d: 12, delay: 3.5, o: 0.55 },
+    { l: "69%", s: 1.7, d: 17, delay: 5.5, o: 0.42 },
+    { l: "78%", s: 2.3, d: 13, delay: 0.8, o: 0.5 },
+    { l: "87%", s: 1.5, d: 19, delay: 7, o: 0.4 },
+    { l: "94%", s: 2.1, d: 15, delay: 2, o: 0.48 },
+    { l: "11%", s: 1.2, d: 22, delay: 9, o: 0.32 },
+    { l: "47%", s: 1.4, d: 21, delay: 10, o: 0.34 },
+    { l: "83%", s: 1.3, d: 23, delay: 11, o: 0.33 },
+  ];
+
+  return (
+    <div className="idit-motion pointer-events-none absolute inset-0" aria-hidden="true">
+      {/* Aurora shimmer band */}
+      <div className="idit-aurora absolute inset-x-0 top-0 h-2/3" />
+
+      {/* Falling snow */}
+      <div className="absolute inset-0 overflow-hidden">
+        {flakes.map((f, i) => (
+          <span
+            key={i}
+            className="idit-flake absolute -top-2 rounded-full bg-white"
+            style={
+              {
+                left: f.l,
+                width: `${f.s}px`,
+                height: `${f.s}px`,
+                opacity: f.o,
+                ["--idit-fall" as string]: `${f.d}s`,
+                ["--idit-delay" as string]: `${f.delay}s`,
+              } as CSSProperties
+            }
+          />
+        ))}
+      </div>
+
+      {/* Sled-dog team + musher running across the hero on a slow loop. The
+          inner wrapper translates the whole rig from off-left to off-right; the
+          legs get a tiny gait wobble. Silhouette in deep Iditarod blue, low
+          opacity so it reads as atmosphere behind the headline. */}
+      <div className="idit-team-track absolute bottom-[12%] left-0 w-[42%] max-w-[520px] min-w-[300px]">
+        <svg
+          viewBox="0 0 320 70"
+          className="h-auto w-full"
+          fill="none"
+          aria-hidden="true"
+        >
+          {/* gangline */}
+          <path
+            d="M14 52 L300 40"
+            stroke="#0B2740"
+            strokeWidth="1.4"
+            opacity="0.55"
+          />
+          {/* dog team — 8 dogs in pairs, side profile */}
+          {[300, 268, 236, 204, 172, 140, 108, 76].map((x, i) => (
+            <g
+              key={x}
+              transform={`translate(${x} ${40 + i * 1.6})`}
+              fill="#0B2740"
+              opacity="0.88"
+            >
+              <ellipse cx="0" cy="6" rx="11" ry="5" />
+              <circle cx="10" cy="2.5" r="3.6" />
+              <path d="M12.5 0.5 L15.5 -2.5" stroke="#0B2740" strokeWidth="1.6" />
+              <path d="M-11 4 L-15 1" stroke="#0B2740" strokeWidth="2" />
+              {/* legs with subtle gait */}
+              <g className="idit-legs">
+                <path d="M-8 10 L-10 18 M-3 10 L-5 19 M3 10 L4 18 M8 10 L10 19" stroke="#0B2740" strokeWidth="1.7" />
+              </g>
+            </g>
+          ))}
+          {/* sled + musher */}
+          <g transform="translate(40 38)" fill="#0B2740" opacity="0.9">
+            <path d="M-22 16 L10 12" stroke="#0B2740" strokeWidth="2.4" strokeLinecap="round" />
+            <path d="M-22 16 L-27 6 M-18 16 L-23 4" stroke="#0B2740" strokeWidth="2" />
+            {/* musher */}
+            <ellipse cx="-24" cy="-2" rx="3.6" ry="4.6" />
+            <rect x="-27" y="2" width="6.5" height="10" rx="2.2" />
+            <path d="M-21 5 L-13 9" stroke="#0B2740" strokeWidth="2" strokeLinecap="round" />
+          </g>
+        </svg>
+      </div>
+
+      <style>{`
+        /* Static defaults — what reduced-motion users (and no-CSS) get. */
+        .idit-team-track { transform: translateX(58%); opacity: 0.16; }
+        .idit-aurora {
+          background:
+            radial-gradient(120% 80% at 20% 0%, rgba(159,231,255,0.16), transparent 60%),
+            radial-gradient(120% 90% at 75% 0%, rgba(127,209,201,0.13), transparent 62%);
+          opacity: 0.8;
+          filter: blur(2px);
+        }
+        .idit-flake { display: none; }
+
+        @media (prefers-reduced-motion: no-preference) {
+          .idit-flake {
+            display: block;
+            animation: idit-fall var(--idit-fall, 16s) linear infinite;
+            animation-delay: var(--idit-delay, 0s);
+          }
+          @keyframes idit-fall {
+            0%   { transform: translate(0, -10px); }
+            100% { transform: translate(14px, 105vh); }
+          }
+
+          .idit-aurora { animation: idit-shimmer 14s ease-in-out infinite; }
+          @keyframes idit-shimmer {
+            0%, 100% { opacity: 0.55; transform: translateX(-2%) scaleY(1); }
+            50%      { opacity: 0.95; transform: translateX(3%) scaleY(1.08); }
+          }
+
+          .idit-team-track {
+            opacity: 0.18;
+            animation: idit-run 30s linear infinite;
+          }
+          /* seamless loop: start fully off the left, exit fully off the right */
+          @keyframes idit-run {
+            0%   { transform: translateX(-65%); }
+            100% { transform: translateX(255%); }
+          }
+
+          .idit-legs { animation: idit-gait 0.5s steps(2, jump-none) infinite; transform-origin: center; }
+          @keyframes idit-gait {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-0.8px); }
+          }
+        }
+      `}</style>
     </div>
   );
 }
@@ -232,28 +513,53 @@ export function PhotoPlaceholder({
  * Sample disclaimer shown on every proof page, per the brief.
  */
 export function SampleNote() {
+  // Credits for the openly-licensed photography used in this sample, drawn from
+  // the single source of truth in `eventImages` so they can never drift.
+  const credits = Object.values(eventImages)
+    .map((i) => i.attribution)
+    .filter((a): a is string => Boolean(a));
+
   return (
     <div className="mx-auto max-w-5xl px-6 pb-12">
-      <p className="rounded-2xl border border-[#E2EAF1] bg-white px-5 py-4 text-center text-xs leading-relaxed text-[#5B6B7A]">
-        Iditarod photography throughout is a{" "}
-        <span className="font-medium text-[#23557D]">designed placeholder</span> —
-        the final build drops in the Iditarod Trail Committee&apos;s own official
-        images and logo. Sample built by{" "}
-        <a
-          href={SITE}
-          className="font-medium text-[#23557D] underline underline-offset-2 hover:text-[#1B4565]"
-        >
-          BlueWave Projects
-        </a>{" "}
-        on public info. Event dates and locations are sourced from the official
-        Iditarod calendar; items marked{" "}
-        <span className="rounded bg-[#F0F4F8] px-1 py-0.5 font-mono text-[#327FA2]">
-          [confirm]
-        </span>{" "}
-        are real recurring events whose 2027 prices or exact dates are not yet
-        published. This page is not affiliated with or endorsed by the Iditarod
-        Trail Committee.
-      </p>
+      <div className="rounded-2xl border border-[#E2EAF1] bg-white px-5 py-4 text-center text-xs leading-relaxed text-[#5B6B7A]">
+        <p>
+          Photography on this sample uses{" "}
+          <span className="font-medium text-[#23557D]">
+            public-domain and openly-licensed
+          </span>{" "}
+          Iditarod and Alaska imagery (U.S. government works plus Creative
+          Commons photos, credited below). The final build would use the{" "}
+          <span className="font-medium text-[#23557D]">
+            Iditarod Trail Committee&apos;s own official photography
+          </span>{" "}
+          and logo in their place. Sample built by{" "}
+          <a
+            href={SITE}
+            className="font-medium text-[#23557D] underline underline-offset-2 hover:text-[#1B4565]"
+          >
+            BlueWave Projects
+          </a>{" "}
+          on public info. Event dates and locations are sourced from the
+          official Iditarod calendar; items marked{" "}
+          <span className="rounded bg-[#F0F4F8] px-1 py-0.5 font-mono text-[#327FA2]">
+            [confirm]
+          </span>{" "}
+          are real recurring events whose 2027 prices or exact dates are not yet
+          published. This page is not affiliated with or endorsed by the
+          Iditarod Trail Committee.
+        </p>
+
+        <details className="mt-3 text-left">
+          <summary className="cursor-pointer text-center font-medium text-[#327FA2] marker:content-none">
+            Image credits &amp; licenses
+          </summary>
+          <ul className="mt-2 space-y-1.5 text-[11px] leading-relaxed text-[#8A97A5]">
+            {credits.map((c) => (
+              <li key={c}>{c}</li>
+            ))}
+          </ul>
+        </details>
+      </div>
     </div>
   );
 }
