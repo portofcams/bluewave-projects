@@ -62,17 +62,20 @@ export default async function EventPage({
         : "Reserve / buy tickets";
 
   return (
-    <main className="ocean-gradient min-h-screen text-white">
+    // Page-local Iditarod brand theme (snow white on Iditarod blue). Scoped to
+    // this route only — globals.css / tailwind.config / shared components are
+    // left untouched so the rest of bluewaveprojects.com is unchanged.
+    <main className="min-h-screen bg-[#F5F8FB] text-[#1F2D3A]">
       <Nav />
 
       {/* Breadcrumb */}
       <div className="mx-auto max-w-5xl px-6 pt-28">
-        <nav className="text-xs text-white/40">
-          <Link href={HUB_PATH} className="hover:text-white/70">
+        <nav className="text-xs text-[#8A97A5]">
+          <Link href={HUB_PATH} className="hover:text-[#23557D]">
             Iditarod 2027 Hub
           </Link>
           <span className="mx-2">/</span>
-          <span className="text-white/60">{e.shortName}</span>
+          <span className="text-[#5B6B7A]">{e.shortName}</span>
         </nav>
       </div>
 
@@ -84,29 +87,29 @@ export default async function EventPage({
           >
             {badge.label}
           </span>
-          <span className="font-mono text-xs uppercase tracking-[0.16em] text-white/40">
+          <span className="font-mono text-xs uppercase tracking-[0.16em] text-[#8A97A5]">
             Iditarod 2027 · 55th running
           </span>
         </div>
 
-        <h1 className="mb-4 max-w-3xl text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl">
+        <h1 className="mb-4 max-w-3xl text-4xl font-bold leading-[1.05] tracking-tight text-[#1B4565] sm:text-5xl">
           {e.h1}
         </h1>
 
         <div className="mb-6 flex flex-wrap gap-x-8 gap-y-2 text-sm">
           <div>
-            <span className="text-white/40">When · </span>
-            <span className={`font-medium ${accentText[e.accent]}`}>
+            <span className="text-[#8A97A5]">When · </span>
+            <span className={`font-semibold ${accentText[e.accent]}`}>
               {e.date}
             </span>
           </div>
           <div>
-            <span className="text-white/40">Where · </span>
-            <span className="text-white/80">{e.location}</span>
+            <span className="text-[#8A97A5]">Where · </span>
+            <span className="text-[#4A5868]">{e.location}</span>
           </div>
         </div>
 
-        <p className="mb-8 max-w-2xl text-lg leading-relaxed text-white/65">
+        <p className="mb-8 max-w-2xl text-lg leading-relaxed text-[#4A5868]">
           {e.intro}
         </p>
 
@@ -118,13 +121,13 @@ export default async function EventPage({
         />
 
         {/* Ticket CTA card */}
-        <div className="glass rounded-2xl p-6 sm:p-8">
+        <div className="rounded-2xl border border-[#E2EAF1] bg-white p-6 shadow-sm sm:p-8">
           <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
             <div>
-              <p className="mb-1 text-xs uppercase tracking-[0.18em] text-wave-400">
+              <p className="mb-1 text-xs uppercase tracking-[0.18em] text-[#327FA2]">
                 {ctaLabel}
               </p>
-              <p className="max-w-md text-sm leading-relaxed text-white/60">
+              <p className="max-w-md text-sm leading-relaxed text-[#5B6B7A]">
                 {e.priceStatus}
               </p>
             </div>
@@ -132,12 +135,12 @@ export default async function EventPage({
               href="https://iditarod.com/calendar/"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary whitespace-nowrap rounded-full px-8 py-3.5 text-sm font-semibold text-white"
+              className="whitespace-nowrap rounded-full bg-[#35A8DF] px-8 py-3.5 text-sm font-semibold text-white shadow-md shadow-[#23557D]/20 transition-colors hover:bg-[#2A93C7]"
             >
               {ctaLabel} →
             </a>
           </div>
-          <p className="mt-4 border-t border-white/5 pt-4 text-[11px] text-white/35">
+          <p className="mt-4 border-t border-[#EDF1F6] pt-4 text-[11px] text-[#8A97A5]">
             Sample CTA. In the live build this button would run a first-party,
             branded checkout on iditarod.com instead of redirecting to a
             third-party platform.
@@ -147,29 +150,29 @@ export default async function EventPage({
 
       {/* Body */}
       <section className="mx-auto max-w-3xl px-6 py-10">
-        <h2 className="mb-5 text-2xl font-bold sm:text-3xl">
+        <h2 className="mb-5 text-2xl font-bold text-[#1B4565] sm:text-3xl">
           About this event
         </h2>
         <div className="space-y-4">
           {e.body.map((p, i) => (
-            <p key={i} className="leading-relaxed text-white/70">
+            <p key={i} className="leading-relaxed text-[#4A5868]">
               {p}
             </p>
           ))}
         </div>
 
-        <div className="mt-8 rounded-2xl border border-white/8 bg-white/3 p-6">
-          <h3 className="mb-2 text-sm font-semibold uppercase tracking-wider text-white/60">
+        <div className="mt-8 rounded-2xl border border-[#E2EAF1] bg-white p-6 shadow-sm">
+          <h3 className="mb-2 text-sm font-semibold uppercase tracking-wider text-[#327FA2]">
             How tickets work today
           </h3>
-          <p className="leading-relaxed text-white/70">{e.ticketInfo}</p>
-          <p className="mt-3 text-xs text-white/40">
+          <p className="leading-relaxed text-[#4A5868]">{e.ticketInfo}</p>
+          <p className="mt-3 text-xs text-[#8A97A5]">
             Source:{" "}
             <a
               href={e.sourceUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-wave-400 underline underline-offset-2 hover:text-wave-300"
+              className="font-medium text-[#23557D] underline underline-offset-2 hover:text-[#35A8DF]"
             >
               {e.sourceUrl.replace(/^https?:\/\//, "").split("/")[0]}
             </a>
@@ -179,22 +182,22 @@ export default async function EventPage({
 
       {/* FAQ */}
       <section className="mx-auto max-w-3xl px-6 py-10">
-        <h2 className="mb-6 text-2xl font-bold sm:text-3xl">
+        <h2 className="mb-6 text-2xl font-bold text-[#1B4565] sm:text-3xl">
           Frequently asked questions
         </h2>
         <div className="space-y-3">
           {e.faq.map((f) => (
             <details
               key={f.q}
-              className="glass group rounded-2xl px-5 py-4"
+              className="group rounded-2xl border border-[#E2EAF1] bg-white px-5 py-4 shadow-sm"
             >
-              <summary className="flex cursor-pointer items-center justify-between gap-4 text-base font-semibold text-white/90 marker:content-none">
+              <summary className="flex cursor-pointer items-center justify-between gap-4 text-base font-semibold text-[#1B4565] marker:content-none">
                 {f.q}
-                <span className="text-wave-400 transition-transform group-open:rotate-45">
+                <span className="text-[#35A8DF] transition-transform group-open:rotate-45">
                   +
                 </span>
               </summary>
-              <p className="mt-3 leading-relaxed text-white/65">{f.a}</p>
+              <p className="mt-3 leading-relaxed text-[#4A5868]">{f.a}</p>
             </details>
           ))}
         </div>
@@ -202,7 +205,7 @@ export default async function EventPage({
 
       {/* Other events */}
       <section className="mx-auto max-w-5xl px-6 py-10">
-        <h2 className="mb-6 text-xl font-semibold text-white/70">
+        <h2 className="mb-6 text-xl font-semibold text-[#5B6B7A]">
           More of the 2027 season
         </h2>
         <div className="grid gap-3 sm:grid-cols-2">
@@ -212,22 +215,22 @@ export default async function EventPage({
               <Link
                 key={o.slug}
                 href={`${HUB_PATH}/${o.slug}`}
-                className="glass glass-hover flex items-center justify-between rounded-xl px-5 py-4 transition-colors"
+                className="flex items-center justify-between rounded-xl border border-[#E2EAF1] bg-white px-5 py-4 shadow-sm transition-colors hover:border-[#35A8DF]/40 hover:bg-[#F0F7FC]"
               >
                 <div>
-                  <div className="text-sm font-semibold text-white">
+                  <div className="text-sm font-semibold text-[#1B4565]">
                     {o.shortName}
                   </div>
-                  <div className="text-xs text-white/40">{o.date}</div>
+                  <div className="text-xs text-[#8A97A5]">{o.date}</div>
                 </div>
-                <span className="text-wave-400">→</span>
+                <span className="text-[#35A8DF]">→</span>
               </Link>
             ))}
         </div>
         <div className="mt-6">
           <Link
             href={HUB_PATH}
-            className="text-sm text-wave-400 underline underline-offset-2 hover:text-wave-300"
+            className="text-sm font-medium text-[#23557D] underline underline-offset-2 hover:text-[#35A8DF]"
           >
             ← Back to the full Iditarod 2027 hub
           </Link>
