@@ -8,4 +8,8 @@ Allow: /
 Disallow: /admin
 Disallow: /admin/
 
+# Unlisted client proofs / sample demos — noindex'd in-page too
+Disallow: /demos
+Disallow: /demos/
+
 Sitemap: https://bluewaveprojects.com/sitemap.xml
