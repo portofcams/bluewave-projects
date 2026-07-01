@@ -63,38 +63,50 @@ export type RondyImage = {
 };
 
 export const eventImages: Record<string, RondyImage> = {
-  // Fur Rondy attendees, downtown Anchorage — Paxson Woelber, CC BY 2.0
-  // https://commons.wikimedia.org/wiki/File:Fur_Rondy._Anchorage,_Alaska_(25394235224).jpg
+  // 4th Avenue on race day under the "Anchorage Fur Rendezvous" street
+  // banner, World Championship heat departing — The Alaska Landmine, CC BY 2.0
+  // (license verified at source 2026-07-01).
+  // https://www.flickr.com/photos/145113598@N07/46568922814
   hero: {
-    src: "/demos/fur-rondy/hero-downtown.webp",
-    credit: "Photo: Paxson Woelber (CC BY 2.0)",
+    src: "/demos/fur-rondy/hero-4th-ave.webp",
+    credit: "Photo: The Alaska Landmine (CC BY 2.0)",
     attribution:
-      "Hero — attendees at the Fur Rondy festival, downtown Anchorage. Photo by Paxson Woelber, CC BY 2.0, via Wikimedia Commons.",
-    caption: "Rondy crowds — downtown Anchorage",
-    position: "center 30%",
+      "Hero — race day under the Anchorage Fur Rendezvous banner on 4th Avenue, Fur Rondy 2019. Photo by The Alaska Landmine, CC BY 2.0, via Flickr.",
+    caption: "Race day on 4th Avenue — Fur Rondy",
+    position: "center 45%",
   },
-  // Running of the Reindeer 2014 — U.S. Army photo by Sgt. 1st Class Jason
-  // Epperson (JBER public affairs), public domain.
-  // https://commons.wikimedia.org/wiki/File:Anchorage,_Alaska%27s_7th_Annual_Running_of_the_Reindeer_140301-A-RK974-930.jpg
+  // Reindeer overtaking costumed runners, Fur Rondy 2019 — The Alaska
+  // Landmine, CC BY 2.0 (license verified at source 2026-07-01).
+  // https://www.flickr.com/photos/145113598@N07/47292183701
   "running-of-the-reindeer": {
-    src: "/demos/fur-rondy/event-reindeer.webp",
-    publicDomain: true,
+    src: "/demos/fur-rondy/event-reindeer-2019.webp",
+    credit: "Photo: The Alaska Landmine (CC BY 2.0)",
     attribution:
-      "Running of the Reindeer — runners and reindeer in downtown Anchorage, March 2014. U.S. Army photo by Sgt. 1st Class Jason Epperson (public domain), via Wikimedia Commons.",
+      "Running of the Reindeer — the herd overtakes costumed runners on 4th Avenue, Fur Rondy 2019. Photo by The Alaska Landmine, CC BY 2.0, via Flickr.",
     caption: "Running of the Reindeer — 4th Avenue, Anchorage",
-    position: "center 28%",
-  },
-  // Fur Rondy race day, 4th Avenue, 1950 — Anchorage High School photo,
-  // public domain. (A high-school Rendezvous ski race — used here for the
-  // heritage angle: Rondy has packed 4th Avenue since before statehood.)
-  // https://commons.wikimedia.org/wiki/File:Fur_Rondy_ski_race,_Anchorage,_Alaska_1950.jpg
-  "world-championship-sled-dog-races": {
-    src: "/demos/fur-rondy/event-4th-ave-1950.webp",
-    publicDomain: true,
-    attribution:
-      "World Championship Sled Dog Races — Rondy race-day crowds lining 4th Avenue for a Rendezvous ski race, Anchorage, 1950. Anchorage High School photo (public domain), via Wikimedia Commons.",
-    caption: "Rondy race day on 4th Avenue, 1950",
     position: "center 40%",
+  },
+  // World Championship team charging out of the downtown chute, Fur Rondy
+  // 2019 — The Alaska Landmine, CC BY 2.0 (license verified at source
+  // 2026-07-01). https://www.flickr.com/photos/145113598@N07/46377452305
+  "world-championship-sled-dog-races": {
+    src: "/demos/fur-rondy/event-sled-dogs-2019.webp",
+    credit: "Photo: The Alaska Landmine (CC BY 2.0)",
+    attribution:
+      "World Championship Sled Dog Races — a team charges out of the downtown chute, Fur Rondy 2019. Photo by The Alaska Landmine, CC BY 2.0, via Flickr.",
+    caption: "World Championship heat — downtown Anchorage",
+    position: "center 55%",
+  },
+  // Rondy Carnival rides lit at dusk, Chugach Mountains behind — Accretion
+  // Disc, CC BY 2.0 (license verified at source 2026-07-01).
+  // https://www.flickr.com/photos/23642145@N00/12699642913
+  "rondy-carnival": {
+    src: "/demos/fur-rondy/event-carnival-night.webp",
+    credit: "Photo: Accretion Disc (CC BY 2.0)",
+    attribution:
+      "Rondy Carnival — the midway lit at dusk on a downtown Anchorage winter evening, mountains behind. Photo by Accretion Disc, CC BY 2.0, via Flickr.",
+    caption: "Carnival lights at dusk — downtown Anchorage",
+    position: "center 42%",
   },
   // Fireworks over the Anchorage skyline — Nat Wilson, CC BY-SA 2.0
   // https://commons.wikimedia.org/wiki/File:Anchorage_skyline_with_Fireworks.jpg
@@ -106,6 +118,9 @@ export const eventImages: Record<string, RondyImage> = {
     caption: "Fireworks over the Anchorage skyline",
     position: "center 55%",
   },
+  // Music Fest + Melodrama intentionally keep the designed night-carnival
+  // art: no openly-licensed photography of those indoor shows exists, and we
+  // never substitute a generic look-alike (honesty guard).
 };
 
 // Accent gradients per event — night-sky duotone wells behind the photo
