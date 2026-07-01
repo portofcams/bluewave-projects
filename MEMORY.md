@@ -15,6 +15,11 @@
 - **Contact form endpoint**: POST https://ai.portofcams.com/api/bluewave/contact
 - **Email notifications**: portofcams@gmail.com via Resend
 
+## Demo Hubs (unlisted/noindex, do-the-work-first artifacts)
+- `/demos/iditarod-2027` (+5 event pages) — rugged-heritage theme, built 2026-06-30. Prospect: Shannon Noonan (Iditarod).
+- `/demos/fur-rondy-2027` (+6 event pages) — midwinter-carnival theme (`.rondy-carnival` scoped), built 2026-07-01 (e4ab8eb). 25-event filterable schedule; hook = 10+ scattered ticketing systems. Prospect: Dakotah Fujan (Greater Anchorage, Inc.). Outreach draft in iCloud claude-config/rondy/ — NOT sent.
+- ⚠️ Local-build gotcha: untracked `sentry.*.config.ts` at repo root import @sentry/nextjs (not a dep) → local `next build` fails. Move them aside, build, restore. They never deploy (untracked).
+
 ## Portfolio Order (2026-04-28)
 Cards in `src/components/Portfolio.tsx`, top → bottom:
 1. Port of Cams
