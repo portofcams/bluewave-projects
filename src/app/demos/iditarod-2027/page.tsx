@@ -4,6 +4,8 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { events, HUB_PATH, SITE } from "./events";
 import {
+  HeritageShell,
+  Seal,
   PhotoPlaceholder,
   SampleNote,
   IditarodMotion,
@@ -28,88 +30,101 @@ export const metadata: Metadata = {
 
 export default function IditarodHubPage() {
   return (
-    // Page-local Iditarod brand theme (snow white on Iditarod blue). Scoped to
-    // this route only — no globals.css / tailwind.config / shared components
-    // touched, so the rest of bluewaveprojects.com is unchanged.
-    <main className="min-h-screen bg-[#F5F8FB] text-[#1F2D3A]">
-      <Nav />
+    // Page-local "rugged heritage" theme (Direction 3): warm cream paper canvas,
+    // deep spruce ink, rust/oxblood accents, aged-gold seal, vintage slab/serif
+    // display type. Everything is scoped under <HeritageShell> (.idit-heritage) —
+    // no globals.css / tailwind.config / shared components touched, so the rest of
+    // bluewaveprojects.com is unchanged.
+    <HeritageShell>
+      <main className="min-h-screen text-[#1f3d2f]">
+        <Nav />
 
-      {/* Hero — deep Iditarod-blue band */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#23557D] via-[#1B4565] to-[#0F2E47] text-white">
-        {/* faint trail/aurora texture */}
-        <svg
-          className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.12]"
-          viewBox="0 0 1200 600"
-          preserveAspectRatio="xMidYMid slice"
-          aria-hidden="true"
-        >
-          <path
-            d="M-50 180 C 300 80, 600 240, 900 140 S 1300 90, 1300 180"
-            stroke="#9FE7FF"
-            strokeWidth="60"
-            fill="none"
-            opacity="0.5"
-          />
-          <path
-            d="M0 470 C 250 440, 450 500, 700 470 S 1050 440, 1250 480"
-            stroke="#ffffff"
-            strokeWidth="1.5"
-            strokeDasharray="3 10"
-            fill="none"
-          />
-        </svg>
+        {/* Hero — spruce band over the real start-line photo, cream display type */}
+        <section className="relative overflow-hidden bg-gradient-to-br from-[#2b4d3b] via-[#1f3d2f] to-[#152a20] text-[#F3EAD7]">
+          {/* faint woodcut trail lines (aged gold / cream) */}
+          <svg
+            className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.14]"
+            viewBox="0 0 1200 600"
+            preserveAspectRatio="xMidYMid slice"
+            aria-hidden="true"
+          >
+            <path
+              d="M-50 180 C 300 80, 600 240, 900 140 S 1300 90, 1300 180"
+              stroke="#C08A2D"
+              strokeWidth="60"
+              fill="none"
+              opacity="0.5"
+            />
+            <path
+              d="M0 470 C 250 440, 450 500, 700 470 S 1050 440, 1250 480"
+              stroke="#F3EAD7"
+              strokeWidth="1.5"
+              strokeDasharray="3 10"
+              fill="none"
+            />
+          </svg>
 
-        {/* Subtle "alive" layer: falling snow, aurora shimmer, and a sled-dog
-            team running across the band. CSS/SVG only, scoped, and disabled for
-            prefers-reduced-motion. Sits above texture, below content. */}
-        <IditarodMotion />
+          {/* Subtle "alive" layer: falling flecks, aged-gold aurora shimmer, and a
+              spruce sled-dog team running across the band. CSS/SVG only, scoped,
+              disabled for prefers-reduced-motion. Sits above texture, below
+              content. */}
+          <IditarodMotion />
 
-        <div className="relative mx-auto max-w-6xl px-6 pb-16 pt-32">
-          <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
-            <div>
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#35A8DF]/40 bg-[#35A8DF]/15 px-3 py-1.5 font-mono text-xs uppercase tracking-[0.16em] text-[#BFE6FA]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#35A8DF]" />
-                Sample build · Iditarod 2027 · 55th running
+          <div className="relative mx-auto max-w-6xl px-6 pb-16 pt-32">
+            <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+              <div>
+                <div className="idit-eyebrow mb-5 inline-flex items-center gap-2 rounded-sm border border-[#C08A2D]/45 bg-[#14241c]/40 px-3 py-1.5 !text-[#e9dcbf]">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#C08A2D]" />
+                  Sample build · Iditarod 2027 · 55th running
+                </div>
+                <h1 className="idit-display mb-5 max-w-3xl text-5xl font-bold leading-[0.98] sm:text-7xl">
+                  The whole Iditarod season,{" "}
+                  <span className="text-[#e0a94a]">one place to buy in.</span>
+                </h1>
+                <div className="idit-perf-rule !mx-0 mb-6" />
+                <p className="mb-8 max-w-2xl text-lg leading-relaxed text-[#F3EAD7]/85">
+                  Every ticketed moment of the 2027 race — banquet, ceremonial
+                  start, restart, finish, and the documentary premiere — pulled
+                  into one branded, conversion-optimized hub. No redirects to a
+                  generic auction tool. No reseller outranking you for your own
+                  events. The buyer stays on the Iditarod brand from interest to
+                  checkout.
+                </p>
+                <div className="flex flex-col gap-4 sm:flex-row">
+                  <a
+                    href="#events"
+                    className="idit-display rounded-sm border-2 border-[#7d3517] bg-[#B5502A] px-8 py-3.5 text-center text-sm font-bold text-[#F3EAD7] shadow-[4px_4px_0_rgba(20,36,28,0.4)] transition-transform hover:-translate-y-0.5"
+                  >
+                    See the events →
+                  </a>
+                  <a
+                    href="#why"
+                    className="idit-display rounded-sm border-2 border-[#F3EAD7]/35 px-8 py-3.5 text-center text-sm font-bold text-[#F3EAD7]/90 transition-colors hover:border-[#F3EAD7]/70 hover:bg-[#F3EAD7]/5"
+                  >
+                    Why it matters
+                  </a>
+                </div>
               </div>
-              <h1 className="mb-5 max-w-3xl text-4xl font-bold leading-[1.02] tracking-tight sm:text-6xl">
-                The whole Iditarod season,{" "}
-                <span className="text-[#7FD3F5]">one place to buy in.</span>
-              </h1>
-              <p className="mb-8 max-w-2xl text-lg leading-relaxed text-white/75">
-                Every ticketed moment of the 2027 race — banquet, ceremonial
-                start, restart, finish, and the documentary premiere — pulled
-                into one branded, conversion-optimized hub. No redirects to a
-                generic auction tool. No reseller outranking you for your own
-                events. The buyer stays on the Iditarod brand from interest to
-                checkout.
-              </p>
-              <div className="flex flex-col gap-4 sm:flex-row">
-                <a
-                  href="#events"
-                  className="rounded-full bg-[#35A8DF] px-8 py-3.5 text-center text-sm font-semibold text-white shadow-lg shadow-[#0F2E47]/30 transition-colors hover:bg-[#2A93C7]"
-                >
-                  See the events →
-                </a>
-                <a
-                  href="#why"
-                  className="rounded-full border border-white/25 px-8 py-3.5 text-center text-sm font-semibold text-white/90 transition-colors hover:border-white/50 hover:bg-white/5"
-                >
-                  Why it matters
-                </a>
+
+              <div className="relative">
+                <PhotoPlaceholder
+                  accent="aurora"
+                  tall
+                  imageKey="hero"
+                  label="Iditarod start line — Anchorage"
+                  stub
+                />
+                {/* Aged-gold vintage seal overlapping the hero photo */}
+                <Seal
+                  size={132}
+                  className="absolute -bottom-8 -left-8 hidden sm:inline-flex"
+                />
               </div>
             </div>
-
-            <PhotoPlaceholder
-              accent="aurora"
-              tall
-              imageKey="hero"
-              label="Iditarod start line — Anchorage"
-            />
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Value line / quick stats */}
+      {/* Value line / quick stats — heritage ticket-well tiles */}
       <section className="mx-auto max-w-6xl px-6 py-12">
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {[
@@ -120,13 +135,15 @@ export default function IditarodHubPage() {
           ].map((stat) => (
             <div
               key={stat.l}
-              className="rounded-2xl border border-[#E2EAF1] bg-white p-5 shadow-sm"
+              className="rounded-sm border-2 border-[#1f3d2f]/30 bg-gradient-to-b from-[#fbf5e6] to-[#efe3c9] p-5 shadow-[4px_4px_0_rgba(31,61,47,0.14)]"
             >
-              <div className="text-3xl font-bold text-[#23557D]">{stat.v}</div>
-              <div className="mb-1 mt-2 text-xs uppercase tracking-wider text-[#5B6B7A]">
+              <div className="idit-display text-4xl font-bold text-[#B5502A]">
+                {stat.v}
+              </div>
+              <div className="idit-display mb-1 mt-2 text-xs font-semibold tracking-[0.12em] text-[#1f3d2f]">
                 {stat.l}
               </div>
-              <div className="text-xs leading-relaxed text-[#8A97A5]">
+              <div className="text-xs leading-relaxed text-[#6b5f4a]">
                 {stat.s}
               </div>
             </div>
@@ -134,41 +151,41 @@ export default function IditarodHubPage() {
         </div>
       </section>
 
-      {/* Events grid */}
+      {/* Events grid — vintage ticket-stub cards */}
       <section id="events" className="mx-auto max-w-6xl px-6 py-16">
-        <div className="mb-10">
-          <p className="mb-3 text-sm uppercase tracking-[0.2em] text-[#327FA2]">
-            The 2027 season
-          </p>
-          <h2 className="text-3xl font-bold text-[#1B4565] sm:text-4xl">
-            Five tickets. <span className="text-[#35A8DF]">One hub.</span>
+        <div className="mb-12 text-center">
+          <p className="idit-eyebrow mb-3">The 2027 season</p>
+          <h2 className="idit-display text-4xl font-bold text-[#1f3d2f] sm:text-5xl">
+            Five tickets. <span className="text-[#B5502A]">One hub.</span>
           </h2>
-          <p className="mt-3 max-w-3xl text-[#5B6B7A]">
-            Each card links to a dedicated, SEO-optimized event page — the kind
+          <div className="idit-perf-rule" />
+          <p className="mx-auto mt-4 max-w-3xl text-[#6b5f4a]">
+            Each stub links to a dedicated, SEO-optimized event page — the kind
             of page that should rank for &ldquo;Iditarod 2027 [event]
             tickets&rdquo; and convert the fan on your own domain.
           </p>
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-2">
+        <div className="grid gap-8 lg:grid-cols-2">
           {events.map((e) => {
             const badge = ticketBadge[e.ticketed];
             return (
               <Link
                 key={e.slug}
                 href={`${HUB_PATH}/${e.slug}`}
-                className="group flex flex-col overflow-hidden rounded-2xl border border-[#E2EAF1] bg-white shadow-sm transition-all hover:-translate-y-0.5 hover:border-[#35A8DF]/40 hover:shadow-lg hover:shadow-[#23557D]/10"
+                className="group idit-ticket flex flex-col overflow-hidden rounded-sm"
               >
                 <PhotoPlaceholder
                   accent={e.accent}
                   imageKey={e.slug}
                   label={e.shortName}
-                  className="rounded-none rounded-t-2xl border-0"
+                  className="idit-stub-tear rounded-none border-0"
+                  stub
                 />
                 <div className="flex flex-1 flex-col p-6">
                   <div className="mb-3 flex items-start justify-between gap-3">
                     <div>
-                      <h3 className="text-xl font-bold leading-tight text-[#1B4565]">
+                      <h3 className="idit-display text-xl font-bold leading-tight text-[#1f3d2f]">
                         {e.shortName}
                       </h3>
                       <p className={`mt-1 text-sm font-semibold ${accentText[e.accent]}`}>
@@ -176,23 +193,25 @@ export default function IditarodHubPage() {
                       </p>
                     </div>
                     <span
-                      className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-2 py-1 text-[10px] uppercase tracking-[0.16em] ${badge.cls}`}
+                      className={`idit-display inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-sm border px-2 py-1 text-[10px] tracking-[0.12em] ${badge.cls}`}
                     >
                       {badge.label}
                     </span>
                   </div>
-                  <p className="mb-1 text-xs text-[#8A97A5]">{e.location}</p>
-                  <p className="mb-4 text-sm leading-relaxed text-[#4A5868]">
+                  <p className="mb-1 text-xs uppercase tracking-[0.08em] text-[#6b5f4a]">
+                    {e.location}
+                  </p>
+                  <p className="mb-4 text-sm leading-relaxed text-[#14241c]">
                     {e.teaser}
                   </p>
-                  <div className="mt-auto flex items-center justify-between border-t border-[#EDF1F6] pt-4">
-                    <span className="text-sm font-semibold text-[#23557D] transition-colors group-hover:text-[#35A8DF]">
+                  <div className="idit-stub-foot mt-auto flex items-center justify-between pt-4">
+                    <span className="idit-display text-sm font-bold text-[#B5502A] transition-colors group-hover:text-[#7d3517]">
                       {e.ticketed === "free-spectate"
                         ? "Plan your visit"
                         : "Reserve / buy tickets"}{" "}
                       →
                     </span>
-                    <span className="text-[11px] text-[#A8B2BD]">
+                    <span className="text-[11px] uppercase tracking-[0.1em] text-[#8a7d63]">
                       {e.priceStatus.includes("[confirm]")
                         ? "Pricing [confirm]"
                         : "Sample CTA"}
@@ -208,14 +227,13 @@ export default function IditarodHubPage() {
       {/* Why it matters — the pitch */}
       <section id="why" className="mx-auto max-w-6xl px-6 py-16">
         <div className="mb-10">
-          <p className="mb-3 text-sm uppercase tracking-[0.2em] text-[#327FA2]">
-            Why a unified hub
-          </p>
-          <h2 className="text-3xl font-bold text-[#1B4565] sm:text-4xl">
+          <p className="idit-eyebrow mb-3">Why a unified hub</p>
+          <h2 className="idit-display text-4xl font-bold text-[#1f3d2f] sm:text-5xl">
             iditarod.com has the dates.{" "}
-            <span className="text-[#35A8DF]">It&apos;s missing the funnel.</span>
+            <span className="text-[#B5502A]">It&apos;s missing the funnel.</span>
           </h2>
-          <p className="mt-3 max-w-3xl text-[#5B6B7A]">
+          <div className="idit-perf-rule !mx-0" />
+          <p className="mt-4 max-w-3xl text-[#6b5f4a]">
             The experience is fragmented and it leaks revenue. Concrete gaps,
             verified against the live site:
           </p>
@@ -250,17 +268,19 @@ export default function IditarodHubPage() {
           ].map((gap) => (
             <div
               key={gap.t}
-              className="rounded-2xl border border-[#E2EAF1] bg-white p-6 shadow-sm"
+              className="rounded-sm border-2 border-[#1f3d2f]/25 bg-gradient-to-b from-[#fbf5e6] to-[#efe3c9] p-6 shadow-[4px_4px_0_rgba(31,61,47,0.12)]"
             >
-              <h3 className="mb-2 text-lg font-bold text-[#1B4565]">{gap.t}</h3>
-              <p className="leading-relaxed text-[#4A5868]">{gap.d}</p>
+              <h3 className="idit-display mb-2 text-lg font-bold text-[#1f3d2f]">
+                {gap.t}
+              </h3>
+              <p className="leading-relaxed text-[#14241c]">{gap.d}</p>
             </div>
           ))}
         </div>
 
         {/* The redirect artifact — the single strongest pitch object */}
-        <div className="mt-8 rounded-2xl border border-[#E2EAF1] bg-white p-6 shadow-sm">
-          <p className="mb-4 text-xs uppercase tracking-[0.18em] text-[#327FA2]">
+        <div className="mt-8 rounded-sm border-2 border-[#1f3d2f]/30 bg-gradient-to-b from-[#fbf5e6] to-[#efe3c9] p-6 shadow-[6px_6px_0_rgba(31,61,47,0.14)]">
+          <p className="idit-eyebrow mb-4 !text-[#1f3d2f]">
             The buyer's actual path today
           </p>
           <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
@@ -271,30 +291,30 @@ export default function IditarodHubPage() {
             ].map((step, i, arr) => (
               <div key={step.label} className="flex flex-1 items-center gap-3">
                 <div
-                  className={`flex-1 rounded-xl border px-4 py-3 text-center ${
+                  className={`flex-1 rounded-sm border-2 px-4 py-3 text-center ${
                     step.on
-                      ? "border-[#35A8DF]/40 bg-[#35A8DF]/10"
-                      : "border-[#A21212]/25 bg-[#A21212]/5"
+                      ? "border-[#1f3d2f]/40 bg-[#1f3d2f]/8"
+                      : "border-[#B5502A]/40 bg-[#B5502A]/8"
                   }`}
                 >
-                  <div className="font-mono text-sm font-semibold text-[#1F2D3A]">
+                  <div className="font-mono text-sm font-semibold text-[#1f3d2f]">
                     {step.label}
                   </div>
                   <div
                     className={`mt-0.5 text-[11px] ${
-                      step.on ? "text-[#2A6E91]" : "text-[#A85252]"
+                      step.on ? "text-[#1f3d2f]/80" : "text-[#7d3517]"
                     }`}
                   >
                     {step.sub}
                   </div>
                 </div>
                 {i < arr.length - 1 && (
-                  <span className="hidden text-[#A8B2BD] sm:inline">→</span>
+                  <span className="hidden text-[#B5502A] sm:inline">→</span>
                 )}
               </div>
             ))}
           </div>
-          <p className="mt-4 text-xs leading-relaxed text-[#8A97A5]">
+          <p className="mt-4 text-xs leading-relaxed text-[#6b5f4a]">
             Verified live: the official banquet link 301-redirects twice and
             drops the buyer on a third-party auction platform. A first-party hub
             keeps every one of those clicks — and the margin — on iditarod.com.
@@ -302,14 +322,15 @@ export default function IditarodHubPage() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CTA — spruce band, aged-gold seal, rust button */}
       <section className="mx-auto max-w-5xl px-6 pb-20 pt-8">
-        <div className="overflow-hidden rounded-3xl bg-gradient-to-br from-[#23557D] via-[#1B4565] to-[#0F2E47] p-10 text-center text-white shadow-xl shadow-[#23557D]/20">
-          <h2 className="mb-4 text-3xl font-bold">
+        <div className="relative overflow-hidden rounded-sm border-4 border-[#C08A2D]/70 bg-gradient-to-br from-[#2b4d3b] via-[#1f3d2f] to-[#152a20] p-10 text-center text-[#F3EAD7] shadow-[8px_8px_0_rgba(31,61,47,0.3)]">
+          <Seal size={96} className="mx-auto mb-6" />
+          <h2 className="idit-display mb-4 text-4xl font-bold">
             This is a sample.{" "}
-            <span className="text-[#7FD3F5]">The real thing keeps your margin.</span>
+            <span className="text-[#e0a94a]">The real thing keeps your margin.</span>
           </h2>
-          <p className="mx-auto mb-8 max-w-2xl text-white/75">
+          <p className="mx-auto mb-8 max-w-2xl text-[#F3EAD7]/85">
             BlueWave Projects builds branded, first-party ticketing and event
             hubs that recapture the revenue currently bleeding to third-party
             platforms and resellers. Final pages would use ITC&apos;s official
@@ -317,7 +338,7 @@ export default function IditarodHubPage() {
           </p>
           <a
             href="https://bluewaveprojects.com/booking"
-            className="inline-block rounded-full bg-[#35A8DF] px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#0F2E47]/30 transition-colors hover:bg-[#2A93C7]"
+            className="idit-display inline-block rounded-sm border-2 border-[#7d3517] bg-[#B5502A] px-8 py-3.5 text-sm font-bold text-[#F3EAD7] shadow-[4px_4px_0_rgba(20,36,28,0.4)] transition-transform hover:-translate-y-0.5"
           >
             Talk to BlueWave Projects →
           </a>
@@ -326,6 +347,7 @@ export default function IditarodHubPage() {
 
       <SampleNote />
       <Footer />
-    </main>
+      </main>
+    </HeritageShell>
   );
 }

@@ -5,6 +5,8 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { events, getEvent, HUB_PATH, SITE } from "../events";
 import {
+  HeritageShell,
+  Seal,
   PhotoPlaceholder,
   SampleNote,
   ticketBadge,
@@ -62,194 +64,207 @@ export default async function EventPage({
         : "Reserve / buy tickets";
 
   return (
-    // Page-local Iditarod brand theme (snow white on Iditarod blue). Scoped to
-    // this route only — globals.css / tailwind.config / shared components are
-    // left untouched so the rest of bluewaveprojects.com is unchanged.
-    <main className="min-h-screen bg-[#F5F8FB] text-[#1F2D3A]">
-      <Nav />
+    // Page-local "rugged heritage" theme (Direction 3): warm cream paper canvas,
+    // deep spruce ink, rust/oxblood accents, aged-gold seal, vintage slab/
+    // condensed display type. Every style is scoped under <HeritageShell>'s
+    // `.idit-heritage` namespace — globals.css / tailwind.config / shared
+    // components are left untouched so the rest of bluewaveprojects.com is
+    // unchanged. No blue remains anywhere on this route.
+    <HeritageShell>
+      <main className="min-h-screen">
+        <Nav />
 
-      {/* Breadcrumb */}
-      <div className="mx-auto max-w-5xl px-6 pt-28">
-        <nav className="text-xs text-[#8A97A5]">
-          <Link href={HUB_PATH} className="hover:text-[#23557D]">
-            Iditarod 2027 Hub
-          </Link>
-          <span className="mx-2">/</span>
-          <span className="text-[#5B6B7A]">{e.shortName}</span>
-        </nav>
-      </div>
-
-      {/* Hero */}
-      <section className="mx-auto max-w-5xl px-6 pb-10 pt-6">
-        <div className="mb-6 flex flex-wrap items-center gap-3">
-          <span
-            className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[10px] uppercase tracking-[0.16em] ${badge.cls}`}
-          >
-            {badge.label}
-          </span>
-          <span className="font-mono text-xs uppercase tracking-[0.16em] text-[#8A97A5]">
-            Iditarod 2027 · 55th running
-          </span>
+        {/* Breadcrumb */}
+        <div className="mx-auto max-w-5xl px-6 pt-28">
+          <nav className="idit-display text-[11px] tracking-[0.14em] text-[#6b5f4a]">
+            <Link href={HUB_PATH} className="hover:text-[#B5502A]">
+              Iditarod 2027 Hub
+            </Link>
+            <span className="mx-2 text-[#B5502A]">/</span>
+            <span className="text-[#1f3d2f]">{e.shortName}</span>
+          </nav>
         </div>
 
-        <h1 className="mb-4 max-w-3xl text-4xl font-bold leading-[1.05] tracking-tight text-[#1B4565] sm:text-5xl">
-          {e.h1}
-        </h1>
-
-        <div className="mb-6 flex flex-wrap gap-x-8 gap-y-2 text-sm">
-          <div>
-            <span className="text-[#8A97A5]">When · </span>
-            <span className={`font-semibold ${accentText[e.accent]}`}>
-              {e.date}
+        {/* Hero */}
+        <section className="mx-auto max-w-5xl px-6 pb-10 pt-6">
+          <div className="mb-6 flex flex-wrap items-center gap-3">
+            <span
+              className={`inline-flex items-center gap-1.5 rounded-sm border px-3 py-1 text-[10px] uppercase tracking-[0.16em] ${badge.cls}`}
+            >
+              {badge.label}
+            </span>
+            <span className="idit-eyebrow !text-[11px] !tracking-[0.28em]">
+              Iditarod 2027 · 55th running
             </span>
           </div>
-          <div>
-            <span className="text-[#8A97A5]">Where · </span>
-            <span className="text-[#4A5868]">{e.location}</span>
-          </div>
-        </div>
 
-        <p className="mb-8 max-w-2xl text-lg leading-relaxed text-[#4A5868]">
-          {e.intro}
-        </p>
-
-        <PhotoPlaceholder
-          accent={e.accent}
-          tall
-          imageKey={e.slug}
-          label={`${e.shortName} — ${e.city}, AK`}
-          className="mb-8"
-        />
-
-        {/* Ticket CTA card */}
-        <div className="rounded-2xl border border-[#E2EAF1] bg-white p-6 shadow-sm sm:p-8">
-          <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
-            <div>
-              <p className="mb-1 text-xs uppercase tracking-[0.18em] text-[#327FA2]">
-                {ctaLabel}
-              </p>
-              <p className="max-w-md text-sm leading-relaxed text-[#5B6B7A]">
-                {e.priceStatus}
-              </p>
+          <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
+            <div className="min-w-0">
+              <h1 className="idit-display mb-4 max-w-3xl text-4xl font-bold leading-[1.02] text-[#1f3d2f] sm:text-6xl">
+                {e.h1}
+              </h1>
+              <div className="idit-perf-rule !mx-0" />
             </div>
-            <a
-              href="https://iditarod.com/calendar/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="whitespace-nowrap rounded-full bg-[#35A8DF] px-8 py-3.5 text-sm font-semibold text-white shadow-md shadow-[#23557D]/20 transition-colors hover:bg-[#2A93C7]"
-            >
-              {ctaLabel} →
-            </a>
+            <Seal size={132} className="hidden shrink-0 sm:inline-flex" />
           </div>
-          <p className="mt-4 border-t border-[#EDF1F6] pt-4 text-[11px] text-[#8A97A5]">
-            Sample CTA. In the live build this button would run a first-party,
-            branded checkout on iditarod.com instead of redirecting to a
-            third-party platform.
+
+          <div className="mb-6 mt-6 flex flex-wrap gap-x-8 gap-y-2 text-sm">
+            <div>
+              <span className="idit-display text-[11px] tracking-[0.14em] text-[#6b5f4a]">
+                When ·{" "}
+              </span>
+              <span className={`font-semibold ${accentText[e.accent]}`}>
+                {e.date}
+              </span>
+            </div>
+            <div>
+              <span className="idit-display text-[11px] tracking-[0.14em] text-[#6b5f4a]">
+                Where ·{" "}
+              </span>
+              <span className="text-[#14241c]">{e.location}</span>
+            </div>
+          </div>
+
+          <p className="mb-8 max-w-2xl text-lg leading-relaxed text-[#14241c]">
+            {e.intro}
           </p>
-        </div>
-      </section>
 
-      {/* Body */}
-      <section className="mx-auto max-w-3xl px-6 py-10">
-        <h2 className="mb-5 text-2xl font-bold text-[#1B4565] sm:text-3xl">
-          About this event
-        </h2>
-        <div className="space-y-4">
-          {e.body.map((p, i) => (
-            <p key={i} className="leading-relaxed text-[#4A5868]">
-              {p}
-            </p>
-          ))}
-        </div>
+          <PhotoPlaceholder
+            accent={e.accent}
+            tall
+            imageKey={e.slug}
+            label={`${e.shortName} — ${e.city}, AK`}
+            className="mb-8"
+          />
 
-        <div className="mt-8 rounded-2xl border border-[#E2EAF1] bg-white p-6 shadow-sm">
-          <h3 className="mb-2 text-sm font-semibold uppercase tracking-wider text-[#327FA2]">
-            How tickets work today
-          </h3>
-          <p className="leading-relaxed text-[#4A5868]">{e.ticketInfo}</p>
-          <p className="mt-3 text-xs text-[#8A97A5]">
-            Source:{" "}
-            <a
-              href={e.sourceUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-[#23557D] underline underline-offset-2 hover:text-[#35A8DF]"
-            >
-              {e.sourceUrl.replace(/^https?:\/\//, "").split("/")[0]}
-            </a>
-          </p>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="mx-auto max-w-3xl px-6 py-10">
-        <h2 className="mb-6 text-2xl font-bold text-[#1B4565] sm:text-3xl">
-          Frequently asked questions
-        </h2>
-        <div className="space-y-3">
-          {e.faq.map((f) => (
-            <details
-              key={f.q}
-              className="group rounded-2xl border border-[#E2EAF1] bg-white px-5 py-4 shadow-sm"
-            >
-              <summary className="flex cursor-pointer items-center justify-between gap-4 text-base font-semibold text-[#1B4565] marker:content-none">
-                {f.q}
-                <span className="text-[#35A8DF] transition-transform group-open:rotate-45">
-                  +
-                </span>
-              </summary>
-              <p className="mt-3 leading-relaxed text-[#4A5868]">{f.a}</p>
-            </details>
-          ))}
-        </div>
-      </section>
-
-      {/* Other events */}
-      <section className="mx-auto max-w-5xl px-6 py-10">
-        <h2 className="mb-6 text-xl font-semibold text-[#5B6B7A]">
-          More of the 2027 season
-        </h2>
-        <div className="grid gap-3 sm:grid-cols-2">
-          {events
-            .filter((o) => o.slug !== e.slug)
-            .map((o) => (
-              <Link
-                key={o.slug}
-                href={`${HUB_PATH}/${o.slug}`}
-                className="flex items-center justify-between rounded-xl border border-[#E2EAF1] bg-white px-5 py-4 shadow-sm transition-colors hover:border-[#35A8DF]/40 hover:bg-[#F0F7FC]"
+          {/* Ticket CTA card — vintage ticket stub */}
+          <div className="idit-ticket p-6 sm:p-8">
+            <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+              <div>
+                <p className="idit-eyebrow mb-1">{ctaLabel}</p>
+                <p className="max-w-md text-sm leading-relaxed text-[#14241c]">
+                  {e.priceStatus}
+                </p>
+              </div>
+              <a
+                href="https://iditarod.com/calendar/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="idit-display whitespace-nowrap rounded-sm border-2 border-[#7d3517] bg-[#B5502A] px-8 py-3.5 text-sm font-semibold text-[#F3EAD7] shadow-[4px_4px_0_rgba(21,42,32,0.9)] transition-transform hover:-translate-x-[2px] hover:-translate-y-[2px]"
               >
-                <div>
-                  <div className="text-sm font-semibold text-[#1B4565]">
-                    {o.shortName}
-                  </div>
-                  <div className="text-xs text-[#8A97A5]">{o.date}</div>
-                </div>
-                <span className="text-[#35A8DF]">→</span>
-              </Link>
+                {ctaLabel} →
+              </a>
+            </div>
+            <p className="idit-stub-foot mt-4 pt-4 text-[11px] text-[#6b5f4a]">
+              Sample CTA. In the live build this button would run a first-party,
+              branded checkout on iditarod.com instead of redirecting to a
+              third-party platform.
+            </p>
+          </div>
+        </section>
+
+        {/* Body */}
+        <section className="mx-auto max-w-3xl px-6 py-10">
+          <h2 className="idit-display mb-5 text-3xl font-bold text-[#1f3d2f] sm:text-4xl">
+            About this event
+          </h2>
+          <div className="space-y-4">
+            {e.body.map((p, i) => (
+              <p key={i} className="leading-relaxed text-[#14241c]">
+                {p}
+              </p>
             ))}
-        </div>
-        <div className="mt-6">
-          <Link
-            href={HUB_PATH}
-            className="text-sm font-medium text-[#23557D] underline underline-offset-2 hover:text-[#35A8DF]"
-          >
-            ← Back to the full Iditarod 2027 hub
-          </Link>
-        </div>
-      </section>
+          </div>
 
-      <SampleNote />
-      <Footer />
+          <div className="idit-ticket mt-8 p-6">
+            <h3 className="idit-eyebrow mb-2 !tracking-[0.2em]">
+              How tickets work today
+            </h3>
+            <p className="leading-relaxed text-[#14241c]">{e.ticketInfo}</p>
+            <p className="mt-3 text-xs text-[#6b5f4a]">
+              Source:{" "}
+              <a
+                href={e.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-[#B5502A] underline underline-offset-2 hover:text-[#7d3517]"
+              >
+                {e.sourceUrl.replace(/^https?:\/\//, "").split("/")[0]}
+              </a>
+            </p>
+          </div>
+        </section>
 
-      {/* schema.org Event + FAQPage — real date/location, no invented prices */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(eventJsonLd(e)) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(e)) }}
-      />
-    </main>
+        {/* FAQ */}
+        <section className="mx-auto max-w-3xl px-6 py-10">
+          <h2 className="idit-display mb-6 text-3xl font-bold text-[#1f3d2f] sm:text-4xl">
+            Frequently asked questions
+          </h2>
+          <div className="space-y-3">
+            {e.faq.map((f) => (
+              <details
+                key={f.q}
+                className="group rounded-sm border-2 border-[#1f3d2f] bg-gradient-to-b from-[#fbf5e6] to-[#efe3c9] px-5 py-4 shadow-[4px_4px_0_rgba(31,61,47,0.12)]"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 text-base font-semibold text-[#1f3d2f] marker:content-none">
+                  {f.q}
+                  <span className="text-[#B5502A] transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 leading-relaxed text-[#14241c]">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        {/* Other events */}
+        <section className="mx-auto max-w-5xl px-6 py-10">
+          <h2 className="idit-display mb-6 text-2xl font-semibold text-[#1f3d2f]">
+            More of the 2027 season
+          </h2>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {events
+              .filter((o) => o.slug !== e.slug)
+              .map((o) => (
+                <Link
+                  key={o.slug}
+                  href={`${HUB_PATH}/${o.slug}`}
+                  className="flex items-center justify-between rounded-sm border-2 border-[#1f3d2f] bg-gradient-to-b from-[#fbf5e6] to-[#efe3c9] px-5 py-4 shadow-[3px_3px_0_rgba(31,61,47,0.14)] transition-transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[5px_5px_0_rgba(31,61,47,0.2)]"
+                >
+                  <div>
+                    <div className="idit-display text-sm font-semibold text-[#1f3d2f]">
+                      {o.shortName}
+                    </div>
+                    <div className="text-xs text-[#6b5f4a]">{o.date}</div>
+                  </div>
+                  <span className="text-[#B5502A]">→</span>
+                </Link>
+              ))}
+          </div>
+          <div className="mt-6">
+            <Link
+              href={HUB_PATH}
+              className="idit-display text-sm font-medium text-[#B5502A] underline underline-offset-2 hover:text-[#7d3517]"
+            >
+              ← Back to the full Iditarod 2027 hub
+            </Link>
+          </div>
+        </section>
+
+        <SampleNote />
+        <Footer />
+
+        {/* schema.org Event + FAQPage — real date/location, no invented prices */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(eventJsonLd(e)) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(e)) }}
+        />
+      </main>
+    </HeritageShell>
   );
 }

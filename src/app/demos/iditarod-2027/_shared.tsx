@@ -1,34 +1,42 @@
 // Shared presentational pieces for the Iditarod 2027 sample/proof pages.
 // Honest framing per the brief: this is a sample built on public info, not an
-// official ITC product. No copyrighted photos — designed placeholder blocks only.
+// official ITC product. Photography is public-domain / openly-licensed; the
+// final build would swap in the ITC's own official imagery and logo.
 //
-// BRAND GROUNDING (real values, scoped to these pages only — no globals/config):
-// Pulled from iditarod.com's Elementor global color tokens + theme style.css:
-//   --e-global-color-primary:  #23557D  (Iditarod blue)
-//   --e-global-color-accent:   #28556C  (deep teal-blue)
-//   --e-global-color-text:     #313131
-//   --e-global-color-secondary:#A8AFB7
-//   theme link/hover blues:    #35A8DF, #327FA2, #04596F
-// All applied below as page-local Tailwind arbitrary values so the rest of
-// bluewaveprojects.com is visually unchanged.
+// THEME: "Rugged heritage" (Direction 3, approved) — a vintage race-poster look
+// on a warm cream paper canvas, deep spruce ink, rust/oxblood accents, and an
+// aged-gold seal. Matches the .t3- section of
+// /public/demos/iditarod-themes.html.
+//
+// SCOPING RULE: every style this file injects is namespaced under the
+// `.idit-heritage` wrapper class (see <HeritageShell>). There are NO bare
+// body/html/:root/h1/h2 selectors, so nothing leaks to the rest of
+// bluewaveprojects.com. Pages MUST wrap their content in <HeritageShell> for the
+// scoped font + paper canvas + card/photo styles to apply.
 
 import type { CSSProperties } from "react";
 import type { IditarodEvent } from "./events";
 import { SITE } from "./events";
 
-// Page-local brand tokens (kept here so the three pages share one source).
+// Page-local brand tokens (kept here so the pages share one source of truth).
+// Same export name as before (IDITAROD) so existing imports keep resolving; only
+// the values change to the heritage palette. New named fields are additive.
 export const IDITAROD = {
-  blue: "#23557D",
-  blueDark: "#1B4565",
-  blueDeep: "#0F2E47",
-  accent: "#28556C",
-  teal: "#04596F",
-  sky: "#35A8DF",
-  skyMid: "#327FA2",
-  snow: "#F5F8FB",
-  border: "#E2EAF1",
-  text: "#1F2D3A",
-  muted: "#5B6B7A",
+  // core heritage palette
+  paper: "#F3EAD7", // warm cream canvas
+  paperDeep: "#efe3c9", // shaded cream (gradients / card wells)
+  kraft: "#e6d7ba", // aged kraft tone
+  ink: "#1f3d2f", // deep spruce ink (body text)
+  inkDark: "#14241c", // darker spruce for small text
+  spruce: "#1f3d2f", // primary accent (spruce green)
+  spruceDeep: "#152a20", // deep spruce (borders / shadows)
+  rust: "#B5502A", // secondary accent (rust / oxblood)
+  rustDeep: "#7d3517", // shaded rust (button borders)
+  gold: "#C08A2D", // aged gold (seal ring)
+  muted: "#6b5f4a", // muted warm brown (captions / meta)
+  border: "#d8c9a8", // hairline on cream
+  // legacy alias kept so any old reference to `.text` still resolves to ink
+  text: "#1f3d2f",
 } as const;
 
 // ---------------------------------------------------------------------------
@@ -111,23 +119,25 @@ export const eventImages: Record<string, IditarodImage> = {
   },
 };
 
-// Accent gradients per event — branded snow-on-blue treatment for the photo
-// placeholders. Keyed to the Iditarod's own blue/teal/sky palette.
+// Accent gradients per event — heritage spruce/rust duotone wells sitting behind
+// the photo placeholders. The `accent` key still maps 1:1 to the event data;
+// only the colors changed from the old blue palette to spruce/rust/gold so the
+// SVG fallback art and the photo wash both read as vintage race-poster.
 export const accentGradient: Record<IditarodEvent["accent"], string> = {
-  ice: "from-[#2E6A9C] via-[#23557D] to-[#1B4565]",
-  lava: "from-[#327FA2] via-[#28556C] to-[#1B4565]",
-  ocean: "from-[#35A8DF] via-[#327FA2] to-[#23557D]",
-  glacier: "from-[#4C90C0] via-[#327FA2] to-[#23557D]",
-  aurora: "from-[#3FA9C7] via-[#28556C] to-[#1B4565]",
+  ice: "from-[#2b4d3b] via-[#1f3d2f] to-[#152a20]",
+  lava: "from-[#c05f36] via-[#B5502A] to-[#7d3517]",
+  ocean: "from-[#2b4d3b] via-[#1f3d2f] to-[#14241c]",
+  glacier: "from-[#3a5c49] via-[#1f3d2f] to-[#152a20]",
+  aurora: "from-[#c9922f] via-[#8a6320] to-[#1f3d2f]",
 };
 
-// On-brand text color for dates / inline accents (used on light cards).
+// On-brand text color for dates / inline accents (used on cream cards).
 export const accentText: Record<IditarodEvent["accent"], string> = {
-  ice: "text-[#23557D]",
-  lava: "text-[#327FA2]",
-  ocean: "text-[#1E6FA8]",
-  glacier: "text-[#327FA2]",
-  aurora: "text-[#28556C]",
+  ice: "text-[#1f3d2f]",
+  lava: "text-[#B5502A]",
+  ocean: "text-[#1f3d2f]",
+  glacier: "text-[#1f3d2f]",
+  aurora: "text-[#B5502A]",
 };
 
 export const ticketBadge: Record<
@@ -136,24 +146,255 @@ export const ticketBadge: Record<
 > = {
   paid: {
     label: "Ticketed event",
-    cls: "bg-[#23557D]/8 text-[#23557D] border-[#23557D]/25",
+    cls: "bg-[#1f3d2f]/8 text-[#1f3d2f] border-[#1f3d2f]/25",
   },
   auction: {
     label: "Auction / experience",
-    cls: "bg-[#327FA2]/10 text-[#2A6E91] border-[#327FA2]/30",
+    cls: "bg-[#B5502A]/10 text-[#B5502A] border-[#B5502A]/30",
   },
   "free-spectate": {
     label: "Free to spectate",
-    cls: "bg-[#35A8DF]/10 text-[#1E6FA8] border-[#35A8DF]/35",
+    cls: "bg-[#C08A2D]/12 text-[#8a6320] border-[#C08A2D]/35",
   },
 };
 
+// ---------------------------------------------------------------------------
+// HERITAGE SHELL — the scoped wrapper every page mounts its content inside.
+// ---------------------------------------------------------------------------
+/**
+ * Wraps page content in the `.idit-heritage` namespace and injects ONE scoped
+ * <style> block that:
+ *   - imports the vintage display fonts (Oswald condensed + Zilla Slab) INSIDE
+ *     the shell so they apply only to these demo pages,
+ *   - paints the warm cream paper canvas with a pure-CSS paper texture (layered
+ *     repeating/radial gradients — no external image),
+ *   - defines the display-font helper class (`.idit-display`) and the body serif,
+ *   - defines the ticket-stub card styles (perforated notch edges + dashed rule),
+ *   - defines the heritage photo-overlay / duotone filter used by images.
+ *
+ * ALL selectors are prefixed with `.idit-heritage` — there are no bare
+ * body/html/:root/h1/h2 rules, so nothing leaks site-wide.
+ *
+ * Usage:
+ *   <HeritageShell>
+ *     ...page markup...
+ *   </HeritageShell>
+ */
+export function HeritageShell({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={`idit-heritage ${className}`}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Zilla+Slab:ital,wght@0,400;0,600;0,700;1,500&family=Rye&display=swap');
+
+        /* --- paper canvas + base type (scoped to the shell) --- */
+        .idit-heritage {
+          position: relative;
+          color: ${IDITAROD.ink};
+          font-family: 'Zilla Slab', Georgia, serif;
+          line-height: 1.55;
+          background-color: ${IDITAROD.paper};
+          background-image:
+            radial-gradient(circle at 18% 22%, rgba(181,80,42,.05) 0 2px, transparent 3px),
+            radial-gradient(circle at 72% 64%, rgba(31,61,47,.05) 0 2px, transparent 3px),
+            radial-gradient(circle at 40% 88%, rgba(20,36,28,.04) 0 1px, transparent 2px),
+            repeating-linear-gradient(90deg, rgba(20,36,28,.018) 0 2px, transparent 2px 5px),
+            repeating-linear-gradient(0deg, rgba(20,36,28,.02) 0 2px, transparent 2px 6px),
+            linear-gradient(135deg, #f6eeda 0%, ${IDITAROD.paperDeep} 100%);
+        }
+        .idit-heritage ::selection { background: rgba(181,80,42,.22); }
+
+        /* --- display type helper --- */
+        .idit-heritage .idit-display {
+          font-family: 'Oswald', 'Zilla Slab', sans-serif;
+          text-transform: uppercase;
+          letter-spacing: .02em;
+        }
+        .idit-heritage .idit-eyebrow {
+          font-family: 'Oswald', sans-serif;
+          text-transform: uppercase;
+          letter-spacing: .4em;
+          font-weight: 600;
+          font-size: 12px;
+          color: ${IDITAROD.rust};
+        }
+        /* decorative seal face (available for hero flourishes) */
+        .idit-heritage .idit-fancy { font-family: 'Rye', 'Oswald', serif; }
+
+        /* --- dashed section rule (vintage ticket perforation motif) --- */
+        .idit-heritage .idit-perf-rule {
+          width: 120px; height: 3px; margin: 16px auto 0;
+          background: repeating-linear-gradient(90deg, ${IDITAROD.spruce} 0 10px, transparent 10px 16px);
+        }
+
+        /* --- TICKET-STUB CARD ---------------------------------------------- */
+        .idit-heritage .idit-ticket {
+          position: relative;
+          background: linear-gradient(180deg, #fbf5e6, ${IDITAROD.paperDeep});
+          border: 2px solid ${IDITAROD.spruce};
+          box-shadow: 6px 6px 0 rgba(31,61,47,.18);
+          transition: transform .18s ease, box-shadow .18s ease;
+        }
+        .idit-heritage .idit-ticket:hover {
+          transform: translateY(-5px);
+          box-shadow: 9px 12px 0 rgba(31,61,47,.22);
+        }
+        /* perforation notches punched into the left/right edges of the stub */
+        .idit-heritage .idit-ticket::before,
+        .idit-heritage .idit-ticket::after {
+          content: ""; position: absolute; width: 22px; height: 22px;
+          border-radius: 50%;
+          background: ${IDITAROD.paper};
+          border: 2px solid ${IDITAROD.spruce};
+          top: 58%; transform: translateY(-50%); z-index: 3;
+        }
+        .idit-heritage .idit-ticket::before { left: -13px; }
+        .idit-heritage .idit-ticket::after  { right: -13px; }
+        /* dashed tear line between a stub's photo and its body */
+        .idit-heritage .idit-stub-tear {
+          border-bottom: 2px dashed ${IDITAROD.spruce};
+        }
+        .idit-heritage .idit-stub-foot {
+          border-top: 2px dashed rgba(31,61,47,.4);
+        }
+
+        /* --- HERITAGE PHOTO OVERLAY / DUOTONE ------------------------------ */
+        /* warm sepia grade applied to real photos so they sit in the palette */
+        .idit-heritage .idit-photo-grade {
+          filter: sepia(.28) saturate(1.05) contrast(1.02) brightness(.98);
+        }
+        /* spruce->rust wash layer (place absolutely over a photo) */
+        .idit-heritage .idit-photo-wash {
+          background: linear-gradient(180deg, rgba(31,61,47,.30), rgba(20,36,28,.62));
+          mix-blend-mode: multiply;
+        }
+      `}</style>
+      {children}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// SEAL — circular vintage stamp: "EST. 1973 · THE LAST GREAT RACE"
+// ---------------------------------------------------------------------------
+/**
+ * A self-contained CSS/SVG seal. Gold ring on a spruce disc, curved text top &
+ * bottom, "EST. 1973" in the core. Purely presentational (aria-hidden). Scales
+ * with the `size` prop (px). No dependency on <HeritageShell> — it carries its
+ * own inline colors — but it reads best on a cream or photo background.
+ */
+export function Seal({
+  size = 200,
+  className = "",
+}: {
+  size?: number;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`relative inline-flex items-center justify-center ${className}`}
+      style={{
+        width: size,
+        height: size,
+        borderRadius: "50%",
+        transform: "rotate(-8deg)",
+        background: `radial-gradient(circle at 50% 45%, rgba(243,234,215,.14), ${IDITAROD.spruceDeep} 72%), ${IDITAROD.spruce}`,
+        border: `3px solid ${IDITAROD.paper}`,
+        boxShadow: `0 0 0 6px ${IDITAROD.gold}, 0 0 0 8px ${IDITAROD.paper}, 0 14px 34px rgba(0,0,0,.45)`,
+      }}
+      aria-label="Established 1973 — The Last Great Race"
+    >
+      <svg
+        viewBox="0 0 230 230"
+        className="absolute inset-0 h-full w-full"
+        aria-hidden="true"
+      >
+        <defs>
+          <path id="idit-seal-arc-top" d="M 30 115 A 85 85 0 0 1 200 115" fill="none" />
+          <path id="idit-seal-arc-bot" d="M 34 115 A 81 81 0 0 0 196 115" fill="none" />
+        </defs>
+        <text
+          fill={IDITAROD.paper}
+          style={{
+            fontFamily: "'Oswald', sans-serif",
+            fontSize: "12.5px",
+            letterSpacing: "2.4px",
+            textTransform: "uppercase",
+            fontWeight: 600,
+          }}
+        >
+          <textPath href="#idit-seal-arc-top" startOffset="50%" textAnchor="middle">
+            The Last Great Race
+          </textPath>
+        </text>
+        <text
+          fill={IDITAROD.paper}
+          style={{
+            fontFamily: "'Oswald', sans-serif",
+            fontSize: "11.5px",
+            letterSpacing: "2.2px",
+            textTransform: "uppercase",
+            fontWeight: 600,
+          }}
+        >
+          <textPath href="#idit-seal-arc-bot" startOffset="50%" textAnchor="middle">
+            Anchorage · To · Nome
+          </textPath>
+        </text>
+        {/* inner gold hairline ring */}
+        <circle cx="115" cy="115" r="70" fill="none" stroke={IDITAROD.gold} strokeWidth="1.5" opacity="0.8" />
+      </svg>
+      <div
+        className="relative text-center"
+        style={{
+          color: IDITAROD.paper,
+          fontFamily: "'Oswald', sans-serif",
+          textTransform: "uppercase",
+        }}
+      >
+        <span style={{ display: "block", fontSize: 10, letterSpacing: "0.24em" }}>
+          EST.
+        </span>
+        <b
+          style={{
+            display: "block",
+            fontSize: 40,
+            fontWeight: 700,
+            lineHeight: 1,
+            color: IDITAROD.rust,
+            textShadow: "0 1px 2px rgba(0,0,0,.6)",
+          }}
+        >
+          1973
+        </b>
+        <span
+          style={{
+            display: "block",
+            fontSize: 11,
+            letterSpacing: "0.28em",
+            marginTop: 6,
+            color: "#e9dcbf",
+          }}
+        >
+          Alaska
+        </span>
+      </div>
+    </div>
+  );
+}
+
 /**
  * Photo block. When an `imageKey` resolves to a license-verified photo (see
- * `eventImages`), the real image is shown behind a brand-blue overlay so text
- * stays readable. When no verified image exists for a slot, this gracefully
- * falls back to the original designed snow-on-blue SVG art — never an empty
- * hole, never an unverified image.
+ * `eventImages`), the real image is shown behind a warm heritage spruce/rust
+ * wash + sepia grade so text stays readable and the photo sits in the palette.
+ * When no verified image exists for a slot, this gracefully falls back to the
+ * designed spruce/rust woodcut SVG art — never an empty hole, never an
+ * unverified image. Optionally framed as a perforated ticket stub.
  */
 export function PhotoPlaceholder({
   accent,
@@ -161,6 +402,7 @@ export function PhotoPlaceholder({
   className = "",
   tall = false,
   imageKey,
+  stub = false,
 }: {
   accent: IditarodEvent["accent"];
   label: string;
@@ -168,12 +410,18 @@ export function PhotoPlaceholder({
   tall?: boolean;
   /** key into eventImages — usually an event slug, or "hero" */
   imageKey?: string;
+  /** frame as a squared-off ticket stub (heritage) instead of rounded corners */
+  stub?: boolean;
 }) {
   const img = imageKey ? eventImages[imageKey] : undefined;
 
   return (
     <div
-      className={`group/ph relative overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br ${accentGradient[accent]} ${
+      className={`group/ph relative overflow-hidden bg-gradient-to-br ${accentGradient[accent]} ${
+        stub
+          ? "border-2 border-[#1f3d2f] shadow-[6px_6px_0_rgba(31,61,47,0.18)]"
+          : "rounded-3xl border border-[#1f3d2f]/25"
+      } ${
         tall ? "min-h-[300px] sm:min-h-[380px]" : "min-h-[190px]"
       } ${className}`}
       role="img"
@@ -183,9 +431,9 @@ export function PhotoPlaceholder({
           : `Iditarod photography placeholder — ${label}`
       }
     >
-      {/* Real, license-verified photo (when available) behind a brand-blue
-          overlay. The overlay keeps the snow-white caption fully legible and
-          ties every photo back to the Iditarod blue palette. */}
+      {/* Real, license-verified photo (when available) behind a warm heritage
+          wash. The sepia grade + spruce/rust multiply layer keep the caption
+          legible and pull every photo into the cream/spruce palette. */}
       {img && (
         <>
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -195,18 +443,21 @@ export function PhotoPlaceholder({
             loading="lazy"
             decoding="async"
             className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover/ph:scale-[1.04]"
-            style={{ objectPosition: img.position ?? "center" }}
+            style={{
+              objectPosition: img.position ?? "center",
+              filter: "sepia(.28) saturate(1.05) contrast(1.02) brightness(.98)",
+            }}
           />
-          {/* brand-blue wash for legibility + on-brand color grade */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#23557D]/55 via-[#1B4565]/35 to-[#0F2E47]/65 mix-blend-multiply" />
-          <div className="absolute inset-0 bg-[#0F2E47]/20" />
+          {/* spruce->oxblood duotone wash for legibility + on-brand color grade */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#1f3d2f]/55 via-[#7d3517]/28 to-[#14241c]/68 mix-blend-multiply" />
+          <div className="absolute inset-0 bg-[#14241c]/18" />
         </>
       )}
 
-      {/* Aurora wash + snow drift + a sled team on the trail. Always rendered:
-          it is the fallback art when no verified photo exists, and a subtle
-          texture layer (dimmed) when a real photo sits behind it. All inline
-          SVG — nothing hotlinked. */}
+      {/* Woodcut aurora arc + snow drift + a sled team on the trail. Always
+          rendered: it is the fallback art when no verified photo exists, and a
+          subtle texture layer (dimmed) when a real photo sits behind it. All
+          inline SVG in cream/gold on spruce — nothing hotlinked. */}
       <svg
         className={`absolute inset-0 h-full w-full transition-opacity ${
           img ? "opacity-25" : "opacity-100"
@@ -217,20 +468,20 @@ export function PhotoPlaceholder({
       >
         <defs>
           <linearGradient id={`aurora-${accent}`} x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#9FE7FF" stopOpacity="0.35" />
-            <stop offset="55%" stopColor="#7FD1C9" stopOpacity="0.12" />
-            <stop offset="100%" stopColor="#3FA9C7" stopOpacity="0" />
+            <stop offset="0%" stopColor="#C08A2D" stopOpacity="0.42" />
+            <stop offset="55%" stopColor="#e9dcbf" stopOpacity="0.14" />
+            <stop offset="100%" stopColor="#B5502A" stopOpacity="0" />
           </linearGradient>
           <radialGradient id={`glow-${accent}`} cx="50%" cy="30%" r="70%">
-            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.18" />
-            <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+            <stop offset="0%" stopColor="#F3EAD7" stopOpacity="0.20" />
+            <stop offset="100%" stopColor="#F3EAD7" stopOpacity="0" />
           </radialGradient>
         </defs>
 
         {/* soft overhead glow */}
         <rect width="400" height="300" fill={`url(#glow-${accent})`} />
 
-        {/* aurora ribbons */}
+        {/* aurora ribbons (aged-gold woodcut arcs) */}
         <path
           d="M-20 60 C 80 20, 160 90, 250 50 S 420 30, 440 70"
           stroke={`url(#aurora-${accent})`}
@@ -246,34 +497,34 @@ export function PhotoPlaceholder({
           opacity="0.7"
         />
 
-        {/* stars */}
+        {/* stars (cream flecks) */}
         {[28, 72, 150, 210, 300, 360, 120, 250].map((x, i) => (
           <circle
             key={x}
             cx={x}
             cy={18 + (i % 4) * 14}
             r={i % 3 === 0 ? 1.4 : 0.9}
-            fill="#ffffff"
-            opacity="0.65"
+            fill="#F3EAD7"
+            opacity="0.6"
           />
         ))}
 
-        {/* snow horizon / drifts */}
+        {/* snow horizon / drifts (cream) */}
         <path
           d="M0 210 C 70 196, 130 224, 210 208 S 340 196, 400 214 L400 300 L0 300 Z"
-          fill="#ffffff"
+          fill="#F3EAD7"
           opacity="0.10"
         />
         <path
           d="M0 240 C 90 226, 150 256, 230 240 S 350 230, 400 246 L400 300 L0 300 Z"
-          fill="#ffffff"
-          opacity="0.14"
+          fill="#F3EAD7"
+          opacity="0.15"
         />
 
-        {/* trail line winding to the horizon */}
+        {/* trail line winding to the horizon (cream dashes) */}
         <path
           d="M40 286 C 120 262, 150 250, 200 244 S 280 234, 318 226"
-          stroke="#ffffff"
+          stroke="#F3EAD7"
           strokeWidth="1.4"
           strokeDasharray="2 6"
           strokeLinecap="round"
@@ -281,16 +532,16 @@ export function PhotoPlaceholder({
           opacity="0.55"
         />
 
-        {/* a sled dog team + musher silhouette on the trail */}
+        {/* a sled dog team + musher woodcut silhouette on the trail */}
         <g
-          fill="#0F2E47"
-          opacity="0.82"
+          fill="#14241c"
+          opacity="0.85"
           transform="translate(86 232) scale(1.05)"
         >
           {/* gangline */}
           <path
             d="M2 14 L120 4"
-            stroke="#0F2E47"
+            stroke="#14241c"
             strokeWidth="1"
             opacity="0.5"
             fill="none"
@@ -300,14 +551,14 @@ export function PhotoPlaceholder({
             <g key={x} transform={`translate(${x} 6)`}>
               <ellipse cx="0" cy="4" rx="7" ry="3.4" />
               <circle cx="6.5" cy="2" r="2.4" />
-              <path d="M-6 6 L-9 11 M-2 6 L-4 12 M3 6 L2 12 M6 6 L7 11" stroke="#0F2E47" strokeWidth="1" />
-              <path d="M-7 3 L-11 1" stroke="#0F2E47" strokeWidth="1.3" />
+              <path d="M-6 6 L-9 11 M-2 6 L-4 12 M3 6 L2 12 M6 6 L7 11" stroke="#14241c" strokeWidth="1" />
+              <path d="M-7 3 L-11 1" stroke="#14241c" strokeWidth="1.3" />
             </g>
           ))}
           {/* sled + musher */}
           <g transform="translate(-2 0)">
-            <path d="M-12 14 L8 12" stroke="#0F2E47" strokeWidth="1.6" />
-            <path d="M-12 14 L-15 8 M-10 14 L-12 6" stroke="#0F2E47" strokeWidth="1.4" />
+            <path d="M-12 14 L8 12" stroke="#14241c" strokeWidth="1.6" />
+            <path d="M-12 14 L-15 8 M-10 14 L-12 6" stroke="#14241c" strokeWidth="1.4" />
             <ellipse cx="-13" cy="2" rx="2.6" ry="3.4" />
             <rect x="-15" y="5" width="5" height="6" rx="1.5" />
           </g>
@@ -315,24 +566,24 @@ export function PhotoPlaceholder({
       </svg>
 
       {/* Soft vignette for caption legibility */}
-      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#0F2E47]/55 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#14241c]/60 to-transparent" />
 
       {/* Classy, small caption. With a real photo it carries the required
           license credit; without one it signals the final build uses ITC's own
           official image. */}
       <div className="absolute inset-0 flex items-end p-4 sm:p-5">
         <div className="flex w-full items-end justify-between gap-3">
-          <span className="text-[13px] font-semibold leading-tight text-white drop-shadow-sm">
+          <span className="idit-display text-[13px] font-semibold leading-tight tracking-[0.02em] text-[#F3EAD7] drop-shadow-sm">
             {label}
           </span>
           {img?.credit ? (
             // CC images: on-image attribution chip (required by license).
-            <span className="inline-flex shrink-0 items-center rounded-full border border-white/25 bg-black/30 px-2.5 py-1 text-[9px] font-medium leading-tight text-white/85 backdrop-blur-sm">
+            <span className="inline-flex shrink-0 items-center rounded-sm border border-[#F3EAD7]/25 bg-[#14241c]/45 px-2.5 py-1 text-[9px] font-medium leading-tight text-[#F3EAD7]/90 backdrop-blur-sm">
               {img.credit}
             </span>
           ) : (
             // PD images + SVG fallback: signal the live build swaps in ITC art.
-            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.14em] text-white/85 backdrop-blur-sm">
+            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-sm border border-[#C08A2D]/45 bg-[#1f3d2f]/40 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.14em] text-[#F3EAD7]/90 backdrop-blur-sm">
               <svg
                 viewBox="0 0 16 16"
                 className="h-2.5 w-2.5"
@@ -353,8 +604,9 @@ export function PhotoPlaceholder({
 }
 
 /**
- * Page-local hero background motion: gentle falling snow, a soft aurora
- * shimmer, and a sled-dog team + musher running across on a slow seamless loop.
+ * Page-local hero background motion: gentle falling flecks, a soft aged-gold
+ * aurora shimmer, and a spruce sled-dog team + musher woodcut running across on
+ * a slow seamless loop.
  *
  * Everything here is CSS/SVG only — no JS, no canvas, no new deps. All
  * keyframes/classes are namespaced `idit-*` and defined in a scoped <style>
@@ -362,7 +614,7 @@ export function PhotoPlaceholder({
  *
  * ACCESSIBILITY: every animation is wrapped in
  * `@media (prefers-reduced-motion: no-preference)`. Users who ask for reduced
- * motion get a still scene (the dog team is parked off-frame / static, no snow
+ * motion get a still scene (the dog team is parked off-frame / static, no
  * drift, no aurora shimmer). Pointer events are disabled and the whole layer is
  * aria-hidden so it never interferes with text or screen readers.
  */
@@ -396,7 +648,7 @@ export function IditarodMotion() {
         {flakes.map((f, i) => (
           <span
             key={i}
-            className="idit-flake absolute -top-2 rounded-full bg-white"
+            className="idit-flake absolute -top-2 rounded-full bg-[#F3EAD7]"
             style={
               {
                 left: f.l,
@@ -425,7 +677,7 @@ export function IditarodMotion() {
           {/* gangline */}
           <path
             d="M14 52 L300 40"
-            stroke="#0B2740"
+            stroke="#1f3d2f"
             strokeWidth="1.4"
             opacity="0.55"
           />
@@ -434,27 +686,27 @@ export function IditarodMotion() {
             <g
               key={x}
               transform={`translate(${x} ${40 + i * 1.6})`}
-              fill="#0B2740"
+              fill="#1f3d2f"
               opacity="0.88"
             >
               <ellipse cx="0" cy="6" rx="11" ry="5" />
               <circle cx="10" cy="2.5" r="3.6" />
-              <path d="M12.5 0.5 L15.5 -2.5" stroke="#0B2740" strokeWidth="1.6" />
-              <path d="M-11 4 L-15 1" stroke="#0B2740" strokeWidth="2" />
+              <path d="M12.5 0.5 L15.5 -2.5" stroke="#1f3d2f" strokeWidth="1.6" />
+              <path d="M-11 4 L-15 1" stroke="#1f3d2f" strokeWidth="2" />
               {/* legs with subtle gait */}
               <g className="idit-legs">
-                <path d="M-8 10 L-10 18 M-3 10 L-5 19 M3 10 L4 18 M8 10 L10 19" stroke="#0B2740" strokeWidth="1.7" />
+                <path d="M-8 10 L-10 18 M-3 10 L-5 19 M3 10 L4 18 M8 10 L10 19" stroke="#1f3d2f" strokeWidth="1.7" />
               </g>
             </g>
           ))}
           {/* sled + musher */}
-          <g transform="translate(40 38)" fill="#0B2740" opacity="0.9">
-            <path d="M-22 16 L10 12" stroke="#0B2740" strokeWidth="2.4" strokeLinecap="round" />
-            <path d="M-22 16 L-27 6 M-18 16 L-23 4" stroke="#0B2740" strokeWidth="2" />
+          <g transform="translate(40 38)" fill="#1f3d2f" opacity="0.9">
+            <path d="M-22 16 L10 12" stroke="#1f3d2f" strokeWidth="2.4" strokeLinecap="round" />
+            <path d="M-22 16 L-27 6 M-18 16 L-23 4" stroke="#1f3d2f" strokeWidth="2" />
             {/* musher */}
             <ellipse cx="-24" cy="-2" rx="3.6" ry="4.6" />
             <rect x="-27" y="2" width="6.5" height="10" rx="2.2" />
-            <path d="M-21 5 L-13 9" stroke="#0B2740" strokeWidth="2" strokeLinecap="round" />
+            <path d="M-21 5 L-13 9" stroke="#1f3d2f" strokeWidth="2" strokeLinecap="round" />
           </g>
         </svg>
       </div>
@@ -464,8 +716,8 @@ export function IditarodMotion() {
         .idit-team-track { transform: translateX(58%); opacity: 0.16; }
         .idit-aurora {
           background:
-            radial-gradient(120% 80% at 20% 0%, rgba(159,231,255,0.16), transparent 60%),
-            radial-gradient(120% 90% at 75% 0%, rgba(127,209,201,0.13), transparent 62%);
+            radial-gradient(120% 80% at 20% 0%, rgba(192,138,45,0.18), transparent 60%),
+            radial-gradient(120% 90% at 75% 0%, rgba(181,80,42,0.13), transparent 62%);
           opacity: 0.8;
           filter: blur(2px);
         }
@@ -521,27 +773,27 @@ export function SampleNote() {
 
   return (
     <div className="mx-auto max-w-5xl px-6 pb-12">
-      <div className="rounded-2xl border border-[#E2EAF1] bg-white px-5 py-4 text-center text-xs leading-relaxed text-[#5B6B7A]">
+      <div className="rounded-sm border-2 border-[#1f3d2f]/30 bg-gradient-to-b from-[#fbf5e6] to-[#efe3c9] px-5 py-4 text-center text-xs leading-relaxed text-[#6b5f4a] shadow-[4px_4px_0_rgba(31,61,47,0.12)]">
         <p>
           Photography on this sample uses{" "}
-          <span className="font-medium text-[#23557D]">
+          <span className="font-semibold text-[#1f3d2f]">
             public-domain and openly-licensed
           </span>{" "}
           Iditarod and Alaska imagery (U.S. government works plus Creative
           Commons photos, credited below). The final build would use the{" "}
-          <span className="font-medium text-[#23557D]">
+          <span className="font-semibold text-[#1f3d2f]">
             Iditarod Trail Committee&apos;s own official photography
           </span>{" "}
           and logo in their place. Sample built by{" "}
           <a
             href={SITE}
-            className="font-medium text-[#23557D] underline underline-offset-2 hover:text-[#1B4565]"
+            className="font-semibold text-[#B5502A] underline underline-offset-2 hover:text-[#7d3517]"
           >
             BlueWave Projects
           </a>{" "}
           on public info. Event dates and locations are sourced from the
           official Iditarod calendar; items marked{" "}
-          <span className="rounded bg-[#F0F4F8] px-1 py-0.5 font-mono text-[#327FA2]">
+          <span className="rounded-sm bg-[#1f3d2f]/8 px-1 py-0.5 font-mono text-[#B5502A]">
             [confirm]
           </span>{" "}
           are real recurring events whose 2027 prices or exact dates are not yet
@@ -550,10 +802,10 @@ export function SampleNote() {
         </p>
 
         <details className="mt-3 text-left">
-          <summary className="cursor-pointer text-center font-medium text-[#327FA2] marker:content-none">
+          <summary className="idit-display cursor-pointer text-center text-[11px] font-semibold tracking-[0.14em] text-[#1f3d2f] marker:content-none">
             Image credits &amp; licenses
           </summary>
-          <ul className="mt-2 space-y-1.5 text-[11px] leading-relaxed text-[#8A97A5]">
+          <ul className="mt-2 space-y-1.5 text-[11px] leading-relaxed text-[#8a7d63]">
             {credits.map((c) => (
               <li key={c}>{c}</li>
             ))}
