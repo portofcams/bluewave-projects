@@ -22,8 +22,8 @@ export function generateStaticParams() {
 
 type Params = { event: string };
 
-// UNLISTED + NOINDEX per event — real SEO copy in title/description for the
-// pitch, but robots noindex so it never enters bluewaveprojects.com's index.
+// UNLISTED + NOINDEX per event — informational title/description for each
+// event, but robots noindex so it never enters bluewaveprojects.com's index.
 export async function generateMetadata({
   params,
 }: {
@@ -56,12 +56,14 @@ export default async function EventPage({
   if (!e) notFound();
 
   const badge = ticketBadge[e.ticketed];
-  const ctaLabel =
+  // Informational framing — this is an event-details hub, not a checkout.
+  // We point fans to the official Iditarod calendar rather than pushing a sale.
+  const attendLabel =
     e.ticketed === "free-spectate"
-      ? "Plan your visit"
+      ? "How to attend"
       : e.ticketed === "auction"
-        ? "Bid / reserve your experience"
-        : "Reserve / buy tickets";
+        ? "How to attend"
+        : "Tickets & how to attend";
 
   return (
     // Page-local "rugged heritage" theme (Direction 3): warm cream paper canvas,
@@ -85,7 +87,8 @@ export default async function EventPage({
           </nav>
         </div>
 
-        {/* Hero */}
+        {/* Hero — informational event header (what / when / where). This is an
+            event-details page in the Iditarod 2027 information hub, not a pitch. */}
         <section className="mx-auto max-w-5xl px-6 pb-10 pt-6">
           <div className="mb-6 flex flex-wrap items-center gap-3">
             <span
@@ -94,7 +97,7 @@ export default async function EventPage({
               {badge.label}
             </span>
             <span className="idit-eyebrow !text-[11px] !tracking-[0.28em]">
-              Iditarod 2027 · 55th running
+              Iditarod 2027 · 55th running · Anchorage to Nome
             </span>
           </div>
 
@@ -137,11 +140,13 @@ export default async function EventPage({
             className="mb-8"
           />
 
-          {/* Ticket CTA card — vintage ticket stub */}
+          {/* Attend / details card — vintage ticket stub. Informational, not a
+              checkout: it tells fans what to expect on price and points them to
+              the official Iditarod calendar to attend. */}
           <div className="idit-ticket p-6 sm:p-8">
             <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
               <div>
-                <p className="idit-eyebrow mb-1">{ctaLabel}</p>
+                <p className="idit-eyebrow mb-1">{attendLabel}</p>
                 <p className="max-w-md text-sm leading-relaxed text-[#14241c]">
                   {e.priceStatus}
                 </p>
@@ -152,13 +157,13 @@ export default async function EventPage({
                 rel="noopener noreferrer"
                 className="idit-display whitespace-nowrap rounded-sm border-2 border-[#7d3517] bg-[#B5502A] px-8 py-3.5 text-sm font-semibold text-[#F3EAD7] shadow-[4px_4px_0_rgba(21,42,32,0.9)] transition-transform hover:-translate-x-[2px] hover:-translate-y-[2px]"
               >
-                {ctaLabel} →
+                Official Iditarod calendar →
               </a>
             </div>
             <p className="idit-stub-foot mt-4 pt-4 text-[11px] text-[#6b5f4a]">
-              Sample CTA. In the live build this button would run a first-party,
-              branded checkout on iditarod.com instead of redirecting to a
-              third-party platform.
+              Dates, venues, and ticketing are set by the Iditarod Trail
+              Committee. Always confirm the latest details and buy any tickets
+              through the official links published on iditarod.com.
             </p>
           </div>
         </section>
@@ -178,7 +183,7 @@ export default async function EventPage({
 
           <div className="idit-ticket mt-8 p-6">
             <h3 className="idit-eyebrow mb-2 !tracking-[0.2em]">
-              How tickets work today
+              Tickets &amp; how to attend
             </h3>
             <p className="leading-relaxed text-[#14241c]">{e.ticketInfo}</p>
             <p className="mt-3 text-xs text-[#6b5f4a]">

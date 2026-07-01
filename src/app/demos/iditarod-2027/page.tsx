@@ -16,9 +16,9 @@ import {
 // UNLISTED + NOINDEX. Not in nav, not in sitemap. The robots block keeps this
 // proof out of bluewaveprojects.com's index so it never pollutes SEO.
 export const metadata: Metadata = {
-  title: "Iditarod 2027 Events & Tickets Hub — Sample by BlueWave Projects",
+  title: "Iditarod 2027 — Dates, Events & How to Follow the Race (Sample Hub)",
   description:
-    "A sample, conversion-optimized events and ticketing hub for the Iditarod 2027 season — built by BlueWave Projects on public information to show the Iditarod Trail Committee what a unified, first-party ticketing experience could look like.",
+    "Iditarod 2027 information headquarters — the 55th running of The Last Great Race, Anchorage to Nome. Key dates, race-week events, how to attend, and how to follow every mile from home. A sample build by BlueWave Projects on public information.",
   robots: {
     index: false,
     follow: false,
@@ -27,6 +27,47 @@ export const metadata: Metadata = {
   },
   alternates: { canonical: `${SITE}${HUB_PATH}` },
 };
+
+// Season-at-a-glance timeline, drawn from the same grounded event data so the
+// two never drift. Order matches the race-week flow: banquet → ceremonial
+// start → restart → finisher's banquet → documentary premiere.
+const timelineOrder = [
+  "mushers-banquet",
+  "ceremonial-start",
+  "restart-willow",
+  "finishers-banquet-nome",
+  "documentary-premiere",
+] as const;
+
+// A few real attendee/reporter questions, answered from grounded facts + the
+// event data. Anything unpublished is marked [confirm], matching the rest of
+// the build.
+const hubFaq: { q: string; a: string }[] = [
+  {
+    q: "When and where does the Iditarod 2027 start?",
+    a: "The 2027 race — the 55th running — begins with the Ceremonial Start on Saturday, March 6, 2027 in downtown Anchorage, followed by the Official Restart on Sunday, March 7, 2027 at Willow Lake. From there the teams run roughly 1,000 miles to the finish in Nome. Dates are from the official Iditarod calendar at iditarod.com/calendar.",
+  },
+  {
+    q: "What's the difference between the Ceremonial Start and the Restart?",
+    a: "The Ceremonial Start in Anchorage is a festive, untimed run down 4th Avenue for the crowds and the cameras. The Official Restart in Willow, about 75 miles north, is the competitive start — that's where the race clock begins and teams head out toward Nome.",
+  },
+  {
+    q: "How long is the Iditarod and where does it finish?",
+    a: "The Iditarod runs roughly 1,000 miles from Anchorage to Nome on the Bering Sea coast. It was first run in 1973 and is nicknamed The Last Great Race. The 2027 finish and Finisher's Banquet are in Nome.",
+  },
+  {
+    q: "Can the public attend the Musher's Banquet?",
+    a: "Yes. The Musher's Meet & Greet and Drawing Banquet on Thursday, March 4, 2027 at the Dena'ina Center in Anchorage is a public, ticketed event — a plated dinner with a fundraising auction, a fan autograph meet-and-greet, and the mushers' bib draw that sets the starting order.",
+  },
+  {
+    q: "How do I get tickets to race-week events?",
+    a: "Ticketed events (the Musher's Banquet, the Idita-Rider ceremonial sled seats, and the Finisher's Banquet in Nome) are sold through the Iditarod Trail Committee's official channels linked from iditarod.com. Exact 2027 prices are not yet published [confirm]. The Ceremonial Start and the Willow restart are free to spectate.",
+  },
+  {
+    q: "How do I follow the race from home?",
+    a: "The field is tracked mile by mile via GPS, with standings and checkpoint times updated throughout the run. The Iditarod Trail Committee offers a paid Insider subscription (live GPS tracker and race video), and it releases an official race documentary after the season — premiered in Anchorage and sold as a paid stream.",
+  },
+];
 
 export default function IditarodHubPage() {
   return (
@@ -39,7 +80,8 @@ export default function IditarodHubPage() {
       <main className="min-h-screen text-[#1f3d2f]">
         <Nav />
 
-        {/* Hero — spruce band over the real start-line photo, cream display type */}
+        {/* Hero — informational headquarters, spruce band over the real
+            start-line photo, cream display type */}
         <section className="relative overflow-hidden bg-gradient-to-br from-[#2b4d3b] via-[#1f3d2f] to-[#152a20] text-[#F3EAD7]">
           {/* faint woodcut trail lines (aged gold / cream) */}
           <svg
@@ -75,33 +117,31 @@ export default function IditarodHubPage() {
               <div>
                 <div className="idit-eyebrow mb-5 inline-flex items-center gap-2 rounded-sm border border-[#C08A2D]/45 bg-[#14241c]/40 px-3 py-1.5 !text-[#e9dcbf]">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#C08A2D]" />
-                  Sample build · Iditarod 2027 · 55th running
+                  Iditarod 2027 · 55th running · Anchorage to Nome
                 </div>
                 <h1 className="idit-display mb-5 max-w-3xl text-5xl font-bold leading-[0.98] sm:text-7xl">
-                  The whole Iditarod season,{" "}
-                  <span className="text-[#e0a94a]">one place to buy in.</span>
+                  Iditarod 2027{" "}
+                  <span className="text-[#e0a94a]">The Last Great Race.</span>
                 </h1>
                 <div className="idit-perf-rule !mx-0 mb-6" />
                 <p className="mb-8 max-w-2xl text-lg leading-relaxed text-[#F3EAD7]/85">
-                  Every ticketed moment of the 2027 race — banquet, ceremonial
-                  start, restart, finish, and the documentary premiere — pulled
-                  into one branded, conversion-optimized hub. No redirects to a
-                  generic auction tool. No reseller outranking you for your own
-                  events. The buyer stays on the Iditarod brand from interest to
-                  checkout.
+                  Your headquarters for the 55th running of the Iditarod — the
+                  key dates, the race-week events, how to attend in person, and
+                  how to follow every one of the roughly 1,000 miles from
+                  Anchorage to Nome. First run in 1973.
                 </p>
                 <div className="flex flex-col gap-4 sm:flex-row">
                   <a
-                    href="#events"
+                    href="#schedule"
                     className="idit-display rounded-sm border-2 border-[#7d3517] bg-[#B5502A] px-8 py-3.5 text-center text-sm font-bold text-[#F3EAD7] shadow-[4px_4px_0_rgba(20,36,28,0.4)] transition-transform hover:-translate-y-0.5"
                   >
-                    See the events →
+                    See the 2027 schedule →
                   </a>
                   <a
-                    href="#why"
+                    href="#follow"
                     className="idit-display rounded-sm border-2 border-[#F3EAD7]/35 px-8 py-3.5 text-center text-sm font-bold text-[#F3EAD7]/90 transition-colors hover:border-[#F3EAD7]/70 hover:bg-[#F3EAD7]/5"
                   >
-                    Why it matters
+                    How to follow along
                   </a>
                 </div>
               </div>
@@ -124,14 +164,14 @@ export default function IditarodHubPage() {
           </div>
         </section>
 
-      {/* Value line / quick stats — heritage ticket-well tiles */}
+      {/* Quick facts — heritage ticket-well tiles, all grounded anchors */}
       <section className="mx-auto max-w-6xl px-6 py-12">
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {[
-            { v: "5", l: "Ticketable moments", s: "Mar 4 – summer 2027" },
-            { v: "1", l: "Branded checkout", s: "No third-party redirect" },
-            { v: "4+", l: "Systems today", s: "Auctria · ejoinme · Woo · cloud" },
-            { v: "0", l: "Prices on the calendar", s: "Every event reads “not specified”" },
+            { v: "55th", l: "Running", s: "Est. 1973" },
+            { v: "~1,000", l: "Miles", s: "Anchorage to Nome" },
+            { v: "Mar 6", l: "Ceremonial start", s: "Downtown Anchorage" },
+            { v: "Mar 7", l: "Official restart", s: "Willow" },
           ].map((stat) => (
             <div
               key={stat.l}
@@ -151,18 +191,74 @@ export default function IditarodHubPage() {
         </div>
       </section>
 
-      {/* Events grid — vintage ticket-stub cards */}
-      <section id="events" className="mx-auto max-w-6xl px-6 py-16">
+      {/* Season at a glance — heritage timeline strip of the key 2027 dates */}
+      <section id="schedule" className="mx-auto max-w-6xl px-6 py-16">
         <div className="mb-12 text-center">
-          <p className="idit-eyebrow mb-3">The 2027 season</p>
+          <p className="idit-eyebrow mb-3">Season at a glance</p>
           <h2 className="idit-display text-4xl font-bold text-[#1f3d2f] sm:text-5xl">
-            Five tickets. <span className="text-[#B5502A]">One hub.</span>
+            The 2027 race week, <span className="text-[#B5502A]">start to finish.</span>
           </h2>
           <div className="idit-perf-rule" />
           <p className="mx-auto mt-4 max-w-3xl text-[#6b5f4a]">
-            Each stub links to a dedicated, SEO-optimized event page — the kind
-            of page that should rank for &ldquo;Iditarod 2027 [event]
-            tickets&rdquo; and convert the fan on your own domain.
+            The dates fans plan their trip around, in order — from the banquet
+            in Anchorage to the finish in Nome, plus the documentary premiere
+            after the season. Dates from the official Iditarod calendar.
+          </p>
+        </div>
+
+        <ol className="relative mx-auto max-w-3xl">
+          {/* vertical spine (dashed perforation motif) */}
+          <span
+            className="pointer-events-none absolute left-[19px] top-2 bottom-2 w-px sm:left-[calc(9rem+19px)]"
+            aria-hidden="true"
+            style={{
+              backgroundImage:
+                "repeating-linear-gradient(180deg, #1f3d2f 0 8px, transparent 8px 14px)",
+            }}
+          />
+          {timelineOrder.map((slug) => {
+            const e = events.find((ev) => ev.slug === slug);
+            if (!e) return null;
+            return (
+              <li
+                key={e.slug}
+                className="relative mb-6 flex flex-col gap-1 pl-14 sm:flex-row sm:items-baseline sm:gap-6 sm:pl-0"
+              >
+                {/* date rail */}
+                <div className="idit-display shrink-0 text-sm font-bold text-[#B5502A] sm:w-36 sm:text-right">
+                  {e.date}
+                </div>
+                {/* node marker */}
+                <span
+                  className="absolute left-[11px] top-1 h-4 w-4 rounded-full border-2 border-[#1f3d2f] bg-[#C08A2D] sm:left-[calc(9rem+11px)]"
+                  aria-hidden="true"
+                />
+                <div className="sm:pl-8">
+                  <h3 className="idit-display text-lg font-bold leading-tight text-[#1f3d2f]">
+                    {e.shortName}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-[#6b5f4a]">
+                    {e.location}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
+        </ol>
+      </section>
+
+      {/* The events — informational ticket-stub cards */}
+      <section id="events" className="mx-auto max-w-6xl px-6 py-16">
+        <div className="mb-12 text-center">
+          <p className="idit-eyebrow mb-3">The 2027 events</p>
+          <h2 className="idit-display text-4xl font-bold text-[#1f3d2f] sm:text-5xl">
+            Five moments of the season.
+          </h2>
+          <div className="idit-perf-rule" />
+          <p className="mx-auto mt-4 max-w-3xl text-[#6b5f4a]">
+            What happens at each event, who it&apos;s for, and how to take part —
+            from free spectating along the trail to the ticketed banquets. Tap
+            any stub for the full event details.
           </p>
         </div>
 
@@ -206,15 +302,12 @@ export default function IditarodHubPage() {
                   </p>
                   <div className="idit-stub-foot mt-auto flex items-center justify-between pt-4">
                     <span className="idit-display text-sm font-bold text-[#B5502A] transition-colors group-hover:text-[#7d3517]">
-                      {e.ticketed === "free-spectate"
-                        ? "Plan your visit"
-                        : "Reserve / buy tickets"}{" "}
-                      →
+                      Event details →
                     </span>
                     <span className="text-[11px] uppercase tracking-[0.1em] text-[#8a7d63]">
-                      {e.priceStatus.includes("[confirm]")
-                        ? "Pricing [confirm]"
-                        : "Sample CTA"}
+                      {e.ticketed === "free-spectate"
+                        ? "Free to spectate"
+                        : "Ticket info"}
                     </span>
                   </div>
                 </div>
@@ -224,124 +317,92 @@ export default function IditarodHubPage() {
         </div>
       </section>
 
-      {/* Why it matters — the pitch */}
-      <section id="why" className="mx-auto max-w-6xl px-6 py-16">
-        <div className="mb-10">
-          <p className="idit-eyebrow mb-3">Why a unified hub</p>
+      {/* Plan your visit / follow the race — practical grounded info */}
+      <section id="follow" className="mx-auto max-w-6xl px-6 py-16">
+        <div className="mb-10 text-center">
+          <p className="idit-eyebrow mb-3">Plan your visit · follow the race</p>
           <h2 className="idit-display text-4xl font-bold text-[#1f3d2f] sm:text-5xl">
-            iditarod.com has the dates.{" "}
-            <span className="text-[#B5502A]">It&apos;s missing the funnel.</span>
+            See it in person, <span className="text-[#B5502A]">or follow every mile.</span>
           </h2>
-          <div className="idit-perf-rule !mx-0" />
-          <p className="mt-4 max-w-3xl text-[#6b5f4a]">
-            The experience is fragmented and it leaks revenue. Concrete gaps,
-            verified against the live site:
-          </p>
+          <div className="idit-perf-rule" />
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2">
+        <div className="grid gap-5 md:grid-cols-3">
           {[
             {
-              t: "No first-party checkout",
-              d: "The official “Musher's Banquet” link does a double 301 redirect out to a third-party fundraising-auction tool (iditarod.com → auctria.events → app.auctria.com). The highest-intent buyer leaves the brand mid-purchase and lands on a generic auction UI.",
+              t: "Where the action is",
+              d: "Anchorage hosts the Musher's Banquet and the free Ceremonial Start down 4th Avenue. Willow, about 75 miles north, holds the Official Restart on Willow Lake. Nome, on the Bering Sea coast, is the finish line and the Finisher's Banquet.",
             },
             {
-              t: "Ticketing scattered across 4+ systems",
-              d: "Auctria (banquet/auctions), ejoinme (older banquet tickets), a WooCommerce shop (Insider + documentary stream), and cloud.iditarod.com — with no unified “Attend / Buy Tickets” hub tying them together.",
+              t: "Getting there & tickets",
+              d: "The Ceremonial Start and the Willow restart are free to spectate. The banquets and the Idita-Rider sled seats are ticketed through the Iditarod Trail Committee's official channels. Exact 2027 prices and on-sale dates are not yet published [confirm].",
             },
             {
-              t: "The calendar shows no prices, tiers, or buy buttons",
-              d: "iditarod.com/calendar lists names and dates but every event effectively reads “Cost: not specified.” There is nothing for a ready-to-buy fan to click.",
+              t: "Follow it from home",
+              d: "You don't have to be trailside. The field is tracked mile by mile by GPS, with standings and checkpoint times through the run. The Iditarod Trail Committee's paid Insider subscription carries the live tracker and race video, and the official race documentary is released after the season.",
             },
-            {
-              t: "High-margin experiences handed to resellers",
-              d: "Idita-Rider ceremonial-start sled seats, Willow VIP, and the Nome finish are largely sold by outside tour operators instead of direct — so the margin and the customer relationship both leave the building.",
-            },
-            {
-              t: "No event-level SEO pages",
-              d: "With no dedicated landing page per event, tour resellers outrank ITC for searches like “Iditarod mushers banquet tickets.” You are losing your own brand's traffic.",
-            },
-            {
-              t: "ITC already monetizes online — just not centrally",
-              d: "Insider subscriptions and the documentary stream already sell through the shop. The capability exists; it just isn't unified into one branded place a fan can act on.",
-            },
-          ].map((gap) => (
+          ].map((card) => (
             <div
-              key={gap.t}
+              key={card.t}
               className="rounded-sm border-2 border-[#1f3d2f]/25 bg-gradient-to-b from-[#fbf5e6] to-[#efe3c9] p-6 shadow-[4px_4px_0_rgba(31,61,47,0.12)]"
             >
               <h3 className="idit-display mb-2 text-lg font-bold text-[#1f3d2f]">
-                {gap.t}
+                {card.t}
               </h3>
-              <p className="leading-relaxed text-[#14241c]">{gap.d}</p>
+              <p className="leading-relaxed text-[#14241c]">{card.d}</p>
             </div>
           ))}
         </div>
 
-        {/* The redirect artifact — the single strongest pitch object */}
-        <div className="mt-8 rounded-sm border-2 border-[#1f3d2f]/30 bg-gradient-to-b from-[#fbf5e6] to-[#efe3c9] p-6 shadow-[6px_6px_0_rgba(31,61,47,0.14)]">
-          <p className="idit-eyebrow mb-4 !text-[#1f3d2f]">
-            The buyer's actual path today
-          </p>
-          <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
-            {[
-              { label: "iditarod.com", sub: "“Musher's Banquet” link", on: true },
-              { label: "auctria.events", sub: "301 redirect", on: false },
-              { label: "app.auctria.com", sub: "generic auction UI", on: false },
-            ].map((step, i, arr) => (
-              <div key={step.label} className="flex flex-1 items-center gap-3">
-                <div
-                  className={`flex-1 rounded-sm border-2 px-4 py-3 text-center ${
-                    step.on
-                      ? "border-[#1f3d2f]/40 bg-[#1f3d2f]/8"
-                      : "border-[#B5502A]/40 bg-[#B5502A]/8"
-                  }`}
-                >
-                  <div className="font-mono text-sm font-semibold text-[#1f3d2f]">
-                    {step.label}
-                  </div>
-                  <div
-                    className={`mt-0.5 text-[11px] ${
-                      step.on ? "text-[#1f3d2f]/80" : "text-[#7d3517]"
-                    }`}
-                  >
-                    {step.sub}
-                  </div>
-                </div>
-                {i < arr.length - 1 && (
-                  <span className="hidden text-[#B5502A] sm:inline">→</span>
-                )}
-              </div>
-            ))}
-          </div>
-          <p className="mt-4 text-xs leading-relaxed text-[#6b5f4a]">
-            Verified live: the official banquet link 301-redirects twice and
-            drops the buyer on a third-party auction platform. A first-party hub
-            keeps every one of those clicks — and the margin — on iditarod.com.
-          </p>
+        <p className="mx-auto mt-6 max-w-3xl text-center text-xs leading-relaxed text-[#6b5f4a]">
+          Always confirm ticket prices, on-sale dates, and official links
+          through the Iditarod Trail Committee at iditarod.com before booking
+          travel. Items marked{" "}
+          <span className="rounded-sm bg-[#1f3d2f]/8 px-1 py-0.5 font-mono text-[#B5502A]">
+            [confirm]
+          </span>{" "}
+          are real recurring details not yet published for 2027.
+        </p>
+      </section>
+
+      {/* FAQ — real attendee/reporter questions, grounded answers */}
+      <section id="faq" className="mx-auto max-w-4xl px-6 pb-8 pt-8">
+        <div className="mb-10 text-center">
+          <p className="idit-eyebrow mb-3">Frequently asked</p>
+          <h2 className="idit-display text-4xl font-bold text-[#1f3d2f] sm:text-5xl">
+            Iditarod 2027, <span className="text-[#B5502A]">answered.</span>
+          </h2>
+          <div className="idit-perf-rule" />
+        </div>
+
+        <div className="space-y-4">
+          {hubFaq.map((f) => (
+            <div
+              key={f.q}
+              className="rounded-sm border-2 border-[#1f3d2f]/25 bg-gradient-to-b from-[#fbf5e6] to-[#efe3c9] p-6 shadow-[4px_4px_0_rgba(31,61,47,0.12)]"
+            >
+              <h3 className="idit-display mb-2 text-base font-bold leading-snug text-[#1f3d2f]">
+                {f.q}
+              </h3>
+              <p className="leading-relaxed text-[#14241c]">{f.a}</p>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* CTA — spruce band, aged-gold seal, rust button */}
+      {/* Closing seal band — informational sign-off, no conversion pitch */}
       <section className="mx-auto max-w-5xl px-6 pb-20 pt-8">
         <div className="relative overflow-hidden rounded-sm border-4 border-[#C08A2D]/70 bg-gradient-to-br from-[#2b4d3b] via-[#1f3d2f] to-[#152a20] p-10 text-center text-[#F3EAD7] shadow-[8px_8px_0_rgba(31,61,47,0.3)]">
           <Seal size={96} className="mx-auto mb-6" />
-          <h2 className="idit-display mb-4 text-4xl font-bold">
-            This is a sample.{" "}
-            <span className="text-[#e0a94a]">The real thing keeps your margin.</span>
+          <h2 className="idit-display mb-4 text-3xl font-bold sm:text-4xl">
+            Anchorage to Nome,{" "}
+            <span className="text-[#e0a94a]">roughly 1,000 miles.</span>
           </h2>
-          <p className="mx-auto mb-8 max-w-2xl text-[#F3EAD7]/85">
-            BlueWave Projects builds branded, first-party ticketing and event
-            hubs that recapture the revenue currently bleeding to third-party
-            platforms and resellers. Final pages would use ITC&apos;s official
-            photos, logo, and ticketing back end.
+          <p className="mx-auto max-w-2xl text-[#F3EAD7]/85">
+            The 55th running of The Last Great Race gets underway in Anchorage in
+            March 2027. Use the schedule above to plan a trip, or follow the run
+            mile by mile from wherever you are.
           </p>
-          <a
-            href="https://bluewaveprojects.com/booking"
-            className="idit-display inline-block rounded-sm border-2 border-[#7d3517] bg-[#B5502A] px-8 py-3.5 text-sm font-bold text-[#F3EAD7] shadow-[4px_4px_0_rgba(20,36,28,0.4)] transition-transform hover:-translate-y-0.5"
-          >
-            Talk to BlueWave Projects →
-          </a>
         </div>
       </section>
 
