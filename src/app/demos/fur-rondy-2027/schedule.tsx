@@ -65,8 +65,8 @@ export default function ScheduleExplorer({ rows }: { rows: ScheduleRow[] }) {
               onClick={() => setCategory(c)}
               className={`rondy-cond rounded-full border px-4 py-1.5 text-[12px] font-semibold transition-colors ${
                 active
-                  ? "border-[#ffc65c] bg-[#ffc65c]/15 text-[#ffc65c]"
-                  : "border-[#26305c] bg-[#121a3f]/60 text-[#aab4d8] hover:border-[#ffc65c]/50 hover:text-[#eef2ff]"
+                  ? "border-[#eed24c] bg-[#eed24c]/15 text-[#eed24c]"
+                  : "border-[#26305c] bg-[#121a3f]/60 text-[#aab4d8] hover:border-[#eed24c]/50 hover:text-[#eef2ff]"
               }`}
               aria-pressed={active}
             >
@@ -79,8 +79,8 @@ export default function ScheduleExplorer({ rows }: { rows: ScheduleRow[] }) {
           onClick={() => setTicketedOnly((v) => !v)}
           className={`rondy-cond rounded-full border px-4 py-1.5 text-[12px] font-semibold transition-colors ${
             ticketedOnly
-              ? "border-[#8b6cf0] bg-[#8b6cf0]/18 text-[#a98ffb]"
-              : "border-[#26305c] bg-[#121a3f]/60 text-[#aab4d8] hover:border-[#8b6cf0]/50 hover:text-[#eef2ff]"
+              ? "border-[#af3334] bg-[#af3334]/25 text-[#e06568]"
+              : "border-[#26305c] bg-[#121a3f]/60 text-[#aab4d8] hover:border-[#e06568]/50 hover:text-[#eef2ff]"
           }`}
           aria-pressed={ticketedOnly}
         >
@@ -106,7 +106,7 @@ export default function ScheduleExplorer({ rows }: { rows: ScheduleRow[] }) {
                   <h3 className="rondy-cond text-base font-semibold text-[#eef2ff]">
                     {r.shortName}
                   </h3>
-                  <span className="text-xs font-semibold text-[#ffc65c]">
+                  <span className="text-xs font-semibold text-[#eed24c]">
                     {r.date}
                   </span>
                 </div>
@@ -128,7 +128,7 @@ export default function ScheduleExplorer({ rows }: { rows: ScheduleRow[] }) {
                     via {r.ticketVia}
                   </span>
                 )}
-                <span className="rondy-cond mt-1 text-[11px] font-semibold text-[#ffc65c]">
+                <span className="rondy-cond mt-1 text-[11px] font-semibold text-[#eed24c]">
                   {r.href ? "Event page →" : "Official page ↗"}
                 </span>
               </div>

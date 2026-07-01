@@ -80,10 +80,10 @@ export default async function EventPage({
         {/* Breadcrumb */}
         <div className="mx-auto max-w-5xl px-6 pt-28">
           <nav className="rondy-cond text-[11px] tracking-[0.14em] text-[#8992b8]">
-            <Link href={HUB_PATH} className="hover:text-[#ffc65c]">
+            <Link href={HUB_PATH} className="hover:text-[#eed24c]">
               Fur Rondy 2027 Hub
             </Link>
-            <span className="mx-2 text-[#ffc65c]">/</span>
+            <span className="mx-2 text-[#eed24c]">/</span>
             <span className="text-[#eef2ff]">{e.shortName}</span>
           </nav>
         </div>
@@ -157,7 +157,7 @@ export default async function EventPage({
                 href={e.sourceUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rondy-cond whitespace-nowrap rounded-lg border border-[#d99a2b] bg-[#ffc65c] px-8 py-3.5 text-sm font-bold text-[#070b1e] shadow-[0_8px_24px_rgba(255,198,92,0.22)] transition-transform hover:-translate-y-0.5"
+                className="rondy-cond whitespace-nowrap rounded-lg border border-[#c4a52e] bg-[#eed24c] px-8 py-3.5 text-sm font-bold text-[#070b1e] shadow-[0_8px_24px_rgba(238,210,76,0.22)] transition-transform hover:-translate-y-0.5"
               >
                 Official event page →
               </a>
@@ -194,7 +194,7 @@ export default async function EventPage({
                 href={e.sourceUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-medium text-[#ffc65c] underline underline-offset-2 hover:text-[#d99a2b]"
+                className="font-medium text-[#eed24c] underline underline-offset-2 hover:text-[#c4a52e]"
               >
                 {e.sourceUrl.replace(/^https?:\/\//, "").split("/")[0]}
               </a>
@@ -212,7 +212,7 @@ export default async function EventPage({
               <details key={f.q} className="group rondy-booth px-5 py-4">
                 <summary className="flex cursor-pointer items-center justify-between gap-4 text-base font-semibold text-[#eef2ff] marker:content-none">
                   {f.q}
-                  <span className="text-[#ffc65c] transition-transform group-open:rotate-45">
+                  <span className="text-[#eed24c] transition-transform group-open:rotate-45">
                     +
                   </span>
                 </summary>
@@ -242,14 +242,14 @@ export default async function EventPage({
                     </div>
                     <div className="text-xs text-[#8992b8]">{o.date}</div>
                   </div>
-                  <span className="text-[#ffc65c]">→</span>
+                  <span className="text-[#eed24c]">→</span>
                 </Link>
               ))}
           </div>
           <div className="mt-6">
             <Link
               href={HUB_PATH}
-              className="rondy-cond text-sm font-medium text-[#ffc65c] underline underline-offset-2 hover:text-[#d99a2b]"
+              className="rondy-cond text-sm font-medium text-[#eed24c] underline underline-offset-2 hover:text-[#c4a52e]"
             >
               ← Back to the full Fur Rondy 2027 hub
             </Link>

@@ -105,13 +105,13 @@ export default function RondyHubPage() {
           <div className="relative mx-auto max-w-6xl px-6 pb-16 pt-32">
             <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
               <div>
-                <div className="rondy-eyebrow mb-5 inline-flex items-center gap-2 rounded-full border border-[#ffc65c]/40 bg-[#070b1e]/50 px-4 py-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#ffc65c]" />
+                <div className="rondy-eyebrow mb-5 inline-flex items-center gap-2 rounded-full border border-[#eed24c]/40 bg-[#070b1e]/50 px-4 py-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#eed24c]" />
                   Fur Rendezvous · Anchorage · Est. 1935
                 </div>
                 <h1 className="rondy-display mb-5 max-w-3xl text-5xl leading-[1.02] sm:text-6xl">
                   Fur Rondy 2027{" "}
-                  <span className="text-[#3ddc97]">
+                  <span className="text-[#e06568]">
                     Anchorage&apos;s midwinter carnival.
                   </span>
                 </h1>
@@ -126,13 +126,13 @@ export default function RondyHubPage() {
                 <div className="flex flex-col gap-4 sm:flex-row">
                   <a
                     href="#schedule"
-                    className="rondy-cond rounded-lg border border-[#d99a2b] bg-[#ffc65c] px-8 py-3.5 text-center text-sm font-bold text-[#070b1e] shadow-[0_8px_24px_rgba(255,198,92,0.25)] transition-transform hover:-translate-y-0.5"
+                    className="rondy-cond rounded-lg border border-[#c4a52e] bg-[#eed24c] px-8 py-3.5 text-center text-sm font-bold text-[#070b1e] shadow-[0_8px_24px_rgba(238,210,76,0.25)] transition-transform hover:-translate-y-0.5"
                   >
                     Browse all events →
                   </a>
                   <a
                     href="#featured"
-                    className="rondy-cond rounded-lg border border-[#eef2ff]/30 px-8 py-3.5 text-center text-sm font-bold text-[#eef2ff]/90 transition-colors hover:border-[#3ddc97]/60 hover:bg-[#3ddc97]/5"
+                    className="rondy-cond rounded-lg border border-[#eef2ff]/30 px-8 py-3.5 text-center text-sm font-bold text-[#eef2ff]/90 transition-colors hover:border-[#e06568]/60 hover:bg-[#e06568]/5"
                   >
                     The headliners
                   </a>
@@ -165,7 +165,7 @@ export default function RondyHubPage() {
               { v: "Mar 6", l: "The big Saturday", s: "Reindeer, Iditarod & Music Fest" },
             ].map((stat) => (
               <div key={stat.l} className="rondy-booth rondy-string p-5">
-                <div className="rondy-display text-4xl text-[#ffc65c]">
+                <div className="rondy-display text-4xl text-[#eed24c]">
                   {stat.v}
                 </div>
                 <div className="rondy-cond mb-1 mt-2 text-xs font-semibold tracking-[0.12em] text-[#eef2ff]">
@@ -185,7 +185,7 @@ export default function RondyHubPage() {
             <p className="rondy-eyebrow mb-3">The headliners</p>
             <h2 className="rondy-display text-4xl text-[#eef2ff] sm:text-5xl">
               Six events worth{" "}
-              <span className="text-[#3ddc97]">planning a trip around.</span>
+              <span className="text-[#e06568]">planning a trip around.</span>
             </h2>
             <div className="rondy-rule" />
             <p className="mx-auto mt-4 max-w-3xl text-[#aab4d8]">
@@ -235,7 +235,7 @@ export default function RondyHubPage() {
                       {e.teaser}
                     </p>
                     <div className="mt-auto flex items-center justify-between border-t border-[#26305c] pt-4">
-                      <span className="rondy-cond text-sm font-bold text-[#ffc65c] transition-colors group-hover:text-[#3ddc97]">
+                      <span className="rondy-cond text-sm font-bold text-[#eed24c] transition-colors group-hover:text-[#e06568]">
                         Full guide →
                       </span>
                       {e.ticketVia && (
@@ -256,7 +256,7 @@ export default function RondyHubPage() {
           <div className="mb-10 text-center">
             <p className="rondy-eyebrow mb-3">The full slate</p>
             <h2 className="rondy-display text-4xl text-[#eef2ff] sm:text-5xl">
-              Every official event, <span className="text-[#3ddc97]">one schedule.</span>
+              Every official event, <span className="text-[#e06568]">one schedule.</span>
             </h2>
             <div className="rondy-rule" />
             <p className="mx-auto mt-4 max-w-3xl text-[#aab4d8]">
@@ -277,7 +277,7 @@ export default function RondyHubPage() {
           <div className="rondy-booth rondy-string relative overflow-hidden p-8 sm:p-10">
             <p className="rondy-eyebrow mb-3">Saturday, March 6, 2027</p>
             <h2 className="rondy-display mb-4 text-3xl text-[#eef2ff] sm:text-4xl">
-              One street. <span className="text-[#ffc65c]">Three spectacles.</span>
+              One street. <span className="text-[#eed24c]">Three spectacles.</span>
             </h2>
             <p className="mb-6 max-w-3xl leading-relaxed text-[#c9d2f2]">
               Rondy&apos;s final Saturday is the biggest day of the Alaska
@@ -290,13 +290,13 @@ export default function RondyHubPage() {
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
                 href={`${HUB_PATH}/running-of-the-reindeer`}
-                className="rondy-cond rounded-lg border border-[#d99a2b] bg-[#ffc65c] px-6 py-3 text-center text-sm font-bold text-[#070b1e] transition-transform hover:-translate-y-0.5"
+                className="rondy-cond rounded-lg border border-[#c4a52e] bg-[#eed24c] px-6 py-3 text-center text-sm font-bold text-[#070b1e] transition-transform hover:-translate-y-0.5"
               >
                 Running of the Reindeer →
               </Link>
               <Link
                 href="/demos/iditarod-2027/ceremonial-start"
-                className="rondy-cond rounded-lg border border-[#eef2ff]/30 px-6 py-3 text-center text-sm font-bold text-[#eef2ff]/90 transition-colors hover:border-[#3ddc97]/60 hover:bg-[#3ddc97]/5"
+                className="rondy-cond rounded-lg border border-[#eef2ff]/30 px-6 py-3 text-center text-sm font-bold text-[#eef2ff]/90 transition-colors hover:border-[#e06568]/60 hover:bg-[#e06568]/5"
               >
                 Iditarod Ceremonial Start guide →
               </Link>
@@ -309,7 +309,7 @@ export default function RondyHubPage() {
           <div className="mb-10 text-center">
             <p className="rondy-eyebrow mb-3">Plan your Rondy</p>
             <h2 className="rondy-display text-4xl text-[#eef2ff] sm:text-5xl">
-              Eleven days, <span className="text-[#3ddc97]">your way.</span>
+              Eleven days, <span className="text-[#e06568]">your way.</span>
             </h2>
             <div className="rondy-rule" />
           </div>
@@ -330,7 +330,7 @@ export default function RondyHubPage() {
               },
             ].map((card) => (
               <div key={card.t} className="rondy-booth p-6">
-                <h3 className="rondy-cond mb-2 text-lg font-semibold text-[#ffc65c]">
+                <h3 className="rondy-cond mb-2 text-lg font-semibold text-[#eed24c]">
                   {card.t}
                 </h3>
                 <p className="leading-relaxed text-[#c9d2f2]">{card.d}</p>
@@ -342,7 +342,7 @@ export default function RondyHubPage() {
             Always confirm dates, times, and official ticket links through
             Greater Anchorage, Inc. at furrondy.net before booking travel.
             Items marked{" "}
-            <span className="rounded-sm bg-[#eef2ff]/10 px-1 py-0.5 font-mono text-[#ffc65c]">
+            <span className="rounded-sm bg-[#eef2ff]/10 px-1 py-0.5 font-mono text-[#eed24c]">
               [confirm]
             </span>{" "}
             are real recurring events mapped to their traditional slot in the
@@ -356,7 +356,7 @@ export default function RondyHubPage() {
           <div className="mb-10 text-center">
             <p className="rondy-eyebrow mb-3">Frequently asked</p>
             <h2 className="rondy-display text-4xl text-[#eef2ff] sm:text-5xl">
-              Fur Rondy 2027, <span className="text-[#3ddc97]">answered.</span>
+              Fur Rondy 2027, <span className="text-[#e06568]">answered.</span>
             </h2>
             <div className="rondy-rule" />
           </div>
@@ -379,7 +379,7 @@ export default function RondyHubPage() {
             <Seal size={96} className="mx-auto mb-6" />
             <h2 className="rondy-display mb-4 text-3xl text-[#eef2ff] sm:text-4xl">
               Since 1935,{" "}
-              <span className="text-[#ffc65c]">
+              <span className="text-[#eed24c]">
                 February is what Anchorage does best.
               </span>
             </h2>

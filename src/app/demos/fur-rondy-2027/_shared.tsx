@@ -25,13 +25,16 @@ export const RONDY = {
   nightDeep: "#070b1e", // darkest navy (gradients / footers)
   panel: "#121a3f", // booth-panel navy (cards)
   panelDeep: "#0e1533", // shaded panel
-  // aurora + carnival accents
-  aurora: "#3ddc97", // aurora green
+  // aurora atmosphere (background-only after the brand-hybrid retheme)
+  aurora: "#3ddc97", // aurora green — sky ribbons only, never UI
   auroraDeep: "#1e9c66",
-  violet: "#8b6cf0", // aurora violet
+  violet: "#8b6cf0", // aurora violet — sky ribbons only, never UI
   violetDeep: "#5f43c4",
-  gold: "#ffc65c", // string-light warm gold
-  goldDeep: "#d99a2b",
+  // Rondy brand accents (sampled from furrondy.net: #eed24c / #af3334)
+  gold: "#eed24c", // Rondy gold — string lights, CTAs, eyebrows
+  goldDeep: "#c4a52e",
+  red: "#af3334", // Rondy brick red — fills/borders
+  redBright: "#e06568", // lifted red for text/hover on navy
   // type
   snow: "#eef2ff", // near-white body text on navy
   frost: "#aab4d8", // muted captions / meta
@@ -117,11 +120,11 @@ export const accentGradient: Record<RondyEvent["accent"], string> = {
 
 // On-brand text color for dates / inline accents (used on navy panels).
 export const accentText: Record<RondyEvent["accent"], string> = {
-  aurora: "text-[#3ddc97]",
-  violet: "text-[#a98ffb]",
-  ember: "text-[#ffc65c]",
+  aurora: "text-[#eed24c]",
+  violet: "text-[#e06568]",
+  ember: "text-[#eed24c]",
   ice: "text-[#7fb8f5]",
-  midnight: "text-[#a98ffb]",
+  midnight: "text-[#e06568]",
 };
 
 export const ticketBadge: Record<
@@ -130,15 +133,15 @@ export const ticketBadge: Record<
 > = {
   paid: {
     label: "Ticketed",
-    cls: "bg-[#ffc65c]/12 text-[#ffc65c] border-[#ffc65c]/40",
+    cls: "bg-[#eed24c]/12 text-[#eed24c] border-[#eed24c]/40",
   },
   register: {
     label: "Register to take part",
-    cls: "bg-[#8b6cf0]/14 text-[#a98ffb] border-[#8b6cf0]/45",
+    cls: "bg-[#af3334]/25 text-[#e06568] border-[#af3334]/60",
   },
   free: {
     label: "Free",
-    cls: "bg-[#3ddc97]/12 text-[#3ddc97] border-[#3ddc97]/40",
+    cls: "bg-[#eef2ff]/10 text-[#eef2ff] border-[#eef2ff]/35",
   },
   onsite: {
     label: "Pay on-site",
@@ -173,7 +176,7 @@ export function CarnivalShell({
   return (
     <div className={`rondy-carnival ${className}`}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Oswald:wght@400;500;600;700&family=Karla:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Rye&family=Alfa+Slab+One&family=Oswald:wght@400;500;600;700&family=Karla:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 
         /* --- night-sky canvas + base type (scoped to the shell) --- */
         .rondy-carnival {
@@ -194,13 +197,16 @@ export function CarnivalShell({
             radial-gradient(ellipse 90% 50% at 80% -5%, rgba(139,108,240,.12), transparent 60%),
             linear-gradient(180deg, #0e1536 0%, ${RONDY.night} 40%, ${RONDY.nightDeep} 100%);
         }
-        .rondy-carnival ::selection { background: rgba(139,108,240,.4); }
+        .rondy-carnival ::selection { background: rgba(175,51,52,.5); }
 
         /* --- display type helpers --- */
+        /* Vintage circus woodtype for the big headlines (approved): Rye leads,
+           Alfa Slab One as fallback so nothing collapses to a system serif
+           while fonts load. */
         .rondy-carnival .rondy-display {
-          font-family: 'Alfa Slab One', 'Oswald', serif;
+          font-family: 'Rye', 'Alfa Slab One', 'Oswald', serif;
           font-weight: 400;
-          letter-spacing: .01em;
+          letter-spacing: .015em;
         }
         .rondy-carnival .rondy-cond {
           font-family: 'Oswald', sans-serif;
@@ -216,11 +222,21 @@ export function CarnivalShell({
           color: ${RONDY.gold};
         }
 
-        /* --- aurora section rule --- */
+        /* --- marquee section rule: a strip of gold bulbs that chase --- */
         .rondy-carnival .rondy-rule {
-          width: 120px; height: 3px; margin: 16px auto 0;
-          border-radius: 2px;
-          background: linear-gradient(90deg, ${RONDY.aurora}, ${RONDY.violet}, ${RONDY.gold});
+          width: 140px; height: 8px; margin: 16px auto 0;
+          background-image: radial-gradient(circle 2.8px at 7px 4px, ${RONDY.gold} 0 2.1px, rgba(238,210,76,.28) 2.1px 3.2px, transparent 3.4px);
+          background-size: 14px 8px;
+          background-repeat: repeat-x;
+          filter: drop-shadow(0 0 3px rgba(238,210,76,.7));
+        }
+        @media (prefers-reduced-motion: no-preference) {
+          .rondy-carnival .rondy-rule {
+            animation: rondy-chase 1s steps(2) infinite;
+          }
+        }
+        @keyframes rondy-chase {
+          to { background-position-x: 14px; }
         }
 
         /* --- BOOTH PANEL (card) -------------------------------------------- */
@@ -235,20 +251,55 @@ export function CarnivalShell({
         .rondy-carnival a.rondy-booth:hover,
         .rondy-carnival .rondy-booth-hover:hover {
           transform: translateY(-4px);
-          border-color: rgba(255,198,92,.45);
-          box-shadow: 0 16px 40px rgba(4,7,20,.65), 0 0 24px rgba(255,198,92,.08);
+          border-color: rgba(238,210,76,.45);
+          box-shadow: 0 16px 40px rgba(4,7,20,.65), 0 0 24px rgba(238,210,76,.08);
         }
         /* string-light row along a panel's top edge: warm glowing bulbs */
         .rondy-carnival .rondy-string {
           position: relative;
         }
-        .rondy-carnival .rondy-string::before {
+        .rondy-carnival .rondy-string::before,
+        .rondy-carnival .rondy-string::after {
           content: ""; position: absolute; left: 14px; right: 14px; top: -4px;
           height: 8px; z-index: 3; pointer-events: none;
-          background-image: radial-gradient(circle 3px at 8px 4px, ${RONDY.gold} 0 2.2px, rgba(255,198,92,.35) 2.2px 3.4px, transparent 3.5px);
+          background-image: radial-gradient(circle 3px at 8px 4px, ${RONDY.gold} 0 2.2px, rgba(238,210,76,.35) 2.2px 3.4px, transparent 3.5px);
           background-size: 26px 8px;
           background-repeat: repeat-x;
-          filter: drop-shadow(0 0 4px rgba(255,198,92,.65));
+          filter: drop-shadow(0 0 4px rgba(238,210,76,.65));
+        }
+        /* second bulb layer offset half a period — the two alternate opacity
+           for a classic marquee twinkle (full carnival energy, approved) */
+        .rondy-carnival .rondy-string::after {
+          background-position-x: 13px;
+          opacity: 0;
+        }
+        @media (prefers-reduced-motion: no-preference) {
+          .rondy-carnival .rondy-string::before {
+            animation: rondy-twinkle 1.4s ease-in-out infinite;
+          }
+          .rondy-carnival .rondy-string::after {
+            animation: rondy-twinkle 1.4s ease-in-out infinite reverse;
+          }
+        }
+        @keyframes rondy-twinkle {
+          0%, 100% { opacity: 1; }
+          50% { opacity: .25; }
+        }
+
+        /* gondolas on the designed Ferris-wheel art sway gently */
+        @media (prefers-reduced-motion: no-preference) {
+          .rondy-carnival .rondy-gondola {
+            transform-box: fill-box;
+            transform-origin: 50% 0%;
+            animation: rondy-sway 3.6s ease-in-out infinite;
+          }
+          .rondy-carnival .rondy-wheelbulb {
+            animation: rondy-twinkle 1.8s ease-in-out infinite;
+          }
+        }
+        @keyframes rondy-sway {
+          0%, 100% { transform: rotate(-4deg); }
+          50% { transform: rotate(4deg); }
         }
 
         /* --- NIGHT PHOTO WASH ---------------------------------------------- */
@@ -444,8 +495,8 @@ export function PhotoPlaceholder({
             <stop offset="100%" stopColor="#8b6cf0" stopOpacity="0" />
           </linearGradient>
           <radialGradient id={`rondy-glow-${accent}`} cx="50%" cy="88%" r="55%">
-            <stop offset="0%" stopColor="#ffc65c" stopOpacity="0.22" />
-            <stop offset="100%" stopColor="#ffc65c" stopOpacity="0" />
+            <stop offset="0%" stopColor="#eed24c" stopOpacity="0.22" />
+            <stop offset="100%" stopColor="#eed24c" stopOpacity="0" />
           </radialGradient>
         </defs>
 
@@ -505,7 +556,7 @@ export function PhotoPlaceholder({
           {/* wheel rim + spokes */}
           <g stroke="#101838" strokeWidth="3.4" fill="none">
             <circle cx="0" cy="0" r="52" />
-            <circle cx="0" cy="0" r="52" stroke="#ffc65c" strokeWidth="1.1" opacity="0.55" />
+            <circle cx="0" cy="0" r="52" stroke="#eed24c" strokeWidth="1.1" opacity="0.55" />
             {[0, 30, 60, 90, 120, 150].map((a) => (
               <line
                 key={a}
@@ -516,32 +567,36 @@ export function PhotoPlaceholder({
               />
             ))}
           </g>
-          {/* rim bulbs */}
-          {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((a) => (
+          {/* rim bulbs — twinkle in a staggered ring */}
+          {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((a, i) => (
             <circle
               key={a}
+              className="rondy-wheelbulb"
+              style={{ animationDelay: `${(i % 4) * 0.45}s` }}
               cx={52 * Math.cos((a * Math.PI) / 180)}
               cy={52 * Math.sin((a * Math.PI) / 180)}
               r="2.1"
-              fill="#ffc65c"
+              fill="#eed24c"
               opacity="0.95"
             />
           ))}
-          {/* gondolas */}
-          {[15, 75, 135, 195, 255, 315].map((a) => (
+          {/* gondolas — gentle staggered sway */}
+          {[15, 75, 135, 195, 255, 315].map((a, i) => (
             <rect
               key={a}
+              className="rondy-gondola"
+              style={{ animationDelay: `${i * 0.55}s` }}
               x={52 * Math.cos((a * Math.PI) / 180) - 4}
               y={52 * Math.sin((a * Math.PI) / 180) - 1}
               width="8"
               height="7"
               rx="2"
               fill="#0a1028"
-              stroke="#ffc65c"
+              stroke="#eed24c"
               strokeWidth="0.8"
             />
           ))}
-          <circle cx="0" cy="0" r="4" fill="#ffc65c" />
+          <circle cx="0" cy="0" r="4" fill="#eed24c" />
         </g>
 
         {/* string of lights swooping across the foreground */}
@@ -558,7 +613,7 @@ export function PhotoPlaceholder({
             cx={x}
             cy={212 + Math.sin((i / 7) * Math.PI) * 12}
             r="2.4"
-            fill="#ffc65c"
+            fill="#eed24c"
             opacity="0.92"
           />
         ))}
@@ -578,7 +633,7 @@ export function PhotoPlaceholder({
               {img.credit}
             </span>
           ) : (
-            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-[#ffc65c]/40 bg-[#070b1e]/50 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.14em] text-[#eef2ff]/90 backdrop-blur-sm">
+            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-[#eed24c]/40 bg-[#070b1e]/50 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.14em] text-[#eef2ff]/90 backdrop-blur-sm">
               <svg
                 viewBox="0 0 16 16"
                 className="h-2.5 w-2.5"
@@ -673,18 +728,20 @@ export function RondyMotion() {
                 />
               ))}
             </g>
-            <circle cx="100" cy="92" r="64" stroke="#ffc65c" strokeWidth="1.2" opacity="0.6" />
-            {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((a) => (
+            <circle cx="100" cy="92" r="64" stroke="#eed24c" strokeWidth="1.2" opacity="0.6" />
+            {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((a, i) => (
               <circle
                 key={a}
+                className="rondy-wheelbulb"
+                style={{ animationDelay: `${(i % 3) * 0.6}s` }}
                 cx={100 + 64 * Math.cos((a * Math.PI) / 180)}
                 cy={92 + 64 * Math.sin((a * Math.PI) / 180)}
                 r="2.6"
-                fill="#ffc65c"
+                fill="#eed24c"
               />
             ))}
           </g>
-          <circle cx="100" cy="92" r="5" fill="#ffc65c" />
+          <circle cx="100" cy="92" r="5" fill="#eed24c" />
         </svg>
       </div>
 
@@ -754,13 +811,13 @@ export function SampleNote() {
           and the Rondy logo in their place. Sample built by{" "}
           <a
             href={SITE}
-            className="font-semibold text-[#ffc65c] underline underline-offset-2 hover:text-[#d99a2b]"
+            className="font-semibold text-[#eed24c] underline underline-offset-2 hover:text-[#c4a52e]"
           >
             BlueWave Projects
           </a>{" "}
           on public info. The 2027 festival window (February 25 – March 7) is
           published by Visit Anchorage; individual event dates marked{" "}
-          <span className="rounded-sm bg-[#eef2ff]/10 px-1 py-0.5 font-mono text-[#ffc65c]">
+          <span className="rounded-sm bg-[#eef2ff]/10 px-1 py-0.5 font-mono text-[#eed24c]">
             [confirm]
           </span>{" "}
           are real recurring events mapped to their traditional slots, not yet
