@@ -83,11 +83,11 @@ const watchEvents: WatchEvent[] = [
     access: "Free to watch",
   },
   {
-    title: "Surf-polo & ocean games",
+    title: "Surfboard water polo & beach games",
     accent: "sunset",
     figure: "paddler",
     blurb:
-      "Surf-polo and other ocean-skills games round out the program — the festival's playful, all-ages side, right on the Kuhio Beach shoreline.",
+      "Surfboard water polo and other beach games round out the program — the festival's playful, all-ages side, right on the Kuhio Beach shoreline.",
     access: "Free to watch",
   },
 ];
@@ -131,7 +131,7 @@ const hubFaq: { q: string; a: string }[] = [
   },
   {
     q: "What can I watch?",
-    a: "The program spans ocean sports: longboard and logboard surfing, tandem surfing, stand-up paddle and paddleboard races, an open-water ocean swim, beach volleyball, water polo, and surf-polo — most of it visible right from the Waikiki shoreline.",
+    a: "The program spans ocean sports: longboard and logboard surfing, tandem surfing, stand-up paddle and paddleboard races, an open-water ocean swim, beach volleyball, and surfboard water polo — most of it visible right from the Waikiki shoreline.",
   },
   {
     q: "Is the surf and tide data on this page real?",

@@ -355,7 +355,7 @@ export function PhotoPlaceholder({
               <circle cx="5.5" cy="6.5" r="1.2" fill="currentColor" />
               <path d="M2 11 L6 7.5 L9 10 L11 8.5 L14 11" stroke="currentColor" strokeWidth="1.3" fill="none" />
             </svg>
-            Official photo
+            Illustration
           </span>
         </div>
       </div>
