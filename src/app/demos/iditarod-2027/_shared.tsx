@@ -209,6 +209,14 @@ export function HeritageShell({
         }
         .idit-heritage ::selection { background: rgba(181,80,42,.22); }
 
+        /* The shared site Nav is styled for dark pages (white links at 50%);
+           on the cream canvas they wash out. Re-ink the links — but leave any
+           link that carries its own bg (the CTA button) untouched. */
+        .idit-heritage nav a { color: rgba(31,61,47,.72); }
+        .idit-heritage nav a:hover { color: ${IDITAROD.ink}; }
+        .idit-heritage nav a[class*="bg-"] { color: #F3EAD7; }
+        .idit-heritage nav a[class*="bg-"]:hover { color: #F3EAD7; }
+
         /* --- display type helper --- */
         .idit-heritage .idit-display {
           font-family: 'Oswald', 'Zilla Slab', sans-serif;
