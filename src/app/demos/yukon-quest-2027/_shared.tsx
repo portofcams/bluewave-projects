@@ -369,11 +369,12 @@ export function PhotoPlaceholder({
             className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover/ph:scale-[1.04]"
             style={{
               objectPosition: img.position ?? "center",
-              filter: "sepia(.16) saturate(1.06) contrast(1.03) brightness(1.05)",
+              filter: "sepia(.1) saturate(1) contrast(1.05) brightness(1.06)",
             }}
           />
-          {/* spruce->oxblood duotone wash for legibility + on-brand color grade */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#1f3d2f]/28 via-[#7d3517]/12 to-[#14241c]/36 mix-blend-multiply" />
+          {/* subtle spruce tint (NORMAL blend — no multiply, which crushed the
+              bright B&W snow/sky) + a bottom vignette for label legibility */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#1f3d2f]/22 via-[#1f3d2f]/8 to-[#14241c]/28" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#14241c]/85 via-[#14241c]/8 to-transparent" />
         </>
       )}
