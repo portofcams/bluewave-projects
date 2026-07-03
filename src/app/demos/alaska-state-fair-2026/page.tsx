@@ -52,7 +52,7 @@ const hubFaq: { q: string; a: string }[] = [
   },
   {
     q: "Where do I actually buy tickets?",
-    a: "Through the official links on alaskastatefair.org. Admission, passes, parking, and shows sell on Etix (20+ separate checkout links today); carnival ride passes come from Golden Wheel; camping books through a separate portal. This hub's planner tells you which of those your day actually needs.",
+    a: "Through the official links on alaskastatefair.org. Admission, passes, parking, and shows sell on Etix; carnival ride passes come from Golden Wheel; camping books through a separate portal. This hub's planner tells you which of those your day actually needs.",
   },
 ];
 
@@ -127,7 +127,7 @@ export default function FairHubPage() {
               { v: "1936", l: "First fair", s: "Matanuska Valley, Palmer" },
               { v: "14", l: "Open days", s: "Closed Tue & Wed" },
               { v: "14", l: "Headliners", s: "Borealis Theatre, nightly" },
-              { v: "20+", l: "Ticket checkouts", s: "today — the problem this hub solves" },
+              { v: "100 lb+", l: "Giant cabbages", s: "the famous weigh-off" },
             ].map((stat) => (
               <div key={stat.l} className="fair-card fair-band p-5">
                 <div className="fair-display text-4xl text-[#c43a2d]">

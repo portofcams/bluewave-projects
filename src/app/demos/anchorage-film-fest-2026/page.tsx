@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   title:
     "Anchorage International Film Festival 2026 — Schedule, Tickets & Guide (Sample Hub)",
   description:
-    "AIFF 2026 information headquarters — the 26th annual Anchorage International Film Festival, December 4–13, 2026. Every screening in one filterable schedule, showing exactly which of two ticketing systems (FilmBOT or GoElEvent) sells each one. A sample build by BlueWave Projects on public information.",
+    "AIFF 2026 information headquarters — the 26th annual Anchorage International Film Festival, December 4–13, 2026. Every screening in one filterable schedule, plus venues, how to buy tickets, and how to plan your ten days. A sample build by BlueWave Projects on public information.",
   robots: {
     index: false,
     follow: false,
@@ -49,7 +49,7 @@ const hubFaq: { q: string; a: string }[] = [
   },
   {
     q: "Where do I buy tickets?",
-    a: "It depends entirely on the venue. Bear Tooth Theatrepub screenings sell through FilmBOT, Bear Tooth's own year-round box office. Anchorage Museum, Alaska Experience Theater, and E Street Theater screenings all sell through a separate platform, GoElEvent. There is currently no single pass confirmed to span both.",
+    a: "Tickets sell through each screening's venue. Bear Tooth Theatrepub screenings sell through FilmBOT, Bear Tooth's own year-round box office. Anchorage Museum, Alaska Experience Theater, and E Street Theater screenings sell through a shared platform, GoElEvent. Each row on the schedule below notes where its tickets are sold, so you can go straight to the right box office. Always confirm the official link through AIFF at anchoragefilmfestival.org.",
   },
   {
     q: "Is FilmFreeway where I buy tickets?",
@@ -157,7 +157,7 @@ export default function AiffHubPage() {
               { v: "26th", l: "Annual edition", s: "Running since 2000" },
               { v: "10", l: "Festival days", s: "Dec 4–13, 2026" },
               { v: "100+", l: "Films screened", s: "Features, docs, shorts" },
-              { v: "2", l: "Ticket systems", s: "FilmBOT + GoElEvent" },
+              { v: "4", l: "Venues", s: "Across Anchorage" },
             ].map((stat) => (
               <div key={stat.l} className="aiff-panel aiff-string p-5">
                 <div className="aiff-display text-4xl text-[#f0b94a]">
@@ -174,26 +174,24 @@ export default function AiffHubPage() {
           </div>
         </section>
 
-        {/* THE HOOK — two systems, one festival */}
+        {/* How to buy tickets — neutral, attendee-helpful ticketing note */}
         <section className="mx-auto max-w-6xl px-6 py-16">
           <div className="aiff-panel aiff-string relative overflow-hidden p-8 sm:p-10">
-            <p className="aiff-eyebrow mb-3">The scatter</p>
+            <p className="aiff-eyebrow mb-3">How to buy tickets</p>
             <h2 className="aiff-display mb-4 text-3xl text-[#f3f1ea] sm:text-4xl">
-              One festival.{" "}
-              <span className="text-[#f0b94a]">Two separate checkouts.</span>
+              Tickets sell{" "}
+              <span className="text-[#f0b94a]">through each venue.</span>
             </h2>
             <p className="mb-6 max-w-3xl leading-relaxed text-[#c9c7d0]">
-              AIFF screens across four venues, but sells tickets through
-              exactly two unrelated systems, split by venue. Bear Tooth
-              Theatrepub runs its own year-round box office —{" "}
-              <span className="font-semibold text-[#e2685c]">FilmBOT</span> —
-              shared with its regular movie schedule. Everywhere else —
-              Anchorage Museum, Alaska Experience Theater, E Street Theater —
-              sells through a completely separate platform,{" "}
-              <span className="font-semibold text-[#4fd6e8]">GoElEvent</span>.
-              A ticket bought on one platform doesn&apos;t exist on the other,
-              and as of this build, no single pass has been confirmed to
-              cover both.
+              AIFF screens across four Anchorage venues, and each screening&apos;s
+              tickets are sold through its venue&apos;s own box office. Bear Tooth
+              Theatrepub uses{" "}
+              <span className="font-semibold text-[#e2685c]">FilmBOT</span>, its
+              year-round box office. The Anchorage Museum, Alaska Experience
+              Theater, and E Street Theater use a shared platform,{" "}
+              <span className="font-semibold text-[#4fd6e8]">GoElEvent</span>. The
+              schedule below notes where each screening&apos;s tickets are sold,
+              so you can go straight to the right box office.
             </p>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-xl border border-[#c4453a]/40 bg-[#c4453a]/10 p-5">
@@ -201,11 +199,10 @@ export default function AiffHubPage() {
                   FilmBOT
                 </p>
                 <p className="text-sm leading-relaxed text-[#c9c7d0]">
-                  Bear Tooth Theatrepub&apos;s own box office —
-                  reserved dine-in seating, shared with its regular movie
-                  schedule (Hollywood releases, sports broadcasts, classic
-                  films). New tickets typically release Tuesdays at 10:30 AM
-                  for the coming Friday.
+                  Bear Tooth Theatrepub&apos;s own box office — reserved dine-in
+                  seating, shared with its regular movie schedule (Hollywood
+                  releases, sports broadcasts, classic films). New tickets
+                  typically release Tuesdays at 10:30 AM for the coming Friday.
                 </p>
               </div>
               <div className="rounded-xl border border-[#4fd6e8]/40 bg-[#4fd6e8]/10 p-5">
@@ -213,10 +210,9 @@ export default function AiffHubPage() {
                   GoElEvent
                 </p>
                 <p className="text-sm leading-relaxed text-[#c9c7d0]">
-                  A separate event-ticketing platform used at the Anchorage
-                  Museum, Alaska Experience Theater, and E Street Theater —
-                  three different venues, one shared checkout, still
-                  disconnected from Bear Tooth&apos;s.
+                  The shared event-ticketing platform for the Anchorage Museum,
+                  Alaska Experience Theater, and E Street Theater — three
+                  venues booking through one checkout.
                 </p>
               </div>
             </div>
