@@ -42,6 +42,7 @@ type Decoded = {
   altimText: string; // "29.86 inHg"
   fltCat: string; // "VFR" | "MVFR" | "IFR" | "LIFR" | "—"
   raw: string; // raw METAR string
+  rawAssembled: boolean; // true when `raw` was composed from fields (no rawMessage)
   obsTime: string; // "10:53 AM AKDT" style, best-effort
 };
 
@@ -120,6 +121,7 @@ const SAMPLE: Decoded = {
   altimText: "29.92 inHg",
   fltCat: "VFR",
   raw: "PAAQ 021553Z 22006KT 10SM BKN065 09/02 A2992 RMK AO2",
+  rawAssembled: false,
   obsTime: "sample observation",
 };
 
@@ -166,6 +168,96 @@ type NwsProps = {
 const numOrNull = (v: NwsValue): number | null =>
   v != null && typeof v.value === "number" ? v.value : null;
 
+// ---- compose a valid METAR-format string from the LIVE decoded fields ------
+// Used only when NWS `properties.rawMessage` is null/empty. This is the SAME
+// live observation, just re-assembled into standard METAR wording — never
+// fabricated. Every group is guarded and skipped cleanly if its source value
+// is missing. Station is always PAAQ; fields are space-joined in METAR order.
+function composeMetar(p: NwsProps): string | null {
+  const groups: string[] = ["PAAQ"];
+
+  // 2. Time — DDHHMMZ (UTC) from the obs timestamp.
+  if (p.timestamp) {
+    const dt = new Date(p.timestamp);
+    if (!Number.isNaN(dt.getTime())) {
+      const dd = String(dt.getUTCDate()).padStart(2, "0");
+      const hh = String(dt.getUTCHours()).padStart(2, "0");
+      const mm = String(dt.getUTCMinutes()).padStart(2, "0");
+      groups.push(`${dd}${hh}${mm}Z`);
+    }
+  }
+
+  // 3. Wind — 00000KT if calm; else dddff(Ggg)KT (dir VRB if unknown).
+  const wspdKmh = numOrNull(p.windSpeed);
+  if (wspdKmh != null) {
+    const kt = kmhToKt(wspdKmh);
+    if (kt === 0) {
+      groups.push("00000KT");
+    } else {
+      const wdir = numOrNull(p.windDirection);
+      const dir =
+        wdir != null
+          ? String(Math.round(wdir) % 360).padStart(3, "0")
+          : "VRB";
+      const spd = String(kt).padStart(2, "0");
+      const gustKmh = numOrNull(p.windGust);
+      const gustKt = gustKmh != null ? kmhToKt(gustKmh) : null;
+      const gust =
+        gustKt != null && gustKt > kt
+          ? `G${String(gustKt).padStart(2, "0")}`
+          : "";
+      groups.push(`${dir}${spd}${gust}KT`);
+    }
+  }
+
+  // 4. Visibility — whole statute miles (rounding acceptable).
+  const visM = numOrNull(p.visibility);
+  if (visM != null) {
+    const visSM = Math.max(0, Math.round(mToSM(visM)));
+    groups.push(`${visSM}SM`);
+  }
+
+  // 5. Sky — each layer AMTbbb (hundreds of ft) ascending; CLR if none.
+  const layers = Array.isArray(p.cloudLayers) ? p.cloudLayers : [];
+  const skyGroups = layers
+    .filter((l) => l.amount && typeof l.base?.value === "number")
+    .map((l) => ({
+      amt: l.amount as string,
+      hundreds: Math.round(mToFt(l.base!.value as number) / 100),
+    }))
+    .sort((a, b) => a.hundreds - b.hundreds)
+    .map((l) => `${l.amt}${String(l.hundreds).padStart(3, "0")}`);
+  if (skyGroups.length) {
+    groups.push(...skyGroups);
+  } else if (layers.length === 0) {
+    // Only claim CLR when NWS actually reported no cloud layers.
+    groups.push("CLR");
+  }
+
+  // 6. Temp/dewpoint — Celsius, 2-digit, negatives prefixed M, joined by /.
+  const tempC = numOrNull(p.temperature);
+  const dewC = numOrNull(p.dewpoint);
+  if (tempC != null && dewC != null) {
+    const fmt = (c: number) => {
+      const n = Math.abs(Math.round(c));
+      return `${c < 0 ? "M" : ""}${String(n).padStart(2, "0")}`;
+    };
+    groups.push(`${fmt(tempC)}/${fmt(dewC)}`);
+  }
+
+  // 7. Altimeter — A + inHg*100 as 4 digits.
+  const paVal = numOrNull(p.barometricPressure);
+  if (paVal != null) {
+    const inHg = Number(paToInHg(paVal));
+    if (!Number.isNaN(inHg)) {
+      groups.push(`A${String(Math.round(inHg * 100)).padStart(4, "0")}`);
+    }
+  }
+
+  // Need at least the station + one real group to be worth showing.
+  return groups.length > 1 ? groups.join(" ") : null;
+}
+
 // Flight category from ceiling (ft) + visibility (SM).
 // null ceiling = unlimited; null vis = treat as unrestricted for the check.
 function flightCategory(ceilFt: number | null, visSM: number | null): string {
@@ -180,6 +272,9 @@ function flightCategory(ceilFt: number | null, visSM: number | null): string {
 }
 
 function decodeNws(p: NwsProps): Decoded {
+  // The station's officially transmitted METAR, if present and non-empty.
+  const transmitted = p.rawMessage && p.rawMessage.trim() ? p.rawMessage.trim() : null;
+
   // ---- temp / dew (°C) ----
   const tempC = numOrNull(p.temperature);
   const dewC = numOrNull(p.dewpoint);
@@ -274,7 +369,10 @@ function decodeNws(p: NwsProps): Decoded {
     dewText,
     altimText,
     fltCat,
-    raw: p.rawMessage || "—",
+    // Prefer the station's transmitted METAR; when NWS omits it, assemble one
+    // from the same live fields (still live data). "—" only if we truly can't.
+    raw: transmitted || composeMetar(p) || "—",
+    rawAssembled: !transmitted,
     obsTime,
   };
 }
@@ -503,6 +601,11 @@ export function GatheringConditions() {
           <code className="block overflow-x-auto whitespace-nowrap font-mono text-[12px] leading-relaxed text-[#cfe4fa]">
             {d.raw}
           </code>
+          {live && d.rawAssembled && d.raw !== "—" && (
+            <p className="mt-1.5 text-[10px] italic text-[#cfe4fa]/45">
+              assembled from the live NWS observation
+            </p>
+          )}
         </div>
 
         {/* honest footnote */}
