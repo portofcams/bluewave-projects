@@ -4,9 +4,13 @@
 // HONEST FRAMING (per brief): this is a sample information hub built on public
 // information by BlueWave Projects. It is NOT an official Eddie Aikau Foundation,
 // Aikau family, or Rip Curl product, and is not affiliated with or endorsed by
-// them. All imagery is DESIGNED SVG placeholder art — no copyrighted photos, and
-// no depiction is presented as a real photograph of a real person. A real build
-// would use the organization's own or licensed photography.
+// them. Imagery is either (a) license-clean Creative-Commons Waimea Bay / North
+// Shore / big-wave SCENERY from Wikimedia Commons — verified, stored under
+// /public/demos/eddie/, and credited on-image + in CREDITS.md — or (b) designed
+// SVG art. NO photo depicts Eddie Aikau himself, the actual Eddie Aikau
+// Invitational event, its competitors, sponsor branding, or the Aikau family;
+// those slots keep the reverent SVG art. A real build would use the
+// organization's own or licensed photography.
 //
 // TONE: this honors a beloved Native Hawaiian hero and a memorial event. The
 // voice is reverent, factual, and humble — never hype, never commercial. "Eddie
@@ -238,11 +242,33 @@ export function MemorialMark({
 }
 
 // ---------------------------------------------------------------------------
-// WAVE ILLUSTRATION — designed SVG big-wave art (never a hotlinked/invented
-// photo, and never a depicted "real person"). A duotone deep-Pacific well with
-// a towering Waimea wave face, cold-dawn horizon light, and a distant, tiny,
-// abstract surfer/paddler silhouette (a mark on the wave, not a portrait).
-// Carries an honest chip signaling the final build swaps in licensed photography.
+// PHOTO SOURCE — a license-clean Creative-Commons / public-domain image, verified
+// on Wikimedia Commons and stored under /public/demos/eddie/ (see CREDITS.md).
+// Used ONLY for license-clean Waimea / North Shore / big-wave SCENERY. Never used
+// for a photo of Eddie Aikau himself, the actual Invitational event, its
+// competitors, sponsor branding, or the Aikau family — those slots keep the
+// reverent designed SVG art.
+// ---------------------------------------------------------------------------
+export type PhotoSrc = {
+  /** path under /public, e.g. "/demos/eddie/north-shore-wave.webp" */
+  src: string;
+  /** short attribution shown on-image, e.g. "Stan Shebs · CC BY-SA 3.0" */
+  credit: string;
+  /** object-position, e.g. "center", "50% 30%" */
+  position?: string;
+};
+
+// ---------------------------------------------------------------------------
+// WAVE ILLUSTRATION / PHOTO — when a `photo` (license-clean Waimea / North Shore
+// big-wave SCENERY from Wikimedia Commons, verified and stored under
+// /public/demos/eddie/) is supplied, we render that REAL photo behind the same
+// dark deep-Pacific scrim, with the label and an honest "Sample photo" chip plus
+// an on-image credit pill. When NO fitting license-clean scenery photo is used
+// for a slot (or the slot concerns Eddie himself / the Hokule'a / the event),
+// `photo` is omitted and we keep the designed SVG big-wave art (never a
+// depicted "real person" or an invented photo). Either way the tile carries the
+// honest note that the final build swaps in the organization's own or licensed
+// photography — and any CC image used is credited here and in CREDITS.md.
 // ---------------------------------------------------------------------------
 export function WaveArt({
   accent,
@@ -250,12 +276,14 @@ export function WaveArt({
   className = "",
   tall = false,
   figure = "wave",
+  photo,
 }: {
   accent: WaveAccent;
   label: string;
   className?: string;
   tall?: boolean;
   figure?: "wave" | "surfer" | "canoe" | "bay";
+  photo?: PhotoSrc;
 }) {
   return (
     <div
@@ -263,8 +291,31 @@ export function WaveArt({
         tall ? "min-h-[300px] sm:min-h-[380px]" : "min-h-[190px]"
       } ${className}`}
       role="img"
-      aria-label={`Illustration placeholder — ${label}`}
+      aria-label={photo ? `${label} — sample photo` : `Illustration placeholder — ${label}`}
     >
+      {/* REAL PHOTO branch — license-clean scenery behind the dark Waimea scrim */}
+      {photo && (
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={photo.src}
+            alt={`${label} — sample Waimea / North Shore scenery photo`}
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ objectPosition: photo.position ?? "center" }}
+          />
+          {/* deep-Pacific scrim: holds the dark reverent palette + legibility */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#04121f]/45 via-[#08243d]/30 to-[#04121f]/55" />
+          <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-[#04121f]/85 via-[#04121f]/35 to-transparent" />
+          {/* on-image credit (top-left, unobtrusive) */}
+          <span className="absolute left-3 top-3 rounded-full bg-[#04121f]/55 px-2 py-0.5 text-[9px] font-medium tracking-[0.04em] text-[#eef5fa]/80 backdrop-blur-sm">
+            {photo.credit}
+          </span>
+        </>
+      )}
+
+      {!photo && (
       <svg
         className="absolute inset-0 h-full w-full"
         viewBox="0 0 400 300"
@@ -367,11 +418,17 @@ export function WaveArt({
           </>
         )}
       </svg>
+      )}
 
-      {/* soft vignette for caption legibility */}
-      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#04121f]/75 to-transparent" />
+      {/* soft vignette for caption legibility (SVG art only — the photo branch
+          already lays down its own bottom scrim) */}
+      {!photo && (
+        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#04121f]/75 to-transparent" />
+      )}
 
-      {/* caption + honest "illustration" chip */}
+      {/* caption + honest chip: "Sample photo" over real license-clean scenery,
+          "Illustration" over the designed SVG art. Both signal that the final
+          build uses the organization's own or licensed photography. */}
       <div className="absolute inset-0 flex items-end p-4 sm:p-5">
         <div className="flex w-full items-end justify-between gap-3">
           <span className="eddie-display text-[15px] font-semibold leading-tight text-[#eef5fa] drop-shadow-sm">
@@ -383,7 +440,7 @@ export function WaveArt({
               <circle cx="5.5" cy="6.5" r="1.2" fill="currentColor" />
               <path d="M2 11 L6 7.5 L9 10 L11 8.5 L14 11" stroke="currentColor" strokeWidth="1.3" fill="none" />
             </svg>
-            Illustration
+            {photo ? "Sample photo" : "Illustration"}
           </span>
         </div>
       </div>

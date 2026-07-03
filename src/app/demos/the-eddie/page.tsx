@@ -8,6 +8,7 @@ import {
   SITE,
   HUB_PATH,
   type WaveAccent,
+  type PhotoSrc,
 } from "./_shared";
 
 // UNLISTED + NOINDEX. Not in nav, not in sitemap. This metadata block keeps the
@@ -38,6 +39,10 @@ type Running = {
   note: string;
   accent: WaveAccent;
   figure: "wave" | "surfer" | "canoe" | "bay";
+  // Optional license-clean Waimea / North Shore big-wave SCENERY photo (Wikimedia
+  // Commons; see /public/demos/eddie/CREDITS.md). NOT a photo of the actual event
+  // or its competitors — generic North Shore surf scenery, honestly labeled.
+  photo?: PhotoSrc;
 };
 
 const runnings: Running[] = [
@@ -47,6 +52,11 @@ const runnings: Running[] = [
       "Ran January 22, 2023. Won by Luke Shepardson, an Oahu North Shore lifeguard who competed on his work break — the 10th person ever to win The Eddie. Women competed in the event for the first time.",
     accent: "dawn",
     figure: "surfer",
+    photo: {
+      src: "/demos/eddie/north-shore-wave2.webp",
+      credit: "Stan Shebs · CC BY-SA 3.0",
+      position: "center 45%",
+    },
   },
   {
     year: "2024",
@@ -54,6 +64,11 @@ const runnings: Running[] = [
       "The most recent running, held December 22, 2024. Won by Landon McNamara.",
     accent: "wall",
     figure: "wave",
+    photo: {
+      src: "/demos/eddie/north-shore-wave.webp",
+      credit: "Stan Shebs · CC BY-SA 3.0",
+      position: "center 40%",
+    },
   },
 ];
 
@@ -85,8 +100,25 @@ export default function TheEddiePage() {
       <main className="min-h-screen text-[#0a2135]">
         <Nav />
 
-        {/* HERO — a deep-Pacific band, reverent one-line explainer */}
+        {/* HERO — a deep-Pacific band over a real, license-clean Waimea / North
+            Shore big-surf photo (Wikimedia Commons; see CREDITS.md), held under a
+            deep dark scrim that keeps the reverent palette + full legibility. */}
         <section className="relative overflow-hidden bg-gradient-to-br from-[#08243d] via-[#0d3a5c] to-[#04121f] text-[#eef5fa]">
+          {/* real hero background photo (license-clean scenery — NOT the event) */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/demos/eddie/hero-waimea.webp"
+            alt="Waimea Bay, North Shore of Oahu, on a big-surf day — sample scenery photo"
+            className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+            style={{ objectPosition: "center 55%" }}
+          />
+          {/* deep-Pacific scrim over the photo — keeps text fully legible */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#08243d]/92 via-[#0d3a5c]/86 to-[#04121f]/95" />
+          <div className="pointer-events-none absolute inset-0 bg-[#04121f]/30" />
+          {/* on-image hero credit */}
+          <span className="absolute right-3 top-20 z-10 rounded-full bg-[#04121f]/50 px-2 py-0.5 text-[9px] font-medium tracking-[0.04em] text-[#eef5fa]/70 backdrop-blur-sm">
+            Waimea Bay · S. Hedin · CC BY-SA 3.0
+          </span>
           {/* towering wave face + cold-dawn glow */}
           <svg
             className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.20]"
@@ -359,7 +391,8 @@ export default function TheEddiePage() {
                 <WaveArt
                   accent={r.accent}
                   figure={r.figure}
-                  label={`Waimea Bay · ${r.year}`}
+                  photo={r.photo}
+                  label={`North Shore · big-wave season`}
                   className="rounded-b-none border-0"
                 />
                 <div className="flex flex-1 flex-col p-6">
@@ -410,7 +443,12 @@ export default function TheEddiePage() {
               accent="dawn"
               figure="bay"
               tall
-              label="Waimea Bay — free to watch from the beach, the bluffs, and the highway"
+              photo={{
+                src: "/demos/eddie/north-shore-surfer.webp",
+                credit: "André Fleckenstein · CC BY-SA 4.0",
+                position: "center 35%",
+              }}
+              label="The North Shore — free to watch from the beach, the bluffs, and the highway"
             />
           </div>
         </section>
@@ -500,13 +538,26 @@ export default function TheEddiePage() {
                 BlueWave Projects
               </a>{" "}
               on publicly available information, and is offered with respect for
-              Eddie Aikau, the Aikau family, and Waimea Bay. All imagery is{" "}
+              Eddie Aikau, the Aikau family, and Waimea Bay. The photographs shown
+              are{" "}
               <span className="font-semibold text-[#0a2135]">
-                designed placeholder illustration
+                license-clean Waimea Bay, North Shore, and big-wave scenery
               </span>{" "}
-              — there are no photographs here, and no image depicts a real person;
-              a real build would use the organization&apos;s own or licensed
-              photography. Details marked{" "}
+              from Wikimedia Commons — used only as samples, credited on-image and
+              in{" "}
+              <span className="font-mono text-[13px] text-[#c9853a]">
+                CREDITS.md
+              </span>
+              : Waimea Bay by Steve Hedin (CC BY-SA 3.0), North Shore surf by Stan
+              Shebs (CC BY-SA 3.0), and a North Shore surfer by André Fleckenstein
+              (CC BY-SA 4.0). No image depicts Eddie Aikau, the Aikau family, the
+              actual Eddie Aikau Invitational, or its competitors — those moments
+              keep{" "}
+              <span className="font-semibold text-[#0a2135]">
+                designed illustration
+              </span>{" "}
+              out of respect. A real build would use the organization&apos;s own
+              or licensed photography. Details marked{" "}
               <span className="rounded bg-[#0d3a5c]/8 px-1 py-0.5 font-mono text-[#c9853a]">
                 [confirm]
               </span>{" "}
