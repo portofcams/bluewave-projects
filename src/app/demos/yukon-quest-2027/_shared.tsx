@@ -369,12 +369,12 @@ export function PhotoPlaceholder({
             className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover/ph:scale-[1.04]"
             style={{
               objectPosition: img.position ?? "center",
-              filter: "sepia(.28) saturate(1.05) contrast(1.02) brightness(.98)",
+              filter: "sepia(.16) saturate(1.06) contrast(1.03) brightness(1.05)",
             }}
           />
           {/* spruce->oxblood duotone wash for legibility + on-brand color grade */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#1f3d2f]/55 via-[#7d3517]/28 to-[#14241c]/68 mix-blend-multiply" />
-          <div className="absolute inset-0 bg-[#14241c]/18" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#1f3d2f]/28 via-[#7d3517]/12 to-[#14241c]/36 mix-blend-multiply" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#14241c]/85 via-[#14241c]/8 to-transparent" />
         </>
       )}
 
@@ -384,7 +384,7 @@ export function PhotoPlaceholder({
           SVG in cream/gold on spruce — nothing hotlinked. */}
       <svg
         className={`absolute inset-0 h-full w-full transition-opacity ${
-          img ? "opacity-25" : "opacity-100"
+          img ? "opacity-0" : "opacity-100"
         }`}
         viewBox="0 0 400 300"
         preserveAspectRatio="xMidYMid slice"
