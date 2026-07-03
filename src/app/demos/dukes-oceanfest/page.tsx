@@ -9,6 +9,7 @@ import {
   SITE,
   HUB_PATH,
   type OceanAccent,
+  type PhotoSrc,
 } from "./_shared";
 
 // UNLISTED + NOINDEX. Not in nav, not in sitemap. robots.txt already
@@ -39,6 +40,10 @@ type WatchEvent = {
   figure: "surfer" | "paddler" | "swimmer" | "sun";
   blurb: string;
   access: "Free to watch" | "Open entry" | "Spectator + entry";
+  // Optional license-clean sample photo (Wikimedia Commons; see
+  // /public/demos/oceanfest/CREDITS.md). Omitted where no fitting licensed photo
+  // exists — that slot falls back to the honest designed SVG art.
+  photo?: PhotoSrc;
 };
 
 const watchEvents: WatchEvent[] = [
@@ -49,6 +54,11 @@ const watchEvents: WatchEvent[] = [
     blurb:
       "Classic-style longboard and traditional logboard heats off Kuhio Beach — the discipline closest to how Duke himself rode. Watch from the sand or the wall.",
     access: "Spectator + entry",
+    photo: {
+      src: "/demos/oceanfest/surf-longboard.webp",
+      credit: "B. Bourger · CC BY-SA 4.0",
+      position: "center",
+    },
   },
   {
     title: "Tandem surfing",
@@ -57,6 +67,11 @@ const watchEvents: WatchEvent[] = [
     blurb:
       "Two riders, one board, lifts and poses on a moving wave — a Waikiki tradition Duke helped popularize. One of the festival's most photogenic events.",
     access: "Spectator + entry",
+    photo: {
+      src: "/demos/oceanfest/surf-tandem.webp",
+      credit: "Dennis Hill · CC BY 2.0",
+      position: "center",
+    },
   },
   {
     title: "Stand-up paddle & paddleboard race",
@@ -65,6 +80,11 @@ const watchEvents: WatchEvent[] = [
     blurb:
       "SUP and prone paddleboard races out along the Waikiki shoreline. Distance courses draw both elite and recreational paddlers.",
     access: "Open entry",
+    photo: {
+      src: "/demos/oceanfest/paddle-sup.webp",
+      credit: "P. Ottaviano · CC BY-SA 4.0",
+      position: "center",
+    },
   },
   {
     title: "Ocean swim",
@@ -73,6 +93,8 @@ const watchEvents: WatchEvent[] = [
     blurb:
       "An open-water swim off Waikiki, honoring Duke's roots as an Olympic gold-medal swimmer. A grounded nod to where his fame began.",
     access: "Open entry",
+    // No license-verified open-water ocean-swim photo found on Commons — keeps
+    // the honest SVG art rather than misrepresent a pool meet as open water.
   },
   {
     title: "Beach volleyball & water polo",
@@ -81,6 +103,11 @@ const watchEvents: WatchEvent[] = [
     blurb:
       "Sand-court volleyball and in-water polo bring team sport to the beachfront. Fast, social, and easy to watch between the surf heats.",
     access: "Free to watch",
+    photo: {
+      src: "/demos/oceanfest/volleyball.webp",
+      credit: "M. Brown · CC BY-SA 2.0",
+      position: "center",
+    },
   },
   {
     title: "Surfboard water polo & beach games",
@@ -89,6 +116,7 @@ const watchEvents: WatchEvent[] = [
     blurb:
       "Surfboard water polo and other beach games round out the program — the festival's playful, all-ages side, right on the Kuhio Beach shoreline.",
     access: "Free to watch",
+    // Playful catch-all discipline — keeps the designed SVG art.
   },
 ];
 
@@ -145,12 +173,31 @@ export default function DukesOceanFestPage() {
     // sunset gold/coral accents, Fraunces display serif. Everything scoped under
     // <OceanShell> (.duke-ocean) — no globals.css / tailwind.config / shared
     // components touched, so the rest of bluewaveprojects.com is unchanged.
-    <OceanShell>
+    // The site Footer is rendered AFTER </OceanShell> on its own dark surface so
+    // its light-on-dark text stays legible (inside the sand canvas it washed out).
+    <>
+      <OceanShell>
       <main className="min-h-screen text-[#0b2b31]">
         <Nav />
 
-        {/* HERO — info headquarters over a deep-ocean band, live panel prominent */}
+        {/* HERO — info headquarters over a real Waikiki + Diamond Head photo,
+            under a deep-ocean teal scrim that keeps the palette + legibility. */}
         <section className="relative overflow-hidden bg-gradient-to-br from-[#0a3d47] via-[#0e5561] to-[#062a33] text-[#e8f6f2]">
+          {/* real hero background photo (license-clean; see CREDITS.md) */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/demos/oceanfest/hero-waikiki.webp"
+            alt="Waikiki Beach with Diamond Head — sample hero photo"
+            className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+            style={{ objectPosition: "center 40%" }}
+          />
+          {/* deep-ocean teal scrim over the photo — keeps text fully legible */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#0a3d47]/92 via-[#0e5561]/86 to-[#062a33]/94" />
+          <div className="pointer-events-none absolute inset-0 bg-[#062a33]/25" />
+          {/* on-image hero credit */}
+          <span className="absolute right-3 top-20 z-10 rounded-full bg-[#062a33]/50 px-2 py-0.5 text-[9px] font-medium tracking-[0.04em] text-[#e8f6f2]/70 backdrop-blur-sm">
+            Waikiki · F. Schulenburg · CC BY-SA 4.0
+          </span>
           {/* layered wave lines + sunset glow */}
           <svg
             className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.16]"
@@ -240,6 +287,63 @@ export default function DukesOceanFestPage() {
           </div>
         </section>
 
+        {/* VALUE BAND — "what this would be for ODKF." Warm + informational, not
+            a hard pitch: one branded home for the whole festival, on the
+            Foundation's own site. */}
+        <section className="mx-auto max-w-6xl px-6 pb-4 pt-4">
+          <div className="duke-card overflow-hidden p-8 sm:p-10">
+            <div className="mb-8 max-w-3xl">
+              <p className="duke-eyebrow mb-3">For the Foundation</p>
+              <h2 className="duke-display text-3xl font-bold leading-tight text-[#0b2b31] sm:text-4xl">
+                One home for the{" "}
+                <span className="text-[#c9522f]">whole festival.</span>
+              </h2>
+              <p className="mt-4 text-[15px] leading-relaxed text-[#3a5a60]">
+                A page like this gives Duke&apos;s OceanFest a single, branded
+                headquarters — so fans, entrants, and visitors find everything in
+                one place, and every visit lands on the Outrigger Duke Kahanamoku
+                Foundation&apos;s own site.
+              </p>
+            </div>
+
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {[
+                {
+                  t: "Every event, one place",
+                  d: "Surf, paddle, swim, and beach games — the whole program on one branded page, instead of scattered across posts and flyers.",
+                },
+                {
+                  t: "Live conditions before they head down",
+                  d: "Real Waikiki tide, water temp, and sun times up top, so fans and entrants can plan around the ocean, not guess.",
+                },
+                {
+                  t: "Easy to plan a visit",
+                  d: "Where to watch, how to enter, getting there and parking — the practical answers a first-time visitor asks, grounded and clear.",
+                },
+                {
+                  t: "Keeps fans on your site",
+                  d: "Traffic, attention, and the honor of Duke's name stay with the Foundation — not a third-party listing or a social feed.",
+                },
+              ].map((v) => (
+                <div key={v.t} className="flex gap-3">
+                  <span
+                    className="mt-1 h-2 w-2 shrink-0 rounded-full bg-gradient-to-br from-[#e8a54c] to-[#e8734f]"
+                    aria-hidden="true"
+                  />
+                  <div>
+                    <h3 className="duke-display mb-1 text-[15px] font-semibold leading-snug text-[#0b2b31]">
+                      {v.t}
+                    </h3>
+                    <p className="text-[13px] leading-relaxed text-[#3a5a60]">
+                      {v.d}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* WHAT TO WATCH — the disciplines */}
         <section id="watch" className="mx-auto max-w-6xl px-6 py-16">
           <div className="mb-12 text-center">
@@ -262,6 +366,7 @@ export default function DukesOceanFestPage() {
                   accent={e.accent}
                   figure={e.figure}
                   label={e.title}
+                  photo={e.photo}
                   className="rounded-b-none border-0"
                 />
                 <div className="flex flex-1 flex-col p-5">
@@ -314,7 +419,27 @@ export default function DukesOceanFestPage() {
           <div className="relative mx-auto max-w-5xl px-6">
             <div className="grid items-center gap-10 lg:grid-cols-[0.8fr_1.2fr]">
               <div className="flex justify-center lg:justify-start">
-                <Seal size={190} />
+                {/* Real photo of the Duke Kahanamoku statue on Kalakaua Ave — a
+                    public monument (license-clean; see CREDITS.md). Seal badges
+                    the corner. */}
+                <div className="relative">
+                  <div className="relative overflow-hidden rounded-3xl border border-[#e8f6f2]/15 shadow-[0_24px_60px_-24px_rgba(0,0,0,0.7)]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/demos/oceanfest/duke-statue.webp"
+                      alt="The Duke Kahanamoku statue on Kalakaua Avenue, Waikiki — sample photo"
+                      loading="lazy"
+                      decoding="async"
+                      className="h-[300px] w-[240px] object-cover sm:h-[360px] sm:w-[280px]"
+                      style={{ objectPosition: "center 30%" }}
+                    />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#062a33]/55 via-transparent to-transparent" />
+                    <span className="absolute bottom-2 left-3 rounded-full bg-[#062a33]/55 px-2 py-0.5 text-[9px] font-medium tracking-[0.04em] text-[#e8f6f2]/80 backdrop-blur-sm">
+                      Duke statue, Kalakaua Ave · G. Skidmore · CC BY-SA 2.0
+                    </span>
+                  </div>
+                  <Seal size={92} className="absolute -bottom-6 -right-6 hidden sm:inline-flex" />
+                </div>
               </div>
               <div>
                 <p className="duke-eyebrow mb-3 !text-[#f2c884]">The legacy</p>
@@ -445,14 +570,23 @@ export default function DukesOceanFestPage() {
               >
                 BlueWave Projects
               </a>{" "}
-              on public information. All imagery is{" "}
-              <span className="font-semibold text-[#0b2b31]">designed placeholder art</span>{" "}
-              — the final build would use the Outrigger Duke Kahanamoku
-              Foundation&apos;s own official photography and logo. Tide and
-              water-temperature figures are read live from NOAA Tides &amp;
-              Currents (Honolulu station 1612340); sunrise/sunset are computed for
-              Waikiki; the surf/swell figure is a labeled sample. Event dates,
-              schedules, and entry details marked{" "}
+              on public information. Photos are{" "}
+              <span className="font-semibold text-[#0b2b31]">
+                license-clean sample imagery
+              </span>{" "}
+              from Wikimedia Commons — the final build would use the Outrigger
+              Duke Kahanamoku Foundation&apos;s own official festival photography
+              and logo. Sample photo credits, all Creative-Commons: Waikiki Beach
+              hero by Frank Schulenburg (CC BY-SA 4.0); longboard surfing by
+              Brigitte Bourger (CC BY-SA 4.0); tandem surfing by Dennis Hill
+              (CC BY 2.0); stand-up paddle by Paul Ottaviano (CC BY-SA 4.0);
+              beach volleyball by Matthew Brown (CC BY-SA 2.0); the Duke
+              Kahanamoku statue on Kalakaua Avenue by Gage Skidmore (CC BY-SA
+              2.0). The ocean-swim and beach-games tiles keep designed
+              illustration art. Tide and water-temperature figures are read live
+              from NOAA Tides &amp; Currents (Honolulu station 1612340);
+              sunrise/sunset are computed for Waikiki; the surf/swell figure is a
+              labeled sample. Event dates, schedules, and entry details marked{" "}
               <span className="rounded bg-[#0e5561]/8 px-1 py-0.5 font-mono text-[#c9522f]">
                 [confirm]
               </span>{" "}
@@ -462,9 +596,16 @@ export default function DukesOceanFestPage() {
             </p>
           </div>
         </div>
-
-        <Footer />
       </main>
-    </OceanShell>
+      </OceanShell>
+      {/* Footer lives OUTSIDE <OceanShell>: the shell paints a light warm-sand
+          canvas, and the site Footer is styled for dark backgrounds (white-alpha
+          text with no background of its own) — inside the shell its text washed
+          out to invisible. Rendered here on a deep-ocean surface it reads
+          correctly, matching the palette. */}
+      <div className="bg-[#062a33] text-[#e8f6f2]">
+        <Footer />
+      </div>
+    </>
   );
 }

@@ -224,23 +224,40 @@ export function Seal({
 }
 
 // ---------------------------------------------------------------------------
-// PHOTO PLACEHOLDER — designed SVG ocean art (never a hotlinked/invented photo).
-// A duotone ocean/sunset well with layered waves, a sun/horizon, and a small
-// surfer or paddler silhouette. Carries an honest chip signaling the final build
-// swaps in the organization's own official photography.
+// PHOTO — the discipline tile.
+//
+// When a `photo` (license-clean Creative-Commons / public-domain image, verified
+// and stored under /public/demos/oceanfest/) is supplied, we render that REAL
+// photo behind a readable deep-ocean scrim, with the discipline label and an
+// honest chip + on-image credit. When NO fitting licensed photo exists for a
+// discipline, `photo` is omitted and we fall back to the designed SVG ocean art
+// below (a duotone well with waves + a surfer/paddler/swimmer silhouette). Either
+// way the tile carries the honest note that the final build swaps in the
+// organization's own official photography.
 // ---------------------------------------------------------------------------
+export type PhotoSrc = {
+  /** path under /public, e.g. "/demos/oceanfest/surf-longboard.webp" */
+  src: string;
+  /** short attribution shown on-image, e.g. "Dennis Hill · CC BY 2.0" */
+  credit: string;
+  /** object-position, e.g. "center", "50% 30%" */
+  position?: string;
+};
+
 export function PhotoPlaceholder({
   accent,
   label,
   className = "",
   tall = false,
   figure = "surfer",
+  photo,
 }: {
   accent: OceanAccent;
   label: string;
   className?: string;
   tall?: boolean;
   figure?: "surfer" | "paddler" | "swimmer" | "sun";
+  photo?: PhotoSrc;
 }) {
   return (
     <div
@@ -248,8 +265,32 @@ export function PhotoPlaceholder({
         tall ? "min-h-[300px] sm:min-h-[380px]" : "min-h-[190px]"
       } ${className}`}
       role="img"
-      aria-label={`Ocean illustration placeholder — ${label}`}
+      aria-label={photo ? `${label} — sample photo` : `Ocean illustration placeholder — ${label}`}
     >
+      {/* REAL PHOTO branch — license-clean image behind a readable ocean scrim */}
+      {photo && (
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={photo.src}
+            alt={`${label} — sample ocean-sports photo`}
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ objectPosition: photo.position ?? "center" }}
+          />
+          {/* deep-ocean scrim: keeps the teal palette + makes the label legible */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#062a33]/35 via-[#0a3d47]/25 to-[#062a33]/45" />
+          <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-[#062a33]/85 via-[#062a33]/35 to-transparent" />
+          {/* on-image credit (top-left, unobtrusive) */}
+          <span className="absolute left-3 top-3 rounded-full bg-[#062a33]/55 px-2 py-0.5 text-[9px] font-medium tracking-[0.04em] text-[#e8f6f2]/80 backdrop-blur-sm">
+            {photo.credit}
+          </span>
+        </>
+      )}
+
+      {/* SVG ART branch — only when no licensed photo is supplied */}
+      {!photo && (
       <svg
         className="absolute inset-0 h-full w-full"
         viewBox="0 0 400 300"
@@ -339,23 +380,29 @@ export function PhotoPlaceholder({
           </g>
         )}
       </svg>
+      )}
 
-      {/* soft vignette for caption legibility */}
-      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#062a33]/70 to-transparent" />
+      {/* soft vignette for caption legibility (SVG art only — the photo branch
+          already lays down its own bottom scrim) */}
+      {!photo && (
+        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#062a33]/70 to-transparent" />
+      )}
 
-      {/* caption + honest "official photo" chip */}
+      {/* caption + honest chip: "Sample photo" over real imagery, "Illustration"
+          over the designed SVG art. Both signal the final build uses ODKF's own
+          official photography. */}
       <div className="absolute inset-0 flex items-end p-4 sm:p-5">
         <div className="flex w-full items-end justify-between gap-3">
-          <span className="duke-display text-[15px] font-semibold leading-tight text-[#e8f6f2] drop-shadow-sm">
+          <span className="duke-display text-[15px] font-semibold leading-tight text-[#e8f6f2] drop-shadow-[0_1px_3px_rgba(6,42,51,0.9)]">
             {label}
           </span>
-          <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#e8a54c]/45 bg-[#062a33]/45 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.14em] text-[#e8f6f2]/90 backdrop-blur-sm">
+          <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#e8a54c]/45 bg-[#062a33]/55 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.14em] text-[#e8f6f2]/90 backdrop-blur-sm">
             <svg viewBox="0 0 16 16" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
               <rect x="1.5" y="3.5" width="13" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
               <circle cx="5.5" cy="6.5" r="1.2" fill="currentColor" />
               <path d="M2 11 L6 7.5 L9 10 L11 8.5 L14 11" stroke="currentColor" strokeWidth="1.3" fill="none" />
             </svg>
-            Illustration
+            {photo ? "Sample photo" : "Illustration"}
           </span>
         </div>
       </div>
