@@ -61,7 +61,8 @@ export default function FairHubPage() {
     // Page-local "WPA harvest poster" theme: wheat paper, deep fir ink, the
     // fair's brand red + ribbon blue as working inks, Anton display type.
     // Scoped under <PosterShell> (.fair-poster) — nothing site-wide changes.
-    <PosterShell>
+    <>
+      <PosterShell>
       <main className="min-h-screen text-[#22381f]">
         <Nav />
 
@@ -312,7 +313,6 @@ export default function FairHubPage() {
         </section>
 
         <SampleNote />
-        <Footer />
 
         {/* schema.org FAQPage — grounded answers, no invented prices */}
         <script
@@ -330,6 +330,15 @@ export default function FairHubPage() {
           }}
         />
       </main>
-    </PosterShell>
+      </PosterShell>
+      {/* Footer lives OUTSIDE <PosterShell>: the shell paints a light wheat-paper
+          canvas, and the site Footer is styled for dark backgrounds (white-alpha
+          text with no background of its own) — inside the shell its text washed
+          out to invisible. Rendered here on the poster's deep fir-ink surface it
+          reads correctly, matching the palette. */}
+      <div className="bg-[#22381f] text-[#f6eed9]">
+        <Footer />
+      </div>
+    </>
   );
 }

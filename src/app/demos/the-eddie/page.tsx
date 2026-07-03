@@ -80,7 +80,8 @@ export default function TheEddiePage() {
     // blue ink, dawn-gold accents, Fraunces display serif. Everything scoped
     // under <EddieShell> (.eddie-hub) — no globals.css / tailwind.config /
     // shared components touched, so the rest of the site is unchanged.
-    <EddieShell>
+    <>
+      <EddieShell>
       <main className="min-h-screen text-[#0a2135]">
         <Nav />
 
@@ -516,8 +517,16 @@ export default function TheEddiePage() {
           </div>
         </div>
 
-        <Footer />
       </main>
-    </EddieShell>
+      </EddieShell>
+      {/* Footer lives OUTSIDE <EddieShell>: the shell paints a pale warm-sand
+          canvas, and the site Footer is styled for dark backgrounds (white-alpha
+          text with no background of its own) — inside the shell its text washed
+          out to invisible. Rendered here on a deep-Pacific abyss surface it reads
+          correctly, matching the palette. */}
+      <div className="bg-[#04121f] text-[#eef5fa]">
+        <Footer />
+      </div>
+    </>
   );
 }

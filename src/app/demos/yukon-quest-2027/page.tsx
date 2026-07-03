@@ -105,7 +105,8 @@ export default function YukonQuestHubPage() {
     // (.yq-heritage): warm cream paper canvas, deep spruce ink, rust accents,
     // aged-gold seal, vintage slab/serif display type. No globals.css /
     // tailwind.config / shared components touched.
-    <HeritageShell>
+    <>
+      <HeritageShell>
       <main className="min-h-screen text-[#1f3d2f]">
         <Nav />
 
@@ -508,8 +509,16 @@ export default function YukonQuestHubPage() {
         </section>
 
         <SampleNote />
-        <Footer />
       </main>
-    </HeritageShell>
+      </HeritageShell>
+      {/* Footer lives OUTSIDE <HeritageShell>: the shell paints a light warm-cream
+          paper canvas, and the site Footer is styled for dark backgrounds
+          (white-alpha text with no background of its own) — inside the shell its
+          text washed out to invisible. Rendered here on a deep-spruce surface it
+          reads correctly, matching the heritage palette. */}
+      <div className="bg-[#152a20] text-[#F3EAD7]">
+        <Footer />
+      </div>
+    </>
   );
 }

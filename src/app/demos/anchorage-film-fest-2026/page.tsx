@@ -87,6 +87,7 @@ export default function AiffHubPage() {
     // under <MarqueeShell> (.aiff-marquee) — no globals.css / tailwind.config
     // / shared components touched, so the rest of bluewaveprojects.com is
     // unchanged.
+    <>
     <MarqueeShell>
       <main className="min-h-screen text-[#f3f1ea]">
         <Nav />
@@ -400,7 +401,6 @@ export default function AiffHubPage() {
         </section>
 
         <SampleNote />
-        <Footer />
 
         {/* schema.org FAQPage for the hub — grounded answers, no invented prices */}
         <script
@@ -419,5 +419,9 @@ export default function AiffHubPage() {
         />
       </main>
     </MarqueeShell>
+    <div className="bg-[#0a0a0d] text-[#f3f1ea]">
+      <Footer />
+    </div>
+    </>
   );
 }

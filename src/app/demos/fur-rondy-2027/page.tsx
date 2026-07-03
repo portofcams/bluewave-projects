@@ -93,7 +93,8 @@ export default function RondyHubPage() {
     // display type. Everything is scoped under <CarnivalShell>
     // (.rondy-carnival) — no globals.css / tailwind.config / shared components
     // touched, so the rest of bluewaveprojects.com is unchanged.
-    <CarnivalShell>
+    <>
+      <CarnivalShell>
       <main className="min-h-screen text-[#eef2ff]">
         <Nav />
 
@@ -392,7 +393,6 @@ export default function RondyHubPage() {
         </section>
 
         <SampleNote />
-        <Footer />
 
         {/* schema.org FAQPage for the hub — grounded answers, no invented prices */}
         <script
@@ -410,6 +410,15 @@ export default function RondyHubPage() {
           }}
         />
       </main>
-    </CarnivalShell>
+      </CarnivalShell>
+      {/* Footer lives OUTSIDE <CarnivalShell>: the shell paints the scoped
+          night-carnival canvas, and the site Footer is styled for dark
+          backgrounds (white-alpha text with no background of its own). Rendered
+          here on the demo's darkest navy surface it reads correctly and never
+          inherits the demo wrapper. */}
+      <div className="bg-[#070b1e] text-[#eef2ff]">
+        <Footer />
+      </div>
+    </>
   );
 }

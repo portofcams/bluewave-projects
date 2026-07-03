@@ -76,6 +76,7 @@ export default function IditarodHubPage() {
     // display type. Everything is scoped under <HeritageShell> (.idit-heritage) —
     // no globals.css / tailwind.config / shared components touched, so the rest of
     // bluewaveprojects.com is unchanged.
+    <>
     <HeritageShell>
       <main className="min-h-screen text-[#1f3d2f]">
         <Nav />
@@ -407,8 +408,11 @@ export default function IditarodHubPage() {
       </section>
 
       <SampleNote />
-      <Footer />
       </main>
     </HeritageShell>
+    <div className="bg-[#152a20] text-[#F3EAD7]">
+      <Footer />
+    </div>
+    </>
   );
 }
