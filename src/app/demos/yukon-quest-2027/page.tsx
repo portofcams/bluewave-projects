@@ -175,7 +175,8 @@ export default function YukonQuestHubPage() {
                 <PhotoPlaceholder
                   accent="aurora"
                   tall
-                  label="Interior Alaska trail — Fairbanks"
+                  label="Interior Alaska sled-dog trail"
+                  imageKey="hero"
                   stub
                 />
                 <Seal
@@ -294,7 +295,8 @@ export default function YukonQuestHubPage() {
             <PhotoPlaceholder
               accent="trail"
               tall
-              label="Historic mail-trail checkpoints"
+              label="A team at rest on the interior trail"
+              imageKey="trail"
               stub
             />
             <div>

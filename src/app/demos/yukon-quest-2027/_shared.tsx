@@ -1,11 +1,16 @@
 // Shared presentational pieces for the Yukon Quest 2027 sample information hub.
 //
 // Honest framing: this is a sample built on public information, NOT an official
-// Yukon Quest Alaska product. There is NO real or hotlinked photography on this
-// build — every image slot is tasteful DESIGNED SVG placeholder art, with an
-// honest note that the final build uses the organization's own official
-// photography and logo. Nothing here is copied or imported from any other demo
-// folder; this file is a self-contained copy adapted for the Yukon Quest.
+// Yukon Quest Alaska product. A couple of image slots use GENERIC, license-clean
+// Alaska sled-dog / winter scenery from Wikimedia Commons (Creative Commons,
+// license-verified and credited on-page + in the SampleNote; see
+// /public/demos/yukon/CREDITS.md); every other slot keeps tasteful DESIGNED SVG
+// placeholder art. No Iditarod imagery, no Yukon Quest event photo, and no
+// identifiable musher/community member is used — slots that could misrepresent a
+// specific checkpoint or community keep the SVG. An honest note states the final
+// build uses the organization's own or licensed photography and logo. Nothing
+// here is copied or imported from any other demo folder; this file is a
+// self-contained copy adapted for the Yukon Quest.
 //
 // THEME: "Rugged heritage" — a vintage race-poster look on a warm cream paper
 // canvas, deep spruce ink, rust/oxblood accents, and an aged-gold seal. It is
@@ -50,6 +55,55 @@ export const accentGradient: Record<QuestAccent, string> = {
   gold: "from-[#c9922f] via-[#8a6320] to-[#1f3d2f]",
   aurora: "from-[#2b4d3b] via-[#1f3d2f] to-[#14241c]",
   river: "from-[#3a5c49] via-[#1f3d2f] to-[#152a20]",
+};
+
+// ---------------------------------------------------------------------------
+// REAL, LICENSE-VERIFIED PHOTOGRAPHY
+// ---------------------------------------------------------------------------
+// Each image below was verified on Wikimedia Commons (via the Commons API)
+// before use, with its author + source URL + exact license recorded in
+// /public/demos/yukon/CREDITS.md. Only GENERIC, license-clean Alaska sled-dog /
+// winter scenery is used here — deliberately NO Iditarod-labeled photo, NO
+// copyrighted Yukon Quest event photo, NO identifiable competitor/musher, and NO
+// identifiable Interior Alaska village residents. Slots that would misrepresent a
+// specific checkpoint or community keep their designed SVG art instead (see
+// CREDITS.md). CC-BY / CC-BY-SA images carry an on-image credit chip AND a line
+// in the SampleNote. Files live only in /public/demos/yukon/.
+export type QuestImage = {
+  /** /public path */
+  src: string;
+  /** short credit shown on-image when attribution is required (CC) */
+  credit?: string;
+  /** full credit + license + source for the SampleNote */
+  attribution?: string;
+  /** how it should be framed in the placeholder box */
+  position?: string;
+  /** true for US-Government public-domain works (no attribution required) */
+  publicDomain?: boolean;
+};
+
+export const questImages: Record<string, QuestImage> = {
+  // Sled-dog team on a sunlit winter trail, black-spruce treeline behind —
+  // "Husky adventure, White Mountains, Alaska" (Interior Alaska, north of
+  // Fairbanks). Markus Trienke, CC BY-SA 2.0.
+  // https://commons.wikimedia.org/wiki/File:Alaska_2020-0296_(50790684031).jpg
+  hero: {
+    src: "/demos/yukon/hero-team.webp",
+    credit: "Photo: Markus Trienke (CC BY-SA 2.0)",
+    attribution:
+      "Hero — sled-dog team on a winter trail, White Mountains, Interior Alaska. Photo by Markus Trienke, CC BY-SA 2.0, via Wikimedia Commons. Generic Alaska sled-dog scenery — not a Yukon Quest event photo.",
+    position: "center 42%",
+  },
+  // Sled-dog team at rest in a snowy spruce forest — "Husky adventure, White
+  // Mountains, Alaska" (Interior Alaska). Markus Trienke, CC BY-SA 2.0.
+  // https://commons.wikimedia.org/wiki/File:Alaska_2020-0374_(50790799787).jpg
+  trail: {
+    src: "/demos/yukon/trail-team.webp",
+    credit: "Photo: Markus Trienke (CC BY-SA 2.0)",
+    attribution:
+      "The race — sled-dog team at rest in the spruce, White Mountains, Interior Alaska. Photo by Markus Trienke, CC BY-SA 2.0, via Wikimedia Commons. Generic Alaska sled-dog scenery — not a Yukon Quest event photo.",
+    position: "center 45%",
+  },
 };
 
 // ---------------------------------------------------------------------------
@@ -259,25 +313,34 @@ export function Seal({
 }
 
 /**
- * DESIGNED SVG placeholder art. There is intentionally NO real photography on
- * this sample — every slot renders a spruce/gold woodcut scene (aurora arc, snow
- * drifts, a winding trail, and a sled-dog team + musher silhouette). An honest
- * caption chip signals the live build swaps in Yukon Quest Alaska's own official
- * photography and logo. Nothing hotlinked, nothing borrowed from another demo.
+ * Photo block. When an `imageKey` resolves to a license-verified photo (see
+ * `questImages`), the real image is shown behind a warm heritage spruce/rust
+ * wash + sepia grade so text stays readable and the photo sits in the palette.
+ * When no verified image exists for a slot, this gracefully falls back to the
+ * designed spruce/gold woodcut SVG art (aurora arc, snow drifts, a winding trail,
+ * and a sled-dog team + musher silhouette) — never an empty hole, never an
+ * unverified or misrepresenting image. An honest caption chip either carries the
+ * required photo credit or signals that the live build swaps in Yukon Quest
+ * Alaska's own official photography and logo. Nothing hotlinked.
  */
 export function PhotoPlaceholder({
   accent,
   label,
   className = "",
   tall = false,
+  imageKey,
   stub = false,
 }: {
   accent: QuestAccent;
   label: string;
   className?: string;
   tall?: boolean;
+  /** key into questImages — e.g. "hero" or "trail" */
+  imageKey?: string;
   stub?: boolean;
 }) {
+  const img = imageKey ? questImages[imageKey] : undefined;
+
   return (
     <div
       className={`group/ph relative overflow-hidden bg-gradient-to-br ${accentGradient[accent]} ${
@@ -286,12 +349,43 @@ export function PhotoPlaceholder({
           : "rounded-3xl border border-[#1f3d2f]/25"
       } ${tall ? "min-h-[300px] sm:min-h-[380px]" : "min-h-[190px]"} ${className}`}
       role="img"
-      aria-label={`Yukon Quest illustration placeholder — ${label}`}
+      aria-label={
+        img
+          ? `Yukon Quest — ${label}`
+          : `Yukon Quest illustration placeholder — ${label}`
+      }
     >
-      {/* Woodcut aurora arc + snow drift + a sled team on the trail. Inline SVG
-          in cream/gold on spruce — nothing hotlinked. */}
+      {/* Real, license-verified photo (when available) behind a warm heritage
+          wash. The sepia grade + spruce/rust multiply layer keep the caption
+          legible and pull every photo into the cream/spruce palette. */}
+      {img && (
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={img.src}
+            alt={label}
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover/ph:scale-[1.04]"
+            style={{
+              objectPosition: img.position ?? "center",
+              filter: "sepia(.28) saturate(1.05) contrast(1.02) brightness(.98)",
+            }}
+          />
+          {/* spruce->oxblood duotone wash for legibility + on-brand color grade */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#1f3d2f]/55 via-[#7d3517]/28 to-[#14241c]/68 mix-blend-multiply" />
+          <div className="absolute inset-0 bg-[#14241c]/18" />
+        </>
+      )}
+
+      {/* Woodcut aurora arc + snow drift + a sled team on the trail. Always
+          rendered: it is the fallback art when no verified photo exists, and a
+          subtle texture layer (dimmed) when a real photo sits behind it. Inline
+          SVG in cream/gold on spruce — nothing hotlinked. */}
       <svg
-        className="absolute inset-0 h-full w-full"
+        className={`absolute inset-0 h-full w-full transition-opacity ${
+          img ? "opacity-25" : "opacity-100"
+        }`}
         viewBox="0 0 400 300"
         preserveAspectRatio="xMidYMid slice"
         aria-hidden="true"
@@ -395,20 +489,30 @@ export function PhotoPlaceholder({
       {/* Soft vignette for caption legibility */}
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#14241c]/60 to-transparent" />
 
-      {/* Honest caption: the live build swaps in Yukon Quest Alaska's own art. */}
+      {/* Honest caption. With a real photo it carries the required license
+          credit; without one it signals the final build uses Yukon Quest
+          Alaska's own official image. */}
       <div className="absolute inset-0 flex items-end p-4 sm:p-5">
         <div className="flex w-full items-end justify-between gap-3">
           <span className="yq-display text-[13px] font-semibold leading-tight tracking-[0.02em] text-[#F3EAD7] drop-shadow-sm">
             {label}
           </span>
-          <span className="inline-flex shrink-0 items-center gap-1.5 rounded-sm border border-[#C08A2D]/45 bg-[#1f3d2f]/40 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.14em] text-[#F3EAD7]/90 backdrop-blur-sm">
-            <svg viewBox="0 0 16 16" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
-              <rect x="1.5" y="3.5" width="13" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
-              <circle cx="5.5" cy="6.5" r="1.2" fill="currentColor" />
-              <path d="M2 11 L6 7.5 L9 10 L11 8.5 L14 11" stroke="currentColor" strokeWidth="1.3" fill="none" />
-            </svg>
-            Illustration
-          </span>
+          {img?.credit ? (
+            // CC images: on-image attribution chip (required by license).
+            <span className="inline-flex shrink-0 items-center rounded-sm border border-[#F3EAD7]/25 bg-[#14241c]/45 px-2.5 py-1 text-[9px] font-medium leading-tight text-[#F3EAD7]/90 backdrop-blur-sm">
+              {img.credit}
+            </span>
+          ) : (
+            // SVG fallback: signal the live build swaps in Yukon Quest art.
+            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-sm border border-[#C08A2D]/45 bg-[#1f3d2f]/40 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.14em] text-[#F3EAD7]/90 backdrop-blur-sm">
+              <svg viewBox="0 0 16 16" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+                <rect x="1.5" y="3.5" width="13" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
+                <circle cx="5.5" cy="6.5" r="1.2" fill="currentColor" />
+                <path d="M2 11 L6 7.5 L9 10 L11 8.5 L14 11" stroke="currentColor" strokeWidth="1.3" fill="none" />
+              </svg>
+              Illustration
+            </span>
+          )}
         </div>
       </div>
     </div>
@@ -540,18 +644,29 @@ export function QuestMotion() {
  * the page is not affiliated with or endorsed by Yukon Quest Alaska.
  */
 export function SampleNote() {
+  // Credits for the openly-licensed photography actually used on this sample,
+  // drawn from the single source of truth in `questImages` so they can never
+  // drift from what is rendered.
+  const credits = Object.values(questImages)
+    .map((i) => i.attribution)
+    .filter((a): a is string => Boolean(a));
+
   return (
     <div className="mx-auto max-w-5xl px-6 pb-12">
       <div className="rounded-sm border-2 border-[#1f3d2f]/30 bg-gradient-to-b from-[#fbf5e6] to-[#efe3c9] px-5 py-4 text-center text-xs leading-relaxed text-[#6b5f4a] shadow-[4px_4px_0_rgba(31,61,47,0.12)]">
         <p>
-          Every image on this sample is{" "}
+          A few slots on this sample use{" "}
+          <span className="font-semibold text-[#1f3d2f]">
+            openly-licensed, generic Alaska sled-dog and winter scenery
+          </span>{" "}
+          (Creative Commons photos, credited below); every remaining slot is{" "}
           <span className="font-semibold text-[#1f3d2f]">
             designed placeholder illustration
-          </span>{" "}
-          — there is no real or hotlinked photography here. The final build would
-          use{" "}
+          </span>
+          . No Iditarod imagery, no Yukon Quest event photo, and no identifiable
+          musher or community member is used. The final build would use{" "}
           <span className="font-semibold text-[#1f3d2f]">
-            Yukon Quest Alaska&apos;s own official photography
+            Yukon Quest Alaska&apos;s own or licensed photography
           </span>{" "}
           and logo in their place. This information hub was built by{" "}
           <a
@@ -569,6 +684,19 @@ export function SampleNote() {
           Yukon Quest Alaska before making plans. This page is not affiliated with
           or endorsed by Yukon Quest Alaska.
         </p>
+
+        {credits.length > 0 && (
+          <details className="mt-3 text-left">
+            <summary className="yq-display cursor-pointer text-center text-[11px] font-semibold tracking-[0.14em] text-[#1f3d2f] marker:content-none">
+              Image credits &amp; licenses
+            </summary>
+            <ul className="mt-2 space-y-1.5 text-[11px] leading-relaxed text-[#8a7d63]">
+              {credits.map((c) => (
+                <li key={c}>{c}</li>
+              ))}
+            </ul>
+          </details>
+        )}
       </div>
     </div>
   );
