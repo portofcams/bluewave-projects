@@ -47,16 +47,24 @@ function OverviewCard({
       ? "rgba(62,207,142,.4)"
       : OPS.line;
 
+  // Short numeric-style values (e.g. "3") get the biggest hero treatment;
+  // longer compound strings (e.g. "2 new / 1 pending") step down one size
+  // so they don't wrap awkwardly inside the stat tile.
+  const isShortValue = String(value).length <= 3;
+
   const content = (
-    <div className="hops-panel h-full px-4 py-3.5 transition" style={{ borderColor }}>
-      <div className="hops-eyebrow mb-1" style={{ color: toneColor }}>
+    <div className="hops-panel h-full px-4 py-4 transition" style={{ borderColor }}>
+      <div className="hops-eyebrow mb-1.5" style={{ color: toneColor }}>
         {eyebrow}
       </div>
-      <div className="hops-mono text-2xl font-bold" style={{ color: tone === "info" ? OPS.snow : toneColor }}>
+      <div
+        className={`hops-mono font-extrabold leading-tight tracking-tight ${isShortValue ? "text-3xl" : "text-xl"}`}
+        style={{ color: tone === "info" ? OPS.snow : toneColor }}
+      >
         {value}
       </div>
       {footnote && (
-        <div className="mt-1 text-[11px] leading-snug" style={{ color: OPS.textMuted }}>
+        <div className="mt-1.5 text-[12px] leading-snug" style={{ color: OPS.textMuted }}>
           {footnote}
         </div>
       )}
@@ -119,7 +127,7 @@ export default function OpsOverview() {
           footnote={`${rentals.guestOwnGear} guests on own gear`}
         />
       </div>
-      <p className="mt-3 text-[11.5px] leading-relaxed" style={{ color: OPS.textMuted }}>
+      <p className="mt-3 text-[12.5px] leading-relaxed" style={{ color: OPS.textMuted }}>
         One reconciled snapshot of the day&rsquo;s manifest, fleet, and gear status — computed from the same sample
         data as the two modules below, not a separately hardcoded set of numbers.
       </p>

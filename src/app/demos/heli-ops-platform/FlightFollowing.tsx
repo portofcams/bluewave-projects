@@ -183,64 +183,64 @@ function AircraftCard({
       style={{ borderColor: glow, boxShadow: tone === "alert" ? `0 0 0 1px ${glow}, 0 10px 28px -16px rgba(0,0,0,.7)` : undefined }}
     >
       <div
-        className="flex flex-wrap items-center justify-between gap-2 border-b px-4 py-3"
+        className="flex flex-wrap items-center justify-between gap-3 border-b px-4 py-4"
         style={{ borderColor: OPS.line, background: "rgba(255,255,255,.02)" }}
       >
         <div className="flex items-center gap-3">
           <StatusDot tone={tone} />
           <span
-            className="hops-mono flex h-8 items-center rounded-md px-2.5 text-[13px] font-bold"
+            className="hops-mono flex h-9 items-center rounded-md px-3 text-[15px] font-bold"
             style={{ background: "rgba(94,200,232,.14)", color: OPS.ice, border: "1px solid rgba(94,200,232,.35)" }}
           >
             {aircraft.tailNumber}
           </span>
           <div>
-            <div className="text-[13.5px] font-bold" style={{ color: OPS.snow }}>
+            <div className="text-base font-bold leading-snug" style={{ color: OPS.snow }}>
               {aircraft.model} &middot; {aircraft.status}
             </div>
-            <div className="text-[11.5px]" style={{ color: OPS.textMuted }}>{aircraft.pilotName}</div>
+            <div className="text-[13px]" style={{ color: OPS.textMuted }}>{aircraft.pilotName}</div>
           </div>
         </div>
         <TonePill tone={tone}>{toneLabel}</TonePill>
       </div>
 
       <div className="grid gap-3 p-4 sm:grid-cols-2">
-        <div className="hops-panel p-3" style={{ background: "rgba(255,255,255,.02)" }}>
-          <div className="hops-eyebrow mb-1">Time since last check-in</div>
+        <div className="hops-panel p-4" style={{ background: "rgba(255,255,255,.02)" }}>
+          <div className="hops-eyebrow mb-2">Time since last check-in</div>
           <div
-            className="hops-mono text-2xl font-bold tabular-nums"
+            className="hops-mono text-4xl font-extrabold leading-none tabular-nums"
             style={{ color: tone === "alert" ? OPS.red : tone === "warn" ? OPS.amber : OPS.snow }}
           >
             {formatElapsed(elapsedMs)}
           </div>
-          <div className="mt-1 text-[11px]" style={{ color: OPS.textMuted }}>
+          <div className="mt-2 text-[12.5px]" style={{ color: OPS.textMuted }}>
             Last check-in logged {formatClock(aircraft.lastCheckIn)}
           </div>
         </div>
-        <div className="hops-panel p-3" style={{ background: "rgba(255,255,255,.02)" }}>
-          <div className="hops-eyebrow mb-1">
+        <div className="hops-panel p-4" style={{ background: "rgba(255,255,255,.02)" }}>
+          <div className="hops-eyebrow mb-2">
             {remainingMs >= 0 ? "Time until check-in due" : "Overdue by"}
           </div>
           <div
-            className="hops-mono text-2xl font-bold tabular-nums"
+            className="hops-mono text-4xl font-extrabold leading-none tabular-nums"
             style={{ color: tone === "alert" ? OPS.red : tone === "warn" ? OPS.amber : OPS.snow }}
           >
             {formatElapsed(Math.abs(remainingMs))}
           </div>
-          <div className="mt-1 text-[11px]" style={{ color: OPS.textMuted }}>
+          <div className="mt-2 text-[12.5px]" style={{ color: OPS.textMuted }}>
             Check-in interval: {CHECKIN_INTERVAL_MIN} min (sample / configurable)
           </div>
         </div>
       </div>
 
-      <div className="flex items-center justify-between gap-2 border-t px-4 py-3" style={{ borderColor: OPS.line }}>
-        <span className="text-[11px]" style={{ color: OPS.textMuted }}>
+      <div className="flex items-center justify-between gap-2 border-t px-4 py-3.5" style={{ borderColor: OPS.line }}>
+        <span className="text-[12.5px]" style={{ color: OPS.textMuted }}>
           Manual override — logs a new structured check-in event.
         </span>
         <button
           type="button"
           onClick={() => onCheckIn(aircraft.id)}
-          className="hops-mono shrink-0 rounded-md px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[.04em] text-white transition hover:brightness-110"
+          className="hops-mono shrink-0 rounded-md px-3.5 py-2 text-[12px] font-semibold uppercase tracking-[.04em] text-white transition hover:brightness-110"
           style={{ background: OPS.iceDeep }}
         >
           Simulate check-in
@@ -258,17 +258,17 @@ function EscalationPanel({ tailNumber }: { tailNumber: string }) {
       className="border-t px-4 py-3.5"
       style={{ borderColor: "rgba(229,72,77,.4)", background: "rgba(229,72,77,.08)" }}
     >
-      <div className="mb-2 flex items-center gap-2">
+      <div className="mb-2.5 flex flex-wrap items-center gap-2">
         <span className="hops-pill" style={{ background: "rgba(229,72,77,.2)", color: OPS.red, border: "1px solid rgba(229,72,77,.5)" }}>
           Escalation triggered
         </span>
-        <span className="text-[11.5px] font-medium" style={{ color: OPS.text }}>
+        <span className="text-[13.5px] font-semibold" style={{ color: OPS.snow }}>
           {tailNumber} is past the check-in interval with no update.
         </span>
       </div>
-      <ol className="space-y-1.5 pl-1">
+      <ol className="space-y-2 pl-1">
         {ESCALATION_STEPS.map((step, i) => (
-          <li key={i} className="flex gap-2 text-[12.5px] leading-snug" style={{ color: OPS.textMuted }}>
+          <li key={i} className="flex gap-2.5 text-[14px] leading-snug" style={{ color: OPS.text }}>
             <span className="hops-mono shrink-0 font-bold" style={{ color: OPS.red }}>
               {i + 1}.
             </span>
@@ -276,7 +276,7 @@ function EscalationPanel({ tailNumber }: { tailNumber: string }) {
           </li>
         ))}
       </ol>
-      <p className="mt-2.5 text-[10.5px] leading-snug" style={{ color: OPS.textMuted }}>
+      <p className="mt-3 text-[12px] leading-snug" style={{ color: OPS.textMuted }}>
         Sample escalation sequence shown for demo purposes — customizable per operator SOP. This concept demo does
         not contact anyone or notify any real dispatcher, radio, or SAR authority.
       </p>
@@ -292,19 +292,19 @@ function ActivityLogPanel({ entries }: { entries: LogEntry[] }) {
         style={{ borderColor: OPS.line, background: "rgba(255,255,255,.02)" }}
       >
         <div>
-          <div className="text-[13.5px] font-bold" style={{ color: OPS.snow }}>Structured activity log</div>
-          <div className="text-[11.5px]" style={{ color: OPS.textMuted }}>
+          <div className="text-base font-bold" style={{ color: OPS.snow }}>Structured activity log</div>
+          <div className="text-[13px]" style={{ color: OPS.textMuted }}>
             Replaces informal WhatsApp messages and paper notes with a timestamped, auditable record.
           </div>
         </div>
         <SampleTag />
       </div>
-      <div className="hops-scroll max-h-72 space-y-1.5 overflow-y-auto p-4">
+      <div className="hops-scroll max-h-72 space-y-2 overflow-y-auto p-4">
         {entries.length === 0 && (
-          <p className="text-[12px]" style={{ color: OPS.textMuted }}>No events logged yet.</p>
+          <p className="text-[13.5px]" style={{ color: OPS.textMuted }}>No events logged yet.</p>
         )}
         {entries.map((e) => (
-          <div key={e.id} className="flex items-start gap-2.5 text-[12.5px] leading-snug">
+          <div key={e.id} className="flex items-start gap-2.5 text-[14px] leading-snug">
             <span className="hops-mono shrink-0 font-semibold" style={{ color: OPS.textMuted }}>
               {formatClock(e.ts)}
             </span>
@@ -435,7 +435,7 @@ export default function FlightFollowing() {
         <span className="hops-pill w-fit" style={{ background: "rgba(229,72,77,.2)", color: OPS.red, border: "1px solid rgba(229,72,77,.5)" }}>
           Demo simulation — not a real flight-following system
         </span>
-        <p className="text-[12.5px] leading-relaxed" style={{ color: OPS.text }}>
+        <p className="text-[13.5px] leading-relaxed" style={{ color: OPS.text }}>
           Every timer below runs against a simulated last-check-in timestamp captured when this page loaded — it is
           <strong> not connected to any real aircraft, transponder, radio, or dispatcher</strong>. This is a
           portfolio concept demo, not a certified or FAA-compliant flight-locating system, and must never be used or
@@ -445,21 +445,21 @@ export default function FlightFollowing() {
 
       {/* Summary strip */}
       <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <div className="hops-panel px-4 py-3">
-          <div className="hops-eyebrow mb-1">Aircraft tracked</div>
-          <div className="hops-mono text-xl font-bold" style={{ color: OPS.snow }}>{fleet.length}</div>
+        <div className="hops-panel px-4 py-4">
+          <div className="hops-eyebrow mb-1.5">Aircraft tracked</div>
+          <div className="hops-mono text-3xl font-extrabold leading-none" style={{ color: OPS.snow }}>{fleet.length}</div>
         </div>
-        <div className="hops-panel px-4 py-3" style={{ borderColor: "rgba(62,207,142,.4)" }}>
-          <div className="hops-eyebrow mb-1" style={{ color: OPS.green }}>Normal</div>
-          <div className="hops-mono text-xl font-bold" style={{ color: OPS.snow }}>{counts.ok}</div>
+        <div className="hops-panel px-4 py-4" style={{ borderColor: "rgba(62,207,142,.4)" }}>
+          <div className="hops-eyebrow mb-1.5" style={{ color: OPS.green }}>Normal</div>
+          <div className="hops-mono text-3xl font-extrabold leading-none" style={{ color: OPS.snow }}>{counts.ok}</div>
         </div>
-        <div className="hops-panel px-4 py-3" style={{ borderColor: counts.warn ? "rgba(240,168,60,.5)" : OPS.line }}>
-          <div className="hops-eyebrow mb-1" style={{ color: counts.warn ? OPS.amber : OPS.ice }}>Due soon</div>
-          <div className="hops-mono text-xl font-bold" style={{ color: counts.warn ? OPS.amber : OPS.snow }}>{counts.warn}</div>
+        <div className="hops-panel px-4 py-4" style={{ borderColor: counts.warn ? "rgba(240,168,60,.5)" : OPS.line }}>
+          <div className="hops-eyebrow mb-1.5" style={{ color: counts.warn ? OPS.amber : OPS.ice }}>Due soon</div>
+          <div className="hops-mono text-3xl font-extrabold leading-none" style={{ color: counts.warn ? OPS.amber : OPS.snow }}>{counts.warn}</div>
         </div>
-        <div className="hops-panel px-4 py-3" style={{ borderColor: counts.alert ? "rgba(229,72,77,.5)" : OPS.line }}>
-          <div className="hops-eyebrow mb-1" style={{ color: counts.alert ? OPS.red : OPS.ice }}>Overdue</div>
-          <div className="hops-mono text-xl font-bold" style={{ color: counts.alert ? OPS.red : OPS.snow }}>{counts.alert}</div>
+        <div className="hops-panel px-4 py-4" style={{ borderColor: counts.alert ? "rgba(229,72,77,.5)" : OPS.line }}>
+          <div className="hops-eyebrow mb-1.5" style={{ color: counts.alert ? OPS.red : OPS.ice }}>Overdue</div>
+          <div className="hops-mono text-3xl font-extrabold leading-none" style={{ color: counts.alert ? OPS.red : OPS.snow }}>{counts.alert}</div>
         </div>
       </div>
 
@@ -477,7 +477,7 @@ export default function FlightFollowing() {
         <ActivityLogPanel entries={logEntries} />
       </div>
 
-      <p className="mt-6 text-[11.5px] leading-relaxed" style={{ color: OPS.textMuted }}>
+      <p className="mt-6 text-[12.5px] leading-relaxed" style={{ color: OPS.textMuted }}>
         Today, flight following depends on one on-duty dispatcher remembering to watch the clock for every aircraft,
         with check-ins logged informally in chat messages and paper notes. This module shows what a structured
         alternative could look like: an automatic timer per aircraft, a defined escalation sequence when a check-in

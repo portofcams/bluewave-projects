@@ -88,13 +88,13 @@ function GuestRow({
           >
             {hasMedicalNote ? "⚑" : "·"}
           </span>
-          <span className="truncate text-[13.5px] font-semibold" style={{ color: OPS.inkOnSnow }}>
+          <span className="truncate text-[15px] font-semibold" style={{ color: OPS.inkOnSnow }}>
             {guest.name}
           </span>
-          <span className="hops-mono shrink-0 text-[11.5px]" style={{ color: OPS.mutedOnSnow }}>
+          <span className="hops-mono shrink-0 text-[13.5px] font-medium" style={{ color: OPS.mutedOnSnow }}>
             {guest.weightLbs} lb
           </span>
-          <span className="hidden shrink-0 text-[11px] sm:inline" style={{ color: OPS.mutedOnSnow }}>
+          <span className="hidden shrink-0 text-[12.5px] sm:inline" style={{ color: OPS.mutedOnSnow }}>
             {guest.equipment}
           </span>
         </span>
@@ -126,12 +126,12 @@ function GuestRow({
             <div className="hops-eyebrow mb-1" style={{ color: hasMedicalNote ? OPS.redDeep : OPS.mutedOnSnow }}>
               Safety card — medical / dietary flag
             </div>
-            <p className="text-[13px] font-medium leading-snug" style={{ color: OPS.inkOnSnow }}>
+            <p className="text-[15px] font-semibold leading-snug" style={{ color: OPS.inkOnSnow }}>
               {guest.medicalFlag}
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11.5px]" style={{ color: OPS.mutedOnSnow }}>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[13px]" style={{ color: OPS.mutedOnSnow }}>
             <span>Weight: <strong style={{ color: OPS.inkOnSnow }}>{guest.weightLbs} lb</strong></span>
             <span>Equipment: <strong style={{ color: OPS.inkOnSnow }}>{guest.equipment}</strong></span>
           </div>
@@ -141,7 +141,7 @@ function GuestRow({
               className="flex flex-wrap items-center justify-between gap-2 rounded-md px-3 py-2"
               style={{ background: "rgba(240,168,60,.14)", border: "1px solid rgba(240,168,60,.4)" }}
             >
-              <span className="text-[12px] font-medium" style={{ color: OPS.amberDeep }}>
+              <span className="text-[13.5px] font-medium" style={{ color: OPS.amberDeep }}>
                 Weather hold — booking needs reslotting to the next viable day.
               </span>
               <button
@@ -168,20 +168,23 @@ function BayMeter({ bay, load }: { bay: CargoBayKey; load: number }) {
   const barColor = over ? OPS.red : near ? OPS.amber : OPS.green;
   return (
     <div>
-      <div className="mb-1 flex items-center justify-between text-[11px]">
-        <span className="hops-mono" style={{ color: OPS.textMuted }}>{BAY_LABEL[bay]}</span>
-        <span className="hops-mono font-semibold" style={{ color: over ? OPS.red : OPS.text }}>
+      <div className="mb-1.5 flex items-center justify-between gap-2">
+        <span className="hops-mono text-[12px] font-medium" style={{ color: OPS.textMuted }}>{BAY_LABEL[bay]}</span>
+        <span className="hops-mono text-lg font-bold leading-none" style={{ color: over ? OPS.red : OPS.text }}>
           {load} / {limit} lb
         </span>
       </div>
-      <div className="h-2 w-full overflow-hidden rounded-full" style={{ background: "rgba(255,255,255,.08)" }}>
+      <div className="h-2.5 w-full overflow-hidden rounded-full" style={{ background: "rgba(255,255,255,.08)" }}>
         <div
           className="h-full rounded-full transition-all"
           style={{ width: `${Math.min(100, pct)}%`, background: barColor }}
         />
       </div>
       {over && (
-        <div className="mt-1 text-[10.5px] font-semibold uppercase tracking-[.04em]" style={{ color: OPS.red }}>
+        <div
+          className="mt-1.5 text-[13px] font-extrabold uppercase tracking-[.03em]"
+          style={{ color: OPS.red }}
+        >
           Over limit by {load - limit} lb
         </div>
       )}
@@ -201,9 +204,9 @@ function GuideGroupCard({
   const warnGroup = !overGroup && total >= GROUP_WARN_LBS;
 
   return (
-    <div className="hops-card p-3.5">
-      <div className="mb-2.5 flex items-center justify-between gap-2">
-        <span className="text-[13.5px] font-bold" style={{ color: OPS.inkOnSnow }}>
+    <div className="hops-card p-4">
+      <div className="mb-3 flex items-center justify-between gap-2">
+        <span className="text-[15px] font-bold" style={{ color: OPS.inkOnSnow }}>
           {group.guideName}
         </span>
         {overGroup ? (
@@ -220,13 +223,13 @@ function GuideGroupCard({
         ))}
       </div>
       <div
-        className="mt-2.5 flex items-center justify-between border-t pt-2 text-[11.5px]"
+        className="mt-3 flex items-center justify-between gap-2 border-t pt-2.5 text-[13px]"
         style={{ borderColor: "rgba(19,23,34,.08)" }}
       >
         <span style={{ color: OPS.mutedOnSnow }}>
           Bay: <span className="hops-mono">{BAY_LABEL[group.cargoBay]}</span>
         </span>
-        <span className="hops-mono font-bold" style={{ color: overGroup ? OPS.redDeep : OPS.inkOnSnow }}>
+        <span className="hops-mono text-base font-bold" style={{ color: overGroup ? OPS.redDeep : OPS.inkOnSnow }}>
           Group total: {total} lb
         </span>
       </div>
@@ -248,47 +251,47 @@ function HeliCard({
   return (
     <div className="hops-panel overflow-hidden">
       <div
-        className="flex flex-wrap items-center justify-between gap-2 border-b px-4 py-3"
+        className="flex flex-wrap items-center justify-between gap-3 border-b px-4 py-4"
         style={{ borderColor: OPS.line, background: "rgba(255,255,255,.02)" }}
       >
         <div className="flex items-center gap-3">
           <span
-            className="hops-mono flex h-8 items-center rounded-md px-2.5 text-[13px] font-bold"
+            className="hops-mono flex h-9 items-center rounded-md px-3 text-[15px] font-bold"
             style={{ background: "rgba(94,200,232,.14)", color: OPS.ice, border: "1px solid rgba(94,200,232,.35)" }}
           >
             {heli.tailNumber}
           </span>
           <div>
-            <div className="text-[13.5px] font-bold" style={{ color: OPS.snow }}>{heli.model} · sample airframe</div>
-            <div className="text-[11.5px]" style={{ color: OPS.textMuted }}>{heli.pilotName}</div>
+            <div className="text-base font-bold leading-snug" style={{ color: OPS.snow }}>{heli.model} · sample airframe</div>
+            <div className="text-[13px]" style={{ color: OPS.textMuted }}>{heli.pilotName}</div>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           {anyBayOver ? (
             <StatusPill tone="alert">Weight &amp; balance flag</StatusPill>
           ) : (
             <StatusPill tone="ok">W&amp;B within limits</StatusPill>
           )}
-          <span className="hops-mono text-[12px] font-semibold" style={{ color: OPS.text }}>
+          <span className="hops-mono text-base font-bold" style={{ color: OPS.snow }}>
             {total} lb total
           </span>
         </div>
       </div>
 
-      <div className="grid gap-3 p-4 lg:grid-cols-[1fr_1fr_220px]">
+      <div className="grid gap-3 p-4 lg:grid-cols-[1fr_1fr_240px]">
         <div className="grid gap-3 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-2">
           {heli.groups.map((g) => (
             <GuideGroupCard key={g.id} group={g} onReslot={onReslot} />
           ))}
         </div>
-        <div className="hops-panel p-3.5" style={{ background: "rgba(255,255,255,.02)" }}>
-          <div className="hops-eyebrow mb-2.5">Cargo bay allocation</div>
-          <div className="space-y-3">
+        <div className="hops-panel p-4" style={{ background: "rgba(255,255,255,.02)" }}>
+          <div className="hops-eyebrow mb-3">Cargo bay allocation</div>
+          <div className="space-y-4">
             {(Object.keys(bayLoads) as CargoBayKey[]).map((bay) => (
               <BayMeter key={bay} bay={bay} load={bayLoads[bay]} />
             ))}
           </div>
-          <p className="mt-3 text-[10.5px] leading-snug" style={{ color: OPS.textMuted }}>
+          <p className="mt-3.5 text-[12px] leading-snug" style={{ color: OPS.textMuted }}>
             Bay limits are configurable per airframe. Sample limits shown here for demo purposes only.
           </p>
         </div>
@@ -302,16 +305,16 @@ function CatGroupCard({ cat }: { cat: CatGroup }) {
   return (
     <div className="hops-panel overflow-hidden">
       <div
-        className="flex flex-wrap items-center justify-between gap-2 border-b px-4 py-3"
+        className="flex flex-wrap items-center justify-between gap-2 border-b px-4 py-3.5"
         style={{ borderColor: OPS.line, background: "rgba(255,255,255,.02)" }}
       >
         <div>
-          <div className="text-[13.5px] font-bold" style={{ color: OPS.snow }}>{cat.catName}</div>
-          <div className="text-[11.5px]" style={{ color: OPS.textMuted }}>
+          <div className="text-base font-bold" style={{ color: OPS.snow }}>{cat.catName}</div>
+          <div className="text-[13px]" style={{ color: OPS.textMuted }}>
             {cat.driverName} &middot; {cat.guideName}
           </div>
         </div>
-        <span className="hops-mono text-[12px] font-semibold" style={{ color: OPS.text }}>
+        <span className="hops-mono text-base font-bold" style={{ color: OPS.snow }}>
           {total} lb total
         </span>
       </div>
@@ -331,26 +334,26 @@ function CatGroupCard({ cat }: { cat: CatGroup }) {
 function RentalsWidget() {
   const rentals = useMemo(() => seedRentalSnapshot(), []);
   return (
-    <div className="hops-panel p-4">
-      <div className="mb-2.5 flex items-center justify-between gap-2">
+    <div className="hops-panel p-4 sm:p-5">
+      <div className="mb-3.5 flex items-center justify-between gap-2">
         <div className="hops-eyebrow">Rentals &amp; equipment</div>
         <SampleTag />
       </div>
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-3 gap-4">
         <div>
-          <div className="hops-mono text-lg font-bold" style={{ color: OPS.snow }}>{rentals.newSetsOut}</div>
-          <div className="text-[11px] leading-snug" style={{ color: OPS.textMuted }}>new sets out</div>
+          <div className="hops-mono text-3xl font-extrabold leading-none" style={{ color: OPS.snow }}>{rentals.newSetsOut}</div>
+          <div className="mt-1.5 text-[12.5px] leading-snug" style={{ color: OPS.textMuted }}>new sets out</div>
         </div>
         <div>
-          <div className="hops-mono text-lg font-bold" style={{ color: OPS.snow }}>{rentals.guestOwnGear}</div>
-          <div className="text-[11px] leading-snug" style={{ color: OPS.textMuted }}>guests on own gear</div>
+          <div className="hops-mono text-3xl font-extrabold leading-none" style={{ color: OPS.snow }}>{rentals.guestOwnGear}</div>
+          <div className="mt-1.5 text-[12.5px] leading-snug" style={{ color: OPS.textMuted }}>guests on own gear</div>
         </div>
         <div>
-          <div className="hops-mono text-lg font-bold" style={{ color: OPS.amber }}>{rentals.pendingFitting}</div>
-          <div className="text-[11px] leading-snug" style={{ color: OPS.textMuted }}>pending fitting</div>
+          <div className="hops-mono text-3xl font-extrabold leading-none" style={{ color: OPS.amber }}>{rentals.pendingFitting}</div>
+          <div className="mt-1.5 text-[12.5px] leading-snug" style={{ color: OPS.textMuted }}>pending fitting</div>
         </div>
       </div>
-      <p className="mt-3 text-[10.5px] leading-snug" style={{ color: OPS.textMuted }}>
+      <p className="mt-4 text-[12px] leading-snug" style={{ color: OPS.textMuted }}>
         Illustrative rentals snapshot for the day — sample counts, not tied to a live inventory system in this demo.
       </p>
     </div>
@@ -411,27 +414,27 @@ export default function ManifestBoard() {
     <div>
       {/* Summary strip */}
       <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <div className="hops-panel px-4 py-3">
-          <div className="hops-eyebrow mb-1">Aircraft today</div>
-          <div className="hops-mono text-xl font-bold" style={{ color: OPS.snow }}>{helicopters.length}</div>
+        <div className="hops-panel px-4 py-4">
+          <div className="hops-eyebrow mb-1.5">Aircraft today</div>
+          <div className="hops-mono text-3xl font-extrabold leading-none" style={{ color: OPS.snow }}>{helicopters.length}</div>
         </div>
-        <div className="hops-panel px-4 py-3">
-          <div className="hops-eyebrow mb-1">Snowcats today</div>
-          <div className="hops-mono text-xl font-bold" style={{ color: OPS.snow }}>{catGroups.length}</div>
+        <div className="hops-panel px-4 py-4">
+          <div className="hops-eyebrow mb-1.5">Snowcats today</div>
+          <div className="hops-mono text-3xl font-extrabold leading-none" style={{ color: OPS.snow }}>{catGroups.length}</div>
         </div>
-        <div className="hops-panel px-4 py-3" style={{ borderColor: overweightGroupCount || overweightBayCount ? "rgba(229,72,77,.5)" : OPS.line }}>
-          <div className="hops-eyebrow mb-1" style={{ color: overweightGroupCount || overweightBayCount ? OPS.red : OPS.ice }}>
+        <div className="hops-panel px-4 py-4" style={{ borderColor: overweightGroupCount || overweightBayCount ? "rgba(229,72,77,.5)" : OPS.line }}>
+          <div className="hops-eyebrow mb-1.5" style={{ color: overweightGroupCount || overweightBayCount ? OPS.red : OPS.ice }}>
             Weight &amp; balance flags
           </div>
-          <div className="hops-mono text-xl font-bold" style={{ color: overweightGroupCount || overweightBayCount ? OPS.red : OPS.snow }}>
+          <div className="hops-mono text-3xl font-extrabold leading-none" style={{ color: overweightGroupCount || overweightBayCount ? OPS.red : OPS.snow }}>
             {overweightGroupCount + overweightBayCount}
           </div>
         </div>
-        <div className="hops-panel px-4 py-3" style={{ borderColor: holdCount ? "rgba(240,168,60,.5)" : OPS.line }}>
-          <div className="hops-eyebrow mb-1" style={{ color: holdCount ? OPS.amber : OPS.ice }}>
+        <div className="hops-panel px-4 py-4" style={{ borderColor: holdCount ? "rgba(240,168,60,.5)" : OPS.line }}>
+          <div className="hops-eyebrow mb-1.5" style={{ color: holdCount ? OPS.amber : OPS.ice }}>
             Weather holds pending
           </div>
-          <div className="hops-mono text-xl font-bold" style={{ color: holdCount ? OPS.amber : OPS.snow }}>
+          <div className="hops-mono text-3xl font-extrabold leading-none" style={{ color: holdCount ? OPS.amber : OPS.snow }}>
             {holdCount}
           </div>
         </div>
@@ -443,7 +446,7 @@ export default function ManifestBoard() {
           style={{ borderColor: "rgba(62,207,142,.4)", background: "rgba(62,207,142,.1)" }}
         >
           <StatusPill tone="ok">Reslotted</StatusPill>
-          <span className="text-[12.5px]" style={{ color: OPS.text }}>
+          <span className="text-[13.5px]" style={{ color: OPS.text }}>
             {reslottedIds.length} guest{reslottedIds.length === 1 ? "" : "s"} automatically cleared from weather
             hold and moved off today&rsquo;s board — no manual re-typing of the manifest required.
           </span>
@@ -477,7 +480,7 @@ export default function ManifestBoard() {
         ))}
       </div>
 
-      <p className="mt-6 text-[11.5px] leading-relaxed" style={{ color: OPS.textMuted }}>
+      <p className="mt-6 text-[12.5px] leading-relaxed" style={{ color: OPS.textMuted }}>
         Both fleets are reconciled into a single daily schedule view above, rather than tracked in two separate
         systems. Weight-and-balance totals recalculate automatically as guests move between groups, aircraft, or
         days — replacing manual addition on a printed manifest.
