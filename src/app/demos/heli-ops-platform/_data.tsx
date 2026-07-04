@@ -518,3 +518,273 @@ export function findRebalanceSuggestion(
   }
   return null;
 }
+
+// ---------------------------------------------------------------------------
+// MODULE 4 — SAFETY & COMPLIANCE DEPTH
+//
+// FICTIONAL SAMPLE DATA ONLY. Pilot names below are the SAME FLEET_ROSTER
+// pilots used throughout Module 1/2; guide names below are the SAME guide
+// names already assigned to Day 1's guide groups in seedHelicopters(). No
+// new fictional people are invented here — the cert tracker and duty-hours
+// log reuse the existing roster so this module's "who's assigned today"
+// check is a real cross-reference against Module 1's actual manifest, not a
+// parallel invented cast.
+//
+// ILLUSTRATIVE ONLY — NOT REAL REGULATORY RECORDKEEPING. The duty-hour
+// limit and cert-expiry logic below are simplified teaching examples of the
+// SHAPE a Part 135 duty log / cert tracker could take. They are not legal
+// advice, not a certified recordkeeping system, and must never be used as a
+// substitute for an operator's real FAA-accepted duty/rest and currency
+// tracking process.
+// ---------------------------------------------------------------------------
+
+// A single flight/duty segment logged against a pilot, today or earlier this
+// week. `durationMin` is flight time in minutes for that segment. This is
+// the real seed data the duty-hours log sums — nothing here is a canned
+// "total" string computed once and hardcoded.
+export type DutySegment = {
+  id: string;
+  pilotName: string; // matches FleetAircraft.pilotName exactly
+  dateLabel: string; // sample calendar date, e.g. "Thu · Jan 15"
+  isToday: boolean; // true for segments counted in "today's" total
+  durationMin: number;
+  note: string;
+};
+
+// 14 CFR 135.267 sets an 8-hour flight-time limit in 24 consecutive hours for
+// a one-pilot crew (this fleet flies single-pilot A-Star-sample airframes),
+// with flight time allowed to run under a duty period of up to 14 hours
+// under specific rest-period conditions. Verified via eCFR 14 CFR 135.267
+// (https://www.ecfr.gov/current/title-14/chapter-I/subchapter-G/part-135/subpart-F/section-135.267)
+// on 2026-07-03. Cited here as the TYPICAL Part 135 single-pilot limit, not
+// asserted as a substitute for an operator's actual FAR analysis — duty-day
+// structuring, rest-period timing, and any operator-specific exemptions are
+// all real regulatory judgment calls this demo does not attempt to make.
+export const PART135_FLIGHT_TIME_LIMIT_HRS = 8;
+export const PART135_DUTY_PERIOD_LIMIT_HRS = 14;
+// A conservative illustrative "approaching limit" band used only to color
+// this demo's flags — NOT a regulatory figure itself.
+export const DUTY_WARN_PCT = 0.75;
+
+export function seedDutySegments(): DutySegment[] {
+  return [
+    // Sunny Slopeman (N412QX) — long today, close to the flight-time limit.
+    { id: "duty-1", pilotName: "Pilot: Sunny Slopeman (sample)", dateLabel: "Thu · Jan 15", isToday: true, durationMin: 255, note: "AM + midday runs, Powder Bowl / North Couloir" },
+    { id: "duty-2", pilotName: "Pilot: Sunny Slopeman (sample)", dateLabel: "Thu · Jan 15", isToday: true, durationMin: 130, note: "PM runs, Glacier Shelf" },
+    { id: "duty-3", pilotName: "Pilot: Sunny Slopeman (sample)", dateLabel: "Wed · Jan 14", isToday: false, durationMin: 210, note: "Prior day, full rotation" },
+    { id: "duty-4", pilotName: "Pilot: Sunny Slopeman (sample)", dateLabel: "Tue · Jan 13", isToday: false, durationMin: 195, note: "Prior day, full rotation" },
+
+    // Frost Bittner (N287TR) — moderate today.
+    { id: "duty-5", pilotName: "Pilot: Frost Bittner (sample)", dateLabel: "Thu · Jan 15", isToday: true, durationMin: 180, note: "AM + midday runs, North Couloir" },
+    { id: "duty-6", pilotName: "Pilot: Frost Bittner (sample)", dateLabel: "Wed · Jan 14", isToday: false, durationMin: 160, note: "Prior day, full rotation" },
+    { id: "duty-7", pilotName: "Pilot: Frost Bittner (sample)", dateLabel: "Mon · Jan 12", isToday: false, durationMin: 150, note: "Prior day, full rotation" },
+
+    // Chip Powderhound (N559HB) — light today, still building weekly total.
+    { id: "duty-8", pilotName: "Pilot: Chip Powderhound (sample)", dateLabel: "Thu · Jan 15", isToday: true, durationMin: 95, note: "AM runs, Glacier Shelf" },
+    { id: "duty-9", pilotName: "Pilot: Chip Powderhound (sample)", dateLabel: "Wed · Jan 14", isToday: false, durationMin: 205, note: "Prior day, full rotation" },
+    { id: "duty-10", pilotName: "Pilot: Chip Powderhound (sample)", dateLabel: "Tue · Jan 13", isToday: false, durationMin: 190, note: "Prior day, full rotation" },
+    { id: "duty-11", pilotName: "Pilot: Chip Powderhound (sample)", dateLabel: "Mon · Jan 12", isToday: false, durationMin: 175, note: "Prior day, full rotation" },
+
+    // Ivana Schuss (N634VK) — over the illustrative warn band today.
+    { id: "duty-12", pilotName: "Pilot: Ivana Schuss (sample)", dateLabel: "Thu · Jan 15", isToday: true, durationMin: 220, note: "AM runs, Base Pad shuttle + returns" },
+    { id: "duty-13", pilotName: "Pilot: Ivana Schuss (sample)", dateLabel: "Thu · Jan 15", isToday: true, durationMin: 145, note: "Midday runs, Base Pad" },
+    { id: "duty-14", pilotName: "Pilot: Ivana Schuss (sample)", dateLabel: "Wed · Jan 14", isToday: false, durationMin: 200, note: "Prior day, full rotation" },
+
+    // Sven Snowplow (N801ZL) — over the illustrative flight-time limit today
+    // (deliberate sample flag so the alert state has a real example to show).
+    { id: "duty-15", pilotName: "Pilot: Sven Snowplow (sample)", dateLabel: "Thu · Jan 15", isToday: true, durationMin: 260, note: "AM + midday runs, Sundance Ridge" },
+    { id: "duty-16", pilotName: "Pilot: Sven Snowplow (sample)", dateLabel: "Thu · Jan 15", isToday: true, durationMin: 230, note: "PM runs, Sundance Ridge" },
+    { id: "duty-17", pilotName: "Pilot: Sven Snowplow (sample)", dateLabel: "Tue · Jan 13", isToday: false, durationMin: 180, note: "Prior day, full rotation" },
+    { id: "duty-18", pilotName: "Pilot: Sven Snowplow (sample)", dateLabel: "Mon · Jan 12", isToday: false, durationMin: 165, note: "Prior day, full rotation" },
+  ];
+}
+
+export type PilotDutySummary = {
+  pilotName: string;
+  todayMin: number;
+  weekMin: number;
+  todayHrs: number;
+  weekHrs: number;
+  pctOfDailyLimit: number; // todayHrs / PART135_FLIGHT_TIME_LIMIT_HRS
+  tone: "ok" | "warn" | "alert";
+};
+
+// Sums real DutySegment rows per pilot — today's total and this week's
+// running total — and flags anyone at/over the illustrative daily
+// flight-time limit, or within DUTY_WARN_PCT of it. Computed fresh from the
+// segment list every call, so editing seedDutySegments() (or, in a fuller
+// build, appending live segments) changes these totals for real.
+export function computePilotDutySummaries(segments: DutySegment[]): PilotDutySummary[] {
+  const byPilot = new Map<string, { todayMin: number; weekMin: number }>();
+  for (const seg of segments) {
+    const entry = byPilot.get(seg.pilotName) ?? { todayMin: 0, weekMin: 0 };
+    entry.weekMin += seg.durationMin;
+    if (seg.isToday) entry.todayMin += seg.durationMin;
+    byPilot.set(seg.pilotName, entry);
+  }
+  return FLEET_ROSTER.map((f) => {
+    const entry = byPilot.get(f.pilotName) ?? { todayMin: 0, weekMin: 0 };
+    const todayHrs = entry.todayMin / 60;
+    const weekHrs = entry.weekMin / 60;
+    const pctOfDailyLimit = todayHrs / PART135_FLIGHT_TIME_LIMIT_HRS;
+    const tone: "ok" | "warn" | "alert" =
+      todayHrs >= PART135_FLIGHT_TIME_LIMIT_HRS ? "alert" : pctOfDailyLimit >= DUTY_WARN_PCT ? "warn" : "ok";
+    return {
+      pilotName: f.pilotName,
+      todayMin: entry.todayMin,
+      weekMin: entry.weekMin,
+      todayHrs: Math.round(todayHrs * 10) / 10,
+      weekHrs: Math.round(weekHrs * 10) / 10,
+      pctOfDailyLimit,
+      tone,
+    };
+  });
+}
+
+// ---------------------------------------------------------------------------
+// GUIDE CERT / AVALANCHE-TRAINING TRACKER
+//
+// Certification records per guide, keyed by the SAME guide name strings
+// already used in seedHelicopters()'s Day-1 groups (e.g. "Guide: Barry Steep
+// (sample)"). Expiration dates are sample dates relative to the demo's
+// sample "today" (Thu · Jan 15 — the same sample date used throughout the
+// day-picker). A cert is "expiring soon" inside CERT_WARN_DAYS of that
+// sample today, or "expired" if its date is already past it.
+// ---------------------------------------------------------------------------
+export type CertType = "Avalanche training" | "First aid / CPR" | "Helicopter ops orientation";
+
+export type GuideCert = {
+  id: string;
+  guideName: string; // matches GuideGroup.guideName / CatGroup.guideName exactly
+  certType: CertType;
+  levelLabel: string; // e.g. "Level 2", "Wilderness First Responder"
+  expiresLabel: string; // sample calendar date string, e.g. "Jan 20"
+  expiresSampleDayOffset: number; // days from sample "today" (Thu Jan 15); negative = already past
+};
+
+// Sample "today" for this demo, matching SAMPLE_DAYS[0].dateLabel ("Thu ·
+// Jan 15"). Used only to derive expired/expiring-soon flags below.
+export const SAMPLE_TODAY_LABEL = "Thu · Jan 15";
+export const CERT_WARN_DAYS = 14;
+
+export function seedGuideCerts(): GuideCert[] {
+  return [
+    // grp-1a / grp-1b (heli-1, N412QX)
+    { id: "cert-1", guideName: "Guide: Barry Steep (sample)", certType: "Avalanche training", levelLabel: "Level 2", expiresLabel: "Jan 20", expiresSampleDayOffset: 5 },
+    { id: "cert-2", guideName: "Guide: Barry Steep (sample)", certType: "First aid / CPR", levelLabel: "Wilderness First Responder", expiresLabel: "Mar 02", expiresSampleDayOffset: 46 },
+    // Dusty Trail — EXPIRED avalanche cert, deliberate sample flag: assigned
+    // today to grp-1b on N412QX, so this genuinely trips the "assigned
+    // today with an expired cert" check.
+    { id: "cert-3", guideName: "Guide: Dusty Trail (sample)", certType: "Avalanche training", levelLabel: "Level 1", expiresLabel: "Jan 09", expiresSampleDayOffset: -6 },
+    { id: "cert-4", guideName: "Guide: Dusty Trail (sample)", certType: "First aid / CPR", levelLabel: "Standard First Aid", expiresLabel: "Apr 11", expiresSampleDayOffset: 86 },
+
+    // grp-2a / grp-2b (heli-2, N287TR)
+    { id: "cert-5", guideName: "Guide: Mo Guls (sample)", certType: "Avalanche training", levelLabel: "Level 3", expiresLabel: "Jun 18", expiresSampleDayOffset: 154 },
+    { id: "cert-6", guideName: "Guide: Mo Guls (sample)", certType: "First aid / CPR", levelLabel: "Wilderness First Responder", expiresLabel: "Feb 01", expiresSampleDayOffset: 17 },
+    // Ridge Runnerman — EXPIRING SOON (within CERT_WARN_DAYS), assigned today
+    // to grp-2b on N287TR.
+    { id: "cert-7", guideName: "Guide: Ridge Runnerman (sample)", certType: "Avalanche training", levelLabel: "Level 2", expiresLabel: "Jan 22", expiresSampleDayOffset: 7 },
+    { id: "cert-8", guideName: "Guide: Ridge Runnerman (sample)", certType: "First aid / CPR", levelLabel: "Wilderness First Responder", expiresLabel: "May 05", expiresSampleDayOffset: 110 },
+
+    // grp-3a / grp-3b (heli-3, N559HB)
+    { id: "cert-9", guideName: "Guide: Cliff Hangerson (sample)", certType: "Avalanche training", levelLabel: "Level 3", expiresLabel: "Aug 09", expiresSampleDayOffset: 206 },
+    { id: "cert-10", guideName: "Guide: Cliff Hangerson (sample)", certType: "First aid / CPR", levelLabel: "Wilderness First Responder", expiresLabel: "Mar 14", expiresSampleDayOffset: 58 },
+    { id: "cert-11", guideName: "Guide: Torin Basewax (sample)", certType: "Avalanche training", levelLabel: "Level 2", expiresLabel: "Feb 27", expiresSampleDayOffset: 43 },
+    { id: "cert-12", guideName: "Guide: Torin Basewax (sample)", certType: "First aid / CPR", levelLabel: "Standard First Aid", expiresLabel: "Jan 19", expiresSampleDayOffset: 4 },
+
+    // grp-4a / grp-4b / grp-4c (heli-4, N634VK)
+    { id: "cert-13", guideName: "Guide: Blizzard Beaumont (sample)", certType: "Avalanche training", levelLabel: "Level 2", expiresLabel: "Sep 30", expiresSampleDayOffset: 258 },
+    { id: "cert-14", guideName: "Guide: Blizzard Beaumont (sample)", certType: "First aid / CPR", levelLabel: "Wilderness First Responder", expiresLabel: "Apr 22", expiresSampleDayOffset: 97 },
+    { id: "cert-15", guideName: "Guide: Powder Higgins (sample)", certType: "Avalanche training", levelLabel: "Level 1", expiresLabel: "Jul 04", expiresSampleDayOffset: 170 },
+    { id: "cert-16", guideName: "Guide: Powder Higgins (sample)", certType: "First aid / CPR", levelLabel: "Standard First Aid", expiresLabel: "Feb 14", expiresSampleDayOffset: 30 },
+    { id: "cert-17", guideName: "Guide: Alpine Fetternly (sample)", certType: "Avalanche training", levelLabel: "Level 2", expiresLabel: "May 28", expiresSampleDayOffset: 133 },
+    { id: "cert-18", guideName: "Guide: Alpine Fetternly (sample)", certType: "First aid / CPR", levelLabel: "Wilderness First Responder", expiresLabel: "Mar 30", expiresSampleDayOffset: 74 },
+
+    // grp-5a / grp-5b (heli-5, N801ZL)
+    { id: "cert-19", guideName: "Guide: Gnarly Winterbourne (sample)", certType: "Avalanche training", levelLabel: "Level 3", expiresLabel: "Oct 11", expiresSampleDayOffset: 269 },
+    { id: "cert-20", guideName: "Guide: Gnarly Winterbourne (sample)", certType: "First aid / CPR", levelLabel: "Wilderness First Responder", expiresLabel: "Jun 06", expiresSampleDayOffset: 142 },
+    { id: "cert-21", guideName: "Guide: Summit Larkspur (sample)", certType: "Avalanche training", levelLabel: "Level 2", expiresLabel: "Nov 02", expiresSampleDayOffset: 291 },
+    { id: "cert-22", guideName: "Guide: Summit Larkspur (sample)", certType: "First aid / CPR", levelLabel: "Standard First Aid", expiresLabel: "Aug 21", expiresSampleDayOffset: 218 },
+
+    // Snowcat guides (cat-1, cat-2) — included for completeness of the cert
+    // roster, even though today's helicopter-assignment cross-check (which
+    // reads Module 1's heli groups) only applies to heli-assigned guides.
+    { id: "cert-23", guideName: "Guide: Renata Switchback (sample)", certType: "Avalanche training", levelLabel: "Level 2", expiresLabel: "Dec 01", expiresSampleDayOffset: 320 },
+    { id: "cert-24", guideName: "Guide: Jonas Whiteout (sample)", certType: "Avalanche training", levelLabel: "Level 1", expiresLabel: "Jan 17", expiresSampleDayOffset: 2 },
+  ];
+}
+
+export type CertFlagTone = "ok" | "warn" | "alert";
+
+export type GuideCertFlag = {
+  guideName: string;
+  cert: GuideCert;
+  tone: CertFlagTone; // alert = expired, warn = expiring within CERT_WARN_DAYS, ok = fine
+  daysUntilExpiry: number;
+};
+
+function certTone(daysUntilExpiry: number): CertFlagTone {
+  if (daysUntilExpiry < 0) return "alert";
+  if (daysUntilExpiry <= CERT_WARN_DAYS) return "warn";
+  return "ok";
+}
+
+// Every cert record, flagged ok/warn/alert against the sample "today" —
+// cert-level view, independent of who's assigned where today.
+export function flagAllCerts(certs: GuideCert[]): GuideCertFlag[] {
+  return certs.map((cert) => ({
+    guideName: cert.guideName,
+    cert,
+    tone: certTone(cert.expiresSampleDayOffset),
+    daysUntilExpiry: cert.expiresSampleDayOffset,
+  }));
+}
+
+// THE REAL CROSS-CHECK (feature 17's core honesty requirement): given
+// Module 1's ACTUAL Day-1 helicopter roster (so this reads live assigned
+// guide names, not a separately hardcoded list) and the cert roster, return
+// one flag per (assigned guide × cert) pair that is expired or expiring
+// soon — plus which aircraft/group they're actually assigned to today, so
+// the flag reads as "this guide, assigned to this real group today, has
+// this real problem" rather than a cert list shown in isolation.
+export type AssignedGuideCertFlag = GuideCertFlag & {
+  tailNumber: string;
+  heliId: string;
+  groupId: string;
+};
+
+export function flagAssignedGuideCerts(
+  helicopters: Helicopter[],
+  certs: GuideCert[]
+): AssignedGuideCertFlag[] {
+  const assignedToday = new Map<string, { tailNumber: string; heliId: string; groupId: string }>();
+  for (const heli of helicopters) {
+    for (const group of heli.groups) {
+      // First assignment found wins if a guide name somehow appears twice —
+      // not expected with this sample roster, but avoids silently
+      // overwriting with a later one without reason.
+      if (!assignedToday.has(group.guideName)) {
+        assignedToday.set(group.guideName, { tailNumber: heli.tailNumber, heliId: heli.id, groupId: group.id });
+      }
+    }
+  }
+
+  const flags: AssignedGuideCertFlag[] = [];
+  for (const cert of certs) {
+    const assignment = assignedToday.get(cert.guideName);
+    if (!assignment) continue; // this guide isn't assigned to a helicopter group today
+    const tone = certTone(cert.expiresSampleDayOffset);
+    if (tone === "ok") continue; // only surface real problems here
+    flags.push({
+      guideName: cert.guideName,
+      cert,
+      tone,
+      daysUntilExpiry: cert.expiresSampleDayOffset,
+      tailNumber: assignment.tailNumber,
+      heliId: assignment.heliId,
+      groupId: assignment.groupId,
+    });
+  }
+  // Alerts (expired) before warns (expiring soon).
+  return flags.sort((a, b) => (a.tone === b.tone ? 0 : a.tone === "alert" ? -1 : 1));
+}

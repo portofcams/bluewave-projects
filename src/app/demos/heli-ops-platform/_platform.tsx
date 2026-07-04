@@ -39,8 +39,60 @@ import {
 import {
   BAY_LIMITS as DEFAULT_BAY_LIMITS,
   CargoBayKey,
+  CatGroup,
+  DayKey,
   FLEET_ROSTER,
+  Helicopter,
+  seedDayData,
 } from "./_data";
+
+// Per-day fleet/cat-group picture — the SAME shape ManifestBoard.tsx has
+// always used locally. Hoisted here (Module 4 refinement) so Module 4's
+// safety/compliance panels can read the REAL live day-state Module 1's
+// drag-and-drop and reslot actions actually mutate, instead of a separately
+// re-seeded snapshot that would silently drift out of sync the moment a
+// guest is reassigned. ManifestBoard.tsx still owns all the mutation LOGIC
+// (handleReslot, moveGuestTo, drag/drop handlers) — only the raw state
+// storage moved, exactly like Module 3 hoisted FlightFollowing's fleet/log
+// state without changing its behavior.
+export type DayState = Record<DayKey, { helicopters: Helicopter[]; catGroups: CatGroup[] }>;
+
+// ---------------------------------------------------------------------------
+// MODULE 4 — SAFETY & COMPLIANCE DEPTH types shared across this provider.
+// ILLUSTRATIVE ONLY: none of this is a certified incident-reporting system or
+// a legally valid regulatory sign-off. See the module-level banner in
+// SafetyCompliance.tsx for the full disclaimer.
+// ---------------------------------------------------------------------------
+export type IncidentSeverity = "Near-miss" | "Minor" | "Moderate" | "Serious";
+export type IncidentCategory =
+  | "Weather / visibility"
+  | "Mechanical / maintenance"
+  | "Terrain / avalanche"
+  | "Passenger / guest safety"
+  | "Communications"
+  | "Other";
+
+export type IncidentEntry = {
+  id: string;
+  dateLabel: string; // free-text sample date, defaults to the demo's sample "today"
+  category: IncidentCategory;
+  severity: IncidentSeverity;
+  description: string;
+  loggedAt: number; // real Date.now() timestamp of when it was actually submitted this session
+};
+
+// A per-aircraft weight-and-balance pilot sign-off. `signedAgainstTotalLbs`
+// captures the EXACT total weight the pilot acknowledged at sign-off time —
+// this is what lets the app genuinely detect staleness: if the aircraft's
+// live computed total ever differs from this captured number, the sign-off
+// is invalid and must be treated as un-signed, not silently shown as valid
+// against new numbers it never actually acknowledged.
+export type WBSignOff = {
+  tailNumber: string;
+  pilotName: string;
+  signedAgainstTotalLbs: number;
+  signedAt: number;
+};
 
 // ---------------------------------------------------------------------------
 // TYPES — mirrors the shapes FlightFollowing.tsx defined locally before this
@@ -194,6 +246,31 @@ type PlatformContextValue = {
   registerAircraftCardNode: (tailNumber: string, node: HTMLDivElement | null) => void;
   jumpToAircraft: (tailNumber: string) => boolean; // returns true if the tail number was found
   highlightedTail: string | null;
+
+  // Module 4 — incident/near-miss log. A genuinely growing, session-persisted
+  // list: submitting the form in SafetyCompliance.tsx appends here for real,
+  // and anything reading `incidents` (the incident-history panel, the
+  // End-of-Day Debrief) sees the new entry immediately.
+  incidents: IncidentEntry[];
+  addIncident: (entry: Omit<IncidentEntry, "id" | "loggedAt">) => void;
+
+  // Module 4 — per-aircraft weight-and-balance pilot sign-offs, keyed by
+  // tail number. Only present in the map once a pilot has genuinely signed
+  // off; absence (or a stale signedAgainstTotalLbs — checked by callers
+  // against the CURRENT computed total) means "Pending sign-off."
+  wbSignOffs: Record<string, WBSignOff>;
+  signOffWB: (tailNumber: string, pilotName: string, currentTotalLbs: number) => void;
+  clearWBSignOff: (tailNumber: string) => void;
+
+  // Module 1's per-day manifest state (helicopters + cat groups), hoisted so
+  // Module 4 can read the SAME live data ManifestBoard's drag-and-drop and
+  // reslot actions genuinely mutate — not a disconnected re-seeded copy.
+  // ManifestBoard.tsx still owns the read/write LOGIC (this only exposes the
+  // raw storage + a setter, mirroring its previous local useState shape).
+  activeDay: DayKey;
+  setActiveDay: React.Dispatch<React.SetStateAction<DayKey>>;
+  dayState: DayState;
+  setDayState: React.Dispatch<React.SetStateAction<DayState>>;
 };
 
 const PlatformContext = createContext<PlatformContextValue | null>(null);
@@ -238,6 +315,22 @@ export function PlatformProvider({ children }: { children: React.ReactNode }) {
   });
 
   const [settings, setSettings] = useState<Settings>(() => defaultSettings());
+
+  // Module 4 — incident/near-miss log. Starts with zero seeded entries so the
+  // "genuinely growing list" claim is unambiguous: every row visible after
+  // first submission was actually submitted through the form this session,
+  // not pre-seeded to look that way.
+  const [incidents, setIncidents] = useState<IncidentEntry[]>([]);
+
+  // Module 4 — per-aircraft W&B pilot sign-offs, keyed by tail number.
+  const [wbSignOffs, setWBSignOffs] = useState<Record<string, WBSignOff>>({});
+
+  // Module 1's per-day manifest state — same lazy-seed-on-first-visit shape
+  // ManifestBoard.tsx used locally before this hoist.
+  const [activeDay, setActiveDay] = useState<DayKey>("day-1");
+  const [dayState, setDayState] = useState<DayState>(
+    () => ({ "day-1": seedDayData("day-1") } as DayState)
+  );
 
   const loggedTone = useRef<Record<string, SeverityTone>>({});
 
@@ -373,6 +466,46 @@ export function PlatformProvider({ children }: { children: React.ReactNode }) {
     setSettings(defaultSettings());
   }, []);
 
+  // addIncident — the ONE real append mechanism for the incident/near-miss
+  // log (feature 18). Every submission from SafetyCompliance.tsx's form goes
+  // through this, prepending a new entry (newest-first, matching the
+  // activity log's convention) with a real Date.now() loggedAt timestamp.
+  const addIncident = useCallback((entry: Omit<IncidentEntry, "id" | "loggedAt">) => {
+    const loggedAt = Date.now();
+    setIncidents((prev) => [
+      { ...entry, id: `incident-${loggedAt}-${Math.random().toString(36).slice(2, 8)}`, loggedAt },
+      ...prev,
+    ]);
+  }, []);
+
+  // signOffWB — genuinely records which pilot signed off, against which
+  // EXACT total weight, and when (feature 20). Capturing
+  // signedAgainstTotalLbs is what makes staleness detection possible:
+  // callers compare this captured number to the aircraft's CURRENT live
+  // total and treat any mismatch as "not signed off," rather than trusting a
+  // boolean flag that could silently go stale after a drag-and-drop
+  // reassignment changes the real weight.
+  const signOffWB = useCallback((tailNumber: string, pilotName: string, currentTotalLbs: number) => {
+    setWBSignOffs((prev) => ({
+      ...prev,
+      [tailNumber]: { tailNumber, pilotName, signedAgainstTotalLbs: currentTotalLbs, signedAt: Date.now() },
+    }));
+  }, []);
+
+  // clearWBSignOff — used when the numbers change after sign-off (feature
+  // 20's honesty requirement): rather than leaving a stale sign-off object
+  // around that callers have to remember to distrust, this removes it
+  // outright so "Pending sign-off" is the only possible read of an absent
+  // entry.
+  const clearWBSignOff = useCallback((tailNumber: string) => {
+    setWBSignOffs((prev) => {
+      if (!(tailNumber in prev)) return prev;
+      const next = { ...prev };
+      delete next[tailNumber];
+      return next;
+    });
+  }, []);
+
   // -------------------------------------------------------------------------
   // Guest-to-aircraft linking registry (feature 4) — a plain ref map from
   // tail number to its live DOM node in Module 2's board. jumpToAircraft
@@ -439,6 +572,15 @@ export function PlatformProvider({ children }: { children: React.ReactNode }) {
     registerAircraftCardNode,
     jumpToAircraft,
     highlightedTail,
+    incidents,
+    addIncident,
+    wbSignOffs,
+    signOffWB,
+    clearWBSignOff,
+    activeDay,
+    setActiveDay,
+    dayState,
+    setDayState,
   };
 
   return <PlatformContext.Provider value={value}>{children}</PlatformContext.Provider>;

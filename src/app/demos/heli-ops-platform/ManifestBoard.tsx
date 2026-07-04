@@ -32,7 +32,7 @@
 // (FlightFollowing.tsx) and the page-level "Today's Ops Overview" strip so
 // all three stay in lockstep instead of drifting apart.
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { OPS, SampleTag } from "./_shared";
 import {
   BAY_LABEL,
@@ -434,12 +434,29 @@ function HeliCard({
   onPreview: (guestId: string) => void;
   bayLimits: Record<CargoBayKey, number>;
 }) {
-  const { jumpToAircraft } = usePlatform();
+  const { jumpToAircraft, wbSignOffs, clearWBSignOff } = usePlatform();
   const [jumpResult, setJumpResult] = useState<"ok" | "not-found" | null>(null);
 
   const bayLoads = bayLoadForHeli(heli);
   const total = heliTotalWeight(heli);
   const anyBayOver = (Object.keys(bayLoads) as CargoBayKey[]).some((b) => bayLoads[b] > bayLimits[b]);
+
+  // STALENESS GUARD (Module 4, feature 20's core honesty requirement): if
+  // this aircraft has a recorded pilot sign-off but the live computed total
+  // no longer matches the exact number that was signed off against (e.g. a
+  // guest was just dragged into/out of one of this aircraft's groups), the
+  // sign-off is genuinely invalidated here — not left displayed as "Signed
+  // off" against stale numbers. This runs as a real effect keyed to the
+  // live `total`, so it fires the moment a drag-and-drop reassignment
+  // changes this aircraft's weight, from ANY module reading the same
+  // shared wbSignOffs state (Module 4's sign-off panel included).
+  useEffect(() => {
+    const existing = wbSignOffs[heli.tailNumber];
+    if (existing && existing.signedAgainstTotalLbs !== total) {
+      clearWBSignOff(heli.tailNumber);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [total, heli.tailNumber]);
 
   return (
     <div className="hops-panel overflow-hidden">
@@ -830,14 +847,13 @@ function GuestPreviewModal({
 // MAIN COMPONENT
 // ---------------------------------------------------------------------------
 export default function ManifestBoard() {
-  const [activeDay, setActiveDay] = useState<DayKey>("day-1");
-
-  // Per-day live state cache — each day gets its own independent helicopters
-  // + cat groups so edits (drag/drop, reslot, rebalance) on one day never
-  // leak into another. Lazily seeded the first time a day is visited.
-  const [dayState, setDayState] = useState<Record<DayKey, { helicopters: Helicopter[]; catGroups: CatGroup[] }>>(
-    () => ({ "day-1": seedDayData("day-1") } as Record<DayKey, { helicopters: Helicopter[]; catGroups: CatGroup[] }>)
-  );
+  // activeDay + dayState (per-day helicopters/cat groups) now live in the
+  // shared PlatformProvider (Module 4 refinement) so Module 4's safety/
+  // compliance panels can read the SAME live manifest state this board
+  // mutates via drag/drop and reslot — not a disconnected re-seeded copy.
+  // The lazy-seed-on-first-visit shape and all mutation logic below are
+  // unchanged from before this hoist.
+  const { activeDay, setActiveDay, dayState, setDayState, settings } = usePlatform();
 
   const handleSelectDay = (day: DayKey) => {
     setDayState((prev) => (prev[day] ? prev : { ...prev, [day]: seedDayData(day) }));
@@ -1065,7 +1081,6 @@ export default function ManifestBoard() {
     [helicopters]
   );
 
-  const { settings } = usePlatform();
   const bayLimits = settings.bayLimits;
 
   const overweightBayCount = useMemo(
