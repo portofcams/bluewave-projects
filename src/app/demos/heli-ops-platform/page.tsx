@@ -8,6 +8,7 @@ import OpsOverview from "./OpsOverview";
 import GuideView from "./GuideView";
 import EndOfDayDebrief from "./EndOfDayDebrief";
 import SafetyCompliance from "./SafetyCompliance";
+import LiveDataRealism from "./LiveDataRealism";
 import { PlatformProvider } from "./_platform";
 
 // UNLISTED + NOINDEX. Not in nav, not in sitemap. robots.txt already
@@ -36,12 +37,19 @@ export const metadata: Metadata = {
 // Module 3: Cross-cutting refinements — Guide View, End-of-Day Debrief,
 // Incident Mode, Settings, deep-linking (_platform.tsx + GuideView.tsx +
 // EndOfDayDebrief.tsx).
-// Module 4 (this build): Safety & Compliance Depth — Part 135-style duty-
-// hours log, guide cert/avalanche-training tracker, incident/near-miss
-// logging form, and per-helicopter weight-and-balance export + pilot
-// sign-off (SafetyCompliance.tsx).
+// Module 4: Safety & Compliance Depth — Part 135-style duty-hours log, guide
+// cert/avalanche-training tracker, incident/near-miss logging form, and
+// per-helicopter weight-and-balance export + pilot sign-off
+// (SafetyCompliance.tsx).
+// Module 5 (this build): Live-data & realism — a real live NWS weather panel
+// and real computed sunrise/sunset/daylight for a real Alaska coordinate, a
+// real days-since-last-incident counter computed from Module 4's incident
+// log, simulated GPS/ADS-B-style position blips added to Module 2's
+// existing schematic zone map, and a clearly-labeled SIMULATED/ILLUSTRATIVE
+// avalanche-danger-rating widget styled after the real public avalanche.org
+// scale (LiveDataRealism.tsx + an extension inside FlightFollowing.tsx).
 // ---------------------------------------------------------------------------
-type ModuleKey = "scheduling" | "dispatch" | "guide-view" | "debrief" | "safety-compliance";
+type ModuleKey = "scheduling" | "dispatch" | "guide-view" | "debrief" | "safety-compliance" | "live-data-realism";
 
 const MODULES: { key: ModuleKey; label: string; shortLabel: string }[] = [
   { key: "scheduling", label: "Scheduling & Manifest Board", shortLabel: "Scheduling" },
@@ -49,6 +57,7 @@ const MODULES: { key: ModuleKey; label: string; shortLabel: string }[] = [
   { key: "guide-view", label: "Guide View (Mobile)", shortLabel: "Guide View" },
   { key: "debrief", label: "End-of-Day Debrief", shortLabel: "Debrief" },
   { key: "safety-compliance", label: "Safety & Compliance Depth", shortLabel: "Safety" },
+  { key: "live-data-realism", label: "Live-Data & Realism", shortLabel: "Live Data" },
 ];
 
 export default function HeliOpsPlatformDemo() {
@@ -180,6 +189,16 @@ function ModuleTabs() {
           blurb="A Part 135 duty-hours log, a guide cert/avalanche-training tracker checked against today's real assignments, a real incident/near-miss logging form, and a per-helicopter weight-and-balance export with a genuine pilot sign-off step — illustrative only, not a certified regulatory system."
         />
         <SafetyCompliance />
+      </section>
+
+      {/* MODULE 5 — LIVE-DATA & REALISM */}
+      <section id="module-live-data-realism" className="mt-16 scroll-mt-24">
+        <SectionHeading
+          eyebrow="Module 05 · Live"
+          title="Live-Data & Realism"
+          blurb="A real live NWS weather + computed sunrise/sunset panel for a real Alaska coordinate, a real days-since-last-incident counter tied to Module 04's incident log, and a clearly-labeled SIMULATED avalanche-danger widget styled after the real public avalanche.org scale — never a real advisory. Module 02's zone map above also gained simulated GPS-style position blips."
+        />
+        <LiveDataRealism />
       </section>
     </div>
   );
