@@ -198,6 +198,74 @@ export function severity(elapsedMs: number, phase: FlightPhase, phaseIntervalMin
 }
 
 // ---------------------------------------------------------------------------
+// MODULE 6, FEATURE 29 — AUDIBLE OVERDUE-CHECK-IN ALERT
+//
+// A tiny inline-generated tone via the Web Audio API — no new npm
+// dependency, no external audio file/licensing question. Two short
+// descending beeps, distinct enough to read as "alert" without being
+// jarring. `playOverdueBeep()` lazily creates ONE AudioContext (module-level,
+// not per-call) and reuses it, since repeatedly constructing AudioContexts
+// is wasteful and some browsers cap how many can exist concurrently.
+//
+// HONEST AUTOPLAY HANDLING: browsers block audio playback before a genuine
+// user gesture on the page. This demo never tries to defeat that. The
+// toggle switch itself IS a user gesture, so `resume()`-ing the shared
+// AudioContext happens synchronously inside the toggle's onClick handler
+// (see the Settings/FlightFollowing UI, not here) — by the time a REAL
+// overdue transition fires later (driven by the timer effect below, which
+// is NOT a user gesture), the context is already unlocked and playback
+// genuinely succeeds. If the browser still blocks it for any reason,
+// `.catch()` swallows the rejection silently rather than throwing — a
+// missed beep is a reasonable, honest failure mode; it never fakes success.
+// ---------------------------------------------------------------------------
+let sharedAudioCtx: AudioContext | null = null;
+
+function getAudioContext(): AudioContext | null {
+  if (typeof window === "undefined") return null;
+  const Ctor = window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+  if (!Ctor) return null;
+  if (!sharedAudioCtx) {
+    sharedAudioCtx = new Ctor();
+  }
+  return sharedAudioCtx;
+}
+
+// Called synchronously from the toggle's onClick (a real user gesture) so
+// the AudioContext is unlocked ahead of any later, non-gesture-driven
+// overdue transition that wants to actually play a beep.
+export function primeAudioContextFromUserGesture(): void {
+  const ctx = getAudioContext();
+  if (ctx && ctx.state === "suspended") {
+    ctx.resume().catch(() => {
+      // Honest no-op: if resume fails, playOverdueBeep()'s own guard below
+      // will simply skip playback later rather than pretending it worked.
+    });
+  }
+}
+
+function playOverdueBeep(): void {
+  const ctx = getAudioContext();
+  if (!ctx || ctx.state !== "running") return; // never force/fake playback past a browser block
+
+  const now = ctx.currentTime;
+  const beep = (startAt: number, freq: number) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "square";
+    osc.frequency.setValueAtTime(freq, startAt);
+    gain.gain.setValueAtTime(0.0001, startAt);
+    gain.gain.exponentialRampToValueAtTime(0.18, startAt + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.0001, startAt + 0.22);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(startAt);
+    osc.stop(startAt + 0.24);
+  };
+  beep(now, 880); // A5
+  beep(now + 0.26, 660); // E5 — descending second beep reads as "alert," not a chime
+}
+
+// ---------------------------------------------------------------------------
 // SETTINGS — demo-editable, session-only (resets on reload; not persisted).
 // Both PHASE_INTERVAL_MIN and BAY_LIMITS start from the same defaults the
 // modules used before this refactor.
@@ -247,6 +315,16 @@ type PlatformContextValue = {
   jumpToAircraft: (tailNumber: string) => boolean; // returns true if the tail number was found
   highlightedTail: string | null;
 
+  // Module 6, feature 28 — same scroll/highlight mechanism, keyed by guest
+  // id, so guest search results can jump to + flash a matched guest's real
+  // card on Module 01's board. Guest ids are unique across the whole day's
+  // roster (g1..g34, c1..c7 in the Day-1 seed), so no heli/cat-group
+  // disambiguation is needed.
+  registerGuestCardNode: (guestId: string, node: HTMLDivElement | null) => void;
+  jumpToGuest: (guestId: string) => boolean;
+  highlightedGuestId: string | null;
+  expandedFromSearchGuestId: string | null;
+
   // Module 4 — incident/near-miss log. A genuinely growing, session-persisted
   // list: submitting the form in SafetyCompliance.tsx appends here for real,
   // and anything reading `incidents` (the incident-history panel, the
@@ -271,6 +349,17 @@ type PlatformContextValue = {
   setActiveDay: React.Dispatch<React.SetStateAction<DayKey>>;
   dayState: DayState;
   setDayState: React.Dispatch<React.SetStateAction<DayState>>;
+
+  // Module 6, feature 29 — audible overdue-check-in alert. Default OFF
+  // (browsers block autoplay before a user gesture, and this toggle click IS
+  // that gesture — see setAudibleAlertsOn below). Session-only, consistent
+  // with this demo's other session-scoped settings; genuinely fires ONLY
+  // from inside the same real phase/timer transition effect that already
+  // detects "tone just became alert" for the activity log (see the
+  // useEffect below) — never from a button that just plays a sound
+  // unconditionally.
+  audibleAlertsOn: boolean;
+  setAudibleAlertsOn: (on: boolean) => void;
 };
 
 const PlatformContext = createContext<PlatformContextValue | null>(null);
@@ -325,6 +414,25 @@ export function PlatformProvider({ children }: { children: React.ReactNode }) {
   // Module 4 — per-aircraft W&B pilot sign-offs, keyed by tail number.
   const [wbSignOffs, setWBSignOffs] = useState<Record<string, WBSignOff>>({});
 
+  // Module 6, feature 29 — audible overdue-check-in alert. Plain component
+  // state, genuinely defaulting to OFF on every mount/reload (never read
+  // from any storage as "on") — respecting the fact that a browser tab
+  // reload always requires a fresh user gesture before audio can play
+  // again anyway, so persisting "on" across reloads would be misleading:
+  // the very next reload would silently be unable to honor it until the
+  // viewer interacts with the page again regardless.
+  const [audibleAlertsOnState, setAudibleAlertsOnState] = useState(false);
+
+  const setAudibleAlertsOn = useCallback((on: boolean) => {
+    if (on) {
+      // The toggle click IS the required user gesture — prime/resume the
+      // shared AudioContext synchronously here, before any later, non-
+      // gesture-driven overdue transition tries to actually play a beep.
+      primeAudioContextFromUserGesture();
+    }
+    setAudibleAlertsOnState(on);
+  }, []);
+
   // Module 1's per-day manifest state — same lazy-seed-on-first-visit shape
   // ManifestBoard.tsx used locally before this hoist.
   const [activeDay, setActiveDay] = useState<DayKey>("day-1");
@@ -334,6 +442,16 @@ export function PlatformProvider({ children }: { children: React.ReactNode }) {
 
   const loggedTone = useRef<Record<string, SeverityTone>>({});
 
+  // Read via a ref inside the transition effect below rather than adding
+  // `audibleAlertsOnState` to that effect's own dependency array — this
+  // keeps the effect's identity/timing tied ONLY to the real inputs that
+  // determine severity (now, fleet, phase intervals), while still reading
+  // the CURRENT toggle value at the moment a transition genuinely fires.
+  const audibleAlertsOnRef = useRef(false);
+  useEffect(() => {
+    audibleAlertsOnRef.current = audibleAlertsOnState;
+  }, [audibleAlertsOnState]);
+
   useEffect(() => {
     const id = setInterval(() => setNow(Date.now()), TICK_MS);
     return () => clearInterval(id);
@@ -342,6 +460,19 @@ export function PlatformProvider({ children }: { children: React.ReactNode }) {
   // Auto-log status transitions — uses the CURRENT (editable) phase interval
   // settings, so changing a phase interval in Settings genuinely shifts when
   // this fires, same as a live phase change always has.
+  //
+  // FEATURE 29 hand-trace: this is the SAME transition check the activity
+  // log already uses (`tone !== prevTone && prevTone !== undefined`) — i.e.
+  // "this aircraft's live-computed severity just changed, and it wasn't the
+  // very first render." The beep fires ONLY inside the `tone === "alert"`
+  // branch of that exact same check, so it genuinely fires once per real
+  // transition INTO Overdue for a given aircraft — never on mount (guarded
+  // by `prevTone !== undefined`), never while an aircraft stays Overdue
+  // across subsequent ticks (loggedTone.current[a.id] is set to "alert"
+  // immediately, so `tone !== prevTone` is false on every following tick
+  // until the aircraft checks in and the tone actually changes again), and
+  // never from a demo button — there is no button-driven call to
+  // playOverdueBeep() anywhere in this file or any module.
   useEffect(() => {
     for (const a of fleet) {
       const last = lastCheckIns[a.id];
@@ -361,6 +492,9 @@ export function PlatformProvider({ children }: { children: React.ReactNode }) {
             { id: `log-${a.id}-${now}`, ts: now, tailNumber: a.tailNumber, message, tone },
             ...prev,
           ]);
+          if (tone === "alert" && audibleAlertsOnRef.current) {
+            playOverdueBeep();
+          }
         }
       }
     }
@@ -552,6 +686,43 @@ export function PlatformProvider({ children }: { children: React.ReactNode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fleet]);
 
+  // -------------------------------------------------------------------------
+  // Module 6, feature 28 — guest search scroll/highlight registry. Same
+  // instant-scroll mechanism as jumpToAircraft above (and the same reason:
+  // this app's global `scroll-behavior: smooth` can silently stall a jump in
+  // a throttled rendering context). `expandedFromSearchGuestId` additionally
+  // tells the matched GuestRow to render its expanded (safety-card-visible)
+  // state, since a search result should show the guest's actual detail, not
+  // just flash an outline around a collapsed row.
+  // -------------------------------------------------------------------------
+  const guestNodeRegistry = useRef<Record<string, HTMLDivElement | null>>({});
+  const [highlightedGuestId, setHighlightedGuestId] = useState<string | null>(null);
+  const [expandedFromSearchGuestId, setExpandedFromSearchGuestId] = useState<string | null>(null);
+
+  const registerGuestCardNode = useCallback((guestId: string, node: HTMLDivElement | null) => {
+    guestNodeRegistry.current[guestId] = node;
+  }, []);
+
+  const jumpToGuest = useCallback((guestId: string): boolean => {
+    const node = guestNodeRegistry.current[guestId];
+    if (!node) return false; // honest: not currently registered/rendered (e.g. wrong day tab active)
+
+    const rect = node.getBoundingClientRect();
+    const targetY = window.scrollY + rect.top - window.innerHeight / 2 + rect.height / 2;
+    const htmlEl = document.documentElement;
+    const prevScrollBehavior = htmlEl.style.scrollBehavior;
+    htmlEl.style.scrollBehavior = "auto";
+    window.scrollTo({ top: Math.max(0, targetY), behavior: "auto" });
+    htmlEl.style.scrollBehavior = prevScrollBehavior;
+
+    setExpandedFromSearchGuestId(guestId);
+    setHighlightedGuestId(guestId);
+    window.setTimeout(() => {
+      setHighlightedGuestId((cur) => (cur === guestId ? null : cur));
+    }, 1800);
+    return true;
+  }, []);
+
   const value: PlatformContextValue = {
     fleet,
     setFleet,
@@ -572,6 +743,10 @@ export function PlatformProvider({ children }: { children: React.ReactNode }) {
     registerAircraftCardNode,
     jumpToAircraft,
     highlightedTail,
+    registerGuestCardNode,
+    jumpToGuest,
+    highlightedGuestId,
+    expandedFromSearchGuestId,
     incidents,
     addIncident,
     wbSignOffs,
@@ -581,6 +756,8 @@ export function PlatformProvider({ children }: { children: React.ReactNode }) {
     setActiveDay,
     dayState,
     setDayState,
+    audibleAlertsOn: audibleAlertsOnState,
+    setAudibleAlertsOn,
   };
 
   return <PlatformContext.Provider value={value}>{children}</PlatformContext.Provider>;

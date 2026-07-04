@@ -136,38 +136,50 @@ export default function GuideView() {
         </p>
       ) : (
         <PhoneFrame>
+          {/* NOTE ON COLORS INSIDE THIS PHONE MOCKUP: PhoneFrame's own
+              background is intentionally fixed-dark in BOTH theme modes (a
+              "screenshot of a phone screen" reads as dark UI regardless of
+              the surrounding page chrome — the same convention used by
+              FlightFollowing.tsx's PhoneAlertMockup). Theme-aware `OPS.snow`
+              /`OPS.textMuted`/`OPS.line` values would go dark-on-dark or
+              near-invisible in light mode here, since those tokens are
+              tuned for the page shell's background, not this permanently-
+              dark frame — so text/border colors below are fixed light-on-
+              dark literals instead (identical to what OPS.snow/textMuted/
+              line already evaluated to in dark mode, so dark-mode viewers
+              see zero visual change). */}
           <div className="p-4">
             <div className="mb-4 text-center">
-              <div className="hops-eyebrow" style={{ color: OPS.ice }}>Guide view (sample device)</div>
-              <div className="mt-1 text-lg font-extrabold" style={{ color: OPS.snow }}>{selected.guideName}</div>
+              <div className="hops-eyebrow" style={{ color: "#5ec8e8" }}>Guide view (sample device)</div>
+              <div className="mt-1 text-lg font-extrabold" style={{ color: "#f5f7fa" }}>{selected.guideName}</div>
             </div>
 
             <div
               className="mb-4 rounded-2xl p-4 text-center"
               style={{ background: "rgba(94,200,232,.12)", border: "1px solid rgba(94,200,232,.4)" }}
             >
-              <div className="hops-mono text-[11px] font-semibold uppercase tracking-[.06em]" style={{ color: OPS.ice }}>
+              <div className="hops-mono text-[11px] font-semibold uppercase tracking-[.06em]" style={{ color: "#5ec8e8" }}>
                 Your helicopter
               </div>
-              <div className="hops-mono mt-1 text-3xl font-extrabold" style={{ color: OPS.snow }}>
+              <div className="hops-mono mt-1 text-3xl font-extrabold" style={{ color: "#f5f7fa" }}>
                 {aircraft.tailNumber}
               </div>
               <div
                 className="mt-2 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[12px] font-bold uppercase tracking-[.04em]"
                 style={{
                   background: tone === "alert" ? "rgba(229,72,77,.2)" : tone === "warn" ? "rgba(240,168,60,.2)" : "rgba(62,207,142,.2)",
-                  color: tone === "alert" ? OPS.red : tone === "warn" ? OPS.amber : OPS.green,
+                  color: tone === "alert" ? "#e5484d" : tone === "warn" ? "#f0a83c" : "#3ecf8e",
                 }}
               >
                 {tone === "alert" ? "Check-in overdue" : tone === "warn" ? "Check-in due soon" : "Checked in — normal"}
               </div>
-              <div className="mt-1.5 text-[12px]" style={{ color: OPS.textMuted }}>
+              <div className="mt-1.5 text-[12px]" style={{ color: "#9aa5b6" }}>
                 {elapsedMin} min since last check-in
               </div>
             </div>
 
             <div className="mb-4">
-              <div className="mb-2 hops-eyebrow" style={{ color: OPS.textMuted }}>Your group ({selected.guests.length})</div>
+              <div className="mb-2 hops-eyebrow" style={{ color: "#9aa5b6" }}>Your group ({selected.guests.length})</div>
               <div className="space-y-2">
                 {selected.guests.map((g) => {
                   const flagged = g.medicalFlag !== "None";
@@ -177,16 +189,16 @@ export default function GuideView() {
                       className="rounded-xl px-3.5 py-3"
                       style={{
                         background: flagged ? "rgba(229,72,77,.10)" : "rgba(255,255,255,.04)",
-                        border: `1px solid ${flagged ? "rgba(229,72,77,.4)" : OPS.line}`,
+                        border: `1px solid ${flagged ? "rgba(229,72,77,.4)" : "#333c4d"}`,
                       }}
                     >
-                      <div className="text-[16px] font-bold" style={{ color: OPS.snow }}>{g.name}</div>
+                      <div className="text-[16px] font-bold" style={{ color: "#f5f7fa" }}>{g.name}</div>
                       {flagged ? (
-                        <div className="mt-1 text-[13px] font-medium" style={{ color: OPS.red }}>
+                        <div className="mt-1 text-[13px] font-medium" style={{ color: "#e5484d" }}>
                           ⚑ {g.medicalFlag}
                         </div>
                       ) : (
-                        <div className="mt-1 text-[13px]" style={{ color: OPS.textMuted }}>No medical/dietary flag on file</div>
+                        <div className="mt-1 text-[13px]" style={{ color: "#9aa5b6" }}>No medical/dietary flag on file</div>
                       )}
                     </div>
                   );
@@ -202,12 +214,12 @@ export default function GuideView() {
                 window.setTimeout(() => setJustCheckedIn(false), 2200);
               }}
               className="hops-mono w-full rounded-2xl py-4 text-[15px] font-extrabold uppercase tracking-[.05em] text-white transition hover:brightness-110 active:scale-[0.98]"
-              style={{ background: OPS.green, color: OPS.inkOnSnow }}
+              style={{ background: "#3ecf8e", color: "#131722" }}
             >
               Check in now
             </button>
             {justCheckedIn && (
-              <p className="mt-2.5 text-center text-[12.5px] font-semibold" style={{ color: OPS.green }}>
+              <p className="mt-2.5 text-center text-[12.5px] font-semibold" style={{ color: "#3ecf8e" }}>
                 Checked in — {aircraft.tailNumber}&rsquo;s timer just reset on Module 02&rsquo;s live board.
               </p>
             )}
