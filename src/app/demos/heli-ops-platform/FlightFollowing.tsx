@@ -50,7 +50,7 @@
 // log-append mechanism — they're just sourced from the shared context.
 
 import { useMemo, useRef, useState } from "react";
-import { OPS, SampleTag } from "./_shared";
+import { OPS, SampleTag, panelTint, useTheme } from "./_shared";
 import {
   Aircraft,
   EDITABLE_PHASES,
@@ -184,7 +184,7 @@ function GpsBlipOverlay({ fleet }: { fleet: Aircraft[] }) {
               />
               <span
                 className="relative inline-flex h-3 w-3 rounded-full border"
-                style={{ background: OPS.ice, borderColor: "rgba(255,255,255,.7)" }}
+                style={{ background: OPS.ice, borderColor: panelTint(0.7) }}
               />
             </span>
           </div>
@@ -224,7 +224,7 @@ function ZoneMap({
     <div className="hops-panel overflow-hidden">
       <div
         className="flex flex-wrap items-center justify-between gap-2 border-b px-4 py-3"
-        style={{ borderColor: OPS.line, background: "rgba(255,255,255,.02)" }}
+        style={{ borderColor: OPS.line, background: panelTint(.02) }}
       >
         <div>
           <div className="text-base font-bold" style={{ color: OPS.snow }}>Schematic zone map</div>
@@ -251,7 +251,7 @@ function ZoneMap({
                 style={{
                   gridColumn: z.col,
                   gridRow: z.row,
-                  background: "rgba(255,255,255,.03)",
+                  background: panelTint(.03),
                   borderColor: markers.length ? "rgba(94,200,232,.4)" : OPS.line,
                 }}
               >
@@ -287,7 +287,7 @@ function ZoneMap({
             <div
               key={a.id}
               className="flex items-center justify-between gap-2 rounded-md px-3 py-2"
-              style={{ background: "rgba(255,255,255,.02)", border: `1px solid ${OPS.line}` }}
+              style={{ background: panelTint(.02), border: `1px solid ${OPS.line}` }}
             >
               <span className="hops-mono text-[12.5px] font-bold" style={{ color: OPS.ice }}>
                 {a.tailNumber}
@@ -340,7 +340,7 @@ function StaffingPanel({
     <div className="hops-panel overflow-hidden">
       <div
         className="flex flex-wrap items-center justify-between gap-2 border-b px-4 py-3"
-        style={{ borderColor: OPS.line, background: "rgba(255,255,255,.02)" }}
+        style={{ borderColor: OPS.line, background: panelTint(.02) }}
       >
         <div>
           <div className="text-base font-bold" style={{ color: OPS.snow }}>Who&rsquo;s on shift</div>
@@ -353,7 +353,7 @@ function StaffingPanel({
       </div>
       <div className="grid gap-3 p-4 sm:grid-cols-3">
         {roster.map((role) => (
-          <div key={role.key} className="hops-panel p-3" style={{ background: "rgba(255,255,255,.02)" }}>
+          <div key={role.key} className="hops-panel p-3" style={{ background: panelTint(.02) }}>
             <div className="hops-eyebrow mb-1.5">{role.label}</div>
             <select
               value={role.name}
@@ -428,7 +428,7 @@ function AircraftCard({
     >
       <div
         className="flex flex-wrap items-center justify-between gap-3 border-b px-4 py-4"
-        style={{ borderColor: OPS.line, background: "rgba(255,255,255,.02)" }}
+        style={{ borderColor: OPS.line, background: panelTint(.02) }}
       >
         <div className="flex items-center gap-3">
           <StatusDot tone={tone} />
@@ -449,7 +449,7 @@ function AircraftCard({
       </div>
 
       <div className="grid gap-3 p-4 sm:grid-cols-2">
-        <div className="hops-panel p-4" style={{ background: "rgba(255,255,255,.02)" }}>
+        <div className="hops-panel p-4" style={{ background: panelTint(.02) }}>
           <div className="hops-eyebrow mb-2">Time since last check-in</div>
           <div
             className="hops-mono text-4xl font-extrabold leading-none tabular-nums"
@@ -461,7 +461,7 @@ function AircraftCard({
             Last check-in logged {formatClock(aircraft.lastCheckIn)}
           </div>
         </div>
-        <div className="hops-panel p-4" style={{ background: "rgba(255,255,255,.02)" }}>
+        <div className="hops-panel p-4" style={{ background: panelTint(.02) }}>
           <div className="hops-eyebrow mb-2">
             {remainingMs >= 0 ? "Time until check-in due" : "Overdue by"}
           </div>
@@ -599,10 +599,18 @@ function EscalationPanel({ tailNumber, roster }: { tailNumber: string; roster: S
 // ---------------------------------------------------------------------------
 function PhoneAlertMockup({ tailNumber, elapsedMs }: { tailNumber: string; elapsedMs: number }) {
   const elapsedMin = Math.floor(elapsedMs / 60000);
+  // Outer alert-zone wash: was a fixed dark rgba(10,14,20,.35) tint, which
+  // reads fine stacked on a dark .hops-panel but drops the light-mode red/
+  // muted text below AA contrast once the panel underneath is white
+  // (verified: ~2.6-2.9:1). Uses the same theme-aware wash approach as
+  // EscalationPanel above (a subtle red tint that stays legible whatever the
+  // panel's real background currently is), via useTheme()'s mode.
+  const { mode } = useTheme();
+  const zoneWash = mode === "dark" ? "rgba(10,14,20,.35)" : "rgba(229,72,77,.06)";
   return (
     <div
       className="border-t px-4 py-4"
-      style={{ borderColor: "rgba(229,72,77,.4)", background: "rgba(10,14,20,.35)" }}
+      style={{ borderColor: "rgba(229,72,77,.4)", background: zoneWash }}
     >
       <div className="mb-3 flex flex-wrap items-center gap-2">
         <span
@@ -617,31 +625,37 @@ function PhoneAlertMockup({ tailNumber, elapsedMs }: { tailNumber: string; elaps
         </span>
       </div>
 
-      {/* phone-frame visual */}
+      {/* phone-frame visual — intentionally fixed-dark in BOTH theme modes
+          (same "screenshot of a phone screen" convention as GuideView.tsx's
+          PhoneFrame), so colors below are fixed light-on-dark literals
+          rather than theme-aware OPS tokens. Verified: OPS.line's light-mode
+          value stays high-contrast against this dark frame either way, but
+          OPS.snow/OPS.textMuted/OPS.red would NOT — those three are fixed
+          here to their dark-mode-equivalent values. */}
       <div className="flex justify-start">
         <div
           className="w-[240px] rounded-[22px] p-2.5"
-          style={{ background: "#0d1117", border: `2px solid ${OPS.line}`, boxShadow: "0 14px 34px -18px rgba(0,0,0,.8)" }}
+          style={{ background: "#0d1117", border: "2px solid #333c4d", boxShadow: "0 14px 34px -18px rgba(0,0,0,.8)" }}
         >
           <div className="mb-2 flex items-center justify-center">
-            <div className="h-1 w-10 rounded-full" style={{ background: OPS.line }} />
+            <div className="h-1 w-10 rounded-full" style={{ background: "#333c4d" }} />
           </div>
           <div
             className="rounded-xl p-3"
-            style={{ background: "linear-gradient(180deg, #1b212d, #12161f)", border: `1px solid ${OPS.line}` }}
+            style={{ background: "linear-gradient(180deg, #1b212d, #12161f)", border: "1px solid #333c4d" }}
           >
             <div className="mb-1 flex items-center justify-between">
-              <span className="hops-mono text-[10px] font-bold uppercase tracking-[.06em]" style={{ color: OPS.red }}>
+              <span className="hops-mono text-[10px] font-bold uppercase tracking-[.06em]" style={{ color: "#e5484d" }}>
                 Dispatch Alert (mockup)
               </span>
-              <span className="hops-mono text-[10px]" style={{ color: OPS.textMuted }}>
+              <span className="hops-mono text-[10px]" style={{ color: "#9aa5b6" }}>
                 now
               </span>
             </div>
-            <div className="text-[12.5px] font-semibold leading-snug" style={{ color: OPS.snow }}>
+            <div className="text-[12.5px] font-semibold leading-snug" style={{ color: "#f5f7fa" }}>
               {tailNumber} is overdue for check-in
             </div>
-            <div className="mt-1 text-[11.5px] leading-snug" style={{ color: OPS.textMuted }}>
+            <div className="mt-1 text-[11.5px] leading-snug" style={{ color: "#9aa5b6" }}>
               No check-in for {elapsedMin} min. Escalation steps in progress — open flight-following board.
             </div>
           </div>
@@ -656,7 +670,7 @@ function ActivityLogPanel({ entries }: { entries: LogEntry[] }) {
     <div className="hops-panel overflow-hidden">
       <div
         className="flex flex-wrap items-center justify-between gap-2 border-b px-4 py-3"
-        style={{ borderColor: OPS.line, background: "rgba(255,255,255,.02)" }}
+        style={{ borderColor: OPS.line, background: panelTint(.02) }}
       >
         <div>
           <div className="text-base font-bold" style={{ color: OPS.snow }}>Structured activity log</div>
@@ -778,7 +792,7 @@ function IncidentResponsePanel({
           <div
             key={a.id}
             className="flex items-center justify-between gap-2 rounded-md px-3 py-2"
-            style={{ background: "rgba(255,255,255,.03)", border: `1px solid ${OPS.line}` }}
+            style={{ background: panelTint(.03), border: `1px solid ${OPS.line}` }}
           >
             <div className="min-w-0">
               <div className="hops-mono text-[13px] font-bold" style={{ color: OPS.ice }}>{a.tailNumber}</div>
@@ -841,7 +855,7 @@ function SettingsPanel() {
         type="button"
         onClick={() => setOpen((v) => !v)}
         className="flex w-full flex-wrap items-center justify-between gap-2 border-b px-4 py-3 text-left"
-        style={{ borderColor: OPS.line, background: "rgba(255,255,255,.02)" }}
+        style={{ borderColor: OPS.line, background: panelTint(.02) }}
       >
         <div>
           <div className="text-base font-bold" style={{ color: OPS.snow }}>Settings (demo-editable)</div>
@@ -918,7 +932,7 @@ function SettingsPanel() {
               type="button"
               onClick={resetSettings}
               className="hops-mono rounded-md px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[.04em] transition hover:brightness-110"
-              style={{ background: "rgba(255,255,255,.06)", color: OPS.textMuted, border: `1px solid ${OPS.line}` }}
+              style={{ background: panelTint(.06), color: OPS.textMuted, border: `1px solid ${OPS.line}` }}
             >
               Reset to sample defaults
             </button>
@@ -947,6 +961,8 @@ export default function FlightFollowing() {
     settings,
     registerAircraftCardNode,
     highlightedTail,
+    audibleAlertsOn,
+    setAudibleAlertsOn,
   } = usePlatform();
 
   const handleRosterChange = (key: ShiftRoleKey, name: string) => {
@@ -1050,12 +1066,43 @@ export default function FlightFollowing() {
           onClick={() => setIncidentModeOn((v) => !v)}
           className="hops-mono shrink-0 rounded-md px-3.5 py-2 text-[12px] font-semibold uppercase tracking-[.04em] transition hover:brightness-110"
           style={{
-            background: incidentModeOn ? OPS.iceDeep : "rgba(255,255,255,.06)",
+            background: incidentModeOn ? OPS.iceDeep : panelTint(.06),
             color: incidentModeOn ? "white" : OPS.textMuted,
             border: `1px solid ${incidentModeOn ? OPS.iceDeep : OPS.line}`,
           }}
         >
           {incidentModeOn ? "Incident mode: ON" : "Incident mode: OFF"}
+        </button>
+      </div>
+
+      {/* Module 6, feature 29 — audible overdue-check-in alert toggle. OFF
+          by default; genuinely fires only from the real phase-timer
+          transition in _platform.tsx, never from this button. */}
+      <div
+        className="mb-6 flex flex-wrap items-center justify-between gap-3 hops-panel px-4 py-3.5"
+        style={{ borderColor: audibleAlertsOn ? "rgba(229,72,77,.5)" : OPS.line }}
+      >
+        <div>
+          <div className="text-[13.5px] font-semibold" style={{ color: OPS.snow }}>Audible overdue alert</div>
+          <div className="text-[12.5px]" style={{ color: OPS.textMuted }}>
+            {audibleAlertsOn
+              ? "On — a short two-tone beep genuinely plays the instant any tracked aircraft's live status transitions into Overdue below."
+              : "Off by default (browsers block audio before a user gesture — turning this on IS that gesture). Plays a small inline-generated tone, no audio file or external service."}
+          </div>
+        </div>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={audibleAlertsOn}
+          onClick={() => setAudibleAlertsOn(!audibleAlertsOn)}
+          className="hops-mono shrink-0 rounded-md px-3.5 py-2 text-[12px] font-semibold uppercase tracking-[.04em] transition hover:brightness-110"
+          style={{
+            background: audibleAlertsOn ? OPS.redDeep : panelTint(.06),
+            color: audibleAlertsOn ? "white" : OPS.textMuted,
+            border: `1px solid ${audibleAlertsOn ? OPS.redDeep : OPS.line}`,
+          }}
+        >
+          {audibleAlertsOn ? "Audible alert: ON 🔊" : "Audible alert: OFF"}
         </button>
       </div>
 

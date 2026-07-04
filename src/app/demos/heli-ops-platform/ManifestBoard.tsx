@@ -32,8 +32,8 @@
 // (FlightFollowing.tsx) and the page-level "Today's Ops Overview" strip so
 // all three stay in lockstep instead of drifting apart.
 
-import { useEffect, useMemo, useState } from "react";
-import { OPS, SampleTag } from "./_shared";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { OPS, SampleTag, panelTint } from "./_shared";
 import {
   BAY_LABEL,
   CargoBayKey,
@@ -97,8 +97,31 @@ function GuestRow({
   const [expanded, setExpanded] = useState(false);
   const hasMedicalNote = guest.medicalFlag && guest.medicalFlag !== "None";
 
+  // Module 6, feature 28 — guest search jump/highlight. registerGuestCardNode
+  // makes this row's real DOM node findable by guest id; jumpToGuest (called
+  // from GuestSearch.tsx) scrolls to it and sets highlightedGuestId /
+  // expandedFromSearchGuestId briefly, which this row genuinely reacts to
+  // below (auto-expanding so the matched guest's detail is actually visible,
+  // not just flashed while collapsed). The ref callback is memoized per
+  // guest.id (useCallback) rather than a fresh inline closure every render —
+  // this component's ancestor (PlatformProvider) ticks `now` every second,
+  // and a fresh closure each render would make React null-then-reset this
+  // ref on every tick, same reasoning as FlightFollowing.tsx's aircraft-card
+  // ref memoization.
+  const { registerGuestCardNode, highlightedGuestId, expandedFromSearchGuestId } = usePlatform();
+  const highlighted = highlightedGuestId === guest.id;
+  const registerNode = useCallback(
+    (node: HTMLDivElement | null) => registerGuestCardNode(guest.id, node),
+    [registerGuestCardNode, guest.id]
+  );
+
+  useEffect(() => {
+    if (expandedFromSearchGuestId === guest.id) setExpanded(true);
+  }, [expandedFromSearchGuestId, guest.id]);
+
   return (
     <div
+      ref={registerNode}
       draggable={draggable}
       onDragStart={(e) => {
         if (!draggable || !location) return;
@@ -106,11 +129,12 @@ function GuestRow({
         e.dataTransfer.effectAllowed = "move";
         onDragStartGuest?.(guest.id, location);
       }}
-      className="rounded-lg border"
+      className="rounded-lg border transition-all"
       style={{
-        borderColor: "rgba(19,23,34,.10)",
+        borderColor: highlighted ? OPS.iceDeep : "rgba(19,23,34,.10)",
         background: expanded ? OPS.snowDim : "transparent",
         cursor: draggable ? "grab" : undefined,
+        boxShadow: highlighted ? `0 0 0 3px rgba(94,200,232,.45)` : undefined,
       }}
     >
       <div className="flex w-full items-center gap-1 pl-1.5">
@@ -253,7 +277,7 @@ function BayMeter({ bay, load, limit }: { bay: CargoBayKey; load: number; limit:
           {load} / {limit} lb
         </span>
       </div>
-      <div className="h-2.5 w-full overflow-hidden rounded-full" style={{ background: "rgba(255,255,255,.08)" }}>
+      <div className="h-2.5 w-full overflow-hidden rounded-full" style={{ background: panelTint(.08) }}>
         <div
           className="h-full rounded-full transition-all"
           style={{ width: `${Math.min(100, pct)}%`, background: barColor }}
@@ -360,7 +384,7 @@ function GuideGroupCard({
       style={{
         outline: dragOver ? `2px dashed ${OPS.iceDeep}` : "2px dashed transparent",
         outlineOffset: "3px",
-        background: dragOver ? "rgba(94,200,232,.10)" : OPS.snow,
+        background: dragOver ? "rgba(94,200,232,.10)" : OPS.cardSurface,
       }}
       onDragOver={(e) => {
         e.preventDefault();
@@ -462,7 +486,7 @@ function HeliCard({
     <div className="hops-panel overflow-hidden">
       <div
         className="flex flex-wrap items-center justify-between gap-3 border-b px-4 py-4"
-        style={{ borderColor: OPS.line, background: "rgba(255,255,255,.02)" }}
+        style={{ borderColor: OPS.line, background: panelTint(.02) }}
       >
         <div className="flex items-center gap-3">
           <span
@@ -523,7 +547,7 @@ function HeliCard({
             />
           ))}
         </div>
-        <div className="hops-panel p-4" style={{ background: "rgba(255,255,255,.02)" }}>
+        <div className="hops-panel p-4" style={{ background: panelTint(.02) }}>
           <div className="hops-eyebrow mb-3">Cargo bay allocation</div>
           <div className="space-y-4">
             {(Object.keys(bayLoads) as CargoBayKey[]).map((bay) => (
@@ -546,7 +570,7 @@ function CatGroupCard({ cat, onPreview }: { cat: CatGroup; onPreview: (guestId: 
     <div className="hops-panel overflow-hidden">
       <div
         className="flex flex-wrap items-center justify-between gap-2 border-b px-4 py-3.5"
-        style={{ borderColor: OPS.line, background: "rgba(255,255,255,.02)" }}
+        style={{ borderColor: OPS.line, background: panelTint(.02) }}
       >
         <div>
           <div className="text-base font-bold" style={{ color: OPS.snow }}>{cat.catName}</div>
@@ -623,7 +647,7 @@ function RentalsWidget({ helicopters, catGroups }: { helicopters: Helicopter[]; 
               <div
                 key={r.rental.serial}
                 className="hops-mono flex items-center justify-between gap-2 rounded-md px-2.5 py-1.5 text-[12px]"
-                style={{ background: "rgba(255,255,255,.03)", color: OPS.textMuted }}
+                style={{ background: panelTint(.03), color: OPS.textMuted }}
               >
                 <span className="truncate" style={{ color: OPS.text }}>{r.name}</span>
                 <span className="shrink-0">
@@ -661,7 +685,7 @@ function DayPicker({ active, onSelect }: { active: DayKey; onSelect: (d: DayKey)
             className="hops-mono rounded-lg border px-3.5 py-2 text-left transition"
             style={{
               borderColor: isActive ? OPS.iceDeep : OPS.line,
-              background: isActive ? "rgba(94,200,232,.14)" : "rgba(255,255,255,.02)",
+              background: isActive ? "rgba(94,200,232,.14)" : panelTint(.02),
             }}
           >
             <div

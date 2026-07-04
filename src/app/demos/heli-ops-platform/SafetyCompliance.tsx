@@ -46,7 +46,7 @@
 //      staleness guard) the moment the real numbers change after sign-off.
 
 import { useMemo, useState } from "react";
-import { OPS, SampleTag } from "./_shared";
+import { OPS, SampleTag, panelTint } from "./_shared";
 import {
   BAY_LABEL,
   CargoBayKey,
@@ -118,7 +118,7 @@ function DutyHoursLog() {
     <div className="hops-panel overflow-hidden">
       <div
         className="flex flex-wrap items-center justify-between gap-2 border-b px-4 py-3.5"
-        style={{ borderColor: OPS.line, background: "rgba(255,255,255,.02)" }}
+        style={{ borderColor: OPS.line, background: panelTint(.02) }}
       >
         <div>
           <div className="text-base font-bold" style={{ color: OPS.snow }}>Part 135 duty-hours log</div>
@@ -153,7 +153,7 @@ function DutyHoursLog() {
                 key={s.pilotName}
                 className="hops-panel p-3.5"
                 style={{
-                  background: "rgba(255,255,255,.02)",
+                  background: panelTint(.02),
                   borderColor:
                     s.tone === "alert" ? "rgba(229,72,77,.5)" : s.tone === "warn" ? "rgba(240,168,60,.5)" : OPS.line,
                 }}
@@ -174,7 +174,7 @@ function DutyHoursLog() {
                   )}
                 </div>
 
-                <div className="mb-2 h-2.5 w-full overflow-hidden rounded-full" style={{ background: "rgba(255,255,255,.08)" }}>
+                <div className="mb-2 h-2.5 w-full overflow-hidden rounded-full" style={{ background: panelTint(.08) }}>
                   <div
                     className="h-full rounded-full transition-all"
                     style={{
@@ -207,7 +207,7 @@ function DutyHoursLog() {
               <div
                 key={seg.id}
                 className="hops-mono flex flex-wrap items-center justify-between gap-2 rounded-md px-2.5 py-1.5 text-[12px]"
-                style={{ background: "rgba(255,255,255,.03)", color: OPS.textMuted }}
+                style={{ background: panelTint(.03), color: OPS.textMuted }}
               >
                 <span style={{ color: OPS.text }}>
                   {seg.pilotName} &middot; {seg.dateLabel}{seg.isToday ? " (today)" : ""}
@@ -260,7 +260,7 @@ function CertTracker() {
     <div className="hops-panel overflow-hidden">
       <div
         className="flex flex-wrap items-center justify-between gap-2 border-b px-4 py-3.5"
-        style={{ borderColor: OPS.line, background: "rgba(255,255,255,.02)" }}
+        style={{ borderColor: OPS.line, background: panelTint(.02) }}
       >
         <div>
           <div className="text-base font-bold" style={{ color: OPS.snow }}>Guide cert &amp; avalanche-training tracker</div>
@@ -326,7 +326,7 @@ function CertTracker() {
           </summary>
           <div className="mt-2.5 grid gap-2 sm:grid-cols-2">
             {Array.from(certsByGuide.entries()).map(([guideName, guideCerts]) => (
-              <div key={guideName} className="hops-panel p-3" style={{ background: "rgba(255,255,255,.02)" }}>
+              <div key={guideName} className="hops-panel p-3" style={{ background: panelTint(.02) }}>
                 <div className="mb-1.5 text-[13px] font-bold" style={{ color: OPS.snow }}>{guideName}</div>
                 <div className="space-y-1">
                   {guideCerts.map((c) => {
@@ -409,7 +409,7 @@ function IncidentLogPanel() {
     <div className="hops-panel overflow-hidden">
       <div
         className="flex flex-wrap items-center justify-between gap-2 border-b px-4 py-3.5"
-        style={{ borderColor: OPS.line, background: "rgba(255,255,255,.02)" }}
+        style={{ borderColor: OPS.line, background: panelTint(.02) }}
       >
         <div>
           <div className="text-base font-bold" style={{ color: OPS.snow }}>Incident / near-miss log</div>
@@ -421,7 +421,7 @@ function IncidentLogPanel() {
       </div>
 
       <div className="grid gap-4 p-4 lg:grid-cols-2">
-        <form onSubmit={handleSubmit} className="hops-panel p-4" style={{ background: "rgba(255,255,255,.02)" }}>
+        <form onSubmit={handleSubmit} className="hops-panel p-4" style={{ background: panelTint(.02) }}>
           <div className="hops-eyebrow mb-3">Log a new entry</div>
           <div className="space-y-3">
             <label className="block text-[12.5px]" style={{ color: OPS.textMuted }}>
@@ -496,7 +496,7 @@ function IncidentLogPanel() {
           </div>
         </form>
 
-        <div className="hops-panel overflow-hidden" style={{ background: "rgba(255,255,255,.02)" }}>
+        <div className="hops-panel overflow-hidden" style={{ background: panelTint(.02) }}>
           <div className="border-b px-3.5 py-2.5" style={{ borderColor: OPS.line }}>
             <div className="hops-eyebrow">Incident history — this session ({incidents.length})</div>
           </div>
@@ -517,7 +517,7 @@ function IncidentLogPanel() {
                       : severityTone(inc.severity) === "warn"
                       ? "rgba(240,168,60,.4)"
                       : OPS.line,
-                  background: "rgba(255,255,255,.02)",
+                  background: panelTint(.02),
                 }}
               >
                 <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
@@ -649,7 +649,7 @@ function WBSignOffCard({ heli, bayLimits }: { heli: Helicopter; bayLimits: Recor
     <div className="hops-panel overflow-hidden">
       <div
         className="flex flex-wrap items-center justify-between gap-3 border-b px-4 py-3.5"
-        style={{ borderColor: OPS.line, background: "rgba(255,255,255,.02)" }}
+        style={{ borderColor: OPS.line, background: panelTint(.02) }}
       >
         <div className="flex items-center gap-3">
           <span
@@ -687,7 +687,7 @@ function WBSignOffCard({ heli, bayLimits }: { heli: Helicopter; bayLimits: Recor
               type="button"
               onClick={() => clearWBSignOff(heli.tailNumber)}
               className="hops-mono mt-2 rounded-md px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[.04em] transition hover:brightness-110"
-              style={{ background: "rgba(255,255,255,.08)", color: OPS.textMuted, border: `1px solid ${OPS.line}` }}
+              style={{ background: panelTint(.08), color: OPS.textMuted, border: `1px solid ${OPS.line}` }}
             >
               Revoke sign-off
             </button>
@@ -754,7 +754,7 @@ function WBExportAndSignOff() {
     <div className="hops-panel overflow-hidden">
       <div
         className="flex flex-wrap items-center justify-between gap-2 border-b px-4 py-3.5"
-        style={{ borderColor: OPS.line, background: "rgba(255,255,255,.02)" }}
+        style={{ borderColor: OPS.line, background: panelTint(.02) }}
       >
         <div>
           <div className="text-base font-bold" style={{ color: OPS.snow }}>Weight &amp; balance export + pilot sign-off</div>

@@ -25,7 +25,7 @@
 //     messages — not a separate hardcoded counter.
 
 import { useMemo } from "react";
-import { OPS, SampleTag } from "./_shared";
+import { OPS, SampleTag, panelTint } from "./_shared";
 import {
   seedCatGroups,
   seedHelicopters,
@@ -146,7 +146,7 @@ export default function EndOfDayDebrief() {
 
       {escalationEvents.length > 0 && (
         <div className="mt-6 hops-panel overflow-hidden">
-          <div className="border-b px-4 py-3" style={{ borderColor: OPS.line, background: "rgba(255,255,255,.02)" }}>
+          <div className="border-b px-4 py-3" style={{ borderColor: OPS.line, background: panelTint(.02) }}>
             <div className="text-base font-bold" style={{ color: OPS.snow }}>Escalation events this session</div>
             <div className="text-[13px]" style={{ color: OPS.textMuted }}>
               Pulled directly from the shared activity log — same entries visible in Module 02&rsquo;s Structured

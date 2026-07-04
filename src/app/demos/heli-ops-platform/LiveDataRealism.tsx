@@ -46,7 +46,7 @@
 //   than duplicating a parallel map here.
 
 import { useEffect, useMemo, useState } from "react";
-import { OPS, SampleTag } from "./_shared";
+import { OPS, SampleTag, panelTint } from "./_shared";
 import {
   AVALANCHE_LEVEL_COLOR,
   AVALANCHE_LEVEL_LABEL,
@@ -248,8 +248,8 @@ function SourceBadge({ tone, label }: { tone: "live" | "computed" | "sample" | "
   const map: Record<typeof tone, { t: string; bg: string; fg: string; border: string }> = {
     live: { t: "Live · NWS", bg: "rgba(62,207,142,.16)", fg: OPS.green, border: "rgba(62,207,142,.45)" },
     computed: { t: "Computed · today", bg: "rgba(94,200,232,.14)", fg: OPS.ice, border: "rgba(94,200,232,.4)" },
-    sample: { t: "Sample", bg: "rgba(255,255,255,.06)", fg: OPS.textMuted, border: OPS.line },
-    loading: { t: "…", bg: "rgba(255,255,255,.04)", fg: OPS.textMuted, border: OPS.line },
+    sample: { t: "Sample", bg: panelTint(.06), fg: OPS.textMuted, border: OPS.line },
+    loading: { t: "…", bg: panelTint(.04), fg: OPS.textMuted, border: OPS.line },
   };
   const m = map[tone];
   return (
@@ -319,7 +319,7 @@ function WeatherAndDaylightPanel() {
     <div className="hops-panel overflow-hidden">
       <div
         className="flex flex-wrap items-center justify-between gap-2 border-b px-4 py-3.5"
-        style={{ borderColor: OPS.line, background: "rgba(255,255,255,.02)" }}
+        style={{ borderColor: OPS.line, background: panelTint(.02) }}
       >
         <div>
           <div className="text-base font-bold" style={{ color: OPS.snow }}>
@@ -400,7 +400,7 @@ function Metric({
   tone: "live" | "computed" | "sample" | "loading";
 }) {
   return (
-    <div className="hops-panel p-3" style={{ background: "rgba(255,255,255,.02)" }}>
+    <div className="hops-panel p-3" style={{ background: panelTint(.02) }}>
       <div className="mb-1.5 flex items-center justify-between gap-2">
         <span className="hops-mono text-[10px] font-semibold uppercase tracking-[.1em]" style={{ color: OPS.textMuted }}>
           {label}
@@ -441,7 +441,7 @@ function DaysSinceIncidentPanel() {
     <div className="hops-panel overflow-hidden">
       <div
         className="flex flex-wrap items-center justify-between gap-2 border-b px-4 py-3.5"
-        style={{ borderColor: OPS.line, background: "rgba(255,255,255,.02)" }}
+        style={{ borderColor: OPS.line, background: panelTint(.02) }}
       >
         <div>
           <div className="text-base font-bold" style={{ color: OPS.snow }}>Days since last incident</div>
@@ -563,7 +563,7 @@ function AvalancheWidget() {
         </label>
 
         {selectedRating && (
-          <div className="hops-panel flex flex-wrap items-center gap-4 p-4" style={{ background: "rgba(255,255,255,.02)" }}>
+          <div className="hops-panel flex flex-wrap items-center gap-4 p-4" style={{ background: panelTint(.02) }}>
             <div
               className="hops-mono flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-lg text-2xl font-extrabold"
               style={{
