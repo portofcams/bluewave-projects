@@ -7,6 +7,7 @@ import FlightFollowing from "./FlightFollowing";
 import OpsOverview from "./OpsOverview";
 import GuideView from "./GuideView";
 import EndOfDayDebrief from "./EndOfDayDebrief";
+import SafetyCompliance from "./SafetyCompliance";
 import { PlatformProvider } from "./_platform";
 
 // UNLISTED + NOINDEX. Not in nav, not in sitemap. robots.txt already
@@ -30,16 +31,24 @@ export const metadata: Metadata = {
 //
 // Module 1: Scheduling — the daily manifest / weight-and-balance board
 // (ManifestBoard.tsx).
-// Module 2 (this build): Dispatch & Flight Following — the live check-in /
-// escalation / activity-log board (FlightFollowing.tsx).
+// Module 2: Dispatch & Flight Following — the live check-in / escalation /
+// activity-log board (FlightFollowing.tsx).
+// Module 3: Cross-cutting refinements — Guide View, End-of-Day Debrief,
+// Incident Mode, Settings, deep-linking (_platform.tsx + GuideView.tsx +
+// EndOfDayDebrief.tsx).
+// Module 4 (this build): Safety & Compliance Depth — Part 135-style duty-
+// hours log, guide cert/avalanche-training tracker, incident/near-miss
+// logging form, and per-helicopter weight-and-balance export + pilot
+// sign-off (SafetyCompliance.tsx).
 // ---------------------------------------------------------------------------
-type ModuleKey = "scheduling" | "dispatch" | "guide-view" | "debrief";
+type ModuleKey = "scheduling" | "dispatch" | "guide-view" | "debrief" | "safety-compliance";
 
 const MODULES: { key: ModuleKey; label: string; shortLabel: string }[] = [
   { key: "scheduling", label: "Scheduling & Manifest Board", shortLabel: "Scheduling" },
   { key: "dispatch", label: "Flight-Following & Dispatch", shortLabel: "Dispatch" },
   { key: "guide-view", label: "Guide View (Mobile)", shortLabel: "Guide View" },
   { key: "debrief", label: "End-of-Day Debrief", shortLabel: "Debrief" },
+  { key: "safety-compliance", label: "Safety & Compliance Depth", shortLabel: "Safety" },
 ];
 
 export default function HeliOpsPlatformDemo() {
@@ -161,6 +170,16 @@ function ModuleTabs() {
           blurb="A closing-out-the-day report computed live from the same manifest and flight-following state shown above — not a separately hardcoded summary."
         />
         <EndOfDayDebrief />
+      </section>
+
+      {/* MODULE 4 — SAFETY & COMPLIANCE DEPTH */}
+      <section id="module-safety-compliance" className="mt-16 scroll-mt-24">
+        <SectionHeading
+          eyebrow="Module 04 · Live"
+          title="Safety & Compliance Depth"
+          blurb="A Part 135 duty-hours log, a guide cert/avalanche-training tracker checked against today's real assignments, a real incident/near-miss logging form, and a per-helicopter weight-and-balance export with a genuine pilot sign-off step — illustrative only, not a certified regulatory system."
+        />
+        <SafetyCompliance />
       </section>
     </div>
   );
