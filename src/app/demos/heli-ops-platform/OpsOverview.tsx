@@ -22,18 +22,19 @@ import {
   weatherHoldCount,
   weightBalanceFlagCount,
 } from "./_data";
+import { ModuleKey, usePlatform } from "./_platform";
 
 function OverviewCard({
   eyebrow,
   value,
   tone = "info",
-  href,
+  onNavigate,
   footnote,
 }: {
   eyebrow: string;
   value: string | number;
   tone?: "info" | "warn" | "alert" | "ok";
-  href?: string;
+  onNavigate?: () => void;
   footnote?: string;
 }) {
   const toneColor =
@@ -71,11 +72,11 @@ function OverviewCard({
     </div>
   );
 
-  if (href) {
+  if (onNavigate) {
     return (
-      <a href={href} className="block h-full hover:brightness-110">
+      <button type="button" onClick={onNavigate} className="block h-full w-full text-left hover:brightness-110">
         {content}
-      </a>
+      </button>
     );
   }
   return content;
@@ -85,11 +86,27 @@ export default function OpsOverview() {
   const helicopters = useMemo(() => seedHelicopters(), []);
   const catGroups = useMemo(() => seedCatGroups(), []);
   const rentals = useMemo(() => seedRentalSnapshot(), []);
+  const { setActiveModule } = usePlatform();
 
   const guests = totalGuestCount(helicopters, catGroups);
   const flags = weightBalanceFlagCount(helicopters);
   const holds = weatherHoldCount(helicopters);
   const aircraftFlying = FLEET_ROSTER.length;
+
+  // Genuinely switches the module tab (not a stale anchor-scroll over a
+  // now-hidden section) THEN scrolls that now-visible module's heading into
+  // view, so clicking a tile both activates the right tab and lands the
+  // viewer on the right part of the page — verified end-to-end by hand-
+  // tracing: with real tabs, a plain `href="#module-x"` would only scroll
+  // (or, on a browser that doesn't even fire a scroll for an already-
+  // present-in-DOM hidden element, do nothing useful) without ever
+  // un-hiding that module's section.
+  const goToModule = (key: ModuleKey) => {
+    setActiveModule(key);
+    requestAnimationFrame(() => {
+      document.getElementById(`module-${key}`)?.scrollIntoView({ behavior: "auto", block: "start" });
+    });
+  };
 
   return (
     <section className="mb-10">
@@ -103,21 +120,21 @@ export default function OpsOverview() {
           eyebrow="Aircraft flying"
           value={aircraftFlying}
           tone="info"
-          href="#module-dispatch"
+          onNavigate={() => goToModule("dispatch")}
           footnote="See live board in Module 02"
         />
         <OverviewCard
           eyebrow="Weight &amp; balance flags"
           value={flags}
           tone={flags > 0 ? "alert" : "ok"}
-          href="#module-scheduling"
+          onNavigate={() => goToModule("scheduling")}
           footnote="Overweight group/bay — Module 01"
         />
         <OverviewCard
           eyebrow="Weather holds pending"
           value={holds}
           tone={holds > 0 ? "warn" : "ok"}
-          href="#module-scheduling"
+          onNavigate={() => goToModule("scheduling")}
           footnote="Needs reslot — Module 01"
         />
         <OverviewCard

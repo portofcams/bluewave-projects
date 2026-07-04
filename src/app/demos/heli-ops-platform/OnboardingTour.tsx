@@ -23,6 +23,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { OPS } from "./_shared";
+import { ModuleKey, usePlatform } from "./_platform";
 
 const TOUR_SEEN_KEY = "hops-demo-tour-seen";
 
@@ -30,6 +31,12 @@ type TourStep = {
   selector: string; // matches a real data-hops-tour attribute value
   title: string;
   body: string;
+  // Present only for steps whose spotlight target lives inside a specific
+  // module's tabbed section. With real tab-switching, that section is
+  // CSS-hidden (display:none) whenever a different tab is active, so the
+  // tour must activate this module BEFORE trying to measure/spotlight the
+  // selector below — otherwise it would target a hidden, zero-size element.
+  moduleKey?: ModuleKey;
 };
 
 // Descriptions here are accurate, specific summaries of what each real
@@ -54,41 +61,47 @@ const STEPS: TourStep[] = [
     selector: "module-tabs",
     title: "Module Tabs",
     body:
-      "Six modules, all on this one page: Scheduling, Dispatch, Guide View, Debrief, Safety & Compliance, and Live-Data. These jump-link to the sections below — every one of them reads and writes the SAME shared live state, not six separate demos stitched together.",
+      "Six modules, all on this one page: Scheduling, Dispatch, Guide View, Debrief, Safety & Compliance, and Live-Data. Click a tab to switch which module is showing — every one of them reads and writes the SAME shared live state, not six separate demos stitched together.",
   },
   {
     selector: "module-scheduling",
     title: "01 · Scheduling & Manifest Board",
+    moduleKey: "scheduling",
     body:
       "Every helicopter, guide group, and snowcat for the day in one view. Weight-and-balance totals recalculate automatically as guests are dragged between groups, and weather-hold guests are one click away from a same-day reslot.",
   },
   {
     selector: "module-dispatch",
     title: "02 · Flight-Following & Dispatch",
+    moduleKey: "dispatch",
     body:
       "Live per-aircraft check-in timers with a real overdue escalation sequence, a schematic zone map, Incident Mode for coordinated response, an optional audible overdue alert, and editable demo settings that drive both this module's and Module 01's math.",
   },
   {
     selector: "module-guide-view",
     title: "03 · Guide View (Mobile)",
+    moduleKey: "guide-view",
     body:
       "A simplified, large-tap-target view of what a guide would see on their own phone — their aircraft, their group's guests, and one button wired to the exact same check-in used in Module 02.",
   },
   {
     selector: "module-debrief",
     title: "03 · End-of-Day Debrief",
+    moduleKey: "debrief",
     body:
       "A closing-out-the-day report computed live from the same manifest and flight-following state shown above it on this page — not a separately hardcoded summary.",
   },
   {
     selector: "module-safety-compliance",
     title: "04 · Safety & Compliance Depth",
+    moduleKey: "safety-compliance",
     body:
       "A Part 135-style duty-hours log, a guide certification tracker cross-checked against today's real assignments, a real incident/near-miss logging form, and a per-helicopter weight-and-balance export with a genuine pilot sign-off step.",
   },
   {
     selector: "module-live-data-realism",
     title: "05 · Live-Data & Realism",
+    moduleKey: "live-data-realism",
     body:
       "A real live National Weather Service observation and computed sunrise/sunset for a real Alaska coordinate, a real days-since-incident counter tied to Module 04's log, and a clearly-labeled SIMULATED avalanche-danger widget — never a real advisory.",
   },
@@ -123,6 +136,7 @@ function measure(selector: string): Rect | null {
 }
 
 function TourOverlay({ onClose }: { onClose: () => void }) {
+  const { activeModule, setActiveModule } = usePlatform();
   const [stepIndex, setStepIndex] = useState(0);
   const [rect, setRect] = useState<Rect | null>(null);
   const [notFound, setNotFound] = useState(false);
@@ -144,8 +158,26 @@ function TourOverlay({ onClose }: { onClose: () => void }) {
   }, []);
 
   useEffect(() => {
+    // If this step's spotlight target lives inside a specific module's
+    // tabbed section, that section is CSS-hidden (display:none) whenever a
+    // DIFFERENT tab is currently active. Switch to the right tab FIRST, and
+    // wait a frame for the section to actually become visible/laid out,
+    // before measuring/scrolling to it — otherwise recomputeAndScroll would
+    // measure a display:none element (a zero-size rect, or in practice just
+    // never actually reveal it), which is exactly the "spotlight targets a
+    // hidden element" regression this refactor must not introduce.
+    // Hand-traced across all 9 steps: the two non-module steps
+    // (ops-overview, guest-search, module-tabs) have no moduleKey and are
+    // always visible regardless of the active tab, so they skip this
+    // branch entirely and behave exactly as before.
+    if (step.moduleKey && activeModule !== step.moduleKey) {
+      setActiveModule(step.moduleKey);
+      requestAnimationFrame(() => recomputeAndScroll(step.selector));
+      return;
+    }
     recomputeAndScroll(step.selector);
-  }, [step.selector, recomputeAndScroll]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step.selector, step.moduleKey, recomputeAndScroll]);
 
   // Keep the spotlight aligned on resize/orientation change — a real
   // re-measure, not a fixed coordinate baked in at step-open time.

@@ -458,7 +458,7 @@ function HeliCard({
   onPreview: (guestId: string) => void;
   bayLimits: Record<CargoBayKey, number>;
 }) {
-  const { jumpToAircraft, wbSignOffs, clearWBSignOff } = usePlatform();
+  const { jumpToAircraft, wbSignOffs, clearWBSignOff, activeModule, setActiveModule } = usePlatform();
   const [jumpResult, setJumpResult] = useState<"ok" | "not-found" | null>(null);
 
   const bayLoads = bayLoadForHeli(heli);
@@ -512,9 +512,22 @@ function HeliCard({
           <button
             type="button"
             onClick={() => {
-              const found = jumpToAircraft(heli.tailNumber);
-              setJumpResult(found ? "ok" : "not-found");
-              window.setTimeout(() => setJumpResult(null), 2500);
+              // Module 02's live aircraft board only exists inside the
+              // Dispatch tab's section, which is CSS-hidden (display:none)
+              // whenever a different tab is active. Switch to Dispatch
+              // FIRST, then wait a frame for that section to actually
+              // become visible/laid out before calling jumpToAircraft — a
+              // scroll/highlight against a still-hidden node would silently
+              // land on the wrong (or no) position. Verified end-to-end by
+              // hand-tracing with a non-Dispatch tab active.
+              if (activeModule !== "dispatch") {
+                setActiveModule("dispatch");
+              }
+              requestAnimationFrame(() => {
+                const found = jumpToAircraft(heli.tailNumber);
+                setJumpResult(found ? "ok" : "not-found");
+                window.setTimeout(() => setJumpResult(null), 2500);
+              });
             }}
             className="hops-mono shrink-0 rounded-md px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-[.04em] transition hover:brightness-110"
             style={{ background: "rgba(94,200,232,.16)", color: OPS.ice, border: "1px solid rgba(94,200,232,.4)" }}

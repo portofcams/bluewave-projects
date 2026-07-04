@@ -153,6 +153,62 @@ export type LogEntry = {
   tone: SeverityTone;
 };
 
+// ---------------------------------------------------------------------------
+// MODULE TABS — real tab-switching state (UX cleanup pass). Hoisted here
+// (rather than kept local to PageBody.tsx's <ModuleTabs>) because THREE other
+// components outside the tab bar itself need to genuinely switch the active
+// tab, not just scroll to a section: OpsOverview's "Module 01/02" links,
+// ManifestBoard's "View live status" jump-to-aircraft button, and
+// GuestSearch's jump-to-guest button all need to activate the correct module
+// BEFORE the existing scroll/highlight registries (jumpToAircraft/
+// jumpToGuest, above) can find a visible, non-hidden target node.
+// OnboardingTour also drives this directly, switching tabs before spotlighting
+// a target that lives inside a specific module's section.
+//
+// CSS-HIDE, NOT UNMOUNT: switching tabs only toggles which module <section>
+// is visible (see PageBody.tsx's <ModuleTabs>) — the other five stay mounted
+// with `hidden`/display:none. This is required, not just a nice-to-have:
+// Module 2 (FlightFollowing) owns live check-in countdown timers driven by
+// `now`/`lastCheckIns` above (which keep ticking regardless of any module's
+// visibility, since that state lives in THIS provider, above the tabs), a
+// local Settings-panel open/closed toggle, and CSS-transition-driven GPS
+// blips keyed off live `zone` state — none of that may reset just because a
+// viewer switched away and back.
+export type ModuleKey =
+  | "scheduling"
+  | "dispatch"
+  | "guide-view"
+  | "debrief"
+  | "safety-compliance"
+  | "live-data-realism";
+
+export const MODULES: { key: ModuleKey; label: string; shortLabel: string }[] = [
+  { key: "scheduling", label: "Scheduling & Manifest Board", shortLabel: "Scheduling" },
+  { key: "dispatch", label: "Flight-Following & Dispatch", shortLabel: "Dispatch" },
+  { key: "guide-view", label: "Guide View (Mobile)", shortLabel: "Guide View" },
+  { key: "debrief", label: "End-of-Day Debrief", shortLabel: "Debrief" },
+  { key: "safety-compliance", label: "Safety & Compliance Depth", shortLabel: "Safety" },
+  { key: "live-data-realism", label: "Live-Data & Realism", shortLabel: "Live Data" },
+];
+
+export const DEFAULT_MODULE: ModuleKey = "scheduling";
+const MODULE_KEYS = new Set<ModuleKey>(MODULES.map((m) => m.key));
+
+function isModuleKey(value: string): value is ModuleKey {
+  return MODULE_KEYS.has(value as ModuleKey);
+}
+
+// Reads the URL hash (e.g. "#module-dispatch") on first client render only,
+// so a direct link / browser back-forward to a specific module's hash opens
+// on that tab. Falls back to the default tab honestly if the hash is absent
+// or doesn't match a real module key — never guesses.
+function readModuleFromHash(): ModuleKey {
+  if (typeof window === "undefined") return DEFAULT_MODULE;
+  const raw = window.location.hash.replace(/^#/, "");
+  const key = raw.replace(/^module-/, "");
+  return isModuleKey(key) ? key : DEFAULT_MODULE;
+}
+
 export type ShiftRoleKey = "onDuty" | "backup" | "onCall";
 export type ShiftRole = { key: ShiftRoleKey; label: string; name: string };
 
@@ -360,6 +416,16 @@ type PlatformContextValue = {
   // unconditionally.
   audibleAlertsOn: boolean;
   setAudibleAlertsOn: (on: boolean) => void;
+
+  // UX-cleanup pass — real module-tab state (was previously just anchor-
+  // scroll links over one long continuous-scroll page; see MODULES above).
+  // Every cross-module deep-link (OpsOverview's tiles, ManifestBoard's "View
+  // live status", GuestSearch's jump-to-guest, OnboardingTour's spotlight
+  // steps) calls setActiveModule() before invoking its existing scroll/
+  // highlight mechanism, so the target module is genuinely visible (not
+  // CSS-hidden) by the time the scroll/highlight runs.
+  activeModule: ModuleKey;
+  setActiveModule: (key: ModuleKey) => void;
 };
 
 const PlatformContext = createContext<PlatformContextValue | null>(null);
@@ -439,6 +505,45 @@ export function PlatformProvider({ children }: { children: React.ReactNode }) {
   const [dayState, setDayState] = useState<DayState>(
     () => ({ "day-1": seedDayData("day-1") } as DayState)
   );
+
+  // UX-cleanup pass — real module-tab state. Seeded from `DEFAULT_MODULE` on
+  // the server and on first client render (so SSR/CSR markup matches,
+  // avoiding a hydration mismatch — same pattern _shared.tsx's ThemeProvider
+  // already uses for `mode`), then genuinely synced from the URL hash in an
+  // effect right after mount so a direct link/back-forward to a module's
+  // hash opens on that tab.
+  const [activeModuleState, setActiveModuleState] = useState<ModuleKey>(DEFAULT_MODULE);
+
+  useEffect(() => {
+    setActiveModuleState(readModuleFromHash());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Keeps back/forward navigation working: if a viewer uses the browser's
+  // own back/forward buttons after switching tabs (which pushes a new hash
+  // — see setActiveModule below), this genuinely re-syncs the active tab
+  // rather than leaving it stale against the URL.
+  useEffect(() => {
+    const onHashChange = () => setActiveModuleState(readModuleFromHash());
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
+
+  const setActiveModule = useCallback((key: ModuleKey) => {
+    setActiveModuleState(key);
+    // Reflect the active tab in the URL hash for back/forward-friendliness
+    // (per the build brief's judgment call: full URL-sync via history APIs
+    // would add real complexity/risk here for little benefit over a plain
+    // hash push, so this is the simplest genuine implementation). Uses
+    // pushState directly rather than `location.hash =` so it does NOT
+    // trigger the browser's native jump-to-anchor scroll — this demo drives
+    // its own scroll/highlight behavior (see jumpToAircraft/jumpToGuest
+    // above) and a competing native anchor-scroll would fight it.
+    if (typeof window !== "undefined") {
+      const url = `${window.location.pathname}${window.location.search}#module-${key}`;
+      window.history.pushState(null, "", url);
+    }
+  }, []);
 
   const loggedTone = useRef<Record<string, SeverityTone>>({});
 
@@ -758,6 +863,8 @@ export function PlatformProvider({ children }: { children: React.ReactNode }) {
     setDayState,
     audibleAlertsOn: audibleAlertsOnState,
     setAudibleAlertsOn,
+    activeModule: activeModuleState,
+    setActiveModule,
   };
 
   return <PlatformContext.Provider value={value}>{children}</PlatformContext.Provider>;
