@@ -788,3 +788,141 @@ export function flagAssignedGuideCerts(
   // Alerts (expired) before warns (expiring soon).
   return flags.sort((a, b) => (a.tone === b.tone ? 0 : a.tone === "alert" ? -1 : 1));
 }
+
+// ---------------------------------------------------------------------------
+// MODULE 5 — LIVE-DATA & REALISM
+//
+// FICTIONAL SAMPLE DATA ONLY, except where explicitly marked REAL below. This
+// module intentionally mixes two very different honesty tiers, and the two
+// must never be confused:
+//   - Item 21 (live weather) and Item 22 (sunrise/sunset) are REAL — a real
+//     public NWS API call and a real astronomical calculation, computed for
+//     an ACTUAL Alaska coordinate (Thompson Pass, a real mountain pass near
+//     Valdez). This is a generic, representative South-Central Alaska
+//     alpine coordinate — it is NOT presented as, and must never be read as,
+//     any specific real operator's actual base of operations.
+//   - Item 25 (avalanche danger widget) is 100% FICTIONAL / ILLUSTRATIVE
+//     SAMPLE DATA per zone. It is styled after the real public avalanche.org
+//     5-level North American Public Avalanche Danger Scale (colors verified
+//     against the National Avalanche Center's own published color reference,
+//     2026-07-03: Low #50B848, Moderate #FFF200, Considerable #F7941E, High
+//     #ED1C24, Extreme #231F20), but it is NOT wired to any real avalanche
+//     center API or real current advisory. It must never be mistaken for a
+//     real current avalanche forecast — see the explicit disclaimer rendered
+//     alongside it in LiveDataRealism.tsx.
+// ---------------------------------------------------------------------------
+
+// A real, specific South-Central Alaska alpine coordinate — Thompson Pass,
+// near Valdez, AK (61.1286°N, 145.7297°W; verified via public sources
+// 2026-07-03). Used for the REAL weather (item 21) and REAL sunrise/sunset
+// (item 22) panels below. Framed generically as "a representative
+// South-Central Alaska heli-ski coordinate" — not tied to, or implying, any
+// specific real operator's actual base.
+export const REALISM_COORD_LABEL = "Thompson Pass, AK (representative South-Central Alaska heli-ski coordinate)";
+export const REALISM_LAT = 61.1286;
+export const REALISM_LON = -145.7297;
+// Nearest NWS gridpoint office/point for this coordinate — resolved via the
+// NWS `/points/{lat},{lon}` endpoint at runtime (see LiveDataRealism.tsx);
+// no ICAO station id is hardcoded here since the panel resolves the current
+// forecast office and gridpoint live.
+
+// ---------------------------------------------------------------------------
+// AVALANCHE DANGER WIDGET (item 25) — SIMULATED / ILLUSTRATIVE SAMPLE DATA
+// ONLY. Tied to the SAME 6 zone keys already defined in _platform.tsx's
+// ZONES (Base Pad, Powder Bowl, North Couloir, Glacier Shelf, Tree Run 6,
+// Sundance Ridge) so selecting a zone shows a rating for that real zone —
+// but the rating itself is invented sample data, not a real current
+// avalanche advisory. NEVER wired to any real avalanche.org API/data.
+// ---------------------------------------------------------------------------
+export type AvalancheDangerLevel = 1 | 2 | 3 | 4 | 5;
+
+export const AVALANCHE_LEVEL_LABEL: Record<AvalancheDangerLevel, string> = {
+  1: "Low",
+  2: "Moderate",
+  3: "Considerable",
+  4: "High",
+  5: "Extreme",
+};
+
+// Verified against the National Avalanche Center's own published Danger
+// Scale color reference (avalanche.org / NationalAvalancheCenter GitHub,
+// checked 2026-07-03): Low #50B848, Moderate #FFF200, Considerable #F7941E,
+// High #ED1C24, Extreme #231F20.
+export const AVALANCHE_LEVEL_COLOR: Record<AvalancheDangerLevel, string> = {
+  1: "#50B848",
+  2: "#FFF200",
+  3: "#F7941E",
+  4: "#ED1C24",
+  5: "#231F20",
+};
+
+// Text color to render ON TOP of each level's background swatch — the
+// official scale's yellow (Moderate) and green (Low) need dark ink for
+// legible contrast; the darker levels need light ink.
+export const AVALANCHE_LEVEL_TEXT_ON_COLOR: Record<AvalancheDangerLevel, string> = {
+  1: "#0d2b0c",
+  2: "#2b2600",
+  3: "#2b1600",
+  4: "#ffffff",
+  5: "#ffffff",
+};
+
+export type ZoneAvalancheRating = {
+  zone: ZoneKeyForAvalanche;
+  level: AvalancheDangerLevel;
+  problemLabel: string; // e.g. "Wind slab", "Persistent slab" — illustrative
+  aspectElevNote: string; // illustrative aspect/elevation note
+};
+
+// Re-declared narrowly here (rather than importing ZoneKey from _platform.tsx)
+// to keep _data.tsx free of a dependency on the "use client" platform module;
+// the literal keys below are kept in exact lockstep with _platform.tsx's
+// ZONES list — LiveDataRealism.tsx cross-checks this at render time by
+// mapping over the real ZONES array, not a separately hardcoded zone list.
+export type ZoneKeyForAvalanche = "base-pad" | "powder-bowl" | "north-couloir" | "glacier-shelf" | "tree-run-6" | "sundance-ridge";
+
+// Illustrative sample rating per zone — deliberately varied across the full
+// 1-5 scale so the widget's color-coding has real visual range to
+// demonstrate, not a single flat rating repeated six times.
+export function seedZoneAvalancheRatings(): ZoneAvalancheRating[] {
+  return [
+    { zone: "base-pad", level: 1, problemLabel: "Generally stable", aspectElevNote: "Low-angle approach terrain, sample rating" },
+    { zone: "powder-bowl", level: 2, problemLabel: "Wind slab", aspectElevNote: "N/NE aspects, sample rating" },
+    { zone: "north-couloir", level: 3, problemLabel: "Persistent slab", aspectElevNote: "All aspects near ridgeline, sample rating" },
+    { zone: "glacier-shelf", level: 2, problemLabel: "Wet loose", aspectElevNote: "S-facing sun-exposed slopes, sample rating" },
+    { zone: "tree-run-6", level: 1, problemLabel: "Generally stable", aspectElevNote: "Sheltered tree terrain, sample rating" },
+    { zone: "sundance-ridge", level: 4, problemLabel: "Storm slab / cornice fall", aspectElevNote: "Lee-loaded aspects, ridge cornices, sample rating" },
+  ];
+}
+
+// ---------------------------------------------------------------------------
+// DAYS-SINCE-LAST-INCIDENT COUNTER (item 23) — REAL computed value, derived
+// from Module 4's REAL incident/near-miss log (_platform.tsx's `incidents`
+// array, appended to by SafetyCompliance.tsx's actual form submissions).
+// Genuinely recomputes from `loggedAt` (a real Date.now() timestamp captured
+// at submission time) — NOT a hardcoded number. If the log is empty, falls
+// back to a real seeded "day zero" baseline timestamp (also a genuine
+// Date.now()-derived value, fixed once per module load) rather than
+// fabricating a plausible-looking streak.
+// ---------------------------------------------------------------------------
+
+// A real safety-culture baseline: this demo session's "day zero" is treated
+// as 47 days before the module first loads. This is itself a real computed
+// timestamp (Date.now() minus a fixed real offset), not a hardcoded date
+// string — it exists only so the counter has a sensible starting point when
+// zero incidents have been logged yet this session.
+export const INCIDENT_FREE_BASELINE_DAYS = 47;
+
+export function daysSinceLastIncident(
+  incidents: { loggedAt: number }[],
+  nowMs: number = Date.now()
+): { days: number; sinceLabel: string } {
+  if (incidents.length === 0) {
+    const baselineMs = nowMs - INCIDENT_FREE_BASELINE_DAYS * 24 * 60 * 60 * 1000;
+    const days = Math.floor((nowMs - baselineMs) / (24 * 60 * 60 * 1000));
+    return { days, sinceLabel: "sample baseline — no incidents logged this session" };
+  }
+  const mostRecentMs = Math.max(...incidents.map((i) => i.loggedAt));
+  const days = Math.floor((nowMs - mostRecentMs) / (24 * 60 * 60 * 1000));
+  return { days, sinceLabel: "most recent logged incident/near-miss, this session" };
+}

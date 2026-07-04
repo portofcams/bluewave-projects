@@ -134,11 +134,76 @@ function TonePill({ tone, children }: { tone: SeverityTone; children: React.Reac
 }
 
 // ---------------------------------------------------------------------------
+// SIMULATED GPS/ADS-B-STYLE POSITION BLIPS (item 24, Module 5) — a
+// translucent overlay layer drawn on top of the SAME schematic grid below,
+// not a parallel map. Each tracked aircraft gets a small pulsing blip
+// positioned (in grid-relative percentages, computed from the same z.col /
+// z.row each zone cell already uses) at its CURRENT zone, and genuinely
+// interpolates its on-screen position over ~1.4s via a CSS transition
+// whenever `zone` changes — so a zone move reads as the blip sliding across
+// the board rather than jumping instantly to the new cell. This is STILL
+// entirely fictional/schematic: there is no real GPS, ADS-B receiver, or
+// geolocation feed behind it, and it is labeled as such right on the panel,
+// consistent with this zone map's existing "not a real geographic map"
+// disclaimer above.
+// ---------------------------------------------------------------------------
+const GRID_COLS = 3;
+const GRID_ROWS = 3;
+
+// Center-of-cell position, as a 0-100 percentage of the grid's width/height,
+// for a given 1-indexed (col, row) — the exact same col/row each ZONES entry
+// already carries, so a blip's resting position always lines up with the
+// real schematic cell an aircraft's zone renders in above.
+function cellCenterPct(col: number, row: number): { xPct: number; yPct: number } {
+  const xPct = ((col - 0.5) / GRID_COLS) * 100;
+  const yPct = ((row - 0.5) / GRID_ROWS) * 100;
+  return { xPct, yPct };
+}
+
+function GpsBlipOverlay({ fleet }: { fleet: Aircraft[] }) {
+  return (
+    <div className="pointer-events-none absolute inset-0 z-10" aria-hidden="true">
+      {fleet.map((a) => {
+        const zone = ZONE_BY_KEY[a.zone];
+        const { xPct, yPct } = cellCenterPct(zone.col, zone.row);
+        return (
+          <div
+            key={a.id}
+            className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center"
+            style={{
+              left: `${xPct}%`,
+              top: `${yPct}%`,
+              transition: "left 1.4s ease-in-out, top 1.4s ease-in-out",
+            }}
+            title={`${a.tailNumber} — simulated position blip, ${zone.label}`}
+          >
+            <span className="relative flex h-3 w-3">
+              <span
+                className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-70"
+                style={{ background: OPS.ice, animationDuration: "1.8s" }}
+              />
+              <span
+                className="relative inline-flex h-3 w-3 rounded-full border"
+                style={{ background: OPS.ice, borderColor: "rgba(255,255,255,.7)" }}
+              />
+            </span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // SCHEMATIC ZONE MAP (feature 1) — CSS-grid schematic, not a real geographic
 // map. Each aircraft renders as a marker/pin positioned at its current
 // zone's grid cell. A per-aircraft dropdown (rendered in the legend below
 // the grid) lets the user genuinely move an aircraft to a different zone,
-// which re-renders the marker at the new cell live.
+// which re-renders the marker at the new cell live. The GpsBlipOverlay above
+// (item 24, Module 5) extends this SAME map with a simulated GPS/ADS-B-style
+// position layer that smoothly interpolates between zones — it reads the
+// exact same `fleet` prop and `ZONE_BY_KEY` lookup this component already
+// uses, rather than a second parallel tracking structure.
 // ---------------------------------------------------------------------------
 function ZoneMap({
   fleet,
@@ -164,7 +229,8 @@ function ZoneMap({
         <div>
           <div className="text-base font-bold" style={{ color: OPS.snow }}>Schematic zone map</div>
           <div className="text-[13px]" style={{ color: OPS.textMuted }}>
-            Stylized layout of sample zones — not a real geographic map. Positions are illustrative.
+            Stylized layout of sample zones — not a real geographic map. Positions are illustrative. The pulsing ice-blue
+            blips are a <strong>simulated</strong> GPS/ADS-B-style position layer — not real telemetry (see note below).
           </div>
         </div>
         <SampleTag />
@@ -172,9 +238,10 @@ function ZoneMap({
 
       <div className="p-4">
         <div
-          className="grid grid-cols-3 gap-2.5"
+          className="relative grid grid-cols-3 gap-2.5"
           style={{ gridTemplateRows: "repeat(3, minmax(76px, auto))" }}
         >
+          <GpsBlipOverlay fleet={fleet} />
           {ZONES.map((z) => {
             const markers = markersByZone[z.key] ?? [];
             return (
@@ -243,6 +310,14 @@ function ZoneMap({
             </div>
           ))}
         </div>
+
+        <p className="mt-3 text-[11.5px] leading-snug" style={{ color: OPS.textMuted }}>
+          <strong style={{ color: OPS.ice }}>Simulated position blips:</strong> the pulsing dots above are a
+          schematic, client-side animation that slides between each zone&rsquo;s grid cell over ~1.4s whenever a
+          zone changes — genuinely interpolated, not a static marker that jumps. There is no real GPS receiver,
+          ADS-B feed, or aircraft telemetry behind it; it is illustrative of what a live-tracking layer could look
+          like on top of this same schematic map, nothing more.
+        </p>
       </div>
     </div>
   );
