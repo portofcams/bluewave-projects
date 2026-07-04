@@ -17,6 +17,7 @@ type Project = {
   stat: string;
   logo?: string;
   icon?: React.ReactNode;
+  appStoreLinks?: { name: string; url: string }[];
 };
 
 const projects: Project[] = [
@@ -55,11 +56,18 @@ const projects: Project[] = [
     name: "Binnacle.ai",
     tag: "Maritime SaaS",
     description:
-      "Bridge-intelligence platform for commercial mariners and fleet operators. IEC 62388 ARPA radar with target trails and guard zones, voice bridge interface, port-captain prompt drafting, class-society audit log, crew credential tracking, inspection prep, and USCG regulation lookup. Built by a 100-ton USCG Master who has actually run the inspections.",
+      "Bridge-intelligence platform for commercial mariners and fleet operators. IEC 62388 ARPA radar with target trails and guard zones, voice bridge interface, port-captain prompt drafting, class-society audit log, crew credential tracking, inspection prep, and USCG regulation lookup. Built by a 100-ton USCG Master who has actually run the inspections. The native iOS suite is live on the App Store — Binnacle AI, Binnacle Harbor, Binnacle Dockmaster, and Binnacle School (USCG exam study) — plus Binnacle Arcade, 38 maritime mini-games for crew downtime.",
     tech: ["Next.js", "PostgreSQL", "Claude AI", "Stripe"],
     color: "from-blue-600 to-indigo-500",
     link: "https://binnacleai.com",
-    stat: "Sub-M operators · live",
+    stat: "Sub-M operators · 5 iOS apps live",
+    appStoreLinks: [
+      { name: "Binnacle AI", url: "https://apps.apple.com/app/id6770324114" },
+      { name: "Binnacle Harbor", url: "https://apps.apple.com/app/id6771552119" },
+      { name: "Binnacle Dockmaster", url: "https://apps.apple.com/app/id6771552759" },
+      { name: "Binnacle School", url: "https://apps.apple.com/app/id6778185737" },
+      { name: "Binnacle Arcade", url: "https://apps.apple.com/app/id6777791460" },
+    ],
     logo: "/logos/binnacle.png",
   },
   {
@@ -223,11 +231,12 @@ const projects: Project[] = [
     name: "Aina Atlas",
     tag: "iOS + Web · Hawaii",
     description:
-      "Hawaii land stewardship app — TMK-anchored property intelligence meets cultural context. iOS native (TestFlight), web SIWA, and backend API. Three IAPs, parcel detail, and a 3D geospatial layer built on the same GIS data stack as the Hawaii Property Lookup.",
+      "Hawaii land stewardship app — TMK-anchored property intelligence meets cultural context. Live on the App Store, plus web SIWA and backend API. Three IAPs, parcel detail, and a 3D geospatial layer built on the same GIS data stack as the Hawaii Property Lookup.",
     tech: ["Swift", "SwiftUI", "Next.js", "FastAPI"],
     color: "from-green-700 to-emerald-500",
     link: "https://ainaatlas.com",
-    stat: "iOS · web · 3 IAPs",
+    stat: "Live on the App Store · 3 IAPs",
+    appStoreLinks: [{ name: "Aina Atlas", url: "https://apps.apple.com/app/id6770377344" }],
     icon: (
       <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z" />
@@ -319,7 +328,8 @@ const projects: Project[] = [
     tech: ["Swift", "RoomPlan", "Object Capture", "Claude API"],
     color: "from-lava-500 to-amber-400",
     link: "https://probuildcalc.com",
-    stat: "$19 / mo · iOS",
+    stat: "$19 / mo · Live on the App Store",
+    appStoreLinks: [{ name: "ProBuildCalc", url: "https://apps.apple.com/app/id6773896754" }],
     logo: "/logos/probuildcalc.png",
   },
   {
@@ -421,6 +431,25 @@ function ProjectCard({
           </span>
         ))}
       </div>
+
+      {project.appStoreLinks && project.appStoreLinks.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-6">
+          {project.appStoreLinks.map((app) => (
+            <a
+              key={app.url}
+              href={app.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-white/60 hover:text-white/90 border border-white/10 transition-colors flex items-center gap-1.5"
+            >
+              <svg viewBox="0 0 384 512" className="w-3 h-3 fill-current">
+                <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" />
+              </svg>
+              {app.name}
+            </a>
+          ))}
+        </div>
+      )}
 
       <div className="flex items-center justify-between pt-4 border-t border-white/5">
         <span className="text-sm font-medium text-white/50">{project.stat}</span>
