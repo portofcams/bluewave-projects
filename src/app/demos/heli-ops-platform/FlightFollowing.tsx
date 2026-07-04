@@ -22,7 +22,7 @@
 //      Date.now() baseline.
 //   2. Color-coded status: green / amber / red, driven purely by elapsed
 //      time vs. a check-in interval that genuinely depends on the aircraft's
-//      current flight phase (see PHASE_INTERVAL_MIN below).
+//      current flight phase (see settings.phaseIntervalMin, editable below).
 //   3. An escalation panel that appears for any aircraft in the red state,
 //      listing an escalation sequence whose names are pulled live from the
 //      staffing panel's current on-shift state.
@@ -36,130 +36,37 @@
 //   8. A simulated phone-alert mockup for overdue aircraft, clearly labeled
 //      as illustrative only.
 //   9. A real, downloadable end-of-day log export (Blob + createObjectURL).
+//  10. Incident Mode — a coordinated-response panel that lets the user
+//      genuinely divert another tracked aircraft to assist (Module 3).
+//  11. An editable Settings panel driving both this module's check-in
+//      interval math AND Module 1's cargo-bay overweight math (Module 3).
+//
+// NOTE ON STATE: the aircraft fleet, check-in timestamps, activity log, and
+// staffing roster used to be local useState here. They are now hoisted into
+// _platform.tsx's PlatformProvider (see usePlatform()) so Guide View, the
+// End-of-Day Debrief, and Incident Mode's "divert to assist" can all read and
+// write the SAME real state instead of a duplicated parallel copy. All the
+// functions below behave exactly as they did before — same fields, same
+// log-append mechanism — they're just sourced from the shared context.
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { OPS, SampleTag } from "./_shared";
-import { FLEET_ROSTER } from "./_data";
-
-// ---------------------------------------------------------------------------
-// CONFIG — sample/default check-in intervals. Clearly labeled as
-// configurable; this demo does not persist a per-operator config, it just
-// shows the knob. Interval now varies genuinely by flight phase (feature 2).
-// ---------------------------------------------------------------------------
-type FlightPhase = "Cruise" | "Approach" | "Loading at zone" | "Returning";
-
-const PHASE_INTERVAL_MIN: Record<FlightPhase, number> = {
-  Cruise: 60,
-  Returning: 60,
-  Approach: 20,
-  "Loading at zone": 20,
-};
-
-const PHASES: FlightPhase[] = ["Cruise", "Approach", "Loading at zone", "Returning"];
-
-const AMBER_THRESHOLD_PCT = 0.75; // fraction of interval elapsed before amber
-const TICK_MS = 1000;
-
-type AircraftStatus = "In Flight" | "At Zone" | "Returning";
-type SeverityTone = "ok" | "warn" | "alert";
-
-// ---------------------------------------------------------------------------
-// SCHEMATIC ZONES (feature 1) — a small set of invented, fictional named
-// zones/runs laid out on a simple CSS-grid schematic. NOT a real geographic
-// map — coordinates below are just grid positions for this stylized board.
-// ---------------------------------------------------------------------------
-type ZoneKey = "powder-bowl" | "north-couloir" | "glacier-shelf" | "tree-run-6" | "sundance-ridge" | "base-pad";
-
-type ZoneInfo = { key: ZoneKey; label: string; col: number; row: number };
-
-const ZONES: ZoneInfo[] = [
-  { key: "base-pad", label: "Base Pad (sample)", col: 2, row: 3 },
-  { key: "powder-bowl", label: "Powder Bowl (sample)", col: 1, row: 1 },
-  { key: "north-couloir", label: "North Couloir (sample)", col: 2, row: 1 },
-  { key: "glacier-shelf", label: "Glacier Shelf (sample)", col: 3, row: 1 },
-  { key: "tree-run-6", label: "Tree Run 6 (sample)", col: 1, row: 2 },
-  { key: "sundance-ridge", label: "Sundance Ridge (sample)", col: 3, row: 2 },
-];
-
-const ZONE_BY_KEY: Record<ZoneKey, ZoneInfo> = ZONES.reduce(
-  (acc, z) => ({ ...acc, [z.key]: z }),
-  {} as Record<ZoneKey, ZoneInfo>
-);
-
-type Aircraft = {
-  id: string;
-  tailNumber: string;
-  model: string;
-  pilotName: string;
-  status: AircraftStatus;
-  phase: FlightPhase;
-  zone: ZoneKey;
-  // Minutes-ago offset used ONLY to seed each aircraft's simulated last
-  // check-in relative to component mount — see useEffect below where this
-  // is converted into a real epoch-ms timestamp via Date.now().
-  seedMinutesAgo: number;
-};
-
-type LogEntry = {
-  id: string;
-  ts: number; // epoch ms, real Date.now() at time of the event
-  tailNumber: string;
-  message: string;
-  tone: SeverityTone;
-};
-
-// ---------------------------------------------------------------------------
-// STAFFING (feature 3) — "who's on shift" fictional sample roster,
-// ski/snow-pun themed to match the rest of the demo's invented names.
-// ---------------------------------------------------------------------------
-type ShiftRoleKey = "onDuty" | "backup" | "onCall";
-
-type ShiftRole = { key: ShiftRoleKey; label: string; name: string };
-
-const SHIFT_ROSTER_OPTIONS: Record<ShiftRoleKey, string[]> = {
-  onDuty: ["Frosty Lundgren (sample)", "Piste Halvorsen (sample)", "Birdie Snowfield (sample)"],
-  backup: ["Yeti Carlsberg (sample)", "Cornice Aldrich (sample)", "Wren Iceborn (sample)"],
-  onCall: ["Summit Faraday (sample)", "Blizzard Okafor (sample)", "Talus Ravensworth (sample)"],
-};
-
-function seedShiftRoster(): ShiftRole[] {
-  return [
-    { key: "onDuty", label: "On-duty dispatcher", name: SHIFT_ROSTER_OPTIONS.onDuty[0] },
-    { key: "backup", label: "Backup dispatcher", name: SHIFT_ROSTER_OPTIONS.backup[0] },
-    { key: "onCall", label: "On-call ops manager", name: SHIFT_ROSTER_OPTIONS.onCall[0] },
-  ];
-}
-
-// ---------------------------------------------------------------------------
-// SEED FLEET — same fictional tail numbers / pilot names as Module 1
-// (ManifestBoard.tsx / ./_data.tsx) for continuity within this one concept
-// demo. Not real aircraft or people. Spread across green / amber / red so
-// the board reads as a realistic busy-day mix rather than one flag apiece.
-// ---------------------------------------------------------------------------
-function seedAircraft(): Aircraft[] {
-  const seedByTail: Record<
-    string,
-    { status: AircraftStatus; phase: FlightPhase; zone: ZoneKey; seedMinutesAgo: number }
-  > = {
-    // Cruise, 60-min interval, recently checked in -> green
-    N412QX: { status: "In Flight", phase: "Cruise", zone: "powder-bowl", seedMinutesAgo: 6 },
-    // At Zone / Loading, 20-min interval, comfortably green
-    N287TR: { status: "At Zone", phase: "Loading at zone", zone: "north-couloir", seedMinutesAgo: 7 },
-    // At Zone / Loading, 20-min interval, approaching the shorter window -> amber
-    N559HB: { status: "At Zone", phase: "Loading at zone", zone: "glacier-shelf", seedMinutesAgo: 16 },
-    // Returning, 60-min interval, already past interval on load -> red
-    N634VK: { status: "Returning", phase: "Returning", zone: "base-pad", seedMinutesAgo: 74 },
-    // Cruise, 60-min interval, near the amber threshold -> amber
-    N801ZL: { status: "In Flight", phase: "Cruise", zone: "sundance-ridge", seedMinutesAgo: 47 },
-  };
-  return FLEET_ROSTER.map((f) => ({
-    id: f.id,
-    tailNumber: f.tailNumber,
-    model: f.model,
-    pilotName: f.pilotName,
-    ...seedByTail[f.tailNumber],
-  }));
-}
+import {
+  Aircraft,
+  EDITABLE_PHASES,
+  FlightPhase,
+  LogEntry,
+  SeverityTone,
+  ShiftRole,
+  ShiftRoleKey,
+  SHIFT_ROSTER_OPTIONS,
+  ZoneKey,
+  ZONES,
+  ZONE_BY_KEY,
+  severity,
+  usePlatform,
+} from "./_platform";
+import { BAY_LABEL, CargoBayKey } from "./_data";
 
 // ---------------------------------------------------------------------------
 // TIME HELPERS
@@ -192,12 +99,9 @@ function formatDateTime(ts: number): string {
   });
 }
 
-function severity(elapsedMs: number, phase: FlightPhase): SeverityTone {
-  const intervalMs = PHASE_INTERVAL_MIN[phase] * 60 * 1000;
-  if (elapsedMs >= intervalMs) return "alert";
-  if (elapsedMs >= intervalMs * AMBER_THRESHOLD_PCT) return "warn";
-  return "ok";
-}
+// severity() is imported from ./_platform — it now takes the current,
+// demo-editable phaseIntervalMin map as a third argument so a changed
+// Settings value genuinely changes every severity calculation, live.
 
 // ---------------------------------------------------------------------------
 // SMALL UI PRIMITIVES
@@ -399,26 +303,35 @@ function AircraftCard({
   aircraft,
   now,
   roster,
+  phaseIntervalMin,
   onCheckIn,
   onZoneChange,
   onPhaseChange,
+  registerNode,
+  highlighted,
+  incidentModePanel,
 }: {
   aircraft: Aircraft & { lastCheckIn: number };
   now: number;
   roster: ShiftRole[];
+  phaseIntervalMin: Record<FlightPhase, number>;
   onCheckIn: (id: string) => void;
   onZoneChange: (id: string, zone: ZoneKey) => void;
   onPhaseChange: (id: string, phase: FlightPhase) => void;
+  registerNode?: (node: HTMLDivElement | null) => void;
+  highlighted?: boolean;
+  incidentModePanel?: React.ReactNode;
 }) {
   const elapsedMs = now - aircraft.lastCheckIn;
-  const tone = severity(elapsedMs, aircraft.phase);
-  const intervalMin = PHASE_INTERVAL_MIN[aircraft.phase];
+  const tone = severity(elapsedMs, aircraft.phase, phaseIntervalMin);
+  const intervalMin = phaseIntervalMin[aircraft.phase];
   const intervalMs = intervalMin * 60 * 1000;
   const remainingMs = intervalMs - elapsedMs;
 
   const toneLabel = tone === "alert" ? "Overdue" : tone === "warn" ? "Due soon" : "Normal";
-  const glow =
-    tone === "alert"
+  const glow = highlighted
+    ? OPS.ice
+    : tone === "alert"
       ? "rgba(229,72,77,.55)"
       : tone === "warn"
       ? "rgba(240,168,60,.5)"
@@ -426,8 +339,17 @@ function AircraftCard({
 
   return (
     <div
-      className="hops-panel overflow-hidden transition-colors"
-      style={{ borderColor: glow, boxShadow: tone === "alert" ? `0 0 0 1px ${glow}, 0 10px 28px -16px rgba(0,0,0,.7)` : undefined }}
+      ref={registerNode}
+      className="hops-panel overflow-hidden transition-all"
+      style={{
+        borderColor: glow,
+        boxShadow: highlighted
+          ? `0 0 0 3px rgba(94,200,232,.55), 0 10px 28px -16px rgba(0,0,0,.7)`
+          : tone === "alert"
+          ? `0 0 0 1px ${glow}, 0 10px 28px -16px rgba(0,0,0,.7)`
+          : undefined,
+      }}
+      data-tail-number={aircraft.tailNumber}
     >
       <div
         className="flex flex-wrap items-center justify-between gap-3 border-b px-4 py-4"
@@ -495,9 +417,9 @@ function AircraftCard({
             className="hops-mono rounded-md px-2 py-1 text-[12.5px] font-semibold"
             style={{ background: OPS.slate, color: OPS.snow, border: `1px solid ${OPS.line}` }}
           >
-            {PHASES.map((p) => (
+            {EDITABLE_PHASES.map((p) => (
               <option key={p} value={p}>
-                {p} ({PHASE_INTERVAL_MIN[p]} min interval)
+                {p} ({phaseIntervalMin[p]} min interval)
               </option>
             ))}
           </select>
@@ -537,6 +459,7 @@ function AircraftCard({
         <>
           <EscalationPanel tailNumber={aircraft.tailNumber} roster={roster} />
           <PhoneAlertMockup tailNumber={aircraft.tailNumber} elapsedMs={elapsedMs} />
+          {incidentModePanel}
         </>
       )}
     </div>
@@ -734,148 +657,262 @@ function downloadLog(entries: LogEntry[]) {
 }
 
 // ---------------------------------------------------------------------------
+// INCIDENT MODE (feature 1, Module 3) — a "coordinated response" panel shown
+// for the currently-overdue aircraft when incident mode is switched on.
+// Lists every OTHER tracked aircraft with its live zone, and lets the user
+// pick one to genuinely divert to assist: this calls handleDivertToAssist
+// from _platform.tsx, which is a REAL state change (status/phase set to
+// "Diverting to assist") and appends a real timestamped entry via the same
+// appendLog mechanism every other feature in this module uses — not a
+// parallel fake log. Turning incident mode off hides this panel but never
+// deletes anything from the log history.
+// ---------------------------------------------------------------------------
+function IncidentResponsePanel({
+  overdueTailNumber,
+  overdueAircraftId,
+  fleet,
+  onDivert,
+}: {
+  overdueTailNumber: string;
+  overdueAircraftId: string;
+  fleet: Aircraft[];
+  onDivert: (id: string, zone: ZoneKey) => void;
+}) {
+  const [diverted, setDiverted] = useState<string | null>(null);
+  const others = fleet.filter((a) => a.id !== overdueAircraftId);
+
+  return (
+    <div
+      className="border-t px-4 py-4"
+      style={{ borderColor: "rgba(94,200,232,.4)", background: "rgba(94,200,232,.06)" }}
+    >
+      <div className="mb-3 flex flex-wrap items-center gap-2">
+        <span
+          className="hops-pill"
+          style={{ background: "rgba(94,200,232,.2)", color: OPS.ice, border: "1px solid rgba(94,200,232,.5)" }}
+        >
+          Incident mode — coordinated response
+        </span>
+        <span className="text-[13px]" style={{ color: OPS.text }}>
+          Pick another tracked aircraft to genuinely divert toward {overdueTailNumber}&rsquo;s last known zone.
+        </span>
+      </div>
+
+      <div className="grid gap-2 sm:grid-cols-2">
+        {others.map((a) => (
+          <div
+            key={a.id}
+            className="flex items-center justify-between gap-2 rounded-md px-3 py-2"
+            style={{ background: "rgba(255,255,255,.03)", border: `1px solid ${OPS.line}` }}
+          >
+            <div className="min-w-0">
+              <div className="hops-mono text-[13px] font-bold" style={{ color: OPS.ice }}>{a.tailNumber}</div>
+              <div className="text-[11.5px]" style={{ color: OPS.textMuted }}>
+                Currently: {ZONE_BY_KEY[a.zone].label} &middot; {a.status}
+              </div>
+            </div>
+            <button
+              type="button"
+              disabled={a.status === "Diverting to assist"}
+              onClick={() => {
+                const target = fleet.find((f) => f.id === overdueAircraftId);
+                onDivert(a.id, target?.zone ?? a.zone);
+                setDiverted(a.tailNumber);
+              }}
+              className="hops-mono shrink-0 rounded-md px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-[.04em] text-white transition hover:brightness-110 disabled:opacity-50"
+              style={{ background: OPS.iceDeep }}
+            >
+              {a.status === "Diverting to assist" ? "Diverting" : "Divert to assist"}
+            </button>
+          </div>
+        ))}
+        {others.length === 0 && (
+          <p className="text-[13px]" style={{ color: OPS.textMuted }}>No other tracked aircraft available.</p>
+        )}
+      </div>
+
+      {diverted && (
+        <p className="mt-3 text-[12.5px] leading-snug" style={{ color: OPS.ice }}>
+          {diverted} is now genuinely marked &ldquo;Diverting to assist&rdquo; in the live board above, with a real
+          entry appended to the activity log below.
+        </p>
+      )}
+
+      <p className="mt-3 text-[12px] leading-snug" style={{ color: OPS.textMuted }}>
+        This is a real state change against this session&rsquo;s live fleet data, logged the same way every other
+        check-in/zone/phase change in this module is logged. It does not contact any real aircraft, pilot, or
+        dispatcher.
+      </p>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// SETTINGS PANEL (feature 5, Module 3) — real, editable numeric inputs for
+// the per-phase check-in interval (drives this module's overdue math) and
+// the per-cargo-bay weight limit (drives Module 1's overweight-flagging
+// math). Both read/write the SAME shared settings object in _platform.tsx,
+// so a change here genuinely changes both modules' live calculations.
+// Demo-editable / session-only: values reset on page reload, stated plainly
+// below rather than implying a persisted configuration.
+// ---------------------------------------------------------------------------
+function SettingsPanel() {
+  const { settings, setPhaseInterval, setBayLimit, resetSettings } = usePlatform();
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="hops-panel overflow-hidden">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="flex w-full flex-wrap items-center justify-between gap-2 border-b px-4 py-3 text-left"
+        style={{ borderColor: OPS.line, background: "rgba(255,255,255,.02)" }}
+      >
+        <div>
+          <div className="text-base font-bold" style={{ color: OPS.snow }}>Settings (demo-editable)</div>
+          <div className="text-[13px]" style={{ color: OPS.textMuted }}>
+            Check-in intervals &amp; cargo-bay weight limits — changes drive both modules&rsquo; live math below.
+          </div>
+        </div>
+        <span className="hops-mono text-[11px] font-semibold uppercase tracking-[.04em]" style={{ color: OPS.ice }}>
+          {open ? "Hide ▲" : "Open ▼"}
+        </span>
+      </button>
+
+      {open && (
+        <div className="p-4">
+          <div className="mb-4 rounded-md border px-3 py-2.5" style={{ borderColor: "rgba(240,168,60,.4)", background: "rgba(240,168,60,.08)" }}>
+            <p className="text-[12.5px] leading-snug" style={{ color: OPS.text }}>
+              These are <strong>demo-editable sample settings</strong>, not a persisted real configuration — values
+              reset to defaults on page reload. Changing a number here genuinely changes the overdue-threshold math
+              in the live aircraft board below AND the overweight-flagging math in Module 01&rsquo;s manifest board.
+            </p>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <div>
+              <div className="hops-eyebrow mb-2">Check-in interval per phase (minutes)</div>
+              <div className="space-y-2">
+                {EDITABLE_PHASES.map((phase) => (
+                  <label key={phase} className="flex items-center justify-between gap-3 text-[13px]" style={{ color: OPS.textMuted }}>
+                    <span>{phase}</span>
+                    <input
+                      type="number"
+                      min={1}
+                      max={240}
+                      value={settings.phaseIntervalMin[phase]}
+                      onChange={(e) => {
+                        const v = Math.max(1, Math.min(240, Number(e.target.value) || 1));
+                        setPhaseInterval(phase, v);
+                      }}
+                      className="hops-mono w-20 rounded-md px-2 py-1 text-right text-[13px] font-semibold"
+                      style={{ background: OPS.slate, color: OPS.snow, border: `1px solid ${OPS.line}` }}
+                    />
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <div className="hops-eyebrow mb-2">Cargo-bay weight limits (lb)</div>
+              <div className="space-y-2">
+                {(Object.keys(settings.bayLimits) as CargoBayKey[]).map((bay) => (
+                  <label key={bay} className="flex items-center justify-between gap-3 text-[13px]" style={{ color: OPS.textMuted }}>
+                    <span>{BAY_LABEL[bay]}</span>
+                    <input
+                      type="number"
+                      min={50}
+                      max={2000}
+                      step={10}
+                      value={settings.bayLimits[bay]}
+                      onChange={(e) => {
+                        const v = Math.max(50, Math.min(2000, Number(e.target.value) || 50));
+                        setBayLimit(bay, v);
+                      }}
+                      className="hops-mono w-20 rounded-md px-2 py-1 text-right text-[13px] font-semibold"
+                      style={{ background: OPS.slate, color: OPS.snow, border: `1px solid ${OPS.line}` }}
+                    />
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-4 flex justify-end">
+            <button
+              type="button"
+              onClick={resetSettings}
+              className="hops-mono rounded-md px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[.04em] transition hover:brightness-110"
+              style={{ background: "rgba(255,255,255,.06)", color: OPS.textMuted, border: `1px solid ${OPS.line}` }}
+            >
+              Reset to sample defaults
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // MAIN COMPONENT
 // ---------------------------------------------------------------------------
 export default function FlightFollowing() {
-  // `mountedAt` is captured once via useState initializer — a real
-  // Date.now() timestamp — and is the baseline every aircraft's simulated
-  // "last check-in" is computed against. This is what makes the timers
-  // genuinely live rather than pre-baked strings.
-  const [mountedAt] = useState<number>(() => Date.now());
-  const initialFleet = useMemo(() => seedAircraft(), []);
-
-  const [fleet, setFleet] = useState<Aircraft[]>(initialFleet);
-
-  const [lastCheckIns, setLastCheckIns] = useState<Record<string, number>>(() => {
-    const map: Record<string, number> = {};
-    for (const a of initialFleet) {
-      map[a.id] = mountedAt - a.seedMinutesAgo * 60 * 1000;
-    }
-    return map;
-  });
-
-  const [now, setNow] = useState<number>(() => Date.now());
-
-  const [roster, setRoster] = useState<ShiftRole[]>(() => seedShiftRoster());
-
-  const [logEntries, setLogEntries] = useState<LogEntry[]>(() => {
-    // Seed a short sample history, timestamped relative to mount so it reads
-    // as "earlier today" rather than a hardcoded wall-clock time.
-    const seedTs = mountedAt - 3 * 60 * 60 * 1000; // ~3 hours before mount
-    return [
-      { id: "log-seed-1", ts: seedTs, tailNumber: "N412QX", message: "checked in, status normal.", tone: "ok" },
-      { id: "log-seed-2", ts: seedTs + 18 * 60 * 1000, tailNumber: "N634VK", message: "checked in, status normal.", tone: "ok" },
-      { id: "log-seed-3", ts: seedTs + 40 * 60 * 1000, tailNumber: "N287TR", message: "checked in, status normal.", tone: "ok" },
-      { id: "log-seed-4", ts: seedTs + 63 * 60 * 1000, tailNumber: "N801ZL", message: "checked in, status normal.", tone: "ok" },
-      { id: "log-seed-5", ts: seedTs + 95 * 60 * 1000, tailNumber: "N559HB", message: "checked in, status normal.", tone: "ok" },
-      { id: "log-seed-6", ts: seedTs + 132 * 60 * 1000, tailNumber: "N412QX", message: "checked in, status normal.", tone: "ok" },
-    ];
-  });
-
-  // Track which aircraft have already had an amber/red transition logged so
-  // the effect doesn't spam duplicate entries every tick.
-  const loggedTone = useRef<Record<string, SeverityTone>>({});
-
-  // Live tick — every second, advance `now`. This is a real setInterval
-  // against real elapsed wall-clock time, not a scripted animation.
-  useEffect(() => {
-    const id = setInterval(() => setNow(Date.now()), TICK_MS);
-    return () => clearInterval(id);
-  }, []);
-
-  // Auto-log status transitions (green -> amber -> red) as the live clock
-  // crosses thresholds, standing in for what would otherwise be a
-  // dispatcher noticing (or failing to notice) the clock themselves. Uses
-  // each aircraft's CURRENT phase, so a phase change genuinely shifts when
-  // this fires (feature 2).
-  useEffect(() => {
-    for (const a of fleet) {
-      const last = lastCheckIns[a.id];
-      const elapsed = now - last;
-      const tone = severity(elapsed, a.phase);
-      const prevTone = loggedTone.current[a.id];
-      if (tone !== prevTone) {
-        loggedTone.current[a.id] = tone;
-        if (prevTone !== undefined) {
-          const message =
-            tone === "alert"
-              ? "has not checked in within the interval — status OVERDUE."
-              : tone === "warn"
-              ? "approaching check-in window — status due soon."
-              : "checked in, status normal.";
-          setLogEntries((prev) => [
-            { id: `log-${a.id}-${now}`, ts: now, tailNumber: a.tailNumber, message, tone },
-            ...prev,
-          ]);
-        }
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [now, fleet]);
-
-  const handleCheckIn = (id: string) => {
-    const ts = Date.now();
-    setLastCheckIns((prev) => ({ ...prev, [id]: ts }));
-    const a = fleet.find((f) => f.id === id);
-    loggedTone.current[id] = "ok";
-    setLogEntries((prev) => [
-      { id: `log-manual-${id}-${ts}`, ts, tailNumber: a?.tailNumber ?? id, message: "checked in, status normal.", tone: "ok" },
-      ...prev,
-    ]);
-  };
-
-  const handleZoneChange = (id: string, zone: ZoneKey) => {
-    const ts = Date.now();
-    const a = fleet.find((f) => f.id === id);
-    setFleet((prev) => prev.map((f) => (f.id === id ? { ...f, zone } : f)));
-    if (a && a.zone !== zone) {
-      setLogEntries((prev) => [
-        {
-          id: `log-zone-${id}-${ts}`,
-          ts,
-          tailNumber: a.tailNumber,
-          message: `moved from ${ZONE_BY_KEY[a.zone].label} to ${ZONE_BY_KEY[zone].label}.`,
-          tone: "ok",
-        },
-        ...prev,
-      ]);
-    }
-  };
-
-  const handlePhaseChange = (id: string, phase: FlightPhase) => {
-    const ts = Date.now();
-    const a = fleet.find((f) => f.id === id);
-    setFleet((prev) => prev.map((f) => (f.id === id ? { ...f, phase } : f)));
-    if (a && a.phase !== phase) {
-      setLogEntries((prev) => [
-        {
-          id: `log-phase-${id}-${ts}`,
-          ts,
-          tailNumber: a.tailNumber,
-          message: `phase changed from ${a.phase} to ${phase} — check-in interval now ${PHASE_INTERVAL_MIN[phase]} min.`,
-          tone: "ok",
-        },
-        ...prev,
-      ]);
-    }
-  };
+  const {
+    fleet,
+    lastCheckIns,
+    now,
+    roster,
+    setRoster,
+    logEntries,
+    handleCheckIn,
+    handleZoneChange,
+    handlePhaseChange,
+    handleDivertToAssist,
+    settings,
+    registerAircraftCardNode,
+    highlightedTail,
+  } = usePlatform();
 
   const handleRosterChange = (key: ShiftRoleKey, name: string) => {
     setRoster((prev) => prev.map((r) => (r.key === key ? { ...r, name } : r)));
+  };
+
+  // Incident mode — a local UI toggle (not itself safety state), scoped to
+  // this module. Turning it on/off never touches the activity log; only
+  // picking a divert target does (via handleDivertToAssist).
+  const [incidentModeOn, setIncidentModeOn] = useState(false);
+
+  // Stable, per-tail-number ref callbacks (feature 4) — memoized so the
+  // registry in _platform.tsx doesn't get nulled-then-reset on every
+  // 1-second fleet tick (a fresh inline closure every render would make
+  // React call the ref callback with null then the node on every tick).
+  const registerNodeCache = useRef<Record<string, (node: HTMLDivElement | null) => void>>({});
+  const getRegisterNode = (tailNumber: string) => {
+    if (!registerNodeCache.current[tailNumber]) {
+      registerNodeCache.current[tailNumber] = (node: HTMLDivElement | null) =>
+        registerAircraftCardNode(tailNumber, node);
+    }
+    return registerNodeCache.current[tailNumber];
   };
 
   const withElapsed = fleet.map((a) => ({ ...a, lastCheckIn: lastCheckIns[a.id] }));
   const counts = useMemo(() => {
     let ok = 0, warn = 0, alert = 0;
     for (const a of withElapsed) {
-      const tone = severity(now - a.lastCheckIn, a.phase);
+      const tone = severity(now - a.lastCheckIn, a.phase, settings.phaseIntervalMin);
       if (tone === "ok") ok++;
       else if (tone === "warn") warn++;
       else alert++;
     }
     return { ok, warn, alert };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [now, lastCheckIns, fleet]);
+  }, [now, lastCheckIns, fleet, settings.phaseIntervalMin]);
+
+  // The first genuinely-overdue aircraft, if any — incident mode's
+  // coordinated-response panel targets this one. Honest about there being no
+  // overdue aircraft (the toggle stays available but the panel says so).
+  const firstOverdue = withElapsed.find((a) => severity(now - a.lastCheckIn, a.phase, settings.phaseIntervalMin) === "alert");
 
   return (
     <div>
@@ -899,7 +936,7 @@ export default function FlightFollowing() {
         </p>
       </div>
 
-      {/* Summary strip */}
+      {/* Summary strip + Incident mode toggle (feature 1, Module 3) */}
       <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         <div className="hops-panel px-4 py-4">
           <div className="hops-eyebrow mb-1.5">Aircraft tracked</div>
@@ -919,10 +956,43 @@ export default function FlightFollowing() {
         </div>
       </div>
 
+      <div
+        className="mb-6 flex flex-wrap items-center justify-between gap-3 hops-panel px-4 py-3.5"
+        style={{ borderColor: incidentModeOn ? "rgba(94,200,232,.5)" : OPS.line }}
+      >
+        <div>
+          <div className="text-[13.5px] font-semibold" style={{ color: OPS.snow }}>Incident mode</div>
+          <div className="text-[12.5px]" style={{ color: OPS.textMuted }}>
+            {firstOverdue
+              ? `When on, shows a coordinated-response panel for ${firstOverdue.tailNumber} (currently overdue), letting you divert another tracked aircraft to assist.`
+              : "No aircraft is currently overdue — turn this on and one will go overdue soon, or wait for the live timers above."}
+          </div>
+        </div>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={incidentModeOn}
+          onClick={() => setIncidentModeOn((v) => !v)}
+          className="hops-mono shrink-0 rounded-md px-3.5 py-2 text-[12px] font-semibold uppercase tracking-[.04em] transition hover:brightness-110"
+          style={{
+            background: incidentModeOn ? OPS.iceDeep : "rgba(255,255,255,.06)",
+            color: incidentModeOn ? "white" : OPS.textMuted,
+            border: `1px solid ${incidentModeOn ? OPS.iceDeep : OPS.line}`,
+          }}
+        >
+          {incidentModeOn ? "Incident mode: ON" : "Incident mode: OFF"}
+        </button>
+      </div>
+
       {/* Zone map + staffing panel side by side on wide screens */}
       <div className="mb-6 grid gap-4 lg:grid-cols-2">
         <ZoneMap fleet={fleet} onZoneChange={handleZoneChange} />
         <StaffingPanel roster={roster} onChange={handleRosterChange} />
+      </div>
+
+      {/* Settings panel (feature 5, Module 3) */}
+      <div className="mb-6">
+        <SettingsPanel />
       </div>
 
       <div className="mb-3 flex items-center justify-between">
@@ -936,9 +1006,22 @@ export default function FlightFollowing() {
             aircraft={a}
             now={now}
             roster={roster}
+            phaseIntervalMin={settings.phaseIntervalMin}
             onCheckIn={handleCheckIn}
             onZoneChange={handleZoneChange}
             onPhaseChange={handlePhaseChange}
+            registerNode={getRegisterNode(a.tailNumber)}
+            highlighted={highlightedTail === a.tailNumber}
+            incidentModePanel={
+              incidentModeOn && firstOverdue?.id === a.id ? (
+                <IncidentResponsePanel
+                  overdueTailNumber={a.tailNumber}
+                  overdueAircraftId={a.id}
+                  fleet={fleet}
+                  onDivert={handleDivertToAssist}
+                />
+              ) : undefined
+            }
           />
         ))}
       </div>

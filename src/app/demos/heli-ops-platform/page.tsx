@@ -5,6 +5,9 @@ import { OpsShell, PrototypeBanner, SectionHeading, SampleTag, OPS, SITE, HUB_PA
 import ManifestBoard from "./ManifestBoard";
 import FlightFollowing from "./FlightFollowing";
 import OpsOverview from "./OpsOverview";
+import GuideView from "./GuideView";
+import EndOfDayDebrief from "./EndOfDayDebrief";
+import { PlatformProvider } from "./_platform";
 
 // UNLISTED + NOINDEX. Not in nav, not in sitemap. robots.txt already
 // Disallow: /demos; this metadata block is belt-and-suspenders so the
@@ -30,11 +33,13 @@ export const metadata: Metadata = {
 // Module 2 (this build): Dispatch & Flight Following — the live check-in /
 // escalation / activity-log board (FlightFollowing.tsx).
 // ---------------------------------------------------------------------------
-type ModuleKey = "scheduling" | "dispatch";
+type ModuleKey = "scheduling" | "dispatch" | "guide-view" | "debrief";
 
 const MODULES: { key: ModuleKey; label: string; shortLabel: string }[] = [
   { key: "scheduling", label: "Scheduling & Manifest Board", shortLabel: "Scheduling" },
   { key: "dispatch", label: "Flight-Following & Dispatch", shortLabel: "Dispatch" },
+  { key: "guide-view", label: "Guide View (Mobile)", shortLabel: "Guide View" },
+  { key: "debrief", label: "End-of-Day Debrief", shortLabel: "Debrief" },
 ];
 
 export default function HeliOpsPlatformDemo() {
@@ -73,8 +78,15 @@ export default function HeliOpsPlatformDemo() {
             tabs, computed from the same seed data both modules use. */}
         <OpsOverview />
 
-        {/* MODULE TABS */}
-        <ModuleTabs />
+        {/* PlatformProvider (Module 3 — cross-cutting refinements) hoists the
+            live aircraft/log/settings state that used to live only inside
+            FlightFollowing's local useState calls, so Guide View, the
+            End-of-Day Debrief, Incident Mode, the Settings panel, and Module
+            1's "View live status" link can all read and write the SAME real
+            state instead of duplicating a parallel copy. */}
+        <PlatformProvider>
+          <ModuleTabs />
+        </PlatformProvider>
       </main>
 
       <Footer />
@@ -126,9 +138,29 @@ function ModuleTabs() {
         <SectionHeading
           eyebrow="Module 02 · Live"
           title="Flight-Following &amp; Dispatch"
-          blurb="Structured check-in timers, escalation steps, and an audit trail for every aircraft in the air — replacing a single dispatcher's memory and informal chat-app logging."
+          blurb="Structured check-in timers, escalation steps, and an audit trail for every aircraft in the air — replacing a single dispatcher's memory and informal chat-app logging. Includes Incident Mode (coordinated response) and editable demo settings."
         />
         <FlightFollowing />
+      </section>
+
+      {/* MODULE 3a — GUIDE-FACING MOBILE VIEW (cross-cutting refinement) */}
+      <section id="module-guide-view" className="mt-16 scroll-mt-24">
+        <SectionHeading
+          eyebrow="Module 03 · Live"
+          title="Guide View (Mobile)"
+          blurb="A simplified, large-tap-target view of what a guide would see on their own phone — their aircraft, their group's guests, and one big check-in button wired to the same real check-in used in Module 02."
+        />
+        <GuideView />
+      </section>
+
+      {/* MODULE 3b — END-OF-DAY DEBRIEF (cross-cutting refinement) */}
+      <section id="module-debrief" className="mt-16 scroll-mt-24">
+        <SectionHeading
+          eyebrow="Module 03 · Live"
+          title="End-of-Day Debrief"
+          blurb="A closing-out-the-day report computed live from the same manifest and flight-following state shown above — not a separately hardcoded summary."
+        />
+        <EndOfDayDebrief />
       </section>
     </div>
   );

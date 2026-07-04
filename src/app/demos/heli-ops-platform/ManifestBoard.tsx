@@ -36,7 +36,6 @@ import { useMemo, useState } from "react";
 import { OPS, SampleTag } from "./_shared";
 import {
   BAY_LABEL,
-  BAY_LIMITS,
   CargoBayKey,
   CatGroup,
   DayKey,
@@ -55,6 +54,7 @@ import {
   seedDayData,
   seedRentalSnapshot,
 } from "./_data";
+import { usePlatform } from "./_platform";
 
 // ---------------------------------------------------------------------------
 // SMALL UI PRIMITIVES
@@ -240,8 +240,7 @@ function GuestRow({
   );
 }
 
-function BayMeter({ bay, load }: { bay: CargoBayKey; load: number }) {
-  const limit = BAY_LIMITS[bay];
+function BayMeter({ bay, load, limit }: { bay: CargoBayKey; load: number; limit: number }) {
   const pct = Math.min(150, Math.round((load / limit) * 100));
   const over = load > limit;
   const near = !over && load >= limit * 0.9;
@@ -424,6 +423,7 @@ function HeliCard({
   onDropGuest,
   onMoveGuest,
   onPreview,
+  bayLimits,
 }: {
   heli: Helicopter;
   helicopters: Helicopter[];
@@ -432,10 +432,14 @@ function HeliCard({
   onDropGuest: (to: GuestLocation) => void;
   onMoveGuest: (guestId: string, to: GuestLocation) => void;
   onPreview: (guestId: string) => void;
+  bayLimits: Record<CargoBayKey, number>;
 }) {
+  const { jumpToAircraft } = usePlatform();
+  const [jumpResult, setJumpResult] = useState<"ok" | "not-found" | null>(null);
+
   const bayLoads = bayLoadForHeli(heli);
   const total = heliTotalWeight(heli);
-  const anyBayOver = (Object.keys(bayLoads) as CargoBayKey[]).some((b) => bayLoads[b] > BAY_LIMITS[b]);
+  const anyBayOver = (Object.keys(bayLoads) as CargoBayKey[]).some((b) => bayLoads[b] > bayLimits[b]);
 
   return (
     <div className="hops-panel overflow-hidden">
@@ -455,7 +459,7 @@ function HeliCard({
             <div className="text-[13px]" style={{ color: OPS.textMuted }}>{heli.pilotName}</div>
           </div>
         </div>
-        <div className="flex items-center gap-2.5">
+        <div className="flex flex-wrap items-center gap-2.5">
           {anyBayOver ? (
             <StatusPill tone="alert">Weight &amp; balance flag</StatusPill>
           ) : (
@@ -464,8 +468,27 @@ function HeliCard({
           <span className="hops-mono text-base font-bold" style={{ color: OPS.snow }}>
             {total} lb total
           </span>
+          <button
+            type="button"
+            onClick={() => {
+              const found = jumpToAircraft(heli.tailNumber);
+              setJumpResult(found ? "ok" : "not-found");
+              window.setTimeout(() => setJumpResult(null), 2500);
+            }}
+            className="hops-mono shrink-0 rounded-md px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-[.04em] transition hover:brightness-110"
+            style={{ background: "rgba(94,200,232,.16)", color: OPS.ice, border: "1px solid rgba(94,200,232,.4)" }}
+            title={`Jump to ${heli.tailNumber} on the Module 02 live aircraft board`}
+          >
+            View live status →
+          </button>
         </div>
       </div>
+
+      {jumpResult === "not-found" && (
+        <div className="border-b px-4 py-2 text-[12px]" style={{ borderColor: OPS.line, background: "rgba(229,72,77,.08)", color: OPS.red }}>
+          {heli.tailNumber} isn&rsquo;t currently tracked on Module 02&rsquo;s live board.
+        </div>
+      )}
 
       <div className="grid gap-3 p-4 lg:grid-cols-[1fr_1fr_240px]">
         <div className="grid gap-3 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-2">
@@ -478,7 +501,7 @@ function HeliCard({
               onDragStartGuest={onDragStartGuest}
               onDropGuest={onDropGuest}
               onPreview={onPreview}
-              rebalanceSuggestion={findRebalanceSuggestion(helicopters, heli.id, g)}
+              rebalanceSuggestion={findRebalanceSuggestion(helicopters, heli.id, g, bayLimits)}
               onApplyRebalance={(s) => onMoveGuest(s.guestId, { heliId: s.toHeliId, groupId: s.toGroupId })}
             />
           ))}
@@ -487,11 +510,12 @@ function HeliCard({
           <div className="hops-eyebrow mb-3">Cargo bay allocation</div>
           <div className="space-y-4">
             {(Object.keys(bayLoads) as CargoBayKey[]).map((bay) => (
-              <BayMeter key={bay} bay={bay} load={bayLoads[bay]} />
+              <BayMeter key={bay} bay={bay} load={bayLoads[bay]} limit={bayLimits[bay]} />
             ))}
           </div>
           <p className="mt-3.5 text-[12px] leading-snug" style={{ color: OPS.textMuted }}>
-            Bay limits are configurable per airframe. Sample limits shown here for demo purposes only.
+            Bay limits are demo-editable in Module 02&rsquo;s Settings panel. Sample limits shown here for demo
+            purposes only.
           </p>
         </div>
       </div>
@@ -1041,13 +1065,16 @@ export default function ManifestBoard() {
     [helicopters]
   );
 
+  const { settings } = usePlatform();
+  const bayLimits = settings.bayLimits;
+
   const overweightBayCount = useMemo(
     () =>
       helicopters.reduce((sum, h) => {
         const bays = bayLoadForHeli(h);
-        return sum + (Object.keys(bays) as CargoBayKey[]).filter((b) => bays[b] > BAY_LIMITS[b]).length;
+        return sum + (Object.keys(bays) as CargoBayKey[]).filter((b) => bays[b] > bayLimits[b]).length;
       }, 0),
-    [helicopters]
+    [helicopters, bayLimits]
   );
 
   return (
@@ -1139,6 +1166,7 @@ export default function ManifestBoard() {
             onDropGuest={handleDropGuest}
             onMoveGuest={moveGuestTo}
             onPreview={setPreviewGuestId}
+            bayLimits={bayLimits}
           />
         ))}
       </div>
