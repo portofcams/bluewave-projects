@@ -39,21 +39,10 @@ import GuideView from "./GuideView";
 import EndOfDayDebrief from "./EndOfDayDebrief";
 import SafetyCompliance from "./SafetyCompliance";
 import LiveDataRealism from "./LiveDataRealism";
-import { PlatformProvider } from "./_platform";
+import { MODULES, ModuleKey, PlatformProvider, usePlatform } from "./_platform";
 import TvModeLauncher from "./TvMode";
 import GuestSearch from "./GuestSearch";
 import OnboardingTour, { RetriggerTourLink } from "./OnboardingTour";
-
-type ModuleKey = "scheduling" | "dispatch" | "guide-view" | "debrief" | "safety-compliance" | "live-data-realism";
-
-const MODULES: { key: ModuleKey; label: string; shortLabel: string }[] = [
-  { key: "scheduling", label: "Scheduling & Manifest Board", shortLabel: "Scheduling" },
-  { key: "dispatch", label: "Flight-Following & Dispatch", shortLabel: "Dispatch" },
-  { key: "guide-view", label: "Guide View (Mobile)", shortLabel: "Guide View" },
-  { key: "debrief", label: "End-of-Day Debrief", shortLabel: "Debrief" },
-  { key: "safety-compliance", label: "Safety & Compliance Depth", shortLabel: "Safety" },
-  { key: "live-data-realism", label: "Live-Data & Realism", shortLabel: "Live Data" },
-];
 
 export default function PageBody() {
   // Subscribing to theme here is what actually makes this component
@@ -120,94 +109,155 @@ export default function PageBody() {
 }
 
 // ---------------------------------------------------------------------------
-// MODULE TABS — client-rendered section switcher (moved from page.tsx — see
-// file-level note above for why). Kept as plain anchor-style in-page
-// sections (both modules visible via hash-linked tabs).
-// ---------------------------------------------------------------------------
+// MODULE TABS — genuine tab-switching (UX cleanup pass). Was previously just
+// anchor-scroll links over one long continuous-scroll page with all 6
+// modules rendered simultaneously; now only the selected module's <section>
+// is visible at a time.
+//
+// CSS-HIDE, NOT UNMOUNT: every module <section> stays mounted the whole
+// time — switching tabs only toggles `hidden` (display:none) on the five
+// that aren't selected (see <ModulePanel> below). This is a hard
+// requirement, not a style preference: Module 2 (FlightFollowing) has live
+// check-in countdown timers, a local Settings-panel open/closed toggle, and
+// CSS-transition-driven GPS position blips that must keep running / keep
+// their state when their tab is hidden and revisited — see _platform.tsx's
+// file-level note on `activeModule` for the full reasoning.
+//
+// The tab bar itself is `sticky` (not just at the top of the page) so
+// switching tabs never requires scrolling back up first, per the build
+// brief.
 function ModuleTabs() {
+  const { activeModule, setActiveModule } = usePlatform();
+
   return (
     <div>
       <nav
-        className="mb-8 flex flex-wrap gap-2 border-b pb-0"
-        style={{ borderColor: OPS.line }}
+        role="tablist"
         aria-label="Operations modules"
         data-hops-tour="module-tabs"
+        className="sticky top-0 z-30 -mx-4 mb-8 flex flex-wrap gap-2 border-b px-4 pb-0 pt-3 backdrop-blur sm:-mx-6 sm:px-6"
+        style={{ borderColor: OPS.line, background: `${OPS.night}e6` }}
       >
-        {MODULES.map((m, i) => (
-          <a
-            key={m.key}
-            href={`#module-${m.key}`}
-            className="hops-mono -mb-px rounded-t-md border border-b-0 px-4 py-2.5 text-[12px] font-semibold uppercase tracking-[.05em] transition"
-            style={{
-              borderColor: i === 0 ? OPS.line : "transparent",
-              background: i === 0 ? OPS.slate : "transparent",
-              color: i === 0 ? OPS.ice : OPS.textMuted,
-            }}
-          >
-            {String(i + 1).padStart(2, "0")} &middot; {m.shortLabel}
-          </a>
-        ))}
+        {MODULES.map((m, i) => {
+          const selected = activeModule === m.key;
+          return (
+            <button
+              key={m.key}
+              type="button"
+              role="tab"
+              id={`module-tab-${m.key}`}
+              aria-selected={selected}
+              aria-controls={`module-${m.key}`}
+              onClick={() => setActiveModule(m.key)}
+              className="hops-mono -mb-px rounded-t-md border border-b-0 px-4 py-2.5 text-[12px] font-semibold uppercase tracking-[.05em] transition"
+              style={{
+                borderColor: selected ? OPS.line : "transparent",
+                background: selected ? OPS.slate : "transparent",
+                color: selected ? OPS.ice : OPS.textMuted,
+              }}
+            >
+              {String(i + 1).padStart(2, "0")} &middot; {m.shortLabel}
+            </button>
+          );
+        })}
       </nav>
 
-      {/* MODULE 1 — SCHEDULING */}
-      <section id="module-scheduling" className="scroll-mt-24" data-hops-tour="module-scheduling">
+      <ModulePanel moduleKey="scheduling" tourSelector="module-scheduling" active={activeModule === "scheduling"}>
         <SectionHeading
           eyebrow="Module 01 · Live"
           title="Scheduling & Manifest Board"
           blurb="Every helicopter, guide group, and snowcat for the day in one view. Weight-and-balance totals recalculate automatically per guide group and per cargo bay, with weather-hold guests one click away from a same-day reslot."
         />
         <ManifestBoard />
-      </section>
+      </ModulePanel>
 
-      {/* MODULE 2 — DISPATCH & FLIGHT FOLLOWING */}
-      <section id="module-dispatch" className="mt-16 scroll-mt-24" data-hops-tour="module-dispatch">
+      <ModulePanel moduleKey="dispatch" tourSelector="module-dispatch" active={activeModule === "dispatch"}>
         <SectionHeading
           eyebrow="Module 02 · Live"
           title="Flight-Following &amp; Dispatch"
           blurb="Structured check-in timers, escalation steps, and an audit trail for every aircraft in the air — replacing a single dispatcher's memory and informal chat-app logging. Includes Incident Mode (coordinated response), an audible overdue alert, and editable demo settings."
         />
         <FlightFollowing />
-      </section>
+      </ModulePanel>
 
-      {/* MODULE 3a — GUIDE-FACING MOBILE VIEW */}
-      <section id="module-guide-view" className="mt-16 scroll-mt-24" data-hops-tour="module-guide-view">
+      <ModulePanel moduleKey="guide-view" tourSelector="module-guide-view" active={activeModule === "guide-view"}>
         <SectionHeading
           eyebrow="Module 03 · Live"
           title="Guide View (Mobile)"
           blurb="A simplified, large-tap-target view of what a guide would see on their own phone — their aircraft, their group's guests, and one big check-in button wired to the same real check-in used in Module 02."
         />
         <GuideView />
-      </section>
+      </ModulePanel>
 
-      {/* MODULE 3b — END-OF-DAY DEBRIEF */}
-      <section id="module-debrief" className="mt-16 scroll-mt-24" data-hops-tour="module-debrief">
+      <ModulePanel moduleKey="debrief" tourSelector="module-debrief" active={activeModule === "debrief"}>
         <SectionHeading
           eyebrow="Module 03 · Live"
           title="End-of-Day Debrief"
           blurb="A closing-out-the-day report computed live from the same manifest and flight-following state shown above — not a separately hardcoded summary."
         />
         <EndOfDayDebrief />
-      </section>
+      </ModulePanel>
 
-      {/* MODULE 4 — SAFETY & COMPLIANCE DEPTH */}
-      <section id="module-safety-compliance" className="mt-16 scroll-mt-24" data-hops-tour="module-safety-compliance">
+      <ModulePanel
+        moduleKey="safety-compliance"
+        tourSelector="module-safety-compliance"
+        active={activeModule === "safety-compliance"}
+      >
         <SectionHeading
           eyebrow="Module 04 · Live"
           title="Safety & Compliance Depth"
           blurb="A Part 135 duty-hours log, a guide cert/avalanche-training tracker checked against today's real assignments, a real incident/near-miss logging form, and a per-helicopter weight-and-balance export with a genuine pilot sign-off step — illustrative only, not a certified regulatory system."
         />
         <SafetyCompliance />
-      </section>
+      </ModulePanel>
 
-      {/* MODULE 5 — LIVE-DATA & REALISM */}
-      <section id="module-live-data-realism" className="mt-16 scroll-mt-24" data-hops-tour="module-live-data-realism">
+      <ModulePanel
+        moduleKey="live-data-realism"
+        tourSelector="module-live-data-realism"
+        active={activeModule === "live-data-realism"}
+      >
         <SectionHeading
           eyebrow="Module 05 · Live"
           title="Live-Data & Realism"
           blurb="A real live NWS weather + computed sunrise/sunset panel for a real Alaska coordinate, a real days-since-last-incident counter tied to Module 04's incident log, and a clearly-labeled SIMULATED avalanche-danger widget styled after the real public avalanche.org scale — never a real advisory. Module 02's zone map above also gained simulated GPS-style position blips."
         />
         <LiveDataRealism />
-      </section>
+      </ModulePanel>
     </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// MODULE PANEL — one per module. Always mounted; `hidden` (display:none via
+// Tailwind's `hidden` class) is toggled purely by CSS based on `active`, so
+// an inactive module's React tree — and every bit of live state inside it
+// (timers, local toggles, CSS transitions) — is never torn down and rebuilt.
+// Keeps the same `id="module-xxx"` + `data-hops-tour="module-xxx"` anchors
+// the rest of the app (OnboardingTour, historically the URL hash) already
+// depends on.
+// ---------------------------------------------------------------------------
+function ModulePanel({
+  moduleKey,
+  tourSelector,
+  active,
+  children,
+}: {
+  moduleKey: ModuleKey;
+  tourSelector: string;
+  active: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <section
+      id={`module-${moduleKey}`}
+      role="tabpanel"
+      aria-labelledby={`module-tab-${moduleKey}`}
+      aria-hidden={!active}
+      hidden={!active}
+      data-hops-tour={tourSelector}
+      className="scroll-mt-24"
+    >
+      {children}
+    </section>
   );
 }

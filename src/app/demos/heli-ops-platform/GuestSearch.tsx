@@ -65,7 +65,7 @@ function highlightMatch(text: string, query: string): React.ReactNode {
 }
 
 export default function GuestSearch() {
-  const { dayState, activeDay, jumpToGuest } = usePlatform();
+  const { dayState, activeDay, jumpToGuest, activeModule, setActiveModule } = usePlatform();
   const [query, setQuery] = useState("");
   const [jumpMsg, setJumpMsg] = useState<string | null>(null);
 
@@ -84,14 +84,29 @@ export default function GuestSearch() {
 
   const activeDayInfo = SAMPLE_DAYS.find((d) => d.key === activeDay) ?? SAMPLE_DAYS[0];
 
+  // A guest's card only lives inside Module 01 (Scheduling)'s section. With
+  // real tab-switching, that section is CSS-hidden (display:none) whenever
+  // a different tab is active — and jumpToGuest's own getBoundingClientRect
+  // measurement would be meaningless against a hidden node (and, in
+  // practice, registerGuestCardNode still holds the node reference since
+  // ManifestBoard stays mounted, but scrolling to a display:none element's
+  // position is not a genuine "jump"). So: switch to the Scheduling tab
+  // FIRST, wait a frame for the section to actually become visible/laid
+  // out, THEN call jumpToGuest — verified end-to-end by hand-tracing with a
+  // non-Scheduling tab active.
   const handleJump = (guestId: string, guestName: string) => {
-    const found = jumpToGuest(guestId);
-    setJumpMsg(
-      found
-        ? `Jumped to ${guestName}'s real card on Module 01's board.`
-        : `${guestName}'s card isn't currently mounted on screen — try scrolling Module 01 into view first.`
-    );
-    window.setTimeout(() => setJumpMsg(null), 2800);
+    if (activeModule !== "scheduling") {
+      setActiveModule("scheduling");
+    }
+    requestAnimationFrame(() => {
+      const found = jumpToGuest(guestId);
+      setJumpMsg(
+        found
+          ? `Jumped to ${guestName}'s real card on Module 01's board.`
+          : `${guestName}'s card isn't currently mounted on screen — try scrolling Module 01 into view first.`
+      );
+      window.setTimeout(() => setJumpMsg(null), 2800);
+    });
   };
 
   return (
