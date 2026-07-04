@@ -23,6 +23,18 @@ export type Guest = {
   equipment: Equipment;
   medicalFlag: string; // "None" is a valid, clearly-labeled value
   weatherHold?: boolean; // true = flagged for wx roll, needs reslot
+  rental?: RentalGear; // present only for guests renting gear this day
+};
+
+// ---------------------------------------------------------------------------
+// RENTAL GEAR — specific size/serial info for guests marked as renting,
+// replacing an aggregate-only rentals count with per-guest detail. Sample
+// sizes only; not tied to a live rental-shop inventory system.
+// ---------------------------------------------------------------------------
+export type RentalGear = {
+  skiOrBoardLengthCm: number; // ski length, or board length for snowboarders
+  bootSizeMondo: number; // Mondopoint boot size (sample scale)
+  serial: string; // sample rental-tag serial
 };
 
 export type GuideGroup = {
@@ -101,10 +113,10 @@ export function seedHelicopters(): Helicopter[] {
           guideName: "Guide: Barry Steep (sample)",
           cargoBay: "interior",
           guests: [
-            { id: "g1", name: "Powder McTurns", weightLbs: 182, equipment: "Ski", medicalFlag: "None" },
+            { id: "g1", name: "Powder McTurns", weightLbs: 182, equipment: "Ski", medicalFlag: "None", rental: { skiOrBoardLengthCm: 181, bootSizeMondo: 28.5, serial: "RNT-1042" } },
             { id: "g2", name: "Nadia Groomsworth", weightLbs: 154, equipment: "Snowboard", medicalFlag: "Bee sting allergy — EpiPen carried" },
             { id: "g3", name: "Corduroy Vance", weightLbs: 201, equipment: "Ski", medicalFlag: "None" },
-            { id: "g4", name: "Skye Bluebird", weightLbs: 176, equipment: "Ski", medicalFlag: "Type 1 diabetic — glucose kit in pack" },
+            { id: "g4", name: "Skye Bluebird", weightLbs: 176, equipment: "Ski", medicalFlag: "Type 1 diabetic — glucose kit in pack", rental: { skiOrBoardLengthCm: 172, bootSizeMondo: 26, serial: "RNT-1043" } },
           ],
         },
         {
@@ -112,7 +124,7 @@ export function seedHelicopters(): Helicopter[] {
           guideName: "Guide: Dusty Trail (sample)",
           cargoBay: "side",
           guests: [
-            { id: "g5", name: "Wyatt Carvington", weightLbs: 168, equipment: "Snowboard", medicalFlag: "None" },
+            { id: "g5", name: "Wyatt Carvington", weightLbs: 168, equipment: "Snowboard", medicalFlag: "None", rental: { skiOrBoardLengthCm: 158, bootSizeMondo: 27, serial: "RNT-1044" } },
             { id: "g6", name: "Piper Whiteout", weightLbs: 149, equipment: "Ski", medicalFlag: "None" },
             { id: "g7", name: "Rocco Sideslip", weightLbs: 140, equipment: "Ski", medicalFlag: "Mild asthma — rescue inhaler carried" },
           ],
@@ -154,7 +166,7 @@ export function seedHelicopters(): Helicopter[] {
           guideName: "Guide: Cliff Hangerson (sample)",
           cargoBay: "basket",
           guests: [
-            { id: "g14", name: "Josefine Powderly", weightLbs: 110, equipment: "Ski", medicalFlag: "None" },
+            { id: "g14", name: "Josefine Powderly", weightLbs: 110, equipment: "Ski", medicalFlag: "None", rental: { skiOrBoardLengthCm: 156, bootSizeMondo: 23.5, serial: "RNT-1045" } },
             { id: "g15", name: "Emeka Snowden", weightLbs: 115, equipment: "Snowboard", medicalFlag: "None" },
             { id: "g16", name: "Ffion Glacierton", weightLbs: 120, equipment: "Ski", medicalFlag: "Seizure medication — carries own, notify guide if aura reported" },
           ],
@@ -249,7 +261,7 @@ export function seedCatGroups(): CatGroup[] {
       driverName: "Driver: Hollis Groomer (sample)",
       guideName: "Guide: Renata Switchback (sample)",
       guests: [
-        { id: "c1", name: "Mateus Snowline", weightLbs: 172, equipment: "Ski", medicalFlag: "None" },
+        { id: "c1", name: "Mateus Snowline", weightLbs: 172, equipment: "Ski", medicalFlag: "None", rental: { skiOrBoardLengthCm: 178, bootSizeMondo: 29, serial: "RNT-1046" } },
         { id: "c2", name: "Sigrid Powderpuff", weightLbs: 148, equipment: "Snowboard", medicalFlag: "None" },
         { id: "c3", name: "Amos Ridgeline", weightLbs: 210, equipment: "Ski", medicalFlag: "None" },
         { id: "c4", name: "Winnifred Iceberg", weightLbs: 158, equipment: "Ski", medicalFlag: "Bee sting allergy — EpiPen carried" },
@@ -328,4 +340,172 @@ export type RentalSnapshot = {
 
 export function seedRentalSnapshot(): RentalSnapshot {
   return { newSetsOut: 2, guestOwnGear: 5, pendingFitting: 1 };
+}
+
+// ---------------------------------------------------------------------------
+// MULTI-DAY CALENDAR — a small day-picker's worth of sample days. Each day
+// gets its own independent deep-cloned copy of the fleet/cat seed data so
+// ManifestBoard can hold separate live state per day without days bleeding
+// into one another. The weather-hold -> reslot cascade across days is now
+// driven by REAL state moves at click-time (see ManifestBoard's
+// handleReslot), not by scripted seed data — so no day's seed hardcodes a
+// guest arriving from a prior day's hold.
+// ---------------------------------------------------------------------------
+export type DayKey = "day-1" | "day-2" | "day-3";
+
+// The day that follows a given day in the reslot sequence (Day 1 -> Day 2 ->
+// Day 3), or null if there is no further day to roll into.
+export const NEXT_DAY: Record<DayKey, DayKey | null> = {
+  "day-1": "day-2",
+  "day-2": "day-3",
+  "day-3": null,
+};
+
+export type DayInfo = {
+  key: DayKey;
+  label: string; // short tab label, e.g. "Today"
+  dateLabel: string; // sample calendar date
+};
+
+export const SAMPLE_DAYS: DayInfo[] = [
+  { key: "day-1", label: "Today", dateLabel: "Thu · Jan 15" },
+  { key: "day-2", label: "Tomorrow", dateLabel: "Fri · Jan 16" },
+  { key: "day-3", label: "+2 days", dateLabel: "Sat · Jan 17" },
+];
+
+function cloneHelicopters(helis: Helicopter[]): Helicopter[] {
+  return helis.map((h) => ({
+    ...h,
+    groups: h.groups.map((g) => ({ ...g, guests: g.guests.map((gu) => ({ ...gu })) })),
+  }));
+}
+
+function cloneCatGroups(cats: CatGroup[]): CatGroup[] {
+  return cats.map((c) => ({ ...c, guests: c.guests.map((gu) => ({ ...gu })) }));
+}
+
+// Day 1 = the existing single-day seed, unchanged (also used standalone by
+// Module 2 / OpsOverview via seedHelicopters()/seedCatGroups()).
+function seedDay1(): { helicopters: Helicopter[]; catGroups: CatGroup[] } {
+  return { helicopters: seedHelicopters(), catGroups: seedCatGroups() };
+}
+
+// Day 2 = a lighter roster (some guests only booked for Day 1). A fresh
+// Day-2 weather hold (Youssef Halfpipe, g18) is seeded independently here —
+// any Day-1 -> Day-2 guest movement instead happens for real at click-time
+// via ManifestBoard's handleReslot, which genuinely removes the guest from
+// Day 1's live state and adds them into Day 2's live state.
+function seedDay2(): { helicopters: Helicopter[]; catGroups: CatGroup[] } {
+  const base = cloneHelicopters(seedHelicopters());
+  const cats = cloneCatGroups(seedCatGroups());
+
+  for (const heli of base) {
+    for (const group of heli.groups) {
+      group.guests = group.guests.filter((g) => g.id !== "g19"); // one guest not booked Day 2
+      if (group.id === "grp-3b") {
+        // A fresh Day-2 weather hold, independent of any Day-1 cascade.
+        group.guests = group.guests.map((g) =>
+          g.id === "g18" ? { ...g, weatherHold: true } : g
+        );
+      }
+    }
+  }
+  return { helicopters: base, catGroups: cats };
+}
+
+// Day 3 = a trimmed roster (later in the trip week, fewer guests booked) —
+// just enough variation to make the day-picker feel like real distinct days
+// rather than the same board redrawn three times.
+function seedDay3(): { helicopters: Helicopter[]; catGroups: CatGroup[] } {
+  const base = cloneHelicopters(seedHelicopters());
+  const cats = cloneCatGroups(seedCatGroups());
+  for (const heli of base) {
+    for (const group of heli.groups) {
+      // Trim one guest per group (the last one) to vary Day 3's totals.
+      if (group.guests.length > 1) group.guests = group.guests.slice(0, -1);
+    }
+  }
+  return { helicopters: base, catGroups: cats.slice(0, 1) };
+}
+
+export function seedDayData(day: DayKey): { helicopters: Helicopter[]; catGroups: CatGroup[] } {
+  if (day === "day-2") return seedDay2();
+  if (day === "day-3") return seedDay3();
+  return seedDay1();
+}
+
+// ---------------------------------------------------------------------------
+// AUTO-SUGGEST REBALANCING — given the current fleet, find a SINGLE guest
+// whose move from an overweight guide group to a different group (same
+// helicopter or another) would bring BOTH the origin and destination group
+// under their weight limits. This is computed for real against live state,
+// not a canned string — if no single-guest swap resolves a given group's
+// overage, callers are told honestly that no such swap exists.
+// ---------------------------------------------------------------------------
+export type RebalanceSuggestion = {
+  guestId: string;
+  guestName: string;
+  guestWeightLbs: number;
+  fromGroupId: string;
+  fromGroupLabel: string;
+  toGroupId: string;
+  toGroupLabel: string;
+  toHeliId: string;
+};
+
+/**
+ * Looks at one overweight guide group (`group`, on helicopter `heliId`) and
+ * searches every OTHER guide group across the whole fleet for a single guest
+ * whose move would resolve the overage without creating a new one. Returns
+ * the first valid suggestion found, or null if none exists.
+ */
+export function findRebalanceSuggestion(
+  helicopters: Helicopter[],
+  heliId: string,
+  group: GuideGroup
+): RebalanceSuggestion | null {
+  const fromTotal = groupWeight(group);
+  const overBy = fromTotal - GROUP_MAX_LBS;
+  if (overBy <= 0) return null;
+
+  for (const guest of group.guests) {
+    const fromTotalAfter = fromTotal - guest.weightLbs;
+    if (fromTotalAfter > GROUP_MAX_LBS) continue; // moving this guest alone doesn't fix the origin
+
+    for (const heli of helicopters) {
+      // Bay loads computed AS IF this guest has already left the origin
+      // group — otherwise, when origin and destination share a bay (e.g.
+      // two groups both loaded into "interior"), the origin group's own
+      // pre-move weight would get double-counted against the bay limit.
+      const destBayLoadsAfterRemoval = bayLoadForHeli(heli);
+      if (heli.id === heliId) {
+        destBayLoadsAfterRemoval[group.cargoBay] -= guest.weightLbs;
+      }
+
+      for (const destGroup of heli.groups) {
+        if (destGroup.id === group.id) continue;
+        const destTotal = groupWeight(destGroup);
+        const destTotalAfter = destTotal + guest.weightLbs;
+        if (destTotalAfter > GROUP_MAX_LBS) continue; // would overload the destination
+
+        // Also respect destination cargo-bay capacity, not just the
+        // per-group planning threshold, so the suggestion is honest about
+        // aircraft-level weight-and-balance too.
+        const destBayAfter = destBayLoadsAfterRemoval[destGroup.cargoBay] + guest.weightLbs;
+        if (destBayAfter > BAY_LIMITS[destGroup.cargoBay]) continue;
+
+        return {
+          guestId: guest.id,
+          guestName: guest.name,
+          guestWeightLbs: guest.weightLbs,
+          fromGroupId: group.id,
+          fromGroupLabel: group.guideName,
+          toGroupId: destGroup.id,
+          toGroupLabel: destGroup.guideName,
+          toHeliId: heli.id,
+        };
+      }
+    }
+  }
+  return null;
 }
