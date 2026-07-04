@@ -309,14 +309,22 @@ export function totalGuestCount(helicopters: Helicopter[], catGroups: CatGroup[]
   return heliGuests + catGuests;
 }
 
-export function weightBalanceFlagCount(helicopters: Helicopter[]): number {
+// `bayLimits` defaults to the static sample BAY_LIMITS so existing callers
+// (e.g. OpsOverview, which only ever reads the seeded/default picture of the
+// day) are unaffected. ManifestBoard passes the live, demo-editable settings
+// value (see _platform.tsx feature 5) so this count genuinely reacts to a
+// changed bay limit instead of silently grading against the old default.
+export function weightBalanceFlagCount(
+  helicopters: Helicopter[],
+  bayLimits: Record<CargoBayKey, number> = BAY_LIMITS
+): number {
   const overweightGroups = helicopters.reduce(
     (sum, h) => sum + h.groups.filter((g) => groupWeight(g) > GROUP_MAX_LBS).length,
     0
   );
   const overweightBays = helicopters.reduce((sum, h) => {
     const bays = bayLoadForHeli(h);
-    return sum + (Object.keys(bays) as CargoBayKey[]).filter((b) => bays[b] > BAY_LIMITS[b]).length;
+    return sum + (Object.keys(bays) as CargoBayKey[]).filter((b) => bays[b] > bayLimits[b]).length;
   }, 0);
   return overweightGroups + overweightBays;
 }
@@ -462,7 +470,8 @@ export type RebalanceSuggestion = {
 export function findRebalanceSuggestion(
   helicopters: Helicopter[],
   heliId: string,
-  group: GuideGroup
+  group: GuideGroup,
+  bayLimits: Record<CargoBayKey, number> = BAY_LIMITS
 ): RebalanceSuggestion | null {
   const fromTotal = groupWeight(group);
   const overBy = fromTotal - GROUP_MAX_LBS;
@@ -492,7 +501,7 @@ export function findRebalanceSuggestion(
         // per-group planning threshold, so the suggestion is honest about
         // aircraft-level weight-and-balance too.
         const destBayAfter = destBayLoadsAfterRemoval[destGroup.cargoBay] + guest.weightLbs;
-        if (destBayAfter > BAY_LIMITS[destGroup.cargoBay]) continue;
+        if (destBayAfter > bayLimits[destGroup.cargoBay]) continue;
 
         return {
           guestId: guest.id,
