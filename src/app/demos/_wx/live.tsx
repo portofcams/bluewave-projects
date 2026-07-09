@@ -28,6 +28,13 @@ import {
   type TideEvent,
   type TideView,
 } from "./tides";
+import {
+  fetchSwanWaves,
+  fetchUvIndex,
+  fetchWaterTempF,
+  type SwanWaves,
+  type UvIndex,
+} from "./marine";
 
 export type WxSource = "live" | "computed" | "sample" | "loading";
 
@@ -197,6 +204,55 @@ export function useTidePredictions(
       clearInterval(recomputeId);
     };
   }, [station, tz, refreshMs, recomputeMs, dims, sampleView]);
+
+  return state;
+}
+
+// ---------------------------------------------------------------------------
+// useMarine — fetch + auto-refresh the surf/sea cluster (SWAN modeled waves,
+// CO-OPS water temperature, EPA UV) in one hook. `source` is "live" if any of
+// the three succeeded, else the labeled sample. Keeps the last live read on a
+// transient failure.
+// ---------------------------------------------------------------------------
+export type MarineData = { waves: SwanWaves | null; waterTempF: number | null; uv: UvIndex | null };
+
+export function useMarine(opts: {
+  tempStation: string;
+  uvZip: string;
+  sample: MarineData;
+  waveLat?: number;
+  waveLon360?: number;
+  refreshMs?: number;
+}): { source: WxSource; data: MarineData; fetchedAt: number | null } {
+  const { tempStation, uvZip, sample, waveLat, waveLon360, refreshMs = 15 * 60_000 } = opts;
+  const [state, setState] = useState<{ source: WxSource; data: MarineData; fetchedAt: number | null }>({
+    source: "loading",
+    data: sample,
+    fetchedAt: null,
+  });
+
+  useEffect(() => {
+    let alive = true;
+    async function load() {
+      const [waves, waterTempF, uv] = await Promise.all([
+        fetchSwanWaves(waveLat, waveLon360),
+        fetchWaterTempF(tempStation),
+        fetchUvIndex(uvZip),
+      ]);
+      if (!alive) return;
+      if (waves != null || waterTempF != null || uv != null) {
+        setState({ source: "live", data: { waves, waterTempF, uv }, fetchedAt: Date.now() });
+      } else {
+        setState((prev) => (prev.source === "live" ? prev : { source: "sample", data: sample, fetchedAt: prev.fetchedAt }));
+      }
+    }
+    load();
+    const id = setInterval(load, refreshMs);
+    return () => {
+      alive = false;
+      clearInterval(id);
+    };
+  }, [tempStation, uvZip, waveLat, waveLon360, refreshMs, sample]);
 
   return state;
 }
