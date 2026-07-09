@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { DemoTracking } from "@/components/DemoTracking";
 import {
   TideShell,
   Emblem,
@@ -153,6 +154,7 @@ export default function KachemakBayWaterTaxiPage() {
       <TideShell>
         <main className="min-h-screen text-[#0c2a30]">
           <Nav />
+          <DemoTracking demo="kachemak-bay-water-taxi" />
 
           {/* HERO */}
           <section className="relative overflow-hidden bg-gradient-to-br from-[#0d3540] via-[#166170] to-[#08222b] text-[#f3faf9]">

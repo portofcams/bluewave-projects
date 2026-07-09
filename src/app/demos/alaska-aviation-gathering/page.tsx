@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { DemoTracking } from "@/components/DemoTracking";
 import {
   SkyShell,
   Roundel,
@@ -178,6 +179,7 @@ export default function AlaskaAviationGatheringPage() {
       <SkyShell>
         <main className="min-h-screen text-[#0e2a44]">
           <Nav />
+          <DemoTracking demo="alaska-aviation-gathering" />
 
           {/* HERO — info headquarters over a real Alaska floatplane photo, under
               a deep-sky scrim that keeps the palette + legibility. */}

@@ -32,6 +32,7 @@
 // from _shared.tsx. Nothing global is touched.
 
 import { useEffect, useState } from "react";
+import { UpdatedAgo } from "../_wx/live";
 
 const PORTAGE_LAT = 60.78333;
 const PORTAGE_LON = -148.83333;
@@ -418,6 +419,7 @@ export function SoundConditions() {
     );
     return { source: "loading", d: SAMPLE, sunrise, sunset, daylightHours };
   });
+  const [fetchedAt, setFetchedAt] = useState<number | null>(null);
 
   useEffect(() => {
     let alive = true;
@@ -438,17 +440,20 @@ export function SoundConditions() {
             (props.temperature && props.temperature.value != null));
         if (hasData && alive) {
           setS((prev) => ({ ...prev, source: "live", d: decodeNws(props) }));
+          setFetchedAt(Date.now());
           return;
         }
         throw new Error("empty observation");
       } catch {
-        // Any failure -> honest labeled sample (never presented as live)
-        if (alive) setS((prev) => ({ ...prev, source: "sample", d: SAMPLE }));
+        // keep the last live read on a transient refresh failure; else labeled sample
+        if (alive) setS((prev) => (prev.source === "live" ? prev : { ...prev, source: "sample", d: SAMPLE }));
       }
     }
     load();
+    const id = setInterval(load, 5 * 60_000); // auto-refresh every 5 min
     return () => {
       alive = false;
+      clearInterval(id);
     };
   }, []);
 
@@ -639,6 +644,8 @@ export function SoundConditions() {
             </p>
           )}
         </div>
+
+        <UpdatedAgo at={fetchedAt} live={live} className="mt-2 block text-right text-[10px] text-[#dcefee]/45" />
 
         {/* honest footnote */}
         <p className="mt-3 text-[11px] leading-relaxed text-[#dcefee]/60">

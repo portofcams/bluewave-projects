@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { DemoTracking } from "@/components/DemoTracking";
 import {
   TourShell,
   Emblem,
@@ -167,6 +168,7 @@ export default function LazyOtterChartersPage() {
       <TourShell>
         <main className="min-h-screen text-[#0e2a30]">
           <Nav />
+          <DemoTracking demo="lazy-otter-charters" />
 
           {/* HERO — tour marketing hero over a real glacier photo, under a
               deep fjord-teal scrim, live conditions panel prominent. */}

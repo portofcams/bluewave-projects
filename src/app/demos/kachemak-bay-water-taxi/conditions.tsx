@@ -37,6 +37,7 @@
 // _shared.tsx. Nothing global is touched.
 
 import { useEffect, useState } from "react";
+import { UpdatedAgo } from "../_wx/live";
 
 const TIDE_STATION = "9455558"; // Homer, AK — Coal Point (tip of the Homer Spit)
 const HOMER_LAT = 59.6014; // Coal Point
@@ -418,11 +419,13 @@ export function BayConditions() {
     };
   });
 
+  const [fetchedAt, setFetchedAt] = useState<number | null>(null);
+
   useEffect(() => {
     let alive = true;
 
     // --- tides (NOAA CO-OPS) ---
-    (async () => {
+    async function loadTides() {
       try {
         const now = new Date();
         const hp = homerParts(now);
@@ -449,15 +452,18 @@ export function BayConditions() {
           .filter((e) => Number.isFinite(e.v))
           .sort((a, b) => a.min - b.min);
         const view = buildTide(events, refNow, todayYMD);
-        if (view && alive) setS((prev) => ({ ...prev, tideSrc: "live", tide: view }));
-        else throw new Error("could not build view");
+        if (view && alive) {
+          setS((prev) => ({ ...prev, tideSrc: "live", tide: view }));
+          setFetchedAt(Date.now());
+        } else throw new Error("could not build view");
       } catch {
-        if (alive) setS((prev) => ({ ...prev, tideSrc: "sample", tide: SAMPLE_TIDE }));
+        // keep the last live read on a transient refresh failure
+        if (alive) setS((prev) => (prev.tideSrc === "live" ? prev : { ...prev, tideSrc: "sample", tide: SAMPLE_TIDE }));
       }
-    })();
+    }
 
     // --- weather (NWS PAHO) ---
-    (async () => {
+    async function loadWx() {
       try {
         const r = await fetch(WX_URL, { headers: { Accept: "application/json" } });
         if (!r.ok) throw new Error(`status ${r.status}`);
@@ -468,12 +474,19 @@ export function BayConditions() {
         if (hasData && alive) setS((prev) => ({ ...prev, wxSrc: "live", wx: decodeWx(props) }));
         else throw new Error("empty obs");
       } catch {
-        if (alive) setS((prev) => ({ ...prev, wxSrc: "sample", wx: SAMPLE_WX }));
+        if (alive) setS((prev) => (prev.wxSrc === "live" ? prev : { ...prev, wxSrc: "sample", wx: SAMPLE_WX }));
       }
-    })();
+    }
 
+    loadTides();
+    loadWx();
+    const id = setInterval(() => {
+      loadTides();
+      loadWx();
+    }, 5 * 60_000); // auto-refresh every 5 min
     return () => {
       alive = false;
+      clearInterval(id);
     };
   }, []);
 
@@ -640,6 +653,8 @@ export function BayConditions() {
             liveLabel="Live · NWS"
           />
         </div>
+
+        <UpdatedAgo at={fetchedAt} live={tideLive} className="mt-3 block text-right text-[10px] text-[#dcefee]/45" />
 
         {/* honest footnote */}
         <p className="mt-4 text-[11px] leading-relaxed text-[#dcefee]/60">
