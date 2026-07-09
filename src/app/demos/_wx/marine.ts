@@ -15,6 +15,7 @@
 // Framework-agnostic (no "use client"); the auto-refreshing hook is in ./live.
 
 import { compass } from "./nws";
+import { naiveMin, parsePredMin, predTimeText, ymdCompact, zonedParts } from "./tides";
 
 // ---------------------------------------------------------------------------
 // PacIOOS SWAN Oahu nearshore wave model (griddap)
@@ -150,6 +151,104 @@ export async function fetchUvIndex(zip: string, tz = "Pacific/Honolulu", now = n
       arr.reduce((best, e) => ((e.UV_VALUE ?? -1) > (best.UV_VALUE ?? -1) ? e : best), arr[0]);
     const v = match?.UV_VALUE;
     return typeof v === "number" && Number.isFinite(v) ? { value: v, label: uvLabel(v) } : null;
+  } catch {
+    return null;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// NOAA CO-OPS tidal CURRENT predictions (keyless, CORS). For places where the
+// current is the story — Admiralty Inlet / Point Wilson rips ~3.5 kt. Uses the
+// `currents_predictions` product with MAX_SLACK events; velocity is signed
+// (flood +, ebb −) in knots, with mean flood/ebb directions on each entry.
+// ---------------------------------------------------------------------------
+export type CurrentState = {
+  stateText: "Flooding" | "Ebbing" | "Slack";
+  speedKt: number; // |velocity| now (interpolated)
+  dirCardinal: string | null; // cardinal of the current flow direction
+  peakKt: number | null; // strongest |velocity| today
+  nextText: string | null; // "slack at 1:46 PM" / "max ebb 3.5 kt at 4:33 AM"
+};
+
+export function currentsUrl(station: string, begin: string, end: string, app = "BlueWaveProjects"): string {
+  return (
+    `https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?product=currents_predictions` +
+    `&application=${app}&begin_date=${begin}&end_date=${end}&station=${station}` +
+    `&time_zone=lst_ldt&units=english&interval=MAX_SLACK&format=json`
+  );
+}
+
+type CpEntry = { Time?: string; Velocity_Major?: number; Type?: string; meanFloodDir?: number; meanEbbDir?: number };
+
+/** Current tidal-current state for a CO-OPS current station, in the station's
+ *  `tz`. Interpolates the signed velocity between MAX_SLACK events (cosine).
+ *  Returns null on any failure. */
+export async function fetchCurrentPredictions(station: string, tz: string, now = new Date()): Promise<CurrentState | null> {
+  try {
+    const hp = zonedParts(now, tz);
+    const base = new Date(Date.UTC(hp.y, hp.mo - 1, hp.d, 12));
+    const begin = new Date(base.getTime() - 86400000);
+    const end = new Date(base.getTime() + 86400000);
+    const r = await fetch(currentsUrl(station, ymdCompact(begin), ymdCompact(end)), {
+      headers: { Accept: "application/json" },
+    });
+    if (!r.ok) return null;
+    const j = await r.json();
+    const cp: CpEntry[] | undefined = j?.current_predictions?.cp;
+    if (!Array.isArray(cp) || cp.length < 2) return null;
+    const floodDir = Number(cp[0]?.meanFloodDir);
+    const ebbDir = Number(cp[0]?.meanEbbDir);
+    const events = cp
+      .map((e) => ({ t: String(e.Time), min: parsePredMin(String(e.Time)), v: Number(e.Velocity_Major), type: String(e.Type) }))
+      .filter((e) => Number.isFinite(e.v) && Number.isFinite(e.min))
+      .sort((a, b) => a.min - b.min);
+    if (events.length < 2) return null;
+
+    const refNow = naiveMin(hp.y, hp.mo, hp.d, hp.h, hp.mi);
+    let prev: (typeof events)[number] | null = null;
+    let next: (typeof events)[number] | null = null;
+    for (const e of events) {
+      if (e.min <= refNow) prev = e;
+      else {
+        next = e;
+        break;
+      }
+    }
+    let vNow: number;
+    if (prev && next) {
+      const span = next.min - prev.min;
+      const frac = span > 0 ? (refNow - prev.min) / span : 0;
+      vNow = next.v + (prev.v - next.v) * ((1 + Math.cos(Math.PI * frac)) / 2);
+    } else {
+      vNow = (prev ?? next!).v;
+    }
+
+    const speed = Math.abs(vNow);
+    let stateText: CurrentState["stateText"];
+    let dirCardinal: string | null = null;
+    if (speed < 0.2) {
+      stateText = "Slack";
+    } else if (vNow > 0) {
+      stateText = "Flooding";
+      dirCardinal = Number.isFinite(floodDir) ? compass(floodDir) : null;
+    } else {
+      stateText = "Ebbing";
+      dirCardinal = Number.isFinite(ebbDir) ? compass(ebbDir) : null;
+    }
+
+    let nextText: string | null = null;
+    if (next) {
+      nextText =
+        next.type === "slack"
+          ? `slack at ${predTimeText(next.t)}`
+          : `max ${next.type} ${Math.abs(next.v).toFixed(1)} kt at ${predTimeText(next.t)}`;
+    }
+
+    const todayYMD = `${hp.y}-${String(hp.mo).padStart(2, "0")}-${String(hp.d).padStart(2, "0")}`;
+    const todays = events.filter((e) => e.t.startsWith(todayYMD));
+    const peakKt = todays.length ? Math.max(...todays.map((e) => Math.abs(e.v))) : null;
+
+    return { stateText, speedKt: speed, dirCardinal, peakKt, nextText };
   } catch {
     return null;
   }
