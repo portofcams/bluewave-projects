@@ -30,6 +30,7 @@
 // _shared.tsx. Nothing global is touched.
 
 import { useEffect, useState } from "react";
+import { UpdatedAgo } from "../_wx/live";
 
 const VALDEZ_LAT = 61.13333;
 const VALDEZ_LON = -146.26667;
@@ -344,10 +345,11 @@ export function ValdezConditions() {
     const { sunrise, sunset, daylight } = solarTimes(new Date(), VALDEZ_LAT, VALDEZ_LON);
     return { source: "loading", d: SAMPLE, sunrise, sunset, daylight };
   });
+  const [fetchedAt, setFetchedAt] = useState<number | null>(null);
 
   useEffect(() => {
     let alive = true;
-    (async () => {
+    async function load() {
       try {
         const r = await fetch(OBS_URL, { headers: { Accept: "application/json" } });
         if (!r.ok) throw new Error(`status ${r.status}`);
@@ -358,15 +360,20 @@ export function ValdezConditions() {
           (props.rawMessage || props.timestamp || (props.temperature && props.temperature.value != null));
         if (hasData && alive) {
           setS((prev) => ({ ...prev, source: "live", d: decodeNws(props) }));
+          setFetchedAt(Date.now());
           return;
         }
         throw new Error("empty observation");
       } catch {
-        if (alive) setS((prev) => ({ ...prev, source: "sample", d: SAMPLE }));
+        // keep the last live read on a transient refresh failure
+        if (alive) setS((prev) => (prev.source === "live" ? prev : { ...prev, source: "sample", d: SAMPLE }));
       }
-    })();
+    }
+    load();
+    const id = setInterval(load, 5 * 60_000); // auto-refresh every 5 min
     return () => {
       alive = false;
+      clearInterval(id);
     };
   }, []);
 
@@ -446,6 +453,8 @@ export function ValdezConditions() {
             <p className="mt-1.5 text-[10px] italic text-[#cfe9ee]/45">assembled from the live NWS observation</p>
           )}
         </div>
+
+        <UpdatedAgo at={fetchedAt} live={live} className="mt-2 block text-right text-[10px] text-[#cfe9ee]/45" />
 
         {/* honest footnote */}
         <p className="mt-3 text-[11px] leading-relaxed text-[#cfe9ee]/60">

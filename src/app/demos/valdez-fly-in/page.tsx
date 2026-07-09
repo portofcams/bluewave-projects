@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { DemoTracking } from "@/components/DemoTracking";
 import {
   AlpineShell,
   Roundel,
@@ -153,6 +154,7 @@ export default function ValdezFlyInPage() {
       <AlpineShell>
         <main className="min-h-screen text-[#0d2a30]">
           <Nav />
+          <DemoTracking demo="valdez-fly-in" />
 
           {/* HERO */}
           <section className="relative overflow-hidden bg-gradient-to-br from-[#0f2f3d] via-[#1a4a52] to-[#08202b] text-[#eef7f7]">
