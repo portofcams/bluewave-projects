@@ -29,9 +29,11 @@ import {
   type TideView,
 } from "./tides";
 import {
+  fetchCurrentPredictions,
   fetchSwanWaves,
   fetchUvIndex,
   fetchWaterTempF,
+  type CurrentState,
   type SwanWaves,
   type UvIndex,
 } from "./marine";
@@ -255,4 +257,67 @@ export function useMarine(opts: {
   }, [tempStation, uvZip, waveLat, waveLon360, refreshMs, sample]);
 
   return state;
+}
+
+// ---------------------------------------------------------------------------
+// useCurrents — fetch + auto-refresh a NOAA CO-OPS tidal-current station (for
+// places where the current is the story, e.g. Admiralty Inlet / Point Wilson).
+// ---------------------------------------------------------------------------
+export function useCurrents(
+  station: string,
+  opts: { tz: string; sample: CurrentState; refreshMs?: number }
+): { source: WxSource; state: CurrentState; fetchedAt: number | null } {
+  const { tz, sample, refreshMs = 15 * 60_000 } = opts;
+  const [s, setS] = useState<{ source: WxSource; state: CurrentState; fetchedAt: number | null }>({
+    source: "loading",
+    state: sample,
+    fetchedAt: null,
+  });
+  useEffect(() => {
+    let alive = true;
+    async function load() {
+      const cur = await fetchCurrentPredictions(station, tz);
+      if (!alive) return;
+      if (cur) setS({ source: "live", state: cur, fetchedAt: Date.now() });
+      else setS((prev) => (prev.source === "live" ? prev : { source: "sample", state: sample, fetchedAt: prev.fetchedAt }));
+    }
+    load();
+    const id = setInterval(load, refreshMs);
+    return () => {
+      alive = false;
+      clearInterval(id);
+    };
+  }, [station, tz, refreshMs, sample]);
+  return s;
+}
+
+// ---------------------------------------------------------------------------
+// useWaterTemp — fetch + auto-refresh a NOAA CO-OPS water_temperature station.
+// ---------------------------------------------------------------------------
+export function useWaterTemp(
+  station: string,
+  opts: { sample: number | null; refreshMs?: number }
+): { source: WxSource; tempF: number | null; fetchedAt: number | null } {
+  const { sample, refreshMs = 15 * 60_000 } = opts;
+  const [s, setS] = useState<{ source: WxSource; tempF: number | null; fetchedAt: number | null }>({
+    source: "loading",
+    tempF: sample,
+    fetchedAt: null,
+  });
+  useEffect(() => {
+    let alive = true;
+    async function load() {
+      const t = await fetchWaterTempF(station);
+      if (!alive) return;
+      if (t != null) setS({ source: "live", tempF: t, fetchedAt: Date.now() });
+      else setS((prev) => (prev.source === "live" ? prev : { source: "sample", tempF: sample, fetchedAt: prev.fetchedAt }));
+    }
+    load();
+    const id = setInterval(load, refreshMs);
+    return () => {
+      alive = false;
+      clearInterval(id);
+    };
+  }, [station, refreshMs, sample]);
+  return s;
 }
