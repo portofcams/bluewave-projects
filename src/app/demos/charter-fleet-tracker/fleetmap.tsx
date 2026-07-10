@@ -23,6 +23,7 @@
 
 import { useState } from "react";
 import {
+  aisProxyUrl,
   buildTideView,
   decodeNwsObservation,
   parsePredMin,
@@ -109,7 +110,7 @@ const SAMPLE_TIDE = buildTideView(SAMPLE_TIDE_EVENTS, parsePredMin("2026-07-09 1
 export function CharterFleet() {
   const [sun] = useState(() => solarTimes(new Date(), SEWARD_LAT, SEWARD_LON, TZ));
 
-  const ais = useAisVessels({ bbox: SEWARD_BBOX });
+  const ais = useAisVessels({ bbox: SEWARD_BBOX, url: aisProxyUrl("seward") });
   const tide = useTidePredictions(TIDE_STATION, { tz: TZ, sampleView: SAMPLE_TIDE });
   const wx = useNwsObservation(WIND_STATION, { sample: SAMPLE_WX, tz: TZ });
   const water = useWaterTemp(TIDE_STATION, { sample: 52 });

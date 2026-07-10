@@ -32,7 +32,8 @@ DEPLOY (ai-app FastAPI box):
 
 NOTE: this runs ONE background asyncio task in the shared ai-app worker. It's
 lightweight (a single WS + a dict), reconnects on drop, and prunes stale
-targets. The bounding box below is SEWARD / Resurrection Bay to match the demo.
+targets. It subscribes to every box in REGIONS below and serves each via
+/marine/ais?region=<name> (e.g. ?region=seward or ?region=sanjuan).
 ------------------------------------------------------------------------------
 """
 
@@ -53,10 +54,24 @@ except ImportError:  # pragma: no cover
 router = APIRouter()
 
 AISSTREAM_URL = "wss://stream.aisstream.io/v0/stream"
-# Seward / Resurrection Bay (lat, lon), two opposite corners — aisstream wants
-# latitude FIRST. Matches the demo's SEWARD_BBOX.
-BOUNDING_BOX = [[[59.80, -149.60], [60.15, -149.25]]]
+
+# Multi-region: one WebSocket subscribes to every region's box; the /marine/ais
+# endpoint filters by ?region= (point-in-box), so one deployment serves every
+# AIS demo. Each region = (lat_min, lon_min, lat_max, lon_max), matching the
+# demos' bboxes. aisstream wants latitude-first corner pairs.
+REGIONS = {
+    "seward": (59.80, -149.60, 60.15, -149.25),      # charter-fleet-tracker
+    "sanjuan": (48.40, -123.32, 48.72, -122.95),     # san-juan-whale-watch (Haro Strait)
+}
+BOUNDING_BOXES = [[[b[0], b[1]], [b[2], b[3]]] for b in REGIONS.values()]
 STALE_SECONDS = 15 * 60  # drop a vessel we haven't heard from in 15 min
+
+
+def _in_region(lat, lon, region):
+    b = REGIONS.get(region)
+    if not b or lat is None or lon is None:
+        return region is None  # no/unknown region -> no filter
+    return b[0] <= lat <= b[2] and b[1] <= lon <= b[3]
 
 # mmsi -> latest merged record
 _positions: dict[int, dict] = {}
@@ -97,7 +112,7 @@ async def _run():
         return
     sub = {
         "APIKey": key,
-        "BoundingBoxes": BOUNDING_BOX,
+        "BoundingBoxes": BOUNDING_BOXES,
         "FilterMessageTypes": ["PositionReport", "ShipStaticData"],
     }
     while True:
@@ -148,7 +163,7 @@ def start_ais_proxy():
 
 
 @router.get("/marine/ais")
-async def marine_ais():
+async def marine_ais(region: str | None = None):
     now = time.time()
     vessels = []
     for mmsi, p in list(_positions.items()):
@@ -156,6 +171,8 @@ async def marine_ais():
             _positions.pop(mmsi, None)
             continue
         if p.get("lat") is None or p.get("lon") is None:
+            continue
+        if region is not None and not _in_region(p.get("lat"), p.get("lon"), region):
             continue
         st = _statics.get(mmsi, {})
         vessels.append({

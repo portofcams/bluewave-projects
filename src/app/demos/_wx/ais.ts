@@ -31,9 +31,15 @@ export type Vessel = {
 
 export type Bbox = { latMin: number; latMax: number; lonMin: number; lonMax: number };
 
-// Default proxy endpoint (see /demos/charter-fleet-tracker proxy). Not yet
-// deployed → fetch fails → demo falls back to the honest labeled sample.
-export const AIS_PROXY_URL = "https://ai.portofcams.com/marine/ais";
+// Proxy endpoint (see infra/ais-proxy/ais_proxy.py). The proxy is multi-region
+// (subscribes to several bounding boxes and filters by ?region=), so each demo
+// passes its region. Not yet deployed → fetch fails → demo falls back to the
+// honest labeled sample.
+export const AIS_PROXY_BASE = "https://ai.portofcams.com/marine/ais";
+export const aisProxyUrl = (region?: string) =>
+  region ? `${AIS_PROXY_BASE}?region=${encodeURIComponent(region)}` : AIS_PROXY_BASE;
+// Back-compat default (no region filter).
+export const AIS_PROXY_URL = AIS_PROXY_BASE;
 
 // AIS ship-type code → coarse category (used if the proxy sends raw codes).
 export function vesselTypeFromCode(code: number | null | undefined): VesselType {
@@ -95,11 +101,11 @@ export async function fetchAisVessels(url = AIS_PROXY_URL): Promise<Vessel[] | n
 type SampleSeed = { name: string; type: VesselType; u: number; v: number; sog: number; cog: number; status: string; drift: number };
 
 const SAMPLE_SEEDS: SampleSeed[] = [
-  { name: "Sample charter A", type: "fishing", u: 0.34, v: 0.42, sog: 7.2, cog: 118, status: "Underway", drift: 0.9 },
-  { name: "Sample charter B", type: "fishing", u: 0.58, v: 0.55, sog: 0.4, cog: 210, status: "Fishing", drift: 0.15 },
-  { name: "Sample charter C", type: "fishing", u: 0.7, v: 0.3, sog: 8.6, cog: 300, status: "Underway", drift: 1.0 },
-  { name: "Sample charter D", type: "fishing", u: 0.24, v: 0.66, sog: 0.2, cog: 45, status: "Fishing", drift: 0.1 },
-  { name: "Area water taxi", type: "passenger", u: 0.48, v: 0.24, sog: 18.1, cog: 250, status: "Underway", drift: 1.4 },
+  { name: "Sample vessel A", type: "fishing", u: 0.34, v: 0.42, sog: 7.2, cog: 118, status: "Underway", drift: 0.9 },
+  { name: "Sample vessel B", type: "fishing", u: 0.58, v: 0.55, sog: 0.4, cog: 210, status: "On grounds", drift: 0.15 },
+  { name: "Sample vessel C", type: "fishing", u: 0.7, v: 0.3, sog: 8.6, cog: 300, status: "Underway", drift: 1.0 },
+  { name: "Sample vessel D", type: "passenger", u: 0.24, v: 0.66, sog: 12.0, cog: 45, status: "Underway", drift: 1.1 },
+  { name: "Area passenger boat", type: "passenger", u: 0.48, v: 0.24, sog: 18.1, cog: 250, status: "Underway", drift: 1.4 },
   { name: "Area vessel", type: "other", u: 0.82, v: 0.6, sog: 3.0, cog: 160, status: "Underway", drift: 0.5 },
   { name: "In harbor", type: "fishing", u: 0.16, v: 0.2, sog: 0.0, cog: 0, status: "Moored", drift: 0 },
 ];
