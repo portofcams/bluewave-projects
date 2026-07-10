@@ -37,6 +37,13 @@ import {
   type SwanWaves,
   type UvIndex,
 } from "./marine";
+import {
+  AIS_PROXY_URL,
+  fetchAisVessels,
+  makeSampleFleet,
+  type Bbox,
+  type Vessel,
+} from "./ais";
 
 export type WxSource = "live" | "computed" | "sample" | "loading";
 
@@ -320,4 +327,51 @@ export function useWaterTemp(
     };
   }, [station, refreshMs, sample]);
   return s;
+}
+
+// ---------------------------------------------------------------------------
+// useAisVessels — poll the AIS proxy for live vessel positions; keep the last
+// live read on a transient failure; when the proxy is unreachable, return the
+// clearly-labeled animated SAMPLE fleet (driven by a tick) so the map is never
+// blank and never fakes "live." Returns { source, vessels, fetchedAt }.
+// ---------------------------------------------------------------------------
+export function useAisVessels(opts: {
+  bbox: Bbox;
+  url?: string;
+  refreshMs?: number; // proxy poll interval (default 20 s)
+  animMs?: number; // sample-drift tick (default 2.5 s)
+}): { source: WxSource; vessels: Vessel[]; fetchedAt: number | null } {
+  const { bbox, url = AIS_PROXY_URL, refreshMs = 20_000, animMs = 2500 } = opts;
+  const [live, setLive] = useState<{ vessels: Vessel[]; fetchedAt: number } | null>(null);
+  const [source, setSource] = useState<WxSource>("loading");
+  const [tick, setTick] = useState(0);
+
+  useEffect(() => {
+    let alive = true;
+    async function load() {
+      const v = await fetchAisVessels(url);
+      if (!alive) return;
+      if (v) {
+        setLive({ vessels: v, fetchedAt: Date.now() });
+        setSource("live");
+      } else {
+        setSource((prev) => (prev === "live" ? prev : "sample"));
+      }
+    }
+    load();
+    const id = setInterval(load, refreshMs);
+    return () => {
+      alive = false;
+      clearInterval(id);
+    };
+  }, [url, refreshMs]);
+
+  useEffect(() => {
+    const id = setInterval(() => setTick((t) => t + 1), animMs);
+    return () => clearInterval(id);
+  }, [animMs]);
+
+  const isLive = source === "live" && live != null;
+  const vessels = isLive ? live!.vessels : makeSampleFleet(bbox, tick);
+  return { source, vessels, fetchedAt: isLive ? live!.fetchedAt : null };
 }
