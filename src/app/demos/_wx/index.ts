@@ -12,3 +12,4 @@ export * from "./solar";
 export * from "./nws";
 export * from "./tides";
 export * from "./marine";
+export * from "./ais";
