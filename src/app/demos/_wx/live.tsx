@@ -44,6 +44,7 @@ import {
   type Bbox,
   type Vessel,
 } from "./ais";
+import { fetchSightings, type Sighting } from "./sightings";
 
 export type WxSource = "live" | "computed" | "sample" | "loading";
 
@@ -374,4 +375,38 @@ export function useAisVessels(opts: {
   const isLive = source === "live" && live != null;
   const vessels = isLive ? live!.vessels : makeSampleFleet(bbox, tick);
   return { source, vessels, fetchedAt: isLive ? live!.fetchedAt : null };
+}
+
+// ---------------------------------------------------------------------------
+// useSightings — fetch + auto-refresh community-reported whale sightings
+// (Acartia, keyless + CORS, no proxy) filtered to `bbox`. Returns { source,
+// sightings, fetchedAt }. Community-reported / approximate / delayed — the UI
+// must label it as such and show coarse areas, never precise whale pins.
+// ---------------------------------------------------------------------------
+export function useSightings(
+  bbox: Bbox,
+  opts: { maxAgeHours?: number; cap?: number; refreshMs?: number } = {}
+): { source: WxSource; sightings: Sighting[]; fetchedAt: number | null } {
+  const { maxAgeHours = 48, cap = 12, refreshMs = 5 * 60_000 } = opts;
+  const [s, setS] = useState<{ source: WxSource; sightings: Sighting[]; fetchedAt: number | null }>({
+    source: "loading",
+    sightings: [],
+    fetchedAt: null,
+  });
+  useEffect(() => {
+    let alive = true;
+    async function load() {
+      const list = await fetchSightings(bbox, { maxAgeHours, cap });
+      if (!alive) return;
+      if (list) setS({ source: "live", sightings: list, fetchedAt: Date.now() });
+      else setS((prev) => (prev.source === "live" ? prev : { source: "sample", sightings: [], fetchedAt: prev.fetchedAt }));
+    }
+    load();
+    const id = setInterval(load, refreshMs);
+    return () => {
+      alive = false;
+      clearInterval(id);
+    };
+  }, [bbox, maxAgeHours, cap, refreshMs]);
+  return s;
 }
