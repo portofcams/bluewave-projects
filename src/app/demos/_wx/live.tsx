@@ -45,6 +45,7 @@ import {
   type Vessel,
 } from "./ais";
 import { fetchSightings, type Sighting } from "./sightings";
+import { fetchBuoyObservation, type BuoyObservation } from "./buoy";
 
 export type WxSource = "live" | "computed" | "sample" | "loading";
 
@@ -408,5 +409,44 @@ export function useSightings(
       clearInterval(id);
     };
   }, [bbox, maxAgeHours, cap, refreshMs]);
+  return s;
+}
+
+// ---------------------------------------------------------------------------
+// useBuoyObservation — fetch + auto-refresh a real NDBC buoy reading (via the
+// ai.portofcams.com relay in ./buoy). NDBC itself only updates ~every 30 min,
+// so this defaults to a longer interval than the small NWS/tide feeds.
+// ---------------------------------------------------------------------------
+export function useBuoyObservation(
+  station: string,
+  opts: { sample: BuoyObservation; refreshMs?: number }
+): { source: WxSource; obs: BuoyObservation; fetchedAt: number | null } {
+  const { sample, refreshMs = 15 * 60_000 } = opts;
+  const [s, setS] = useState<{ source: WxSource; obs: BuoyObservation; fetchedAt: number | null }>({
+    source: "loading",
+    obs: sample,
+    fetchedAt: null,
+  });
+
+  useEffect(() => {
+    let alive = true;
+    async function load() {
+      const obs = await fetchBuoyObservation(station);
+      if (!alive) return;
+      const hasReading = obs && (obs.waveHeightM != null || obs.waterTempC != null);
+      if (hasReading) {
+        setS({ source: "live", obs: obs!, fetchedAt: Date.now() });
+      } else {
+        setS((prev) => (prev.source === "live" ? prev : { source: "sample", obs: sample, fetchedAt: prev.fetchedAt }));
+      }
+    }
+    load();
+    const id = setInterval(load, refreshMs);
+    return () => {
+      alive = false;
+      clearInterval(id);
+    };
+  }, [station, refreshMs, sample]);
+
   return s;
 }
