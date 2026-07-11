@@ -122,6 +122,28 @@ function renderMarkdownContent(content: string) {
   return elements;
 }
 
+// Handle markdown links [text](url) within a plain (non-code) text segment.
+// Every existing post uses this syntax for its CTA; the renderer never had
+// a case for it, so every link in the blog rendered as literal bracket text.
+function renderLinks(text: string, keyPrefix: string): React.ReactNode {
+  const linkParts = text.split(/(\[[^\]]+\]\([^)]+\))/g);
+  return linkParts.map((lp, k) => {
+    const match = lp.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (match) {
+      return (
+        <a
+          key={`${keyPrefix}-${k}`}
+          href={match[2]}
+          className="text-ocean-400 hover:text-ocean-300 underline underline-offset-2"
+        >
+          {match[1]}
+        </a>
+      );
+    }
+    return <span key={`${keyPrefix}-${k}`}>{lp}</span>;
+  });
+}
+
 function renderInlineFormatting(text: string): React.ReactNode {
   // Handle bold text
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
@@ -129,7 +151,7 @@ function renderInlineFormatting(text: string): React.ReactNode {
     if (part.startsWith("**") && part.endsWith("**")) {
       return (
         <strong key={i} className="text-white font-semibold">
-          {part.slice(2, -2)}
+          {renderLinks(part.slice(2, -2), `b${i}`)}
         </strong>
       );
     }
@@ -146,7 +168,7 @@ function renderInlineFormatting(text: string): React.ReactNode {
           </code>
         );
       }
-      return cp;
+      return renderLinks(cp, `${i}-${j}`);
     });
   });
 }
