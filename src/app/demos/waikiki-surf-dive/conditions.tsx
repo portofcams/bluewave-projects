@@ -25,11 +25,13 @@ import {
   decodeNwsObservation,
   parsePredMin,
   solarTimes,
+  type BuoyObservation,
   type TideEvent,
 } from "../_wx";
 import {
   SourceBadge,
   UpdatedAgo,
+  useBuoyObservation,
   useMarine,
   useNwsObservation,
   useTidePredictions,
@@ -41,6 +43,7 @@ const TIDE_STATION = "1612340"; // Honolulu Harbor (south shore)
 const UV_ZIP = "96815"; // Waikiki
 const WAIKIKI_LAT = 21.28;
 const WAIKIKI_LON = -157.83;
+const BUOY_STATION = "51211"; // NDBC Mamala Bay — real buoy, off Waikiki
 
 // themeable badge palette (Waikiki: green live / gold computed / foam sample)
 const BADGE = {
@@ -86,6 +89,17 @@ const SAMPLE_MARINE: MarineData = {
   uv: { value: 9, label: "Very high" },
 };
 
+// Realistic Mamala Bay summer reading — NEVER shown as live.
+const SAMPLE_BUOY: BuoyObservation = {
+  station: BUOY_STATION,
+  time: null,
+  waveHeightM: 1.0,
+  dominantPeriodS: 8,
+  avgPeriodS: 6,
+  waveDirDeg: 160,
+  waterTempC: 27,
+};
+
 function surfRead(hsFt: number): string {
   if (hsFt < 1.5) return "Flat-ish";
   if (hsFt < 2.5) return "Mellow";
@@ -100,6 +114,7 @@ export function WaikikiConditions() {
   const tide = useTidePredictions(TIDE_STATION, { tz: TZ, sampleView: SAMPLE_TIDE });
   const wx = useNwsObservation("PHNL", { sample: SAMPLE_WX, tz: TZ });
   const marine = useMarine({ tempStation: TIDE_STATION, uvZip: UV_ZIP, sample: SAMPLE_MARINE });
+  const buoy = useBuoyObservation(BUOY_STATION, { sample: SAMPLE_BUOY });
 
   const waves = marine.data.waves;
   const surfValue = waves ? `${waves.dirCardinal ? waves.dirCardinal + " " : ""}${waves.hsFt.toFixed(1)} ft` : "—";
@@ -110,8 +125,12 @@ export function WaikikiConditions() {
   const uvText = marine.data.uv ? `${marine.data.uv.value} · ${marine.data.uv.label}` : "—";
   const tv = tide.view;
 
-  const anyFetchedAt = marine.fetchedAt ?? tide.fetchedAt ?? wx.fetchedAt;
-  const anyLive = marine.source === "live" || tide.source === "live" || wx.source === "live";
+  const buoyHeightFt = buoy.obs.waveHeightM != null ? buoy.obs.waveHeightM * 3.28084 : null;
+  const buoyValue = buoyHeightFt != null ? `${buoyHeightFt.toFixed(1)} ft` : "—";
+  const buoyPeriod = buoy.obs.dominantPeriodS != null ? `${buoy.obs.dominantPeriodS}s dominant` : "no period read";
+
+  const anyFetchedAt = marine.fetchedAt ?? tide.fetchedAt ?? wx.fetchedAt ?? buoy.fetchedAt;
+  const anyLive = marine.source === "live" || tide.source === "live" || wx.source === "live" || buoy.source === "live";
 
   return (
     <div className="relative overflow-hidden rounded-3xl border border-[#d8f3f2]/12 bg-gradient-to-br from-[#0a4a54] via-[#12909e] to-[#052e38] p-5 shadow-[0_24px_60px_-24px_rgba(0,0,0,0.6)] sm:p-6">
@@ -178,6 +197,7 @@ export function WaikikiConditions() {
           <Tile label="Air temp" value={wx.obs.tempText} sub="Honolulu (PHNL)" source={wx.source} liveLabel="Live · NWS" />
           <Tile label="UV index" value={uvText} sub="wear reef-safe" source={marine.source} liveLabel="Live · EPA" />
           <Tile label="Daylight" value={sun.daylight} sub={`↑ ${sun.sunrise} · ↓ ${sun.sunset}`} source="computed" liveLabel="Computed" />
+          <Tile label="Buoy reading" value={buoyValue} sub={`${buoyPeriod} · Mamala Bay (real, not modeled)`} source={buoy.source} liveLabel="Live · NDBC" />
         </div>
 
         <UpdatedAgo at={anyFetchedAt} live={anyLive} className="mt-3 block text-right text-[10px] text-[#d8f3f2]/45" />
@@ -185,7 +205,10 @@ export function WaikikiConditions() {
         {/* honest footnote */}
         <p className="mt-3 text-[11px] leading-relaxed text-[#d8f3f2]/60">
           Surf is the <span className="font-semibold text-[#f4fbfa]/85">PacIOOS SWAN</span> nearshore
-          wave model for the South Shore (a modeled nowcast, not a buoy). Water temperature and tide
+          wave model for the South Shore (a modeled nowcast, not a buoy) — the{" "}
+          <span className="font-semibold text-[#f4fbfa]/85">buoy reading</span> tile is the real
+          measurement it's modeling against, from NDBC station 51211 in Māmala Bay, so you can see
+          the model and the actual buoy side by side. Water temperature and tide
           are live NOAA readings for Honolulu; wind and air are the latest{" "}
           <span className="font-semibold text-[#f4fbfa]/85">Honolulu (PHNL)</span> observation; UV is
           the EPA hourly forecast for Waikiki; sunrise, sunset, and daylight are computed. There is no
