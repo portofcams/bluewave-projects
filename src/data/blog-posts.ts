@@ -1878,6 +1878,68 @@ A simple AI-assisted trip log — captain enters species and weights after each 
 
 Binnacle.ai is our maritime operations platform for exactly this type of operator: USCG-compliant vessel operations, Hawaii and Alaska waters, with the specific regulatory stack that commercial charter operators deal with. If your compliance workflow is still a filing cabinet and a phone, [let's talk](https://bluewaveprojects.com/booking).`,
   },
+  {
+    id: "27",
+    slug: "sunrise-sunset-bug-honest-aurora-forecast",
+    title: "The sunrise/sunset bug that almost broke an honest aurora forecast",
+    excerpt:
+      "Building a live 'will I see the aurora tonight' panel meant asking our solar-math a question it had never been asked before: is it dark RIGHT NOW. That question surfaced a real bug — at extreme longitudes, a day's computed sunset can come out numerically before its sunrise — sitting latent in code that had shipped fine for months.",
+    date: "2026-07-10",
+    readTime: "7 min",
+    category: "Engineering",
+    categoryColor: "text-wave-400",
+    gradient: "from-wave-400 to-glacier-300",
+    author: {
+      name: "John C. Thomas",
+      role: "Founder, BlueWave Projects",
+    },
+    content: `We build a portfolio of working sample sites — real geography, real live public data, honestly labeled — to show prospective clients what we build instead of just telling them. The newest one is a Fairbanks, Alaska aurora-tour sample, and its whole reason for existing is a single honest sentence most tourism sites won't print: a geomagnetic storm being active does not mean you can see it. It also has to be dark, and the sky has to be clear.
+
+Building that gate meant asking our own sunrise/sunset math a question it had never been asked before — and that question found a real bug that had been sitting quietly in shipped code for months.
+
+## The gate: darker than "the sun is down"
+
+Most demos in the portfolio compute sunrise, sunset, and daylight length for a location — Homer, Valdez, Waikiki — and just display them. Nobody ever asks the code "is it dark right now, yes or no." It's a label, not a decision.
+
+The aurora demo needed a decision. And plain sunset is the wrong bar for it: Fairbanks sits at 64.8°N, and for weeks around the summer solstice the sun sets and still leaves the sky bright with civil and nautical twilight. So "sunset" would tell a visitor in July that it's dark when it plainly is not. The honest threshold is nautical twilight — the sun 12° below the horizon, the point a bright aurora actually becomes visible — which is a stricter, later bar than plain sunset.
+
+Once I computed that properly, Fairbanks doesn't clear nautical twilight again until roughly August 18, and loses it again around April 25. That's a real, live-computed number, and it happens to land almost exactly on the season the University of Alaska Fairbanks Geophysical Institute itself publishes — "roughly August 21 to April 21." An independent authority agreeing with our math to within a few days is about as good a proof-of-correctness as you get without a lab.
+
+Getting there exposed the bug.
+
+## The bug: sunset computing before sunrise
+
+The sunrise/sunset routine (the standard NOAA solar-position algorithm) takes a date and a longitude and returns "minutes since UTC midnight" for that day's sunrise and that day's sunset. For most of the portfolio's locations — Homer, Valdez, both a few hours from Greenwich — those two numbers land in the order you'd expect: sunrise, then later that same day, sunset.
+
+Fairbanks is 9-and-change hours west of Greenwich, and that's far enough for the arithmetic to stop matching intuition. Run the algorithm for July 10 and you get:
+
+- **sunrise** → 11:36 UTC
+- **sunset** → 08:15 UTC
+
+Sunset computing as an earlier clock time than sunrise, on the same calendar day. Converted to Fairbanks local time (UTC−8 in summer), that's a 3:36 AM sunrise and a 12:15 AM sunset — the tail end of the previous night spilling fifteen minutes past midnight, landing on "today" by the UTC calendar even though a Fairbanks resident would call it "last night."
+
+The algorithm isn't wrong. It faithfully computes "this UTC day's sunrise" and "this UTC day's sunset" as two independent values. The bug is in assuming those two values describe one contiguous day-night cycle you can compare directly. Far enough from Greenwich, they don't.
+
+This had been sitting in the codebase, unnoticed, because nothing had ever needed to compare "now" against those two numbers. Every prior demo just formatted them as strings and printed them. The first time any code asked a real either/or question — is the current instant before this, or after that — was the first time the bug had a chance to bite.
+
+## The fix: stop comparing labels, start comparing time
+
+The fix doesn't patch the two-number comparison; it removes it. Instead of asking "is now between this day's sunrise and this day's sunset," the code now builds a small window of actual events — sunrise and sunset for today, yesterday, and tomorrow — as real timestamps, sorts them, and asks one question: was the most recent event before now a sunset, or a sunrise?
+
+That framing can't wrap, because it never assumes which calendar day an event "belongs" to. It just orders things in time, the way a person would if you handed them a list of clock-outs and clock-ins and asked whether someone is currently on shift.
+
+I verified it the boring way before trusting it: wrote the same algorithm in Python, ran it across a full year at Fairbanks' coordinates, and printed out the actual event sequence in local time for both midsummer and midwinter. Midsummer showed the real, short summer "night" — sunset just after local midnight, sunrise a little over three hours later, a dark window most people don't realize Fairbanks even has in July. Midwinter showed the mirror image: sunrise mid-morning, sunset mid-afternoon, dark most of the day. Only after the numbers matched what I already knew to be true about Fairbanks did the fix go into the actual page.
+
+## What I'd tell another team
+
+1. **A function that's never been asked a boolean question can hide a bug indefinitely.** "Format this timestamp" and "is this timestamp before that one" are different claims about the same data — the second one is where the assumptions get tested.
+2. **Don't compare two computed values unless you know they live on the same number line.** If either one is anchored to a boundary that can shift under the input (a calendar day, a timezone, a fiscal quarter), compare via a small window of real timestamps instead of two bare values.
+3. **The edge case that "can't happen" usually just hasn't been asked yet.** This code shipped clean across three prior demos. It took a fourth one, asking a slightly harder question of the same math, to find what was already there.
+4. **Cross-validate against a source you didn't write.** Our computed darkness window matching a real research institute's published season, independently, was worth more than any unit test I could have written myself.
+5. **The honest answer is a feature, not a bug report.** "Too bright to see it right now" reads like a broken demo until you know it's correct — and it's the whole reason the panel is worth building. A live data feed that only ever says what's flattering isn't a live data feed, it's marketing copy with extra steps.
+
+You can see the panel itself — Kp index, aurora probability, sky conditions, and the darkness gate, all live — on [the aurora demo](https://bluewaveprojects.com/demos/aurora-fairbanks), one of 25 working builds on [our sample portfolio](https://bluewaveprojects.com/demos). If you want a team that chases down the "that can't happen" case instead of shipping around it, [say hello](https://bluewaveprojects.com/booking).`,
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
