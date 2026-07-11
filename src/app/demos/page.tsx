@@ -7,9 +7,9 @@ import { GalleryCard } from "./gallery-card";
 // The index of every do-the-work-first proof — ONE link to send. Unlisted like
 // everything under /demos: NOINDEX + robots-disallowed, shared only by hand.
 export const metadata: Metadata = {
-  title: "The Proof Shelf — 24 Working Demos by BlueWave Projects",
+  title: "The Proof Shelf — 25 Working Demos by BlueWave Projects",
   description:
-    "Every do-the-work-first build in one place: sample operator sites with live NOAA/NWS/PacIOOS data, unofficial event hubs, live AIS vessel maps, reverent tributes, a scroll-driven data essay, and product prototypes — Alaska, Hawaiʻi, and the Salish Sea.",
+    "Every do-the-work-first build in one place: sample operator sites with live NOAA/NWS/PacIOOS/space-weather data, unofficial event hubs, live AIS vessel maps, reverent tributes, a scroll-driven data essay, and product prototypes — Alaska, Hawaiʻi, and the Salish Sea.",
   robots: {
     index: false,
     follow: false,
@@ -87,6 +87,14 @@ const OPERATORS: Demo[] = [
     region: "Alaska",
     kind: "Sample brand",
     feeds: ["NWS conditions"],
+  },
+  {
+    slug: "aurora-fairbanks",
+    name: "Tanana Ridge Aurora Co.",
+    blurb: "Fairbanks aurora chase tours with a live NOAA space-weather panel — Kp index and aurora probability honestly gated on a computed darkness window, not just a Kp number.",
+    region: "Alaska",
+    kind: "Sample brand",
+    feeds: ["NOAA space weather", "NWS sky", "Computed darkness"],
   },
 ];
 
@@ -283,10 +291,10 @@ export default function DemosIndexPage() {
           The proof shelf.
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-slate-300">
-          {COUNT} working builds — sample operator sites with live ocean and
-          aviation data, unofficial event hubs, live vessel maps, reverent
-          tributes, and a data essay. We build the proof first, then start the
-          conversation.
+          {COUNT} working builds — sample operator sites with live ocean,
+          aviation, and space-weather data, unofficial event hubs, live vessel
+          maps, reverent tributes, and a data essay. We build the proof first,
+          then start the conversation.
         </p>
         <p className="mx-auto mt-5 max-w-2xl text-xs leading-relaxed text-slate-500">
           Every page is unlisted and honestly labeled: sample brands are
