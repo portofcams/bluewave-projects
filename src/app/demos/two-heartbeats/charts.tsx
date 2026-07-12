@@ -408,18 +408,34 @@ export function BigDays({
 // NOW TILES — the live opening beat: two stat tiles (label · value · context),
 // system sans, with the honest live/sample badge.
 // ---------------------------------------------------------------------------
+type BuoyReading = { heightFt: number; periodS: number | null; live: boolean } | null;
+
 export function NowTiles({
   north,
   south,
   live,
+  buoyNorth,
+  buoySouth,
   sub,
 }: {
   north: { hsFt: number; peakPeriodS: number | null; dirCardinal: string | null } | null;
   south: { hsFt: number; peakPeriodS: number | null; dirCardinal: string | null } | null;
   live: boolean;
+  buoyNorth?: BuoyReading;
+  buoySouth?: BuoyReading;
   sub: string;
 }) {
-  const Tile = ({ label, color, d }: { label: string; color: string; d: typeof north }) => (
+  const Tile = ({
+    label,
+    color,
+    d,
+    buoy,
+  }: {
+    label: string;
+    color: string;
+    d: typeof north;
+    buoy?: BuoyReading;
+  }) => (
     <div className="rounded-xl p-4" style={{ background: THB.surface, border: `1px solid ${THB.border}` }}>
       <div className="thb-sans mb-1 flex items-center gap-1.5 text-[10px] uppercase tracking-[0.14em]" style={{ color: THB.muted }}>
         <span style={{ width: 10, height: 3, borderRadius: 2, background: color }} />
@@ -431,6 +447,16 @@ export function NowTiles({
       <div className="thb-sans mt-0.5 text-[11px]" style={{ color: THB.muted }}>
         {d?.peakPeriodS != null ? `${Math.round(d.peakPeriodS)} s period · modeled Hs` : "modeled Hs"}
       </div>
+      {buoy && (
+        <div className="thb-sans mt-1.5 flex items-center gap-1.5 text-[10px]" style={{ color: THB.muted }}>
+          <span
+            className="inline-flex h-1.5 w-1.5 shrink-0 rounded-full"
+            style={{ background: buoy.live ? "#5fd0a0" : "rgba(207,224,230,.4)" }}
+          />
+          buoy {buoy.heightFt.toFixed(1)} ft{buoy.periodS != null ? `, ${buoy.periodS}s` : ""} ·{" "}
+          {buoy.live ? "live NDBC" : "sample"}
+        </div>
+      )}
     </div>
   );
   return (
@@ -445,8 +471,8 @@ export function NowTiles({
         </span>
       </div>
       <div className="grid grid-cols-2 gap-3">
-        <Tile label="North Shore" color={THB.north} d={north} />
-        <Tile label="South Shore" color={THB.south} d={south} />
+        <Tile label="North Shore" color={THB.north} d={north} buoy={buoyNorth} />
+        <Tile label="South Shore" color={THB.south} d={south} buoy={buoySouth} />
       </div>
       <p className="thb-sans mt-2 text-[11px] leading-relaxed" style={{ color: THB.muted }}>{sub}</p>
     </div>

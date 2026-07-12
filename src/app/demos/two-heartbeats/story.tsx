@@ -7,7 +7,8 @@
 
 import { useEffect, useState } from "react";
 import data from "./heartbeats-data.json";
-import { fetchSwanWaves, type SwanWaves } from "../_wx";
+import { fetchSwanWaves, type BuoyObservation, type SwanWaves } from "../_wx";
+import { useBuoyObservation } from "../_wx/live";
 import { Scrolly, Step } from "./scrolly";
 import { BigDays, HeatStrips, NowTiles, SeasonLines, type NowDots } from "./charts";
 import { THB } from "./_shared";
@@ -27,6 +28,32 @@ const sJul = data.climatology.south[6];
 const sJan = data.climatology.south[0];
 const northSwing = nJan != null && nAug != null ? (nJan / nAug).toFixed(1) : "—";
 const southSwing = sJul != null && sJan != null ? (sJul / sJan).toFixed(2) : "—";
+
+// Real NDBC buoys nearest the two story cells — the actual measurement each
+// modeled cell is standing in for. Same relay as waikiki-surf-dive's buoy
+// tile (an existing CORS-enabled proxy on the shared ai-app box, not a new
+// one). Sample fallbacks are realistic July readings, never shown as live.
+const NORTH_BUOY_STATION = "51201"; // Waimea Bay
+const SOUTH_BUOY_STATION = "51211"; // Māmala Bay, off Waikīkī
+const SAMPLE_BUOY_NORTH: BuoyObservation = {
+  station: NORTH_BUOY_STATION,
+  time: null,
+  waveHeightM: 1.3,
+  dominantPeriodS: 8,
+  avgPeriodS: 5,
+  waveDirDeg: 40,
+  waterTempC: 26,
+};
+const SAMPLE_BUOY_SOUTH: BuoyObservation = {
+  station: SOUTH_BUOY_STATION,
+  time: null,
+  waveHeightM: 1.0,
+  dominantPeriodS: 6,
+  avgPeriodS: 5,
+  waveDirDeg: 160,
+  waterTempC: 27,
+};
+const M_TO_FT = 3.28084;
 
 export function Story() {
   const [now, setNow] = useState<{ north: SwanWaves | null; south: SwanWaves | null; live: boolean }>({
@@ -67,6 +94,13 @@ export function Story() {
       }
     : null;
 
+  const northBuoy = useBuoyObservation(NORTH_BUOY_STATION, { sample: SAMPLE_BUOY_NORTH });
+  const southBuoy = useBuoyObservation(SOUTH_BUOY_STATION, { sample: SAMPLE_BUOY_SOUTH });
+  const toBuoyReading = (b: typeof northBuoy) =>
+    b.obs.waveHeightM != null
+      ? { heightFt: b.obs.waveHeightM * M_TO_FT, periodS: b.obs.dominantPeriodS, live: b.source === "live" }
+      : undefined;
+
   const graphic = (active: number) => {
     const frame = (() => {
       switch (active) {
@@ -76,7 +110,9 @@ export function Story() {
               north={now.north}
               south={now.south}
               live={now.live}
-              sub="Modeled significant wave height at the two story cells (PacIOOS SWAN nowcast). If the feed is unreachable this reads as a labeled sample — never presented as live."
+              buoyNorth={toBuoyReading(northBuoy)}
+              buoySouth={toBuoyReading(southBuoy)}
+              sub="Modeled significant wave height at the two story cells (PacIOOS SWAN nowcast), with the real NDBC buoy nearest each cell (Waimea Bay north, Māmala Bay south) alongside it — the model and the measurement it's standing in for. If a feed is unreachable it reads as a labeled sample — never presented as live."
             />
           );
         case 1:
