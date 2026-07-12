@@ -164,14 +164,110 @@ export function seaRead(ceilFt: number | null, visMi: number | null): "Good" | "
   return "Good";
 }
 
+/** Wheel-choice read from live wind speed (mph) — a training-ride planning
+ *  heuristic for a crosswind-prone course, not a rule. IRONMAN itself
+ *  restricts disc wheels at Kona specifically because of its Queen K
+ *  crosswinds, which is the real precedent this categorization follows. */
+export function wheelRead(windMph: number): "Deep-section fine" | "Consider mid-depth" | "Spoked — mind the gusts" {
+  if (windMph < 12) return "Deep-section fine";
+  if (windMph < 20) return "Consider mid-depth";
+  return "Spoked — mind the gusts";
+}
+
+// ---- raw METAR fallback parsing --------------------------------------------
+// NWS's structured JSON fields (temperature.value, windSpeed.value, etc.) are
+// intermittently null even when the station clearly transmitted a full METAR
+// with the data embedded — verified 2026-07-12 across PHKO and PHNL, roughly
+// every other hourly reading has this gap. When it happens, `rawMessage`
+// usually still carries the real METAR text, so we parse it as a fallback
+// rather than silently downgrade to "sample" for data the station actually
+// reported. This benefits every demo using decodeNwsObservation, not just one.
+
+function parseMetarWind(raw: string): { dir: number | null; speedKt: number; gustKt: number | null } | null {
+  const m = raw.match(/\b(\d{3}|VRB)(\d{2,3})(?:G(\d{2,3}))?KT\b/);
+  if (!m) return null;
+  return {
+    dir: m[1] === "VRB" ? null : Number(m[1]),
+    speedKt: Number(m[2]),
+    gustKt: m[3] ? Number(m[3]) : null,
+  };
+}
+
+function parseMetarTempDew(raw: string): { tempC: number; dewC: number | null } | null {
+  const m = raw.match(/\s(M?\d{2})\/(M?\d{2})?\b/);
+  if (!m) return null;
+  const conv = (t: string) => (t.startsWith("M") ? -Number(t.slice(1)) : Number(t));
+  return { tempC: conv(m[1]), dewC: m[2] ? conv(m[2]) : null };
+}
+
+function parseMetarVisSM(raw: string): number | null {
+  const m = raw.match(/\b(\d+(?:\/\d+)?)SM\b/);
+  if (!m) return null;
+  if (m[1].includes("/")) {
+    const [a, b] = m[1].split("/").map(Number);
+    return b ? a / b : null;
+  }
+  return Number(m[1]);
+}
+
+function parseMetarAltimeter(raw: string): number | null {
+  const m = raw.match(/\bA(\d{4})\b/);
+  return m ? Number(m[1]) / 100 : null;
+}
+
+function parseMetarClouds(raw: string): NwsCloudLayer[] | null {
+  const matches = [...raw.matchAll(/\b(FEW|SCT|BKN|OVC)(\d{3})\b/g)];
+  if (!matches.length) return null;
+  return matches.map((m) => ({ amount: m[1], base: { value: Number(m[2]) * 100 * 0.3048 } }));
+}
+
+/** Fill any null structured fields using the station's own raw transmitted
+ *  METAR, when present. Never overrides a real structured value — only fills
+ *  gaps the NWS API itself left blank. */
+function fillFromRawMetar(p: NwsProps): NwsProps {
+  const raw = p.rawMessage?.trim();
+  if (!raw) return p;
+  const out: NwsProps = { ...p };
+
+  if (numOrNull(p.windSpeed) == null) {
+    const w = parseMetarWind(raw);
+    if (w) {
+      out.windSpeed = { value: w.speedKt * 1.852 }; // kt -> km/h
+      if (w.dir != null) out.windDirection = { value: w.dir };
+      if (w.gustKt != null) out.windGust = { value: w.gustKt * 1.852 };
+    }
+  }
+  if (numOrNull(p.temperature) == null) {
+    const td = parseMetarTempDew(raw);
+    if (td) {
+      out.temperature = { value: td.tempC };
+      if (td.dewC != null && numOrNull(p.dewpoint) == null) out.dewpoint = { value: td.dewC };
+    }
+  }
+  if (numOrNull(p.visibility) == null) {
+    const visSM = parseMetarVisSM(raw);
+    if (visSM != null) out.visibility = { value: visSM * 1609.344 };
+  }
+  if (numOrNull(p.barometricPressure) == null) {
+    const inHg = parseMetarAltimeter(raw);
+    if (inHg != null) out.barometricPressure = { value: inHg * 3386.389 };
+  }
+  if (!Array.isArray(p.cloudLayers) || !p.cloudLayers.length) {
+    const clouds = parseMetarClouds(raw);
+    if (clouds) out.cloudLayers = clouds;
+  }
+  return out;
+}
+
 /** Decode an NWS observation `properties` object into raw + formatted fields.
  *  `station` is the ICAO used when a METAR must be assembled from fields.
  *  `tz` formats the observation time; defaults to America/Anchorage. */
 export function decodeNwsObservation(
-  p: NwsProps,
+  rawProps: NwsProps,
   station: string,
   tz = "America/Anchorage"
 ): NwsObservation {
+  const p = fillFromRawMetar(rawProps);
   const transmitted = p.rawMessage && p.rawMessage.trim() ? p.rawMessage.trim() : null;
 
   const tempC = numOrNull(p.temperature);
@@ -275,12 +371,20 @@ export function decodeNwsObservation(
   };
 }
 
-/** True when an NWS `properties` object carries usable observation data. */
+/** True when an NWS `properties` object carries usable observation data.
+ *  `timestamp` alone does NOT count — every observation the API returns has
+ *  one, even the ones where every actual field (temp, wind, sky...) is null
+ *  (verified 2026-07-12: PHKO and PHNL both do this on roughly every other
+ *  hourly reading). Counting a bare timestamp as "usable" meant a demo could
+ *  badge a blank reading "Live" and show nothing but dashes — worse than the
+ *  honest sample fallback it was supposed to avoid. Require an actual raw
+ *  METAR or a real temperature/wind value instead. */
 export function hasUsableObs(p: NwsProps | undefined | null): p is NwsProps {
-  return !!(
-    p &&
-    (p.rawMessage || p.timestamp || (p.temperature && p.temperature.value != null))
-  );
+  if (!p) return false;
+  if (p.rawMessage && p.rawMessage.trim()) return true;
+  if (numOrNull(p.temperature) != null) return true;
+  if (numOrNull(p.windSpeed) != null) return true;
+  return false;
 }
 
 export const nwsLatestUrl = (icao: string) =>

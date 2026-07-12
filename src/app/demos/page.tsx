@@ -7,7 +7,7 @@ import { GalleryCard } from "./gallery-card";
 // The index of every do-the-work-first proof — ONE link to send. Unlisted like
 // everything under /demos: NOINDEX + robots-disallowed, shared only by hand.
 export const metadata: Metadata = {
-  title: "The Proof Shelf — 25 Working Demos by BlueWave Projects",
+  title: "The Proof Shelf — 26 Working Demos by BlueWave Projects",
   description:
     "Every do-the-work-first build in one place: sample operator sites with live NOAA/NWS/PacIOOS/space-weather data, unofficial event hubs, live AIS vessel maps, reverent tributes, a scroll-driven data essay, and product prototypes — Alaska, Hawaiʻi, and the Salish Sea.",
   robots: {
@@ -95,6 +95,14 @@ const OPERATORS: Demo[] = [
     region: "Alaska",
     kind: "Sample brand",
     feeds: ["NOAA space weather", "NWS sky", "Computed darkness"],
+  },
+  {
+    slug: "queen-k-cycle-kona",
+    name: "Queen K Cycle Co.",
+    blurb: "A Kailua-Kona bike shop for Ironman race-week riders — live Queen K wind turned into an honest wheel-choice read, the same crosswinds that get disc wheels restricted at Kona.",
+    region: "Hawaiʻi",
+    kind: "Sample brand",
+    feeds: ["NWS wind/temp", "Computed daylight"],
   },
 ];
 
