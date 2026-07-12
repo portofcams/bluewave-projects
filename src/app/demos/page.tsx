@@ -7,7 +7,7 @@ import { GalleryCard } from "./gallery-card";
 // The index of every do-the-work-first proof — ONE link to send. Unlisted like
 // everything under /demos: NOINDEX + robots-disallowed, shared only by hand.
 export const metadata: Metadata = {
-  title: "The Proof Shelf — 26 Working Demos by BlueWave Projects",
+  title: "The Proof Shelf — 27 Working Demos by BlueWave Projects",
   description:
     "Every do-the-work-first build in one place: sample operator sites with live NOAA/NWS/PacIOOS/space-weather data, unofficial event hubs, live AIS vessel maps, reverent tributes, a scroll-driven data essay, and product prototypes — Alaska, Hawaiʻi, and the Salish Sea.",
   robots: {
@@ -240,6 +240,14 @@ const PROTOTYPES: Demo[] = [
     region: "Alaska",
     kind: "Prototype",
     feeds: ["NWS conditions"],
+  },
+  {
+    slug: "clearspar-heli-ios",
+    name: "Clearspar Heli — Native Apps",
+    blurb: "The same heli-ski operation rebuilt as two native iOS + watchOS apps — the skier's trip companion and the crew's ops board — where nothing on screen is ever faked. A live sim walkthrough.",
+    region: "Alaska",
+    kind: "Prototype",
+    feeds: [],
   },
   {
     slug: "ai-front-desk",
