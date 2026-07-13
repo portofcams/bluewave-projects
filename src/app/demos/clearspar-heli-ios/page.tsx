@@ -7,7 +7,7 @@ import { DemoTracking } from "@/components/DemoTracking";
 export const metadata: Metadata = {
   title: "Clearspar Heli — Native iOS + watchOS (Product Concept)",
   description:
-    "A heli-ski operation in two native SwiftUI apps — the guest's trip companion and the crew's ops board, with Apple Watch companions — built on one rule: nothing on screen is ever faked. Captured live from the sixth TestFlight build, sample data throughout.",
+    "A heli-ski operation in two native SwiftUI apps — the guest's trip companion and the crew's ops board, with Apple Watch companions — built on one rule: nothing on screen is ever faked. Captured live from the seventh TestFlight build, sample data throughout.",
   robots: {
     index: false,
     follow: false,
@@ -88,7 +88,7 @@ const BUILT: [string, string][] = [
   ["Native, end to end", "Two SwiftUI apps plus watchOS companions — iOS 17, no cross-platform runtime, no third-party UI SDKs. Live Activities, Home Screen widgets, Face ID, EventKit, MapKit, all Apple-native."],
   ["A watch that can't lie", "The Apple Watch app carries no networking of its own. A wrist check-in relays through the phone and only turns green on the server's real 2xx — never an optimistic guess."],
   ["Honest by construction", "Missing data says <b>not set</b>. A stale fix says stale. A gate with no minima says UNKNOWN. The one rule the whole platform is built around: nothing on screen is faked."],
-  ["Shipped, not staged", "Six TestFlight builds across both apps in a single run — widgets, watch apps, flight-following, fuel, accessibility, real icons — each archived, validated, and delivered."],
+  ["Shipped, not staged", "Seven TestFlight builds across both apps in a single run — widgets, watch apps, flight-following, fuel, accessibility, real icons — each archived, validated, and delivered."],
 ];
 
 const CSS = `
@@ -233,7 +233,7 @@ export default function ClearsparHeliIosPage() {
         <div className="in">
           <div className="foot">
             <span className="l">Clearspar Heli — native SwiftUI · watchOS · live FastAPI backend</span>
-            <span>Captured from build 6 · sample data throughout</span>
+            <span>Screenshots captured from build 6 · sample data throughout</span>
           </div>
         </div>
       </div>
