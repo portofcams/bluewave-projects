@@ -1940,6 +1940,76 @@ I verified it the boring way before trusting it: wrote the same algorithm in Pyt
 
 You can see the panel itself — Kp index, aurora probability, sky conditions, and the darkness gate, all live — on [the aurora demo](https://bluewaveprojects.com/demos/aurora-fairbanks), one of 25 working builds on [our sample portfolio](https://bluewaveprojects.com/demos). If you want a team that chases down the "that can't happen" case instead of shipping around it, [say hello](https://bluewaveprojects.com/booking).`,
   },
+  {
+    id: "28",
+    slug: "healthy-container-not-working-feature",
+    title: "A healthy container isn't a working feature — read the actual startup logs",
+    excerpt:
+      "We wired in a real-time vessel-tracking feed, rebuilt the image, brought the container up. Docker said healthy. The build had succeeded. The feature did nothing — because the one line that mattered was a graceful, silent, perfectly well-behaved failure, buried between forty ordinary ones.",
+    date: "2026-07-13",
+    readTime: "6 min",
+    category: "Engineering",
+    categoryColor: "text-wave-400",
+    gradient: "from-ocean-500 to-wave-400",
+    author: {
+      name: "John C. Thomas",
+      role: "Founder, BlueWave Projects",
+    },
+    content: `We finally had what we needed to light up a real-time feature that had been sitting half-built for weeks — a live vessel-tracking feed for a couple of our sample demos, gated on nothing but an API key. The key arrived. We wired it into the shared backend, rebuilt the image, brought the container up.
+
+Docker said healthy. The build had succeeded. Every signal you'd normally trust said it worked.
+
+The feature did nothing.
+
+## Green lights, all the way down
+
+Here's what "checking the deploy" looked like, and why every step of it would have said ship it:
+
+- \`docker compose up -d\` reported the container recreated and started.
+- \`docker ps\` showed it running, health check passing.
+- The image build itself had succeeded a few minutes earlier — clean log, no errors, every dependency installed.
+- The app's own routes all still worked; nothing else on the shared container had broken.
+
+Four true facts, and the fifth one — the actual feature — was completely inert. None of the first four would ever have told us that, because none of them ask the one question that matters: did the thing we just shipped actually do its job?
+
+## The bug was two bugs, and the second one hid the first
+
+The first problem was ordinary: the module's own deploy notes, written months earlier, described wiring it in with FastAPI's older \`@app.on_event("startup")\` decorator. The app had since moved to the modern \`lifespan\` context-manager pattern. Mixing the two isn't something you want to gamble on in a shared container running a few dozen other routes, so the fix was to call the same startup function from inside the app's actual \`lifespan\`, not bolt on a second, older mechanism the rest of the codebase had already left behind. Deploy instructions written into a comment rot exactly like code does — the file was telling us how to wire it into an app that no longer existed.
+
+The second problem is the one worth remembering. The module needed one more Python package for its websocket connection. It wasn't installed. And the code handled that missing dependency about as responsibly as code can:
+
+\`\`\`
+try:
+    import websockets
+except ImportError:
+    websockets = None
+\`\`\`
+
+Later, at startup: if \`websockets\` is \`None\`, print a line saying so, and skip starting the feed. No crash. No stack trace. No non-zero exit code. Just one line of text, printed once, sitting between the database-ready message and the templates-loaded message in a startup log forty lines long.
+
+That is good defensive code. It's also a silent failure with better manners.
+
+## "Degraded gracefully" is not the same as "worked"
+
+The instinct to wrap a risky import in a try/except is correct — you don't want an optional dependency taking down an app that doesn't strictly need it. But graceful degradation only helps the next person if the degraded state is at least as visible as a crash would have been. A stack trace gets noticed. A print statement that reads almost exactly like the six lines around it does not.
+
+We only caught this because of one habit: after every deploy, read the actual startup log, line by line, rather than trusting that "container healthy" and "build succeeded" add up to "feature working." They don't. They're answering three different questions, and only one line in the whole log was answering the fourth.
+
+## The fix, and the one we're still owed
+
+The immediate fix was mechanical: add the missing package to the image, rebuild, redeploy, confirm the startup log now shows the feed actually connecting. Ten minutes, once we knew what to look for.
+
+The fix we still owe the codebase is the more important one: that print statement should not read like routine startup chatter. A feature failing to start needs to look different in the log than a feature starting normally — a distinct prefix, a warning level, something a future deploy can't scroll past without noticing. We wrote defensive code and stopped one step short of making the defense visible.
+
+## What I'd tell another team
+
+1. **A healthy container answers "is it running," not "does it work."** Those are different claims. A build succeeding, a health check passing, and a feature functioning are three separate facts — verify the one you actually care about, not the two that are easiest to check.
+2. **A try/except around an optional dependency is good practice — pair it with a log line that looks like a failure, not a status update.** If the fallback path is silent by design, make sure "silent" doesn't also mean "invisible in a wall of normal output."
+3. **Deploy instructions embedded in a file are documentation, and documentation rots.** The comment told us to wire the feature in a way the app had already moved past. Read what the app actually does, not what a comment once said it did.
+4. **After every deploy, read the real startup log, not just the exit code.** This is the same discipline as grepping a production bundle for a string you just shipped — verify the artifact, not the pipeline's opinion of itself.
+
+You can see the feature itself now live on [our sample fleet-tracking demos](https://bluewaveprojects.com/demos) — real vessel positions where they're actually present, an honestly-labeled sample where they're not. If you want a team that reads the log instead of the exit code, [say hello](https://bluewaveprojects.com/booking).`,
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
