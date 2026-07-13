@@ -65,14 +65,21 @@ type RawVessel = {
   updated?: string | null;
 };
 
-/** Fetch current vessels from the proxy. Returns null on any failure/empty. */
+/** Fetch current vessels from the proxy. Returns null ONLY on a genuine
+ *  failure — unreachable proxy, bad status, or a response that isn't even
+ *  shaped like a vessel list. A well-formed response with zero vessels
+ *  (genuinely quiet water right now) returns `[]`, NOT null — those are two
+ *  different real states, and collapsing them into one made a working,
+ *  currently-empty feed indistinguishable from a broken one: both showed the
+ *  same animated sample fleet. Callers that want "is this actually live"
+ *  should check for `!== null`, not truthiness. */
 export async function fetchAisVessels(url = AIS_PROXY_URL): Promise<Vessel[] | null> {
   try {
     const r = await fetch(url, { headers: { Accept: "application/json" } });
     if (!r.ok) return null;
     const j = await r.json();
     const raw: RawVessel[] = Array.isArray(j) ? j : j?.vessels;
-    if (!Array.isArray(raw) || !raw.length) return null;
+    if (!Array.isArray(raw)) return null;
     const vessels = raw
       .filter((v) => typeof v.lat === "number" && typeof v.lon === "number" && typeof v.mmsi === "number")
       .map((v) => ({
@@ -87,7 +94,7 @@ export async function fetchAisVessels(url = AIS_PROXY_URL): Promise<Vessel[] | n
         status: v.status ?? null,
         updated: v.updated ?? null,
       }));
-    return vessels.length ? vessels : null;
+    return vessels;
   } catch {
     return null;
   }

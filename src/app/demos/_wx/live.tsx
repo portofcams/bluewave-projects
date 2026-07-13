@@ -353,7 +353,11 @@ export function useAisVessels(opts: {
     async function load() {
       const v = await fetchAisVessels(url);
       if (!alive) return;
-      if (v) {
+      // Explicit !== null, not truthiness: an empty array is a genuine live
+      // result (nothing in range right now), not a failure. Relying on "[]
+      // is truthy" here would work by accident of JS semantics; say what's
+      // actually meant instead.
+      if (v !== null) {
         setLive({ vessels: v, fetchedAt: Date.now() });
         setSource("live");
       } else {
