@@ -99,20 +99,40 @@ export function QkcConditions() {
         </div>
 
         {/* wind hero tile */}
-        <div className="qkc-glass mb-3 flex items-end justify-between gap-4 p-4">
-          <div>
-            <div className="mb-1 flex items-center gap-2">
-              <span className="text-[10px] uppercase tracking-[0.14em] text-[#d9c4b0]">Wind</span>
-              <SourceBadge source={wx.source} labels={{ live: "Live · NWS" }} classes={BADGE} />
+        <div className="qkc-glass mb-3 flex flex-col gap-3 p-4">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <div className="mb-1 flex items-center gap-2">
+                <span className="text-[10px] uppercase tracking-[0.14em] text-[#d9c4b0]">Wind</span>
+                <SourceBadge source={wx.source} labels={{ live: "Live · NWS" }} classes={BADGE} />
+              </div>
+              <div className="qkc-display text-2xl text-[#faf3ea] sm:text-3xl">{d.windTextMph}</div>
+              <div className="mt-1 text-[11px] text-[#d9c4b0]">
+                {wheel ? `${wheel} for a training ride today` : "wheel read unavailable"}
+              </div>
             </div>
-            <div className="qkc-display text-2xl text-[#faf3ea] sm:text-3xl">{d.windTextMph}</div>
-            <div className="mt-1 text-[11px] text-[#d9c4b0]">
-              {wheel ? `${wheel} for a training ride today` : "wheel read unavailable"}
+            <svg viewBox="0 0 64 40" className="h-10 w-16 shrink-0 text-[#ffb49e]" fill="none" aria-hidden="true">
+              <path d="M4 14h40a6 6 0 1 0-6-6M4 26h32a6 6 0 1 1-6 6" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+            </svg>
+          </div>
+
+          {/* Queen K context range — today's reading against the course's real
+              reputation, so a calm day still shows what "famous" looks like. */}
+          <div>
+            <div className="relative h-1.5 w-full rounded-full bg-gradient-to-r from-[#0891b2] to-[#ff5a36]">
+              {d.windMph != null && (
+                <div
+                  className="absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#0a0705] bg-[#faf3ea]"
+                  style={{ left: `${Math.min(100, Math.max(0, (d.windMph / 50) * 100))}%` }}
+                  aria-hidden="true"
+                />
+              )}
+            </div>
+            <div className="mt-1.5 flex items-center justify-between text-[10px] text-[#d9c4b0]/70">
+              <span>Calm</span>
+              <span>Sourced 45 mph gusts near Hawiʻi turnaround</span>
             </div>
           </div>
-          <svg viewBox="0 0 64 40" className="h-10 w-16 shrink-0 text-[#ffb49e]" fill="none" aria-hidden="true">
-            <path d="M4 14h40a6 6 0 1 0-6-6M4 26h32a6 6 0 1 1-6 6" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
-          </svg>
         </div>
 
         {/* metric grid */}
