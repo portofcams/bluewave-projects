@@ -50,6 +50,7 @@ export type NwsProps = {
   windGust?: NwsValue; // km/h
   visibility?: NwsValue; // meters
   barometricPressure?: NwsValue; // Pascals
+  relativeHumidity?: NwsValue; // % — not surfaced by decodeNwsObservation; read directly for the one demo (Denali) that needs it
   cloudLayers?: NwsCloudLayer[] | null;
 };
 
@@ -81,6 +82,11 @@ export type NwsObservation = {
   rawAssembled: boolean; // true when `raw` was composed (rawMessage empty)
   obsAt: Date | null; // observation timestamp
   obsTimeText: string; // "11:25 AM AKDT" (formatted in `tz`) or "—"
+  // NWS's free-text summary (e.g. "Light Rain", "Mostly Cloudy"). Cloud-cover
+  // codes (SKC/FEW/SCT/BKN/OVC) never encode precipitation, so a demo whose
+  // heuristic needs to detect rain/snow (not just ceiling/visibility) needs
+  // this raw field, not just the derived `skyText`.
+  textDescription: string | null;
 };
 
 /** Compose a valid METAR string from live decoded fields (used when the
@@ -172,6 +178,17 @@ export function wheelRead(windMph: number): "Deep-section fine" | "Consider mid-
   if (windMph < 12) return "Deep-section fine";
   if (windMph < 20) return "Consider mid-depth";
   return "Spoked — mind the gusts";
+}
+
+/** Statute-miles visibility formatted for a non-aviation audience ("10+ mi"),
+ *  as an alternative to the SM-suffixed `visText` on NwsObservation — used by
+ *  the marine/tourism demos (vs. the aviation demos, which read `visText`
+ *  directly). Same underlying `visSM` number either way, just the label a
+ *  guest vs. a pilot expects. */
+export function visTextMi(visSM: number | null): string {
+  if (visSM == null) return "—";
+  const shown = visSM >= 1 ? Math.round(visSM) : Math.round(visSM * 10) / 10;
+  return `${shown}${visSM >= 10 ? "+" : ""} mi`;
 }
 
 // ---- raw METAR fallback parsing --------------------------------------------
@@ -368,6 +385,7 @@ export function decodeNwsObservation(
     rawAssembled: !transmitted,
     obsAt,
     obsTimeText,
+    textDescription: p.textDescription ?? null,
   };
 }
 

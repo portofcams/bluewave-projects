@@ -10,7 +10,7 @@
 // Seldovia, are gated by the stage of the tide. So the "wow" panel is a LIVE
 // tide read, not just weather.
 //
-// HONESTY CONTRACT (mirrors lazy-otter-charters/conditions.tsx):
+// HONESTY CONTRACT:
 //   - TIDES: we attempt a LIVE fetch, client-side, of NOAA CO-OPS tide
 //     predictions for Homer, AK — Coal Point, at the tip of the Homer Spit
 //     (station 9455558) from
@@ -20,10 +20,10 @@
 //     the panel badges "Live · NOAA" and shows the current tide state, the
 //     next high/low, today's range, and a tide curve — all derived from the
 //     live prediction series. Heights are feet relative to MLLW.
-//   - WEATHER: we attempt a LIVE fetch of the latest Homer Airport (PAHO)
-//     observation from the National Weather Service API (keyless, CORS-ok)
-//     for a compact wind / sky / temp read — wind matters on the bay
-//     crossing. Badged "Live · NWS" on success.
+//   - WEATHER: a LIVE fetch of the latest Homer Airport (PAHO) observation
+//     from the National Weather Service (keyless, CORS-ok, shared decode
+//     contract in ../_wx/nws.ts) for a compact wind / sky / temp read — wind
+//     matters on the bay crossing. Badged "Live · NWS" on success.
 //   - If either feed errors or returns nothing usable, THAT block falls back
 //     to a CLEARLY-LABELED "Sample" — never presented as live.
 //   - Sunrise / sunset for Homer (59.64, -151.55) are COMPUTED client-side
@@ -37,7 +37,8 @@
 // _shared.tsx. Nothing global is touched.
 
 import { useEffect, useState } from "react";
-import { UpdatedAgo } from "../_wx/live";
+import { decodeNwsObservation, solarTimes, type NwsObservation } from "../_wx";
+import { SourceBadge, UpdatedAgo, useNwsObservation, type WxSource } from "../_wx/live";
 
 const TIDE_STATION = "9455558"; // Homer, AK — Coal Point (tip of the Homer Spit)
 const HOMER_LAT = 59.6014; // Coal Point
@@ -46,9 +47,15 @@ const HOMER_TZ = "America/Anchorage";
 const PAHO = "PAHO"; // Homer Airport
 const TIDE_URL = (begin: string, end: string) =>
   `https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?product=predictions&application=BlueWaveProjects&begin_date=${begin}&end_date=${end}&datum=MLLW&station=${TIDE_STATION}&time_zone=lst_ldt&units=english&interval=hilo&format=json`;
-const WX_URL = `https://api.weather.gov/stations/${PAHO}/observations/latest`;
 
 type Src = "live" | "sample" | "loading";
+
+const BADGE = {
+  live: "border-[#7fe0c8]/50 bg-[#7fe0c8]/15 text-[#a9ecd8]",
+  computed: "border-[#e6a94b]/45 bg-[#e6a94b]/12 text-[#f2c37f]",
+  sample: "border-[#f3faf9]/25 bg-[#f3faf9]/8 text-[#f3faf9]/70",
+  loading: "border-[#f3faf9]/20 text-[#f3faf9]/45",
+};
 
 // ---- shared tide types ----------------------------------------------------
 type TideEvent = { min: number; v: number; type: "H" | "L"; t: string };
@@ -67,22 +74,9 @@ type TideView = {
   events: { time: string; v: string; type: "H" | "L" }[]; // today's hi/lo list
 };
 
-type WxView = {
-  windText: string;
-  skyText: string;
-  tempText: string;
-  bayRead: string; // "Calm" / "Light chop" / "Building"
-  obsTime: string;
-};
-
 type State = {
   tideSrc: Src;
   tide: TideView;
-  wxSrc: Src;
-  wx: WxView;
-  sunrise: string;
-  sunset: string;
-  daylight: string;
 };
 
 // curve viewBox
@@ -271,154 +265,27 @@ const SAMPLE_EVENTS: TideEvent[] = [
 const SAMPLE_REF_NOW = parsePredMin("2026-07-09 13:00");
 const SAMPLE_TIDE = buildTide(SAMPLE_EVENTS, SAMPLE_REF_NOW, SAMPLE_TODAY) as TideView;
 
-const SAMPLE_WX: WxView = {
-  windText: "SW 9 mph",
-  skyText: "Broken 3,500 ft",
-  tempText: "56°F / 13°C",
-  bayRead: "Light chop",
-  obsTime: "sample observation",
-};
+// Realistic Homer summer afternoon: SW breeze, broken deck. NEVER shown live.
+const SAMPLE_WX: NwsObservation = decodeNwsObservation(
+  { timestamp: null, rawMessage: "PAHO 091953Z 22009KT 10SM BKN035 13/08 A2988 RMK AO2" },
+  PAHO,
+  HOMER_TZ
+);
 
-// ---- NWS decode (compact) -------------------------------------------------
-const cToF = (c: number) => Math.round((c * 9) / 5 + 32);
-const kmhToMph = (kmh: number) => Math.round(kmh / 1.60934);
-const mToFt = (m: number) => m * 3.28084;
-const DIRS = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
-const compass = (deg: number) => DIRS[Math.round(deg / 22.5) % 16];
-const COVER: Record<string, string> = {
-  SKC: "Clear",
-  CLR: "Clear",
-  FEW: "Few",
-  SCT: "Scattered",
-  BKN: "Broken",
-  OVC: "Overcast",
-};
-
-type NwsVal = { value?: number | null } | null | undefined;
-type NwsLayer = { base?: { value?: number | null } | null; amount?: string | null };
-type NwsProps = {
-  timestamp?: string | null;
-  temperature?: NwsVal;
-  windDirection?: NwsVal;
-  windSpeed?: NwsVal;
-  cloudLayers?: NwsLayer[] | null;
-  textDescription?: string | null;
-};
-const numOr = (v: NwsVal): number | null =>
-  v != null && typeof v.value === "number" ? v.value : null;
-
-function decodeWx(p: NwsProps): WxView {
-  const tempC = numOr(p.temperature);
-  const tempText = tempC != null ? `${cToF(tempC)}°F / ${Math.round(tempC)}°C` : "—";
-
-  let windText = "—";
-  let mph = 0;
-  const spd = numOr(p.windSpeed);
-  const dir = numOr(p.windDirection);
-  if (spd != null) {
-    mph = kmhToMph(spd);
-    windText = mph === 0 ? "Calm" : `${dir != null ? compass(dir) : "—"} ${mph} mph`;
-  }
-
-  let skyText = "—";
-  const layers = Array.isArray(p.cloudLayers) ? p.cloudLayers : [];
-  if (layers.length) {
-    const l = layers.find((x) => x.amount === "BKN" || x.amount === "OVC") ?? layers[0];
-    const label = COVER[l.amount ?? ""] ?? l.amount ?? "—";
-    const ft = typeof l.base?.value === "number" ? Math.round(mToFt(l.base.value)) : null;
-    skyText = ft != null ? `${label} ${ft.toLocaleString()} ft` : label;
-  } else {
-    skyText = p.textDescription || "Clear";
-  }
-
-  const bayRead = mph >= 18 ? "Building" : mph >= 10 ? "Light chop" : "Calm";
-
-  let obsTime = "—";
-  if (p.timestamp) {
-    const dt = new Date(p.timestamp);
-    if (!Number.isNaN(dt.getTime())) {
-      obsTime = dt.toLocaleTimeString("en-US", {
-        hour: "numeric",
-        minute: "2-digit",
-        timeZone: HOMER_TZ,
-        timeZoneName: "short",
-      });
-    }
-  }
-  return { windText, skyText, tempText, bayRead, obsTime };
-}
-
-// ---- NOAA solar algorithm (client-side, no network) -----------------------
-function solarTimes(date: Date, lat: number, lon: number) {
-  const rad = Math.PI / 180;
-  const deg = 180 / Math.PI;
-  const start = Date.UTC(date.getUTCFullYear(), 0, 0);
-  const diff =
-    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()) - start;
-  const dayOfYear = Math.floor(diff / 86400000);
-  const zenith = 90.833;
-  const lngHour = lon / 15;
-
-  function calc(isSunrise: boolean): number | null {
-    const t = dayOfYear + ((isSunrise ? 6 : 18) - lngHour) / 24;
-    const M = 0.9856 * t - 3.289;
-    let L = M + 1.916 * Math.sin(M * rad) + 0.02 * Math.sin(2 * M * rad) + 282.634;
-    L = ((L % 360) + 360) % 360;
-    let RA = deg * Math.atan(0.91764 * Math.tan(L * rad));
-    RA = ((RA % 360) + 360) % 360;
-    const Lq = Math.floor(L / 90) * 90;
-    const RAq = Math.floor(RA / 90) * 90;
-    RA = (RA + (Lq - RAq)) / 15;
-    const sinDec = 0.39782 * Math.sin(L * rad);
-    const cosDec = Math.cos(Math.asin(sinDec));
-    const cosH = (Math.cos(zenith * rad) - sinDec * Math.sin(lat * rad)) / (cosDec * Math.cos(lat * rad));
-    if (cosH > 1 || cosH < -1) return null;
-    let H = isSunrise ? 360 - deg * Math.acos(cosH) : deg * Math.acos(cosH);
-    H = H / 15;
-    const T = H + RA - 0.06571 * t - 6.622;
-    let UT = T - lngHour;
-    UT = ((UT % 24) + 24) % 24;
-    return Math.round(UT * 60);
-  }
-  function fmt(minutesUTC: number | null): string | null {
-    if (minutesUTC == null) return null;
-    const d = new Date(
-      Date.UTC(
-        date.getUTCFullYear(),
-        date.getUTCMonth(),
-        date.getUTCDate(),
-        Math.floor(minutesUTC / 60),
-        minutesUTC % 60
-      )
-    );
-    return d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZone: HOMER_TZ });
-  }
-  const rise = calc(true);
-  const set = calc(false);
-  let daylight = "—";
-  if (rise != null && set != null) {
-    let dm = set - rise;
-    if (dm < 0) dm += 1440;
-    daylight = `${Math.floor(dm / 60)}h ${dm % 60}m`;
-  }
-  return { sunrise: fmt(rise) ?? "—", sunset: fmt(set) ?? "—", daylight };
+// Friendly "on the water" read from wind speed alone — wind is what matters
+// on the bay crossing. A planning heuristic, not a go/no-go.
+function bayRead(windMph: number): string {
+  if (windMph >= 18) return "Building";
+  if (windMph >= 10) return "Light chop";
+  return "Calm";
 }
 
 // ---------------------------------------------------------------------------
 export function BayConditions() {
-  const [s, setS] = useState<State>(() => {
-    const { sunrise, sunset, daylight } = solarTimes(new Date(), HOMER_LAT, HOMER_LON);
-    return {
-      tideSrc: "loading",
-      tide: SAMPLE_TIDE,
-      wxSrc: "loading",
-      wx: SAMPLE_WX,
-      sunrise,
-      sunset,
-      daylight,
-    };
-  });
+  const [sun] = useState(() => solarTimes(new Date(), HOMER_LAT, HOMER_LON, HOMER_TZ));
+  const wx = useNwsObservation(PAHO, { sample: SAMPLE_WX, tz: HOMER_TZ });
 
+  const [s, setS] = useState<State>({ tideSrc: "loading", tide: SAMPLE_TIDE });
   const [fetchedAt, setFetchedAt] = useState<number | null>(null);
 
   useEffect(() => {
@@ -462,28 +329,8 @@ export function BayConditions() {
       }
     }
 
-    // --- weather (NWS PAHO) ---
-    async function loadWx() {
-      try {
-        const r = await fetch(WX_URL, { headers: { Accept: "application/json" } });
-        if (!r.ok) throw new Error(`status ${r.status}`);
-        const j = await r.json();
-        const props: NwsProps | undefined = j?.properties;
-        const hasData =
-          props && (props.timestamp || (props.temperature && props.temperature.value != null));
-        if (hasData && alive) setS((prev) => ({ ...prev, wxSrc: "live", wx: decodeWx(props) }));
-        else throw new Error("empty obs");
-      } catch {
-        if (alive) setS((prev) => (prev.wxSrc === "live" ? prev : { ...prev, wxSrc: "sample", wx: SAMPLE_WX }));
-      }
-    }
-
     loadTides();
-    loadWx();
-    const id = setInterval(() => {
-      loadTides();
-      loadWx();
-    }, 5 * 60_000); // auto-refresh every 5 min
+    const id = setInterval(loadTides, 5 * 60_000); // auto-refresh every 5 min
     return () => {
       alive = false;
       clearInterval(id);
@@ -492,6 +339,8 @@ export function BayConditions() {
 
   const t = s.tide;
   const tideLive = s.tideSrc === "live";
+  const d = wx.obs;
+  const bay = bayRead(d.windMph ?? 0);
 
   return (
     <div className="relative overflow-hidden rounded-3xl border border-[#f3faf9]/12 bg-gradient-to-br from-[#0d3540] via-[#166170] to-[#08222b] p-5 shadow-[0_24px_60px_-24px_rgba(0,0,0,0.7)] sm:p-6">
@@ -539,7 +388,7 @@ export function BayConditions() {
             <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#c9e9e9]">
               Today&apos;s tide · Homer (MLLW)
             </span>
-            <Badge src={s.tideSrc} liveLabel="Live · NOAA" />
+            <SourceBadge source={s.tideSrc} labels={{ live: "Live · NOAA" }} classes={BADGE} />
           </div>
           <svg
             viewBox={`0 0 ${CW} ${CH}`}
@@ -626,29 +475,29 @@ export function BayConditions() {
         <div className="mt-3 grid grid-cols-2 gap-3 lg:grid-cols-4">
           <Metric
             label="Wind (PAHO)"
-            value={s.wx.windText}
-            sub={s.wxSrc === "live" ? `as of ${s.wx.obsTime}` : "sample obs"}
-            src={s.wxSrc}
+            value={d.windTextMph}
+            sub={wx.source === "live" ? `as of ${d.obsTimeText}` : "sample obs"}
+            src={wx.source}
             liveLabel="Live · NWS"
           />
           <Metric
             label="Sky"
-            value={s.wx.skyText}
+            value={d.skyText}
             sub="Homer Airport"
-            src={s.wxSrc}
+            src={wx.source}
             liveLabel="Live · NWS"
           />
           <Metric
             label="On the water"
-            value={s.wx.bayRead}
+            value={bay}
             sub="friendly read, not a go/no-go"
-            src={s.wxSrc}
+            src={wx.source}
             liveLabel="Live · NWS"
           />
           <Metric
             label="Daylight"
-            value={s.daylight}
-            sub={`↑ ${s.sunrise} · ↓ ${s.sunset}`}
+            value={sun.daylight}
+            sub={`↑ ${sun.sunrise} · ↓ ${sun.sunset}`}
             src="computed"
             liveLabel="Live · NWS"
           />
@@ -685,41 +534,19 @@ function Metric({
   label: string;
   value: string;
   sub: string;
-  src: Src | "computed";
+  src: WxSource;
   liveLabel: string;
 }) {
   return (
     <div className="kb-glass flex flex-col p-3">
       <div className="mb-1.5 flex items-center justify-between">
         <span className="text-[10px] uppercase tracking-[0.12em] text-[#dcefee]/50">{label}</span>
-        <Badge src={src} liveLabel={liveLabel} />
+        <SourceBadge source={src} labels={{ live: liveLabel }} classes={BADGE} />
       </div>
       <span className="kb-display text-[15px] font-semibold leading-tight text-[#f3faf9] sm:text-base">
         {value}
       </span>
       <span className="mt-0.5 text-[11px] text-[#dcefee]/60">{sub}</span>
     </div>
-  );
-}
-
-function Badge({ src, liveLabel }: { src: Src | "computed"; liveLabel: string }) {
-  if (src === "loading")
-    return (
-      <span className="rounded-full border border-[#f3faf9]/20 px-1.5 py-0.5 text-[8px] font-semibold uppercase tracking-[0.12em] text-[#f3faf9]/45">
-        …
-      </span>
-    );
-  const map: Record<Exclude<Src | "computed", "loading">, { t: string; cls: string }> = {
-    live: { t: liveLabel, cls: "border-[#7fe0c8]/50 bg-[#7fe0c8]/15 text-[#a9ecd8]" },
-    computed: { t: "Computed", cls: "border-[#e6a94b]/45 bg-[#e6a94b]/12 text-[#f2c37f]" },
-    sample: { t: "Sample", cls: "border-[#f3faf9]/25 bg-[#f3faf9]/8 text-[#f3faf9]/70" },
-  };
-  const m = map[src];
-  return (
-    <span
-      className={`rounded-full border px-1.5 py-0.5 text-[8px] font-semibold uppercase tracking-[0.1em] ${m.cls}`}
-    >
-      {m.t}
-    </span>
   );
 }

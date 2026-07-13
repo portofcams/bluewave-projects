@@ -82,6 +82,7 @@ const SAMPLE_NWS: NwsObservation = {
   rawAssembled: false,
   obsAt: null,
   obsTimeText: "sample observation",
+  textDescription: null,
 };
 
 type State = {
