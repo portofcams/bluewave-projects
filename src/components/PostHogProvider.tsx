@@ -8,6 +8,8 @@ import { PostHogProvider as PHProvider } from "posthog-js/react";
 // Initialise PostHog once on the client. Silent if env vars not set —
 // safe to ship without keys; tracking simply doesn't fire until
 // NEXT_PUBLIC_POSTHOG_KEY is provided in Cloudflare Pages env vars.
+// (Key configured in Cloudflare Pages Production env 2026-07-13 — this push
+// forces a git-triggered build so the NEXT_PUBLIC value inlines.)
 if (typeof window !== "undefined" && process.env.NEXT_PUBLIC_POSTHOG_KEY) {
   posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
     api_host:
