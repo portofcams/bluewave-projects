@@ -118,7 +118,7 @@ export default function BookedDirectPage() {
           <a href="#audit" className="btn-primary px-8 py-3.5 rounded-full text-sm font-semibold text-white text-center">
             Get your free audit →
           </a>
-          <a href="/state-of-hawaii-ocean-tourism-visibility-2026.html" className="px-8 py-3.5 rounded-full text-sm font-semibold text-white/80 border border-white/15 hover:border-white/30 transition-colors text-center">
+          <a href="/state-of-hawaii-ocean-tourism-visibility-2026" className="px-8 py-3.5 rounded-full text-sm font-semibold text-white/80 border border-white/15 hover:border-white/30 transition-colors text-center">
             Read the 2026 visibility report →
           </a>
         </div>
@@ -147,7 +147,7 @@ export default function BookedDirectPage() {
           <p className="text-white/60 text-sm leading-relaxed max-w-3xl">
             The full <em>State of Hawaiʻi Ocean-Tourism Visibility 2026</em> report shows where every category stands —
             fishing, snorkel, dive, sail, surf — with the methodology laid out in full.{" "}
-            <a href="/state-of-hawaii-ocean-tourism-visibility-2026.html" className="text-wave-400 hover:text-wave-300 transition-colors font-semibold">
+            <a href="/state-of-hawaii-ocean-tourism-visibility-2026" className="text-wave-400 hover:text-wave-300 transition-colors font-semibold">
               Read the report →
             </a>
           </p>
@@ -259,7 +259,7 @@ export default function BookedDirectPage() {
       {/* Related reading */}
       <section className="px-6 pb-20 max-w-5xl mx-auto">
         <h2 className="text-xl font-semibold mb-6 text-white/70">Related reading</h2>
-        <a href="/state-of-hawaii-ocean-tourism-visibility-2026.html" className="text-wave-400 hover:text-wave-300 transition-colors text-sm">
+        <a href="/state-of-hawaii-ocean-tourism-visibility-2026" className="text-wave-400 hover:text-wave-300 transition-colors text-sm">
           The State of Hawaiʻi Ocean-Tourism Visibility 2026 — the full industry audit →
         </a>
       </section>
