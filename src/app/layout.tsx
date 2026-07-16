@@ -74,7 +74,6 @@ export default function RootLayout({
                 postalCode: "96815",
                 addressCountry: "US",
               },
-              telephone: "+1-808-000-0000",
               email: "hello@bluewaveprojects.com",
               geo: {
                 "@type": "GeoCoordinates",

@@ -137,6 +137,7 @@ export default function PricingPage() {
     "name": "Ikena Suite (and family)",
     "description":
       "Operator software for property, contracting, and real estate — three tiers across the BlueWave Projects family.",
+    "image": "https://bluewaveprojects.com/og-default.png",
     "brand": { "@type": "Brand", "name": "BlueWave Projects" },
     "offers": tiers.map((t) => ({
       "@type": "Offer",
