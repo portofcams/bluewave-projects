@@ -104,6 +104,7 @@ export default function RootLayout({
               "@type": "SoftwareApplication",
               name: "BlueWave Projects",
               url: "https://bluewaveprojects.com",
+              image: "https://bluewaveprojects.com/og-default.png",
               applicationCategory: "BusinessApplication",
               applicationSubCategory: "Construction Management",
               operatingSystem: "Web",
