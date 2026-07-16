@@ -195,6 +195,14 @@ export default function BookedDirectPage() {
                   </li>
                 ))}
               </ul>
+              {t.name === "Visibility Audit" && (
+                <a
+                  href="https://buy.stripe.com/7sY4gA3rQ7Dhb4E88WefC07"
+                  className="btn-primary mt-5 block w-full text-center px-5 py-2.5 rounded-full text-sm font-semibold text-white"
+                >
+                  Buy the audit — $250 →
+                </a>
+              )}
             </div>
           ))}
         </div>
