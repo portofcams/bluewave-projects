@@ -243,6 +243,20 @@
     <priority>0.3</priority>
   </url>
 
+  <!-- Booked Direct — local-visibility service for Hawaii ocean operators (added 2026-07-16) -->
+  <url>
+    <loc>https://bluewaveprojects.com/booked-direct</loc>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://bluewaveprojects.com/state-of-hawaii-ocean-tourism-visibility-2026.html</loc>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- Legal -->
   <url>
     <loc>https://bluewaveprojects.com/privacy</loc>

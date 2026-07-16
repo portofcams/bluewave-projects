@@ -118,6 +118,11 @@ export default function Footer() {
                 </a>
               </li>
               <li>
+                <a href="/booked-direct" className="text-sm text-white/30 hover:text-white/70 transition-colors">
+                  Booked Direct — Local SEO
+                </a>
+              </li>
+              <li>
                 <a href="/pricing" className="text-sm text-white/30 hover:text-white/70 transition-colors">
                   Pricing
                 </a>

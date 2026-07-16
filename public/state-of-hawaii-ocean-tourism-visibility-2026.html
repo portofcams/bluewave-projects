@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>State of Hawaiʻi Ocean-Tourism Visibility 2026 — BlueWave Projects</title>
+<meta name="description" content="An independent July 2026 audit of how Hawaiʻi's ocean-tour operators show up on Google. 58% of the operators we could score carry a search-visibility gap. Here is where each category stands.">
+<style>
+  @page { size: Letter; margin: 0; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --navy:#002060; --blue:#004090; --ocean:#0060b0; --ink:#1c2733;
+    --slate:#516072; --wash:#eef4fb; --line:#d7e2f0; --sand:#c98a3c;
+    --good:#1f7a52; --goodwash:#e7f4ee; --warn:#b4472b; --warnwash:#fbeee9;
+  }
+  html,body{ -webkit-print-color-adjust:exact; print-color-adjust:exact; background:#f4f7fb; }
+  body{
+    font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+    color:var(--ink); font-size:10.6pt; line-height:1.46;
+  }
+  .page{
+    width:8.5in; min-height:10in; margin:14px auto; background:#fff;
+    padding:0.4in 0.6in 0.34in; box-shadow:0 2px 18px rgba(0,32,96,.09);
+  }
+  @media print { body{ background:#fff; } .page{ margin:0; box-shadow:none; min-height:auto; } .page + .page{ page-break-before:always; } .pagenum{ display:none; } }
+
+  .topbar{ height:6px; background:linear-gradient(90deg,var(--navy),var(--blue) 45%,var(--ocean)); border-radius:3px; }
+  header{ display:flex; align-items:center; justify-content:space-between; margin-top:15px; }
+  .brand{ display:flex; align-items:center; gap:12px; }
+  .brand img{ width:46px; height:46px; }
+  .brand .name{ font-size:15.5pt; font-weight:800; letter-spacing:-.3px; color:var(--navy); line-height:1; }
+  .brand .tag{ font-size:8pt; color:var(--slate); letter-spacing:.4px; margin-top:3px; }
+  .eyebrow{ text-align:right; }
+  .eyebrow .k{ font-size:7.2pt; letter-spacing:2px; color:var(--ocean); font-weight:700; text-transform:uppercase; }
+  .eyebrow .t{ font-size:10.5pt; font-weight:700; color:var(--ink); margin-top:2px; }
+
+  h1{ font-size:25pt; line-height:1.08; color:var(--navy); font-weight:800; letter-spacing:-.6px; margin:17px 0 7px; }
+  h1 span{ color:var(--ocean); }
+  .lede{ font-size:11.4pt; color:#31414f; max-width:6.7in; }
+  .lede b{ color:var(--navy); }
+  .byline{ font-size:8.6pt; color:var(--slate); margin-top:12px; letter-spacing:.2px; }
+  .byline b{ color:var(--ink); }
+
+  .sec{ font-size:8pt; letter-spacing:1.8px; text-transform:uppercase; color:var(--ocean); font-weight:800; margin:16px 0 8px;
+    padding-bottom:5px; border-bottom:1px solid var(--line); }
+
+  /* headline stat tiles */
+  .stats{ display:grid; grid-template-columns:repeat(4,1fr); gap:11px; margin-top:13px; }
+  .stat{ border:1px solid var(--line); border-radius:9px; padding:13px 13px 12px; background:linear-gradient(180deg,#fff,#fbfdff); }
+  .stat .big{ font-size:27pt; font-weight:800; color:var(--blue); letter-spacing:-1px; line-height:1; }
+  .stat .big.warn{ color:var(--warn); }
+  .stat .lab{ font-size:8.4pt; color:var(--slate); margin-top:6px; line-height:1.32; }
+  .stat .lab b{ color:var(--navy); }
+
+  .callout{ background:var(--wash); border-left:3px solid var(--ocean); border-radius:0 7px 7px 0;
+    padding:12px 15px; font-size:10.2pt; color:#31414f; margin-top:4px; }
+  .callout b{ color:var(--navy); }
+
+  p{ margin:9px 0; }
+  p.tight{ margin:6px 0; }
+  .em{ color:var(--navy); font-weight:700; }
+
+  /* methodology box */
+  .method{ border:1px solid var(--line); border-radius:9px; background:#fbfdff; padding:13px 16px; font-size:9pt; color:var(--slate); }
+  .method .mh{ font-size:8pt; letter-spacing:1.6px; text-transform:uppercase; color:var(--ocean); font-weight:800; margin-bottom:7px; }
+  .method b{ color:var(--ink); }
+  .method ul{ list-style:none; margin:6px 0 0; }
+  .method li{ padding-left:14px; position:relative; margin:4px 0; line-height:1.4; }
+  .method li:before{ content:""; position:absolute; left:0; top:6px; width:5px; height:5px; border-radius:50%; background:var(--ocean); }
+
+  /* finding split */
+  .split{ display:grid; grid-template-columns:1.1fr 1fr; gap:14px; align-items:start; }
+  .schemabars{ margin-top:4px; }
+  .bar{ margin:9px 0; }
+  .bar .bl{ display:flex; justify-content:space-between; font-size:9pt; color:var(--ink); margin-bottom:3px; }
+  .bar .bl b{ color:var(--navy); }
+  .track{ height:13px; background:var(--wash); border-radius:7px; overflow:hidden; }
+  .fill{ height:100%; background:linear-gradient(90deg,var(--blue),var(--ocean)); border-radius:7px; }
+  .fill.sand{ background:linear-gradient(90deg,#b8702a,var(--sand)); }
+
+  /* leaderboard table */
+  table{ width:100%; border-collapse:collapse; margin-top:4px; font-size:9.6pt; }
+  thead th{ text-align:left; font-size:7.8pt; letter-spacing:.8px; text-transform:uppercase; color:var(--slate);
+    font-weight:700; padding:0 8px 7px; border-bottom:1.5px solid var(--line); }
+  thead th.num{ text-align:center; }
+  tbody td{ padding:8px; border-bottom:1px solid #eef2f7; vertical-align:middle; }
+  tbody td.cat{ font-weight:700; color:var(--navy); }
+  tbody td.num{ text-align:center; font-weight:700; font-variant-numeric:tabular-nums; }
+  .pill{ display:inline-block; min-width:26px; text-align:center; padding:2px 8px; border-radius:20px; font-size:8.8pt; font-weight:800; }
+  .pill.good{ color:var(--good); background:var(--goodwash); }
+  .pill.warn{ color:var(--warn); background:var(--warnwash); }
+  .verdict{ font-size:8.5pt; color:var(--slate); }
+  .tnote{ font-size:7.8pt; color:#8494a5; margin-top:8px; font-style:italic; }
+
+  /* examples list */
+  .exs{ display:grid; grid-template-columns:1fr 1fr; gap:8px 18px; margin-top:4px; }
+  .ex{ font-size:9.3pt; color:#33414e; padding-left:15px; position:relative; line-height:1.4; }
+  .ex:before{ content:""; position:absolute; left:0; top:6px; width:6px; height:6px; border-radius:2px; background:var(--warn); }
+  .ex b{ color:var(--navy); }
+
+  .leaders{ font-size:9.4pt; color:#33414e; }
+  .leaders b{ color:var(--good); }
+
+  /* cost / thesis */
+  .thesis{ background:linear-gradient(120deg,#f4f8fd,#eef4fb); border:1px solid var(--line); border-radius:10px; padding:16px 18px; }
+  .thesis .q{ font-size:13pt; color:var(--navy); font-weight:800; line-height:1.3; letter-spacing:-.2px; }
+  .thesis p{ font-size:9.8pt; color:#3a4753; }
+  .src{ font-size:8pt; color:#8494a5; }
+
+  /* fix steps */
+  .steps{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:4px; }
+  .step{ border:1px solid var(--line); border-radius:9px; padding:12px 13px; }
+  .step .n{ font-size:8.6pt; font-weight:800; color:#fff; background:var(--ocean); width:20px; height:20px; border-radius:50%;
+    display:inline-flex; align-items:center; justify-content:center; }
+  .step .st{ font-weight:800; color:var(--navy); font-size:10pt; margin-top:7px; }
+  .step .sp{ font-size:9.4pt; color:var(--blue); font-weight:700; margin:2px 0 4px; }
+  .step .sd{ font-size:8.7pt; color:var(--slate); line-height:1.4; }
+
+  .proof{ display:grid; grid-template-columns:1fr 1fr; gap:6px 18px; }
+  .prow{ display:flex; gap:9px; font-size:9pt; align-items:baseline; padding:4px 0; border-bottom:1px solid #eef2f7; }
+  .prow .ps{ font-weight:700; color:var(--navy); white-space:nowrap; }
+  .prow .pw{ color:var(--slate); }
+  .honest{ font-size:8.4pt; color:#8494a5; margin-top:8px; font-style:italic; }
+
+  .cta{ margin-top:18px; background:linear-gradient(100deg,var(--navy),var(--blue)); border-radius:11px;
+    padding:18px 20px; display:flex; align-items:center; justify-content:space-between; color:#fff; gap:16px; }
+  .cta .h{ font-size:13.5pt; font-weight:800; line-height:1.2; }
+  .cta .s{ font-size:9pt; color:#cfe0f4; margin-top:4px; max-width:4.3in; }
+  .cta .r{ text-align:right; white-space:nowrap; }
+  .cta .r .site{ font-size:12.5pt; font-weight:800; }
+  .cta .r .sub{ font-size:8.4pt; color:#cfe0f4; margin-top:2px; }
+
+  footer{ margin-top:14px; padding-top:10px; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; gap:12px; font-size:7.8pt; color:#8494a5; }
+  .kuleana{ color:var(--sand); font-weight:700; }
+  .pagenum{ text-align:center; font-size:7.6pt; color:#a9b6c6; margin-top:9px; letter-spacing:1px; }
+</style>
+</head>
+<body>
+
+<!-- ============================ PAGE 1 ============================ -->
+<section class="page">
+  <div class="topbar"></div>
+  <header>
+    <div class="brand">
+      <img src="bluewave-logo.png" alt="BlueWave Projects">
+      <div>
+        <div class="name">BlueWave Projects</div>
+        <div class="tag">SOFTWARE, BUILT IN HAWAIʻI</div>
+      </div>
+    </div>
+    <div class="eyebrow">
+      <div class="k">Independent Industry Report</div>
+      <div class="t">July 2026</div>
+    </div>
+  </header>
+
+  <h1>The State of Hawaiʻi Ocean-Tourism<br><span>Visibility 2026</span></h1>
+  <div class="lede">We audited how Hawaiʻi's ocean-tour operators actually show up on Google.
+    <b>Of the 115 operator websites we could score, 58% carry a search-visibility gap</b> — a missing piece
+    of code or profile that stops Google from putting their trips, hours, and reviews in front of a customer
+    who is searching right now. Here is what we found, category by category, and where the booking goes instead.</div>
+  <div class="byline">An independent audit by <b>BlueWave Projects</b>, a Honolulu software studio ·
+    Data gathered from live operator websites, <b>July 2026</b> · Methodology below, in full.</div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="big">58%</div>
+      <div class="lab">of scored operators have <b>at least one</b> visibility gap<br><span style="color:#8494a5">67 of 115 sites</span></div>
+    </div>
+    <div class="stat">
+      <div class="big">42%</div>
+      <div class="lab">are <b>fully optimized</b> — set up to win the search<br><span style="color:#8494a5">48 of 115 sites</span></div>
+    </div>
+    <div class="stat">
+      <div class="big warn">1 in 7</div>
+      <div class="lab"><b>badly broken</b> — failing several checks at once<br><span style="color:#8494a5">16 operators, 14%</span></div>
+    </div>
+    <div class="stat">
+      <div class="big warn">8</div>
+      <div class="lab">operator sites <b>would not load at all</b> — invisible before SEO even begins</div>
+    </div>
+  </div>
+
+  <div class="sec">The one-sentence finding</div>
+  <div class="callout">In Hawaiʻi's ocean-tourism economy, <b>the boat is world-class and the website is a decade behind.</b>
+    Most operators have a real Google Business Profile and glowing reviews — but their site never hands Google the
+    structured data it needs to <b>display</b> them. So the traveler searching "Oʻahu snorkel tour" or "Kona deep-sea
+    fishing charter" sees an online travel agency instead, and the operator pays a 15–30% commission on a booking that
+    could have come direct.</div>
+
+  <div class="sec">How we ran this — the whole method, nothing hidden</div>
+  <div class="method">
+    <div class="mh">Methodology</div>
+    <b>Sample.</b> We compiled every Hawaiʻi ocean-tour and charter operator we could find in a public business
+    directory — 142 with a working website across all six main islands (fishing, snorkel, dive, sail, surf, parasail,
+    submarine, towing, marinas). We then fetched each live homepage and ran an automated technical audit.
+    <b>115 returned a page we could fully score; 8 more failed to load entirely</b> (SSL errors, timeouts) — a
+    visibility failure in its own right. Every figure in this report is dated to that <b>July 2026</b> snapshot.
+    <ul>
+      <li><b>What we checked</b> (each an accepted Google local-search signal): structured data (Schema.org
+        <i>LocalBusiness</i> markup), mobile-readiness, homepage title &amp; meta description, social/Open Graph tags,
+        and heading (<code>&lt;h1&gt;</code>) structure.</li>
+      <li><b>How we scored</b>: no schema at all = the heaviest penalty; schema present but missing the
+        <i>LocalBusiness</i> type = a lighter one; then mobile, title, description, and heading issues. Score 0 = a
+        clean bill of health ("doing it right"); higher = more broken.</li>
+      <li><b>What we did not do</b>: guess at rankings, scrape private data, or grade design taste. This is a
+        code-and-profile audit of public homepages, not an SEO ranking guarantee.</li>
+      <li><b>Honest limits</b>: a website is a moving target — a few operators have already improved since our fetch,
+        and we note where we re-verified. Category counts reflect the operators in our audit sample, not a census of
+        every boat in the state.</li>
+    </ul>
+  </div>
+
+  <div class="pagenum">BlueWave Projects · State of Hawaiʻi Ocean-Tourism Visibility 2026 · 1 / 4</div>
+</section>
+
+<!-- ============================ PAGE 2 ============================ -->
+<section class="page">
+  <div class="sec">Finding 1 — The gap is almost always the same one: structured data</div>
+  <div class="split">
+    <div>
+      <p class="tight">Across the <span class="em">68 operators</span> we catalogued for follow-up, <span class="em">every
+        single one</span> had a structured-data problem. It is the most common failure and the most expensive, because
+        it is the exact code that lets Google show an operator as a <em>place</em> — with hours, star rating, price
+        range, and a tappable "Book" or "Directions" button — instead of a plain blue link.</p>
+      <p class="tight">It splits two ways, and the second is the quiet one:</p>
+      <div class="schemabars">
+        <div class="bar">
+          <div class="bl"><span><b>No schema markup at all</b> — Google is guessing</span><span>22</span></div>
+          <div class="track"><div class="fill" style="width:32%"></div></div>
+        </div>
+        <div class="bar">
+          <div class="bl"><span><b>Has schema, but no <i>LocalBusiness</i> type</b> — so close, still invisible as a place</span><span>46</span></div>
+          <div class="track"><div class="fill sand" style="width:68%"></div></div>
+        </div>
+      </div>
+      <p class="tight" style="font-size:9.3pt;color:var(--slate)">The 46 are the heartbreak cases: a developer added
+        <i>some</i> markup, so the box is "checked," but not the one type Google reads to build a local result. The fix
+        is often an afternoon — but nobody told them it was missing.</p>
+    </div>
+    <div>
+      <div class="method" style="background:var(--goodwash);border-color:#cfe6da">
+        <div class="mh" style="color:var(--good)">Who's already doing it right</div>
+        <div class="leaders">Plenty of Hawaiʻi operators carry a full, clean setup — and they are the ones Google
+          rewards. Verified score-0 examples we can name because it's to their credit:
+          <b>Kewalo Sport Fishing</b> and <b>Magic Sport Fishing</b> (charters),
+          <b>Living Ocean Tours</b> and <b>Ocean Joy Cruises</b> (snorkel),
+          <b>Maita‘i Catamaran</b> and <b>Holo Holo Charters</b> (sailing),
+          <b>Fathom Five</b> (dive), and <b>Hans Hedemann Surf School</b> (surf).
+          When one operator on a dock is set up and the next isn't, the searching customer only sees the first.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">Finding 2 — Where your category actually stands</div>
+  <p class="tight" style="margin-top:0">Some corners of the industry are professionalized; others are wide open. The
+    ratio of "doing it right" to "falling short" is the single most useful number an operator can know — it says how
+    hard the map pack is to win in your lane <em>right now</em>.</p>
+  <table>
+    <thead>
+      <tr><th>Category</th><th class="num">Doing it right</th><th class="num">Falling short</th><th>What that means for you</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="cat">Sailing &amp; catamaran cruises</td><td class="num"><span class="pill good">14</span></td><td class="num"><span class="pill warn">6</span></td><td class="verdict">Most professionalized lane. If you're not set up, you're behind your dock.</td></tr>
+      <tr><td class="cat">Snorkel &amp; reef tours</td><td class="num"><span class="pill good">14</span></td><td class="num"><span class="pill warn">13</span></td><td class="verdict">A coin flip. Whoever fixes it first takes the map pack.</td></tr>
+      <tr><td class="cat">Fishing charters</td><td class="num"><span class="pill good">7</span></td><td class="num"><span class="pill warn">14</span></td><td class="verdict">Two broken for every one clean. Wide open water.</td></tr>
+      <tr><td class="cat">Scuba diving</td><td class="num"><span class="pill good">3</span></td><td class="num"><span class="pill warn">9</span></td><td class="verdict">Three-to-one behind. A fast setup stands out immediately.</td></tr>
+      <tr><td class="cat">Surf schools</td><td class="num"><span class="pill good">2</span></td><td class="num"><span class="pill warn">10</span></td><td class="verdict">The most wide-open vertical in the state. Almost nobody is set up.</td></tr>
+    </tbody>
+  </table>
+  <div class="tnote">Counts reflect operators in our July 2026 audit sample. "Doing it right" = passed every check (score 0);
+    "falling short" = flagged with at least one gap. Parasail/jet-ski, submarine, marina, and towing categories had
+    smaller samples and are summarized in the full dataset.</div>
+
+  <div class="pagenum">BlueWave Projects · State of Hawaiʻi Ocean-Tourism Visibility 2026 · 2 / 4</div>
+</section>
+
+<!-- ============================ PAGE 3 ============================ -->
+<section class="page">
+  <div class="sec">Finding 3 — The broken-basics tail (fixable this week)</div>
+  <p class="tight" style="margin-top:0">Beyond schema, the audit kept surfacing the same handful of quick, cheap
+    misses — the kind a customer never sees but Google always does. Real examples from the audit (kept anonymous —
+    naming a small operator's flaw isn't our style):</p>
+  <div class="exs">
+    <div class="ex"><b>A Waikīkī dive shop</b> stacks <b>16 <code>&lt;h1&gt;</code> headings</b> on one page; a Big-Island
+      dive shop has <b>19</b>. Google reads that as a page with no clear subject.</div>
+    <div class="ex"><b>An Oʻahu snorkel operator's</b> homepage title is literally <b>"Home Welcome"</b> — the single
+      most important line of text on the site, wasted.</div>
+    <div class="ex"><b>An Oʻahu fishing charter</b> serves a homepage that <b>isn't mobile-ready</b> — an automatic
+      ranking penalty, on the device most travelers book from.</div>
+    <div class="ex"><b>Eight operator sites</b> throw an <b>SSL/security error</b> or time out — the customer sees a red
+      warning screen, not a boat.</div>
+  </div>
+
+  <div class="sec">Why it costs real money — the direct-booking math</div>
+  <div class="thesis">
+    <div class="q">Every search you're invisible for doesn't disappear. It goes to an online travel agency —
+      and takes 15–30% of the fare with it.</div>
+    <p>Online travel agencies' share of tour-and-activity bookings <b>grew from 28% to 37% between 2023 and 2025</b>
+      <span class="src">(Arival, 2025)</span>. That shift is fastest exactly where operators are hardest to find
+      directly. The operators winning their category above aren't paying for better ads — they're simply the ones
+      Google <em>can</em> display, so the traveler books them straight, commission-free.</p>
+    <p style="margin-bottom:0">This report is, underneath, one argument: <b>the cheapest marketing you own is the code
+      already on your website.</b> Fix what's missing once, and the direct bookings you're currently renting back from
+      an OTA start arriving on their own.</p>
+  </div>
+
+  <div class="pagenum">BlueWave Projects · State of Hawaiʻi Ocean-Tourism Visibility 2026 · 3 / 4</div>
+</section>
+
+<!-- ============================ PAGE 4 ============================ -->
+<section class="page">
+  <div class="sec">What actually fixes it</div>
+  <div class="steps">
+    <div class="step">
+      <div class="n">1</div>
+      <div class="st">Visibility Audit</div>
+      <div class="sp">$250 · credited</div>
+      <div class="sd">A recorded, plain-English walkthrough of your Google presence and the exact searches you should
+        own. You keep the findings whether we work together or not. Delivered in 48 hours.</div>
+    </div>
+    <div class="step">
+      <div class="n">2</div>
+      <div class="st">Foundation Sprint</div>
+      <div class="sp">from $1,490 · one-time</div>
+      <div class="sd">We build the base in about two weeks: <i>LocalBusiness</i> + trip &amp; FAQ schema, Google
+        Business Profile setup, mobile and technical fixes, and local pages for your top searches.</div>
+    </div>
+    <div class="step">
+      <div class="n">3</div>
+      <div class="st">Visibility Retainer</div>
+      <div class="sp">from $490 · / month</div>
+      <div class="sd">Optional. New local content monthly, ongoing schema and profile care, and a Search Console
+        report so you watch the direct bookings compound. Cancel anytime.</div>
+    </div>
+  </div>
+
+  <div class="sec">Why trust a software studio with this</div>
+  <div class="proof">
+    <div class="prow"><span class="ps">AlohaCalendar</span><span class="pw">Fixed Google indexing on ~500 pages; rich event &amp; guide listings, live today</span></div>
+    <div class="prow"><span class="ps">LastFrontierEvents</span><span class="pw">Event &amp; FAQ rich results, Google-eligible and verified</span></div>
+    <div class="prow"><span class="ps">Da Plate Lunch</span><span class="pw">Restaurant &amp; FAQ schema plus pages for real local queries</span></div>
+    <div class="prow"><span class="ps">BlueWave Projects</span><span class="pw">Full LocalBusiness stack, rich-result eligible in Google's own test</span></div>
+  </div>
+  <div class="honest">Every property above is verified live and rich-result eligible in Google's own Rich Results Test.
+    They are our own systems, built in-house — not paid client case studies yet. We'll tell you what's already working
+    on your site, not just what's broken, and we make no promises about ranking positions. That honesty is the whole
+    pitch.</div>
+
+  <div class="cta">
+    <div class="l">
+      <div class="h">See exactly where your operation stands — free.</div>
+      <div class="s">Send us your site and we'll record a short, no-obligation audit against everything in this
+        report. Whether we build it or you hand it to your own developer, you keep the map.</div>
+    </div>
+    <div class="r">
+      <div class="site">bluewaveprojects.com/booked-direct</div>
+      <div class="sub">portofcams@gmail.com</div>
+    </div>
+  </div>
+
+  <footer>
+    <div>BlueWave Projects AI · 440 Lewers St, Suite 603, Honolulu HI 96815 · Independent report, July 2026.
+      Figures reflect a point-in-time audit of public operator websites.</div>
+    <div><span class="kuleana">Built with kuleana</span> — mālama the operators who keep Hawaiʻi on the water.</div>
+  </footer>
+  <div class="pagenum">BlueWave Projects · State of Hawaiʻi Ocean-Tourism Visibility 2026 · 4 / 4</div>
+</section>
+
+</body>
+</html>
