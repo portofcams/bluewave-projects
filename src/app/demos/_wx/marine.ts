@@ -44,22 +44,28 @@ function currentUtcHourIso(now = new Date()): string {
   return d.toISOString().slice(0, 19) + "Z";
 }
 
-export function swanWavesUrl(lat = SWAN_LAT, lon360 = SWAN_LON360, now = new Date()): string {
+// PacIOOS publishes a per-island SWAN nearshore grid: swan_oahu, swan_maui,
+// swan_kauai, swan_bigi, etc. Default is Oʻahu; pass `dataset` for another
+// island (e.g. "swan_maui" for a West-Maui point). Coordinates must fall on a
+// wet grid cell of the chosen island's model or the fetch returns null.
+export function swanWavesUrl(lat = SWAN_LAT, lon360 = SWAN_LON360, now = new Date(), dataset = "swan_oahu"): string {
   const ts = currentUtcHourIso(now);
   // %5B = "[", %5D = "]"; depth dim left empty ([]) to take all depths.
   const sub = `%5B(${ts})%5D%5B%5D%5B(${lat})%5D%5B(${lon360})%5D`;
   const query = ["shgt", "pper", "mper", "mdir"].map((v) => v + sub).join(",");
-  return `https://pae-paha.pacioos.hawaii.edu/erddap/griddap/swan_oahu.json?${query}`;
+  return `https://pae-paha.pacioos.hawaii.edu/erddap/griddap/${dataset}.json?${query}`;
 }
 
-/** Fetch the modeled nearshore wave state. Returns null on any failure/NaN. */
+/** Fetch the modeled nearshore wave state. Returns null on any failure/NaN.
+ *  `dataset` selects the island grid (default swan_oahu). */
 export async function fetchSwanWaves(
   lat = SWAN_LAT,
   lon360 = SWAN_LON360,
-  now = new Date()
+  now = new Date(),
+  dataset = "swan_oahu"
 ): Promise<SwanWaves | null> {
   try {
-    const r = await fetch(swanWavesUrl(lat, lon360, now), { headers: { Accept: "application/json" } });
+    const r = await fetch(swanWavesUrl(lat, lon360, now, dataset), { headers: { Accept: "application/json" } });
     if (!r.ok) return null;
     const j = await r.json();
     const cols: string[] | undefined = j?.table?.columnNames;

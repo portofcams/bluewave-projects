@@ -233,9 +233,10 @@ export function useMarine(opts: {
   sample: MarineData;
   waveLat?: number;
   waveLon360?: number;
+  waveDataset?: string; // island SWAN grid, e.g. "swan_maui"; defaults to swan_oahu
   refreshMs?: number;
 }): { source: WxSource; data: MarineData; fetchedAt: number | null } {
-  const { tempStation, uvZip, sample, waveLat, waveLon360, refreshMs = 15 * 60_000 } = opts;
+  const { tempStation, uvZip, sample, waveLat, waveLon360, waveDataset, refreshMs = 15 * 60_000 } = opts;
   const [state, setState] = useState<{ source: WxSource; data: MarineData; fetchedAt: number | null }>({
     source: "loading",
     data: sample,
@@ -246,7 +247,7 @@ export function useMarine(opts: {
     let alive = true;
     async function load() {
       const [waves, waterTempF, uv] = await Promise.all([
-        fetchSwanWaves(waveLat, waveLon360),
+        fetchSwanWaves(waveLat, waveLon360, undefined, waveDataset),
         fetchWaterTempF(tempStation),
         fetchUvIndex(uvZip),
       ]);
@@ -263,7 +264,7 @@ export function useMarine(opts: {
       alive = false;
       clearInterval(id);
     };
-  }, [tempStation, uvZip, waveLat, waveLon360, refreshMs, sample]);
+  }, [tempStation, uvZip, waveLat, waveLon360, waveDataset, refreshMs, sample]);
 
   return state;
 }

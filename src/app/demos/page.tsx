@@ -7,7 +7,7 @@ import { GalleryCard } from "./gallery-card";
 // The index of every do-the-work-first proof — ONE link to send. Unlisted like
 // everything under /demos: NOINDEX + robots-disallowed, shared only by hand.
 export const metadata: Metadata = {
-  title: "The Proof Shelf — 27 Working Demos by BlueWave Projects",
+  title: "The Proof Shelf — 30 Working Demos by BlueWave Projects",
   description:
     "Every do-the-work-first build in one place: sample operator sites with live NOAA/NWS/PacIOOS/space-weather data, unofficial event hubs, live AIS vessel maps, reverent tributes, a scroll-driven data essay, and product prototypes — Alaska, Hawaiʻi, and the Salish Sea.",
   robots: {
@@ -103,6 +103,30 @@ const OPERATORS: Demo[] = [
     region: "Hawaiʻi",
     kind: "Sample brand",
     feeds: ["NWS wind/temp", "Computed daylight"],
+  },
+  {
+    slug: "north-shore-dive",
+    name: "North Shore Dive Co.",
+    blurb: "Summer shore dives at Shark's Cove, boat dives out of Haleʻiwa — led by the real Waimea buoy and an honest 'diveable today?' read that closes the winter out.",
+    region: "Hawaiʻi",
+    kind: "Sample brand",
+    feeds: ["NDBC buoy", "PacIOOS surf", "NOAA tide", "EPA UV"],
+  },
+  {
+    slug: "napili-bay",
+    name: "Napili Bay Beach Club",
+    blurb: "A leeward West Maui snorkel bay with a live bay report — the SWAN Maui nearshore model, NOAA tide and water temp, wind, and the real sunset time into the channel.",
+    region: "Hawaiʻi",
+    kind: "Sample brand",
+    feeds: ["PacIOOS surf", "NOAA tide & temp", "EPA UV"],
+  },
+  {
+    slug: "talkeetna-air-taxi",
+    name: "Susitna Air",
+    blurb: "Denali flightseeing and glacier ski-plane landings from Talkeetna, with a live 'flying today?' panel — the PATK observation and the density-altitude read the pilot is watching.",
+    region: "Alaska",
+    kind: "Sample brand",
+    feeds: ["NWS METAR", "Density altitude"],
   },
 ];
 
