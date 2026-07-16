@@ -3,6 +3,7 @@ import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import AuditRequestForm from "@/components/AuditRequestForm";
+import PaidBanner from "@/components/PaidBanner";
 
 export const metadata: Metadata = {
   title: "Booked Direct — Get Found on Google, Get Booked Without the Commission · BlueWave Projects",
@@ -99,6 +100,9 @@ export default function BookedDirectPage() {
   return (
     <main className="ocean-gradient min-h-screen">
       <Nav />
+
+      {/* Post-purchase confirmation — only renders when Stripe returns ?paid=1 */}
+      <PaidBanner />
 
       {/* Hero */}
       <section className="px-6 pt-32 pb-16 max-w-5xl mx-auto">
