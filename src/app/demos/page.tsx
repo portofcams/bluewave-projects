@@ -7,7 +7,7 @@ import { GalleryCard } from "./gallery-card";
 // The index of every do-the-work-first proof — ONE link to send. Unlisted like
 // everything under /demos: NOINDEX + robots-disallowed, shared only by hand.
 export const metadata: Metadata = {
-  title: "The Proof Shelf — 31 Working Demos by BlueWave Projects",
+  title: "The Proof Shelf — 32 Working Demos by BlueWave Projects",
   description:
     "Every do-the-work-first build in one place: sample operator sites with live NOAA/NWS/PacIOOS/space-weather data, unofficial event hubs, live AIS vessel maps, reverent tributes, a scroll-driven data essay, and product prototypes — Alaska, Hawaiʻi, and the Salish Sea.",
   robots: {
@@ -111,6 +111,15 @@ const OPERATORS: Demo[] = [
     region: "Hawaiʻi",
     kind: "Sample brand",
     feeds: ["NDBC buoy", "PacIOOS surf", "NOAA tide", "EPA UV"],
+  },
+  {
+    slug: "kaimuki-supper-house",
+    name: "Kaimukī Supper House",
+    blurb:
+      "A Waiʻalae Ave chef-driven room that reserves direct — the golden-hour seating flagged off the real sunset, live lānai conditions beside it — next to the arithmetic of what per-cover reservation fees and marketplace commission actually cost a restaurant in a year.",
+    region: "Oʻahu",
+    kind: "Sample brand",
+    feeds: ["NWS wind/temp", "Computed sunset"],
   },
   {
     slug: "poipu-bluff-villas",
