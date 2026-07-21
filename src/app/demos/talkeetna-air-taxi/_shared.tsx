@@ -4,10 +4,11 @@
 // HONEST FRAMING: a cold-outreach SAMPLE built on PUBLICLY verifiable geography
 // + live public data by BlueWave Projects. "Susitna Air" is a DELIBERATELY
 // FICTIONAL sample brand — not a real business, not affiliated with or endorsed
-// by any actual Talkeetna air taxi / flightseeing operator. All imagery is
-// designed SVG art (no photographs). No operator's name, prices, times, or
-// contact appear. Examples use public geography (Talkeetna, Denali, the
-// Kahiltna Glacier, PATK), never real client data.
+// by any actual Talkeetna air taxi / flightseeing operator. Scenery uses real,
+// openly-licensed Alaska photographs (Wikimedia Commons / NPS, credited on each
+// ArtTile, none showing a real operator's livery); the emblem is designed SVG.
+// No operator's name, prices, times, or contact appear. Examples use public
+// geography (Talkeetna, Denali, the Kahiltna Glacier, PATK), never real client data.
 //
 // THEME — "Talkeetna: granite, glacier, sectional chart." COLD alpine: deep
 // spruce-night, glacier ice, a sectional-grid motif, with an ALPENGLOW accent
@@ -140,27 +141,45 @@ export function Emblem({ size = 200, className = "" }: { size?: number; classNam
   );
 }
 
+// A real, openly-licensed photograph for an ArtTile: local /demos file, the
+// credit string shown on-image, and an optional object-position.
+export type TkaPhoto = { src: string; credit: string; position?: string };
+
 export function ArtTile({
   accent,
   label,
   className = "",
   tall = false,
   figure = "peak",
+  photo,
 }: {
   accent: TkaAccent;
   label: string;
   className?: string;
   tall?: boolean;
   figure?: "peak" | "plane" | "glacier" | "spruce" | "river" | "cabin";
+  photo?: TkaPhoto;
 }) {
   return (
     <div
-      className={`group/ph relative overflow-hidden rounded-2xl border border-[#1d4a56]/25 bg-gradient-to-br ${accentGradient[accent]} ${
-        tall ? "min-h-[300px] sm:min-h-[380px]" : "min-h-[190px]"
-      } ${className}`}
+      className={`group/ph relative overflow-hidden rounded-2xl border border-[#1d4a56]/25 ${
+        photo ? "bg-[#0a1a26]" : `bg-gradient-to-br ${accentGradient[accent]}`
+      } ${tall ? "min-h-[300px] sm:min-h-[380px]" : "min-h-[190px]"} ${className}`}
       role="img"
-      aria-label={`Illustration — ${label}`}
+      aria-label={photo ? `Photo — ${label}` : `Illustration — ${label}`}
     >
+      {photo ? (
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={photo.src}
+            alt={label}
+            loading="lazy"
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover/ph:scale-[1.04]"
+            style={{ objectPosition: photo.position ?? "center" }}
+          />
+        </>
+      ) : (
       <svg className="absolute inset-0 h-full w-full" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <defs>
           <pattern id={`tka-grid-${accent}`} width="34" height="34" patternUnits="userSpaceOnUse">
@@ -219,19 +238,26 @@ export function ArtTile({
           </g>
         )}
       </svg>
+      )}
 
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#0a1a26]/74 to-transparent" />
       <div className="absolute inset-0 flex items-end p-4 sm:p-5">
         <div className="flex w-full items-end justify-between gap-3">
           <span className="tka-display text-[15px] font-semibold leading-tight text-[#eef7f7] drop-shadow-[0_1px_3px_rgba(10,26,38,0.9)]">{label}</span>
-          <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#ffce6b]/45 bg-[#0a1a26]/55 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.14em] text-[#eef7f7]/90 backdrop-blur-sm">
-            <svg viewBox="0 0 16 16" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
-              <rect x="1.5" y="3.5" width="13" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
-              <circle cx="5.5" cy="6.5" r="1.2" fill="currentColor" />
-              <path d="M2 11 L6 7.5 L9 10 L11 8.5 L14 11" stroke="currentColor" strokeWidth="1.3" fill="none" />
-            </svg>
-            Illustration
-          </span>
+          {photo ? (
+            <span className="inline-flex shrink-0 items-center rounded-full border border-[#eef7f7]/25 bg-[#0a1a26]/60 px-2.5 py-1 text-[8px] font-medium uppercase tracking-[0.12em] text-[#eef7f7]/75 backdrop-blur-sm">
+              {photo.credit}
+            </span>
+          ) : (
+            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#ffce6b]/45 bg-[#0a1a26]/55 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.14em] text-[#eef7f7]/90 backdrop-blur-sm">
+              <svg viewBox="0 0 16 16" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+                <rect x="1.5" y="3.5" width="13" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
+                <circle cx="5.5" cy="6.5" r="1.2" fill="currentColor" />
+                <path d="M2 11 L6 7.5 L9 10 L11 8.5 L14 11" stroke="currentColor" strokeWidth="1.3" fill="none" />
+              </svg>
+              Illustration
+            </span>
+          )}
         </div>
       </div>
     </div>

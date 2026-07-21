@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { DemoTracking } from "@/components/DemoTracking";
-import { AlpineShell, Emblem, ArtTile, TalkeetnaConditions, SITE, HUB_PATH, type TkaAccent } from "./_shared";
+import { AlpineShell, Emblem, ArtTile, TalkeetnaConditions, SITE, HUB_PATH, type TkaAccent, type TkaPhoto } from "./_shared";
 
 export const metadata: Metadata = {
   title: "Susitna Air — Denali Flightseeing & Glacier Landings from Talkeetna, with Live Flight Conditions (Sample Demo)",
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 
 const BRAND = "Susitna Air";
 
-type Item = { title: string; accent: TkaAccent; figure: "peak" | "plane" | "glacier" | "spruce" | "river" | "cabin"; blurb: string; tag: string };
+type Item = { title: string; accent: TkaAccent; figure: "peak" | "plane" | "glacier" | "spruce" | "river" | "cabin"; blurb: string; tag: string; photo: TkaPhoto };
 
 const flights: Item[] = [
   {
@@ -30,6 +30,7 @@ const flights: Item[] = [
     blurb:
       "Up the Susitna valley and into the Alaska Range — the south face of Denali, the Great Gorge of the Ruth, and glaciers running to the horizon. The classic first flight, no landing.",
     tag: "Flightseeing",
+    photo: { src: "/demos/talkeetna-air-taxi/denali-massif-glaciers.webp", credit: "Cmccleanon · CC BY-SA 4.0" },
   },
   {
     title: "Glacier ski-plane landing",
@@ -38,6 +39,7 @@ const flights: Item[] = [
     blurb:
       "Ski-equipped, we set down on the Ruth Glacier and shut the engine off. Standing on a river of ice in the Don Sheldon Amphitheater, granite walls a mile over your head — the reason people come to Talkeetna.",
     tag: "Land on ice",
+    photo: { src: "/demos/talkeetna-air-taxi/ski-plane-glacier-landing.webp", credit: "NPS · Public domain", position: "center 40%" },
   },
   {
     title: "The Ruth Amphitheater",
@@ -46,6 +48,7 @@ const flights: Item[] = [
     blurb:
       "A longer loop deep into the Ruth — the Amphitheater, the Great Gorge deeper than the Grand Canyon, and the Sheldon Mountain House perched on its nunatak. Big air, big country.",
     tag: "Extended",
+    photo: { src: "/demos/talkeetna-air-taxi/ruth-great-gorge.webp", credit: "Andrei Taranchenko · CC BY 2.0" },
   },
   {
     title: "Denali summit flight",
@@ -54,6 +57,7 @@ const flights: Item[] = [
     blurb:
       "When the mountain is out and the air is right, the high circuit — around the 20,310-ft summit and the Kahiltna, where climbers stage for the West Buttress. Weather and altitude have to cooperate; we only go when they do.",
     tag: "Weather permitting",
+    photo: { src: "/demos/talkeetna-air-taxi/denali-summit-overwing.webp", credit: "unagiinu1210 · CC BY-SA 3.0" },
   },
 ];
 
@@ -188,7 +192,7 @@ export default function TalkeetnaAirPage() {
                     </p>
                   </div>
                 </div>
-                <ArtTile accent="ridge" figure="peak" label="Denali from the south" tall />
+                <ArtTile accent="ridge" figure="peak" label="Denali from the south" tall photo={{ src: "/demos/talkeetna-air-taxi/denali-south-face-aerial.webp", credit: "Radu Vasilescu · CC BY-SA 4.0" }} />
               </div>
             </div>
           </section>
@@ -209,7 +213,7 @@ export default function TalkeetnaAirPage() {
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               {flights.map((it) => (
                 <div key={it.title} className="tka-card flex flex-col overflow-hidden">
-                  <ArtTile accent={it.accent} figure={it.figure} label={it.title} className="rounded-b-none border-0" />
+                  <ArtTile accent={it.accent} figure={it.figure} label={it.title} photo={it.photo} className="rounded-b-none border-0" />
                   <div className="flex flex-1 flex-col p-5">
                     <div className="mb-2 flex items-start justify-between gap-2">
                       <h3 className="tka-display text-base font-semibold leading-tight text-[#10222e]">{it.title}</h3>
@@ -321,7 +325,10 @@ export default function TalkeetnaAirPage() {
                 <a href={SITE} className="font-semibold text-[#e05f34] underline underline-offset-2 hover:text-[#1d4a56]">BlueWave Projects</a>.{" "}
                 <span className="font-semibold text-[#10222e]">&quot;{BRAND}&quot; is a fictional sample brand</span>{" "}
                 — not a real business, and not affiliated with or endorsed by any actual Talkeetna operator.
-                All imagery is designed sample illustration, not photography. No prices, schedules, phone
+                The scenery photographs are real, openly-licensed images of Denali, the Alaska Range, and its
+                glaciers (from Wikimedia Commons and the National Park Service, credited on each), chosen so that
+                no real operator&apos;s aircraft or livery is shown; the round Susitna Air emblem is a designed
+                sample mark. No prices, schedules, phone
                 numbers, or addresses are shown, because none are real; Denali, the Ruth and Kahiltna
                 glaciers, the Alaska Range, PATK, and the weather-dependence of mountain flying are real and
                 publicly verifiable. The &quot;Flying today?&quot; panel pulls the live Talkeetna (PATK)
