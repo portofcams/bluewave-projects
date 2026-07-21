@@ -215,18 +215,22 @@ export function Emblem({
 // ART TILE — designed SVG art only (no photographs). Each tile is a Waikiki
 // motif behind a readable lagoon scrim, honestly chipped "Illustration."
 // ---------------------------------------------------------------------------
+export type WsdPhoto = { src: string; credit: string; position?: string };
+
 export function ArtTile({
   accent,
   label,
   className = "",
   tall = false,
   figure = "wave",
+  photo,
 }: {
   accent: WsdAccent;
   label: string;
   className?: string;
   tall?: boolean;
   figure?: "wave" | "board" | "turtle" | "reef" | "diamondhead" | "palm";
+  photo?: WsdPhoto;
 }) {
   return (
     <div
@@ -234,7 +238,7 @@ export function ArtTile({
         tall ? "min-h-[300px] sm:min-h-[380px]" : "min-h-[190px]"
       } ${className}`}
       role="img"
-      aria-label={`Illustration — ${label}`}
+      aria-label={photo ? `Photo — ${label}` : `Illustration — ${label}`}
     >
       <svg className="absolute inset-0 h-full w-full" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <defs>
@@ -304,6 +308,18 @@ export function ArtTile({
         {/* thin light ripple */}
         <path d="M40 100 C 140 84, 260 132, 380 104" stroke={WSD.foam} strokeWidth="1.2" fill="none" opacity="0.2" strokeDasharray="2 8" />
       </svg>
+      {photo && (
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={photo.src}
+            alt={label}
+            loading="lazy"
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover/ph:scale-[1.04]"
+            style={{ objectPosition: photo.position ?? "center" }}
+          />
+        </>
+      )}
 
       {/* soft vignette for caption legibility */}
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#052e38]/72 to-transparent" />
@@ -314,6 +330,9 @@ export function ArtTile({
           <span className="wsd-display text-[15px] font-semibold leading-tight text-[#f4fbfa] drop-shadow-[0_1px_3px_rgba(5,46,56,0.9)]">
             {label}
           </span>
+          {photo ? (
+          <span className="inline-flex shrink-0 items-center rounded-full border border-white/25 bg-black/55 px-2.5 py-1 text-[8px] font-medium uppercase tracking-[0.12em] text-white/80 backdrop-blur-sm">{photo.credit}</span>
+          ) : (
           <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#ffcf5c]/45 bg-[#052e38]/55 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.14em] text-[#f4fbfa]/90 backdrop-blur-sm">
             <svg viewBox="0 0 16 16" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
               <rect x="1.5" y="3.5" width="13" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
@@ -322,6 +341,7 @@ export function ArtTile({
             </svg>
             Illustration
           </span>
+          )}
         </div>
       </div>
     </div>

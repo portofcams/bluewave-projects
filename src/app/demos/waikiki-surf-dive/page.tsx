@@ -10,6 +10,7 @@ import {
   SITE,
   HUB_PATH,
   type WsdAccent,
+  type WsdPhoto,
 } from "./_shared";
 
 // UNLISTED + NOINDEX. Not in nav, not in sitemap. robots.txt already
@@ -46,6 +47,17 @@ type Item = {
   figure: "wave" | "board" | "turtle" | "reef" | "diamondhead" | "palm";
   blurb: string;
   tag: string;
+};
+
+// Real, openly-licensed Waikiki / Oahu / Hawaii photos keyed by tile title.
+const WSD_PHOTOS: Record<string, WsdPhoto> = {
+  "First-timers at Canoes & Queens": { src: "/demos/waikiki-surf-dive/surf-waikiki-1.webp", credit: "Daniel Ramirez · CC BY 2.0" },
+  "Longboard & SUP sessions": { src: "/demos/waikiki-surf-dive/surf-waikiki-2.webp", credit: "Daniel Ramirez · CC BY 2.0" },
+  "Move out to Populars & Threes": { src: "/demos/waikiki-surf-dive/waikiki-palms.webp", credit: "Cristo Vlahos · CC BY-SA 3.0" },
+  "Turtle Canyon reef": { src: "/demos/waikiki-surf-dive/honu-oahu.webp", credit: "Brocken Inaglory · CC BY-SA 3.0" },
+  "Kewalo reef dives": { src: "/demos/waikiki-surf-dive/reef-school.webp", credit: "incidencematrix · CC BY 2.0" },
+  "The Waikiki wrecks": { src: "/demos/waikiki-surf-dive/wreck-diver.webp", credit: "NOAA / D. Meadows · Public domain" },
+  "Sea Tiger wreck": { src: "/demos/waikiki-surf-dive/honu-basking.webp", credit: "Caracas1830 · CC BY-SA 2.5" },
 };
 
 const surfItems: Item[] = [
@@ -257,7 +269,7 @@ export default function WaikikiSurfDivePage() {
                     </p>
                   </div>
                 </div>
-                <ArtTile accent="lagoon" figure="diamondhead" label="Diamond Head over the South Shore" tall />
+                <ArtTile accent="lagoon" figure="diamondhead" label="Diamond Head over the South Shore" tall photo={{ src: "/demos/waikiki-surf-dive/waikiki-diamondhead.webp", credit: "Z001 · Public domain" }} />
               </div>
             </div>
           </section>
@@ -278,7 +290,7 @@ export default function WaikikiSurfDivePage() {
             <div className="grid gap-6 md:grid-cols-3">
               {surfItems.map((it) => (
                 <div key={it.title} className="wsd-card flex flex-col overflow-hidden">
-                  <ArtTile accent={it.accent} figure={it.figure} label={it.title} className="rounded-b-none border-0" />
+                  <ArtTile accent={it.accent} figure={it.figure} label={it.title} photo={WSD_PHOTOS[it.title]} className="rounded-b-none border-0" />
                   <div className="flex flex-1 flex-col p-5">
                     <div className="mb-2 flex items-start justify-between gap-2">
                       <h3 className="wsd-display text-lg font-semibold leading-tight text-[#0f333a]">{it.title}</h3>
@@ -309,7 +321,7 @@ export default function WaikikiSurfDivePage() {
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               {diveItems.map((it) => (
                 <div key={it.title} className="wsd-card flex flex-col overflow-hidden">
-                  <ArtTile accent={it.accent} figure={it.figure} label={it.title} className="rounded-b-none border-0" />
+                  <ArtTile accent={it.accent} figure={it.figure} label={it.title} photo={WSD_PHOTOS[it.title]} className="rounded-b-none border-0" />
                   <div className="flex flex-1 flex-col p-5">
                     <div className="mb-2 flex items-start justify-between gap-2">
                       <h3 className="wsd-display text-base font-semibold leading-tight text-[#0f333a]">{it.title}</h3>
@@ -426,7 +438,9 @@ export default function WaikikiSurfDivePage() {
                 .{" "}
                 <span className="font-semibold text-[#0f333a]">&quot;{BRAND}&quot; is a fictional sample brand</span>{" "}
                 — not a real business, and not affiliated with or endorsed by any actual Waikiki
-                operator. All imagery is designed sample illustration, not photography. No prices,
+                operator. The scenery photographs are real, openly-licensed images of Waikiki, Oʻahu,
+                and Hawaiian marine life (from Wikimedia Commons and NOAA, credited on each), and none
+                shows a real operator or its branding; the round emblem is a designed mark. No prices,
                 schedules, phone numbers, or addresses are shown, because none are real; the surf
                 breaks, dive sites and their depths/levels, the reef-safe sunscreen law, and the honu
                 distance are real and publicly verifiable. The &quot;Surf &amp; sea&quot; panel pulls
