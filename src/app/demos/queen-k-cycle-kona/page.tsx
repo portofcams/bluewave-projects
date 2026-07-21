@@ -10,6 +10,7 @@ import {
   SITE,
   HUB_PATH,
   type KqAccent,
+  type KqPhoto,
 } from "./_shared";
 
 // UNLISTED + NOINDEX. Not in nav, not in sitemap. robots.txt already
@@ -50,6 +51,14 @@ type ServiceItem = {
   figure: "bike" | "lava" | "wave" | "sun" | "crosswind";
   blurb: string;
   tag: string;
+};
+
+// Real, openly-licensed Kona lava / Queen K highway scenery keyed by tile title.
+const KQ_PHOTOS: Record<string, KqPhoto> = {
+  "Race-week TT & tri rentals": { src: "/demos/queen-k-cycle-kona/lava-road.webp", credit: "dronepicr · CC BY 2.0" },
+  "Tune-ups & race prep": { src: "/demos/queen-k-cycle-kona/kohala-coast.webp", credit: "Madereugeneandrew · CC BY-SA 4.0" },
+  "Training-ride wheel advice": { src: "/demos/queen-k-cycle-kona/lava-sunset.webp", credit: "dronepicr · CC BY 2.0" },
+  "Bike box storage & logistics": { src: "/demos/queen-k-cycle-kona/lava-coast-ocean.webp", credit: "dronepicr · CC BY 2.0" },
 };
 
 const services: ServiceItem[] = [
@@ -255,7 +264,7 @@ export default function QueenKCycleKonaPage() {
                     </p>
                   </div>
                 </div>
-                <ArtTile accent="ocean" figure="crosswind" label="The Queen K, across the lava fields" tall />
+                <ArtTile accent="ocean" figure="crosswind" label="The Queen K, across the lava fields" tall photo={{ src: "/demos/queen-k-cycle-kona/queen-k-highway.webp", credit: "Ken Lund · CC BY-SA 2.0" }} />
               </div>
             </div>
           </section>
@@ -277,7 +286,7 @@ export default function QueenKCycleKonaPage() {
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               {services.map((sv) => (
                 <div key={sv.title} className="qkc-card flex flex-col overflow-hidden">
-                  <ArtTile accent={sv.accent} figure={sv.figure} label={sv.title} className="rounded-b-none border-0" />
+                  <ArtTile accent={sv.accent} figure={sv.figure} label={sv.title} photo={KQ_PHOTOS[sv.title]} className="rounded-b-none border-0" />
                   <div className="flex flex-1 flex-col p-5">
                     <div className="mb-2 flex items-start justify-between gap-2">
                       <h3 className="qkc-display text-base leading-tight text-[#241812]">{sv.title}</h3>
@@ -338,7 +347,7 @@ export default function QueenKCycleKonaPage() {
             <div className="relative mx-auto max-w-5xl px-6">
               <div className="grid items-center gap-10 lg:grid-cols-[1fr_1fr]">
                 <div className="flex justify-center lg:justify-start">
-                  <ArtTile accent="heat" figure="sun" label="Afternoon heat over the lava fields" tall className="w-full max-w-md sm:h-[340px]" />
+                  <ArtTile accent="heat" figure="sun" label="Afternoon heat over the lava fields" tall className="w-full max-w-md sm:h-[340px]" photo={{ src: "/demos/queen-k-cycle-kona/lava-field.webp", credit: "dronepicr · CC BY 2.0" }} />
                 </div>
                 <div>
                   <p className="qkc-eyebrow mb-3 !text-[#ff5a36]">Why disc wheels get restricted here</p>
@@ -443,10 +452,12 @@ export default function QueenKCycleKonaPage() {
                   &quot;{BRAND}&quot; is a fictional sample brand
                 </span>{" "}
                 — it is not a real business and is not affiliated with or
-                endorsed by IRONMAN/WTC or any actual Kona-area operator. All
-                imagery is designed sample illustration, not photography; a
-                real build would use the operator&apos;s own branding and
-                photos. No prices, hours, phone numbers, or addresses are
+                endorsed by IRONMAN/WTC or any actual Kona-area operator. The
+                scenery photographs are real, openly-licensed images of the
+                Queen Kaʻahumanu Highway and Kona&apos;s lava coast (from Wikimedia
+                Commons, credited on each), and none shows a real cyclist, team,
+                or business branding; the emblem is a designed mark.
+                No prices, hours, phone numbers, or addresses are
                 shown, because none are real. The race date, course geography,
                 and crosswind/disc-wheel facts are real and publicly
                 verifiable (see the FAQ for sourcing) — race-day temperature
