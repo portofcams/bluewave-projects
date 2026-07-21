@@ -10,6 +10,7 @@ import {
   SITE,
   HUB_PATH,
   type AuAccent,
+  type AuPhoto,
 } from "./_shared";
 
 // UNLISTED + NOINDEX. Not in nav, not in sitemap. robots.txt already
@@ -53,6 +54,14 @@ type Service = {
   figure: "aurora" | "cabin" | "dome" | "hotsprings" | "stars" | "moose";
   blurb: string;
   tag: string;
+};
+
+// Real, openly-licensed interior-Alaska aurora / winter photos keyed by tile title.
+const AU_PHOTOS: Record<string, AuPhoto> = {
+  "Nightly chase tours": { src: "/demos/aurora-fairbanks/boreal-aurora.webp", credit: "NPS / Tim Rains · Public domain" },
+  "Photography sessions": { src: "/demos/aurora-fairbanks/chena-hot-springs.webp", credit: "Carl Chapman · CC BY-SA 2.0" },
+  "Multi-night packages": { src: "/demos/aurora-fairbanks/cabin-aurora.webp", credit: "Lisa Hupp / USFWS · Public domain" },
+  "Private & custom charters": { src: "/demos/aurora-fairbanks/moose-snow.webp", credit: "BLM / Shawn Swanson · Public domain" },
 };
 
 const services: Service[] = [
@@ -270,6 +279,7 @@ export default function AuroraFairbanksPage() {
                   figure="dome"
                   label="Murphy Dome, above the Fairbanks light dome"
                   tall
+                  photo={{ src: "/demos/aurora-fairbanks/bear-lake-aurora.webp", credit: "Joshua Strang / U.S. Air Force · Public domain" }}
                 />
               </div>
             </div>
@@ -296,6 +306,7 @@ export default function AuroraFairbanksPage() {
                     accent={sv.accent}
                     figure={sv.figure}
                     label={sv.title}
+                    photo={AU_PHOTOS[sv.title]}
                     className="rounded-b-none border-0"
                   />
                   <div className="flex flex-1 flex-col p-5">
@@ -370,6 +381,7 @@ export default function AuroraFairbanksPage() {
                     label="Chatanika, near UAF's Poker Flat Research Range"
                     tall
                     className="w-full max-w-md sm:h-[340px]"
+                    photo={{ src: "/demos/aurora-fairbanks/fairbanks-aurora.webp", credit: "Brocken Inaglory · CC BY-SA 3.0" }}
                   />
                 </div>
                 <div>
@@ -488,8 +500,11 @@ export default function AuroraFairbanksPage() {
                   &quot;{BRAND}&quot; is a fictional sample brand
                 </span>{" "}
                 — it is not a real business and is not affiliated with or
-                endorsed by any actual Fairbanks-area aurora operator. All
-                imagery is designed sample illustration, not photography; a
+                endorsed by any actual Fairbanks-area aurora operator. The
+                photographs are real, openly-licensed images of interior-Alaska
+                aurora and winter scenery (from Wikimedia Commons, the U.S. Air
+                Force, NPS, USFWS, and BLM, credited on each), and none shows a
+                real operator or its branding; the emblem is a designed mark. A
                 real build would use the operator&apos;s own branding and
                 photos. No prices, departure times, phone numbers, or
                 addresses are shown, because none are real. The geography,
