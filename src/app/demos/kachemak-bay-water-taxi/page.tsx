@@ -10,6 +10,7 @@ import {
   SITE,
   HUB_PATH,
   type KbAccent,
+  type KbPhoto,
 } from "./_shared";
 
 // UNLISTED + NOINDEX. Not in nav, not in sitemap. robots.txt already
@@ -46,6 +47,16 @@ type Service = {
   figure: "bay" | "boat" | "spit" | "puffin" | "otter" | "glacier";
   blurb: string;
   tag: string;
+};
+
+// Real, openly-licensed Kachemak Bay / Kenai Peninsula photos keyed by tile title.
+const KB_PHOTOS: Record<string, KbPhoto> = {
+  "State Park trailhead drops": { src: "/demos/kachemak-bay-water-taxi/kenai-glacier.webp", credit: "Enrico Blasutto · CC BY-SA 4.0" },
+  "Gull Island wildlife run": { src: "/demos/kachemak-bay-water-taxi/puffin.webp", credit: "Diego Delso · CC BY-SA 4.0" },
+  "Halibut Cove & Seldovia crossings": { src: "/demos/kachemak-bay-water-taxi/skiff-silhouette.webp", credit: "Paxson Woelber · CC BY 2.0" },
+  "Kayak & campsite drops": { src: "/demos/kachemak-bay-water-taxi/sea-otter.webp", credit: "Paxson Woelber · CC BY-SA 4.0" },
+  "Custom charters & freight": { src: "/demos/kachemak-bay-water-taxi/kachemak-kenai.webp", credit: "Wonderlane · CC BY 2.0" },
+  "Tide-timed pickups": { src: "/demos/kachemak-bay-water-taxi/kachemak-bay.webp", credit: "Brian · CC BY 2.0" },
 };
 
 const services: Service[] = [
@@ -272,6 +283,7 @@ export default function KachemakBayWaterTaxiPage() {
                   figure="spit"
                   label="The Homer Spit, into Kachemak Bay"
                   tall
+                  photo={{ src: "/demos/kachemak-bay-water-taxi/homer-spit.webp", credit: "Derek Ramsey · CC BY-SA 2.5" }}
                 />
               </div>
             </div>
@@ -298,6 +310,7 @@ export default function KachemakBayWaterTaxiPage() {
                     accent={sv.accent}
                     figure={sv.figure}
                     label={sv.title}
+                    photo={KB_PHOTOS[sv.title]}
                     className="rounded-b-none border-0"
                   />
                   <div className="flex flex-1 flex-col p-5">
@@ -372,6 +385,7 @@ export default function KachemakBayWaterTaxiPage() {
                     label="Grewingk Glacier Lake, across the bay"
                     tall
                     className="w-full max-w-md sm:h-[340px]"
+                    photo={{ src: "/demos/kachemak-bay-water-taxi/glacier-sea.webp", credit: "Enrico Blasutto · CC BY-SA 4.0" }}
                   />
                 </div>
                 <div>
@@ -486,9 +500,11 @@ export default function KachemakBayWaterTaxiPage() {
                   &quot;{BRAND}&quot; is a fictional sample brand
                 </span>{" "}
                 — it is not a real business and is not affiliated with or
-                endorsed by any actual Homer or Kachemak Bay operator. All
-                imagery is designed sample illustration, not photography; a real
-                build would use the operator&apos;s own branding and photos. No
+                endorsed by any actual Homer or Kachemak Bay operator. The
+                scenery and wildlife photographs are real, openly-licensed images of
+                Kachemak Bay and the Kenai Peninsula (from Wikimedia Commons,
+                credited on each), and none shows a real operator&apos;s vessel or
+                branding; the emblem is a designed mark. No
                 prices, departure times, phone numbers, or addresses are shown,
                 because none are real. The destinations, geography, transit
                 ranges, and season are real and publicly verifiable. The
