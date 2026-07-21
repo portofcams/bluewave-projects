@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { DemoTracking } from "@/components/DemoTracking";
-import { BayShell, Emblem, ArtTile, NapiliConditions, SITE, HUB_PATH, type NpbAccent } from "./_shared";
+import { BayShell, Emblem, ArtTile, NapiliConditions, SITE, HUB_PATH, type NpbAccent, type NpbPhoto } from "./_shared";
 
 export const metadata: Metadata = {
   title: "Napili Bay Beach Club — Snorkel, Sea & Sunset on West Maui, with a Live Bay Report (Sample Demo)",
@@ -21,6 +21,14 @@ export const metadata: Metadata = {
 const BRAND = "Napili Bay Beach Club";
 
 type Item = { title: string; accent: NpbAccent; figure: "sunset" | "turtle" | "palm" | "reef" | "wave" | "cottage"; blurb: string; tag: string };
+
+// Real, openly-licensed West Maui / Hawaii photos keyed by tile title.
+const NPB_PHOTOS: Record<string, NpbPhoto> = {
+  "Snorkel the reef points": { src: "/demos/napili-bay/hawaii-coral-reef.webp", credit: "Andy Collins / NOAA · Public domain" },
+  "Honu on the flats": { src: "/demos/napili-bay/honu-reef.webp", credit: "Brocken Inaglory · CC BY-SA 3.0" },
+  "A crescent to yourself": { src: "/demos/napili-bay/napili-bay-crescent.webp", credit: "Cmholm · CC BY-SA 3.0" },
+  "The sunset off the bay": { src: "/demos/napili-bay/kaanapali-sunset.webp", credit: "dronepicr · CC BY 2.0" },
+};
 
 const experiences: Item[] = [
   {
@@ -183,7 +191,7 @@ export default function NapiliBayPage() {
                     </p>
                   </div>
                 </div>
-                <ArtTile accent="gold" figure="sunset" label="Sunset into the channel" tall />
+                <ArtTile accent="gold" figure="sunset" label="Sunset into the channel" tall photo={{ src: "/demos/napili-bay/maui-sunset.webp", credit: "Bernard Spragg · CC0" }} />
               </div>
             </div>
           </section>
@@ -204,7 +212,7 @@ export default function NapiliBayPage() {
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               {experiences.map((it) => (
                 <div key={it.title} className="npb-card flex flex-col overflow-hidden">
-                  <ArtTile accent={it.accent} figure={it.figure} label={it.title} className="rounded-b-none border-0" />
+                  <ArtTile accent={it.accent} figure={it.figure} label={it.title} photo={NPB_PHOTOS[it.title]} className="rounded-b-none border-0" />
                   <div className="flex flex-1 flex-col p-5">
                     <div className="mb-2 flex items-start justify-between gap-2">
                       <h3 className="npb-display text-base font-semibold leading-tight text-[#123b3e]">{it.title}</h3>
@@ -317,7 +325,7 @@ export default function NapiliBayPage() {
                 <a href={SITE} className="font-semibold text-[#e2503f] underline underline-offset-2 hover:text-[#17a2a6]">BlueWave Projects</a>.{" "}
                 <span className="font-semibold text-[#123b3e]">&quot;{BRAND}&quot; is a fictional sample brand</span>{" "}
                 — not a real business, and not affiliated with or endorsed by any actual Napili or West Maui
-                property. All imagery is designed sample illustration, not photography. No prices, rooms,
+                property. The scenery photographs are real, openly-licensed images of West Maui and Hawaiian marine life (from Wikimedia Commons and NOAA, credited on each), and none shows a real property or its branding; the round emblem is a designed sample mark. No prices, rooms,
                 phone numbers, or addresses are shown, because none are real; the leeward bay, the reef
                 points, honu, the west-facing sunset, and the reef-safe sunscreen law are real and publicly
                 verifiable. The &quot;Snorkel &amp; sea&quot; panel pulls live public data — the PacIOOS SWAN
