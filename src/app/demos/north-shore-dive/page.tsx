@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { DemoTracking } from "@/components/DemoTracking";
-import { NorthShell, Emblem, ArtTile, NorthShoreConditions, SITE, HUB_PATH, type NsdAccent } from "./_shared";
+import { NorthShell, Emblem, ArtTile, NorthShoreConditions, SITE, HUB_PATH, type NsdAccent, type NsdPhoto } from "./_shared";
 
 export const metadata: Metadata = {
   title: "North Shore Dive Co. — Shore & Boat Diving, Haleʻiwa, with a Live Swell Report (Sample Demo)",
@@ -21,6 +21,17 @@ export const metadata: Metadata = {
 const BRAND = "North Shore Dive Co.";
 
 type Item = { title: string; accent: NsdAccent; figure: "wave" | "diver" | "turtle" | "reef" | "cliff" | "boat"; blurb: string; tag: string };
+
+// Real, openly-licensed photos keyed by tile title (Wikimedia Commons / NOAA).
+const NSD_PHOTOS: Record<string, NsdPhoto> = {
+  "Shark's Cove (Pūpūkea)": { src: "/demos/north-shore-dive/hawaii-reef.webp", credit: "incidencematrix · CC BY 2.0" },
+  "Three Tables": { src: "/demos/north-shore-dive/honu-keaukaha.webp", credit: "Narrissa P. Spies · CC BY-SA 4.0" },
+  "Waimea Bay": { src: "/demos/north-shore-dive/north-shore-coast.webp", credit: "Daniel Ramirez · CC BY 2.0" },
+  "Haleʻiwa boat dives": { src: "/demos/north-shore-dive/diver-wreck-propeller.webp", credit: "NOAA / D. Meadows · Public domain" },
+  "Discover Scuba": { src: "/demos/north-shore-dive/diver-mine.webp", credit: "NOAA / D. Meadows · Public domain" },
+  "Open Water certification": { src: "/demos/north-shore-dive/reef-fish-school.webp", credit: "incidencematrix · CC BY 2.0" },
+  "Guided shore dives": { src: "/demos/north-shore-dive/honu-kona.webp", credit: "Brocken Inaglory · CC BY-SA 3.0" },
+};
 
 const diveItems: Item[] = [
   {
@@ -208,7 +219,7 @@ export default function NorthShoreDivePage() {
                     </p>
                   </div>
                 </div>
-                <ArtTile accent="ocean" figure="cliff" label="Waimea Bay, summer-calm" tall />
+                <ArtTile accent="ocean" figure="cliff" label="Waimea Bay, summer-calm" tall photo={{ src: "/demos/north-shore-dive/waimea-bay-sunset.webp", credit: "Jordan Robinson · CC BY-SA 3.0" }} />
               </div>
             </div>
           </section>
@@ -229,7 +240,7 @@ export default function NorthShoreDivePage() {
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               {diveItems.map((it) => (
                 <div key={it.title} className="nsd-card flex flex-col overflow-hidden">
-                  <ArtTile accent={it.accent} figure={it.figure} label={it.title} className="rounded-b-none border-0" />
+                  <ArtTile accent={it.accent} figure={it.figure} label={it.title} photo={NSD_PHOTOS[it.title]} className="rounded-b-none border-0" />
                   <div className="flex flex-1 flex-col p-5">
                     <div className="mb-2 flex items-start justify-between gap-2">
                       <h3 className="nsd-display text-base font-semibold leading-tight text-[#0c2a3a]">{it.title}</h3>
@@ -256,7 +267,7 @@ export default function NorthShoreDivePage() {
             <div className="grid gap-6 md:grid-cols-3">
               {courses.map((it) => (
                 <div key={it.title} className="nsd-card flex flex-col overflow-hidden">
-                  <ArtTile accent={it.accent} figure={it.figure} label={it.title} className="rounded-b-none border-0" />
+                  <ArtTile accent={it.accent} figure={it.figure} label={it.title} photo={NSD_PHOTOS[it.title]} className="rounded-b-none border-0" />
                   <div className="flex flex-1 flex-col p-5">
                     <div className="mb-2 flex items-start justify-between gap-2">
                       <h3 className="nsd-display text-lg font-semibold leading-tight text-[#0c2a3a]">{it.title}</h3>
@@ -369,7 +380,9 @@ export default function NorthShoreDivePage() {
                 <a href={SITE} className="font-semibold text-[#e04b3d] underline underline-offset-2 hover:text-[#1f6f9e]">BlueWave Projects</a>.{" "}
                 <span className="font-semibold text-[#0c2a3a]">&quot;{BRAND}&quot; is a fictional sample brand</span>{" "}
                 — not a real business, and not affiliated with or endorsed by any actual North Shore operator.
-                All imagery is designed sample illustration, not photography. No prices, schedules, phone
+                The scenery photographs are real, openly-licensed images of Oʻahu&apos;s North Shore, its reefs,
+                and Hawaiian marine life (from Wikimedia Commons and NOAA, credited on each), and none shows a
+                real operator&apos;s boat or branding; the round emblem is a designed sample mark. No prices, schedules, phone
                 numbers, or addresses are shown, because none are real; the dive sites, the Pūpūkea Marine
                 Life Conservation District, the summer/winter season, and the honu distance are real and
                 publicly verifiable. The &quot;Dive report&quot; panel pulls live public data — the NDBC 51201
