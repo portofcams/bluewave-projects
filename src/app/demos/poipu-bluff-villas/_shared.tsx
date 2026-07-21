@@ -147,27 +147,43 @@ export function Emblem({ size = 200, className = "" }: { size?: number; classNam
   );
 }
 
+export type PbvPhoto = { src: string; credit: string; position?: string };
+
 export function ArtTile({
   accent,
   label,
   className = "",
   tall = false,
   figure = "bluff",
+  photo,
 }: {
   accent: PbvAccent;
   label: string;
   className?: string;
   tall?: boolean;
   figure?: "bluff" | "villa" | "palm" | "reef" | "swell" | "sun";
+  photo?: PbvPhoto;
 }) {
   return (
     <div
-      className={`group/ph relative overflow-hidden rounded-2xl border border-[#1b7fa8]/25 bg-gradient-to-br ${accentGradient[accent]} ${
-        tall ? "min-h-[300px] sm:min-h-[380px]" : "min-h-[190px]"
-      } ${className}`}
+      className={`group/ph relative overflow-hidden rounded-2xl border border-[#1b7fa8]/25 ${
+        photo ? "bg-[#0b2a3d]" : `bg-gradient-to-br ${accentGradient[accent]}`
+      } ${tall ? "min-h-[300px] sm:min-h-[380px]" : "min-h-[190px]"} ${className}`}
       role="img"
-      aria-label={`Illustration — ${label}`}
+      aria-label={photo ? `Photo — ${label}` : `Illustration — ${label}`}
     >
+      {photo ? (
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={photo.src}
+            alt={label}
+            loading="lazy"
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover/ph:scale-[1.04]"
+            style={{ objectPosition: photo.position ?? "center" }}
+          />
+        </>
+      ) : (
       <svg className="absolute inset-0 h-full w-full" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <defs>
           <radialGradient id={`pbv-sun-${accent}`} cx="72%" cy="22%" r="44%">
@@ -225,19 +241,26 @@ export function ArtTile({
         )}
         <path d="M40 108 C 140 92, 260 140, 380 112" stroke={PBV.foam} strokeWidth="1.2" fill="none" opacity="0.2" strokeDasharray="2 8" />
       </svg>
+      )}
 
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#0b2a3d]/72 to-transparent" />
       <div className="absolute inset-0 flex items-end p-4 sm:p-5">
         <div className="flex w-full items-end justify-between gap-3">
           <span className="pbv-display text-[15px] font-semibold leading-tight text-[#f2fbfd] drop-shadow-[0_1px_3px_rgba(11,42,61,0.9)]">{label}</span>
-          <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#f2b134]/45 bg-[#0b2a3d]/55 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.14em] text-[#f2fbfd]/90 backdrop-blur-sm">
-            <svg viewBox="0 0 16 16" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
-              <rect x="1.5" y="3.5" width="13" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
-              <circle cx="5.5" cy="6.5" r="1.2" fill="currentColor" />
-              <path d="M2 11 L6 7.5 L9 10 L11 8.5 L14 11" stroke="currentColor" strokeWidth="1.3" fill="none" />
-            </svg>
-            Illustration
-          </span>
+          {photo ? (
+            <span className="inline-flex shrink-0 items-center rounded-full border border-[#f2fbfd]/25 bg-[#0b2a3d]/60 px-2.5 py-1 text-[8px] font-medium uppercase tracking-[0.12em] text-[#f2fbfd]/75 backdrop-blur-sm">
+              {photo.credit}
+            </span>
+          ) : (
+            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#f2b134]/45 bg-[#0b2a3d]/55 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.14em] text-[#f2fbfd]/90 backdrop-blur-sm">
+              <svg viewBox="0 0 16 16" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+                <rect x="1.5" y="3.5" width="13" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
+                <circle cx="5.5" cy="6.5" r="1.2" fill="currentColor" />
+                <path d="M2 11 L6 7.5 L9 10 L11 8.5 L14 11" stroke="currentColor" strokeWidth="1.3" fill="none" />
+              </svg>
+              Illustration
+            </span>
+          )}
         </div>
       </div>
     </div>

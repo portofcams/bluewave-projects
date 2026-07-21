@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { DemoTracking } from "@/components/DemoTracking";
-import { BluffShell, Emblem, ArtTile, PoipuConditions, BookDirect, SITE, HUB_PATH, type PbvAccent } from "./_shared";
+import { BluffShell, Emblem, ArtTile, PoipuConditions, BookDirect, SITE, HUB_PATH, type PbvAccent, type PbvPhoto } from "./_shared";
 
 export const metadata: Metadata = {
   title: "Poʻipū Bluff Villas — Book Direct on Kauaʻi's South Shore, with a Live Guest Hub (Sample Demo)",
@@ -25,6 +25,14 @@ export const metadata: Metadata = {
 const BRAND = "Poʻipū Bluff Villas";
 
 type Item = { title: string; accent: PbvAccent; figure: "bluff" | "villa" | "palm" | "reef" | "swell" | "sun"; blurb: string; tag: string };
+
+// Real, openly-licensed Kauaʻi south-shore scenery keyed by tile title.
+const PBV_PHOTOS: Record<string, PbvPhoto> = {
+  "The beach park, two minutes down": { src: "/demos/poipu-bluff-villas/poipu-beach.webp", credit: "Heath Cajandig · CC BY 2.0" },
+  "A summer south under the lānai": { src: "/demos/poipu-bluff-villas/poipu-golden-hour.webp", credit: "dronepicr · CC BY 2.0" },
+  "Māhāʻulepū at sunrise": { src: "/demos/poipu-bluff-villas/mahaulepu-bluff.webp", credit: "Robert Linsdell · CC BY 2.0" },
+  "Spouting Horn, ten minutes west": { src: "/demos/poipu-bluff-villas/spouting-horn.webp", credit: "Ron Clausen · CC BY-SA 4.0" },
+};
 
 const experiences: Item[] = [
   {
@@ -136,7 +144,7 @@ export default function PoipuBluffVillasPage() {
             <div className="grid gap-5 sm:grid-cols-2">
               {experiences.map((e) => (
                 <article key={e.title} className="pbv-card overflow-hidden">
-                  <ArtTile accent={e.accent} figure={e.figure} label={e.title} />
+                  <ArtTile accent={e.accent} figure={e.figure} label={e.title} photo={PBV_PHOTOS[e.title]} />
                   <div className="p-5">
                     <div className="flex items-start justify-between gap-3">
                       <h3 className="pbv-display text-lg font-semibold text-[#123246]">{e.title}</h3>
@@ -159,8 +167,10 @@ export default function PoipuBluffVillasPage() {
               <p className="mt-3 text-[13px] leading-relaxed text-[#3f5b6b]">
                 <span className="font-semibold text-[#123246]">{BRAND} is a fictional brand.</span> It isn&apos;t a
                 real business, isn&apos;t affiliated with any Poʻipū or Kōloa property, and the four hale, their
-                nightly rates, and the cleaning fees are invented for this page. All artwork is drawn, not
-                photographed. Nothing here quotes a real operator&apos;s rates, units, or availability.
+                nightly rates, and the cleaning fees are invented for this page. The scenery photographs (the beach
+                park, the summer south, Māhāʻulepū, Spouting Horn) are real, openly-licensed images of those Kauaʻi
+                places, credited on each; the villas themselves are not shown, and the emblem is a designed mark.
+                Nothing here quotes a real operator&apos;s rates, units, or availability.
               </p>
               <p className="mt-3 text-[13px] leading-relaxed text-[#3f5b6b]">
                 <span className="font-semibold text-[#123246]">What is real:</span> the geography (Poʻipū Beach Park
