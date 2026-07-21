@@ -10,6 +10,7 @@ import {
   SITE,
   HUB_PATH,
   type SjAccent,
+  type SjPhoto,
 } from "./_shared";
 
 // UNLISTED + NOINDEX. Not in nav, not in sitemap. robots.txt already
@@ -45,6 +46,14 @@ type Item = {
   figure: "orca" | "island" | "boat" | "fluke" | "sea" | "lighthouse";
   blurb: string;
   tag: string;
+};
+
+// Real, openly-licensed Salish Sea / PNW photos keyed by tile title.
+const SJ_PHOTOS: Record<string, SjPhoto> = {
+  "Bigg's orcas": { src: "/demos/san-juan-whale-watch/sooke-orca.webp", credit: "Buiobuione · CC BY-SA 4.0" },
+  "Humpback whales": { src: "/demos/san-juan-whale-watch/humpback-breach.webp", credit: "Gillfoto · CC BY-SA 3.0" },
+  "Minke, porpoise & more": { src: "/demos/san-juan-whale-watch/salish-waves.webp", credit: "BLM / N. Teague · Public domain" },
+  "Seals, sea lions & eagles": { src: "/demos/san-juan-whale-watch/rosario-strait.webp", credit: "Joe Mabel · CC BY-SA 3.0" },
 };
 
 const see: Item[] = [
@@ -214,7 +223,7 @@ export default function SanJuanWhaleWatchPage() {
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               {see.map((it) => (
                 <div key={it.title} className="sjw-card flex flex-col overflow-hidden">
-                  <ArtTile accent={it.accent} figure={it.figure} label={it.title} className="rounded-b-none border-0" />
+                  <ArtTile accent={it.accent} figure={it.figure} label={it.title} photo={SJ_PHOTOS[it.title]} className="rounded-b-none border-0" />
                   <div className="flex flex-1 flex-col p-5">
                     <div className="mb-2 flex items-start justify-between gap-2">
                       <h3 className="sjw-display text-base font-semibold leading-tight text-[#0e2a33]">{it.title}</h3>
@@ -337,8 +346,10 @@ export default function SanJuanWhaleWatchPage() {
                 </a>
                 .{" "}
                 <span className="font-semibold text-[#0e2a33]">&quot;{BRAND}&quot; is a fictional sample brand</span>{" "}
-                — not a real business, and not affiliated with or endorsed by any actual San Juan Islands operator. All illustration is
-                designed sample art, not photography. No prices, schedules, vessel names, or contact are shown, because none are real;
+                — not a real business, and not affiliated with or endorsed by any actual San Juan Islands operator. The scenery and
+                wildlife photographs are real, openly-licensed images of the Salish Sea and Pacific Northwest (from Wikimedia Commons,
+                BLM, and NOAA, credited on each), and none shows a real operator&apos;s vessel or branding; the emblem is a designed mark.
+                No prices, schedules, vessel names, or contact are shown, because none are real;
                 the species, geography, and conservation rules are real and publicly verifiable. The live map uses{" "}
                 <span className="font-semibold text-[#0e2a33]">real public AIS</span> (vessel-position broadcasts) when its proxy is
                 connected — real third-party traffic, never relabeled as &quot;our fleet&quot; — and a clearly-labeled sample fleet
