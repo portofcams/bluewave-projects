@@ -61,7 +61,18 @@ export function ReserveDirect() {
   const [party, setParty] = useState(4);
   const [slot, setSlot] = useState(SLOTS[1].label);
 
-  const wx = useNwsObservation("PHNL", { sample: SAMPLE_WX, tz: TZ });
+  // PHNL blanks out its transmitted observation on roughly every other hourly
+  // cycle; backfill reaches back to the last real reading (shown with its own
+  // observation time on the tiles) instead of dropping to the sample every
+  // other hour. See fetchNwsRecentUsable in _wx/nws.
+  const wx = useNwsObservation("PHNL", { sample: SAMPLE_WX, tz: TZ, backfill: true });
+
+  // When the reading is live, name the time it was taken — a reached-back cycle
+  // is honest live data, but it must never read as "right now."
+  const lanaiSub =
+    wx.source === "live" && wx.obs.obsTimeText !== "—"
+      ? `Honolulu (PHNL) · ${wx.obs.obsTimeText}`
+      : "Honolulu (PHNL)";
 
   // The seating worth selling: inside the ~75 min before real sunset.
   const goldenLabel = useMemo(() => {
@@ -139,8 +150,8 @@ export function ReserveDirect() {
 
         {/* lānai — live */}
         <div className="mb-4 grid grid-cols-2 gap-3">
-          <Tile label="On the lānai" value={wx.obs.tempText} sub="Honolulu (PHNL)" source={wx.source} liveLabel="Live · NWS" />
-          <Tile label="Trades" value={wx.obs.windTextMph} sub="Honolulu (PHNL)" source={wx.source} liveLabel="Live · NWS" />
+          <Tile label="On the lānai" value={wx.obs.tempText} sub={lanaiSub} source={wx.source} liveLabel="Live · NWS" />
+          <Tile label="Trades" value={wx.obs.windTextMph} sub={lanaiSub} source={wx.source} liveLabel="Live · NWS" />
         </div>
 
         {/* confirm */}

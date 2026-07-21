@@ -422,3 +422,51 @@ export async function fetchNwsLatest(icao: string): Promise<NwsProps | null> {
     return null;
   }
 }
+
+export const nwsRecentUrl = (icao: string, limit = 6) =>
+  `https://api.weather.gov/stations/${icao}/observations?limit=${limit}`;
+
+/** Fetch recent observations and return the freshest `properties` that carries
+ *  usable data AND is no older than `maxAgeMs`. Some stations (verified PHNL and
+ *  PHKO, 2026-07-21) transmit a COMPLETELY blank observation — no raw METAR, no
+ *  structured fields — on roughly every other hourly cycle. `fetchNwsLatest`
+ *  rightly rejects the blank latest, but a caller then drops straight to a
+ *  labeled sample even though the PREVIOUS cycle (an hour back) carried a full,
+ *  real reading. Reaching back one or two cycles to that reading is still honest
+ *  live data as long as it's shown with its own observation time. Features come
+ *  newest-first, so the first usable one within the window is the freshest real
+ *  reading; if even that is too old, return null so the caller shows its sample
+ *  rather than badge a stale reading "Live". This differs from `fillFromRawMetar`
+ *  (which recovers a latest obs whose raw METAR is present but structured fields
+ *  are null) — this recovers the case where the latest obs is blank entirely.
+ *  Do NOT set a User-Agent header — browsers forbid it. */
+export async function fetchNwsRecentUsable(
+  icao: string,
+  opts: { limit?: number; maxAgeMs?: number } = {}
+): Promise<NwsProps | null> {
+  // Default 3h: PHNL's usable cycles can be ~2h apart during a blank spell, so a
+  // tighter window would drop to sample mid-spell. The reading's own obs time is
+  // shown on the tile, so an older-but-real reading stays honest; past 3h we do
+  // fall to the sample rather than badge a clearly-stale reading "Live".
+  const { limit = 6, maxAgeMs = 3 * 60 * 60_000 } = opts;
+  try {
+    const r = await fetch(nwsRecentUrl(icao, limit), { headers: { Accept: "application/json" } });
+    if (!r.ok) return null;
+    const j = await r.json();
+    const feats: Array<{ properties?: NwsProps }> | undefined = j?.features;
+    if (!Array.isArray(feats)) return null;
+    const now = Date.now();
+    for (const f of feats) {
+      const p = f?.properties;
+      if (!hasUsableObs(p)) continue;
+      const ts = p.timestamp ? new Date(p.timestamp).getTime() : NaN;
+      if (Number.isNaN(ts)) continue;
+      // newest-first: the first usable reading is the freshest. Accept it only
+      // within the window; anything older is worse, so fall to the sample.
+      return now - ts <= maxAgeMs ? p : null;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}

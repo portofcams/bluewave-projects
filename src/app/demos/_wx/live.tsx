@@ -17,6 +17,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   decodeNwsObservation,
   fetchNwsLatest,
+  fetchNwsRecentUsable,
   type NwsObservation,
 } from "./nws";
 import {
@@ -130,9 +131,14 @@ export function useNwsObservation(
     station?: string; // ICAO used when a METAR must be assembled; defaults to `icao`
     tz?: string;
     refreshMs?: number;
+    // When the station's LATEST observation is a blank transmit (no raw METAR,
+    // no fields), reach back to its most recent usable cycle instead of showing
+    // the sample — for stations like PHNL that blank out every other hour. Off
+    // by default so every existing demo keeps its exact current behavior.
+    backfill?: boolean;
   }
 ): { source: WxSource; obs: NwsObservation; fetchedAt: number | null } {
-  const { sample, station = icao, tz = "America/Anchorage", refreshMs = 5 * 60_000 } = opts;
+  const { sample, station = icao, tz = "America/Anchorage", refreshMs = 5 * 60_000, backfill = false } = opts;
   const [state, setState] = useState<{ source: WxSource; obs: NwsObservation; fetchedAt: number | null }>({
     source: "loading",
     obs: sample,
@@ -142,7 +148,7 @@ export function useNwsObservation(
   useEffect(() => {
     let alive = true;
     async function load() {
-      const props = await fetchNwsLatest(icao);
+      const props = backfill ? await fetchNwsRecentUsable(icao) : await fetchNwsLatest(icao);
       if (!alive) return;
       if (props) {
         setState({ source: "live", obs: decodeNwsObservation(props, station, tz), fetchedAt: Date.now() });
@@ -156,7 +162,7 @@ export function useNwsObservation(
       alive = false;
       clearInterval(id);
     };
-  }, [icao, station, tz, refreshMs, sample]);
+  }, [icao, station, tz, refreshMs, backfill, sample]);
 
   return state;
 }
